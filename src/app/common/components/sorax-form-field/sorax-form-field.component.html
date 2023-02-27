@@ -1,0 +1,28 @@
+<mat-form-field 
+        #materialFormField 
+        class="full-width sorax-form-field" 
+        [class]="exClass" 
+        appearance="outline"
+        >
+      <span matPrefix>
+        <ng-content select="[prefix]"></ng-content>
+      </span>
+      <mat-label>{{label}}</mat-label>
+      <ng-content></ng-content>
+      <span matSuffix>
+        <ng-content select="[suffix]"></ng-content>
+      </span>
+   
+      <mat-error>
+        <span soraxdir-validation-display 
+                [soraxValidationFormControl]="soraxFormControl" 
+                [fieldName]="label" >
+          <span 
+            *ngIf="soraxFormControl.errors && 
+                     soraxFormControl.hasError('required')"
+                 >{{label}} is required.</span>
+        </span>
+      </mat-error>
+  
+  </mat-form-field>
+
