@@ -1,0 +1,74 @@
+<mat-paginator *ngIf="isPageable" 
+      [length]="page?.totalRows" 
+      [pageIndex]="page?.currentPage" 
+      [pageSize]="page?.pageSize"
+      [pageSizeOptions]="page?.pageSizeOptions"
+      (page)="emitPageEvent($event)" 
+      aria-label="Select page"
+      showFirstLastButtons>
+</mat-paginator>
+
+<mat-table [dataSource]="tableDataSource" 
+            matSort 
+            matSortDisableClear 
+            [matSortActive]="page?.sortColumn" 
+            [matSortDirection]="page?.sortDirection"
+            (matSortChange)="emitSortEvent($event)">
+
+
+  <ng-container  *ngFor="let tableColumn of tableColumns" 
+                  [matColumnDef]="tableColumn.dataKey" >
+
+    <ng-container *ngIf="(tableColumn.dataKey =='action'); else otherThanActionColumns" >
+      <mat-header-cell *matHeaderCellDef >Actions</mat-header-cell>
+      <mat-cell *matCellDef="let row" > 
+        <span *ngFor="let availableAction of row['availableActions']">  
+          <ng-container *ngIf="availableAction=='edit';then editButton else other_content">here is ignored</ng-container>
+          <ng-container *ngIf="availableAction=='edit'" >
+            <button mat-icon-button mat-sm-button color="primary" class="mr-12" 
+                  matTooltip="Edit"
+                  (click)="emitRowAction(row, availableAction)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="availableAction=='delete'" >
+            <button mat-icon-button mat-sm-button color="warn" 
+              aria-label="Delete"   matTooltip="Delete"
+              (click)="emitRowAction(row, availableAction)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </ng-container>
+        </span>
+      </mat-cell>
+    </ng-container>             
+    <ng-template #otherThanActionColumns>
+      <ng-container *ngIf="tableColumn.isSortable; else noSortable" >
+        <mat-header-cell *matHeaderCellDef 
+                            [arrowPosition]="'before'"  [ngClass]="getCellClass(tableColumn.position)"
+                          mat-sort-header>{{tableColumn.name}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)"> 
+          <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-template #noSortable >
+        <mat-header-cell *matHeaderCellDef [ngClass]="getCellClass(tableColumn.position)">{{tableColumn.name}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)">
+          <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
+        </mat-cell>
+      </ng-template>
+  </ng-template> 
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<ng-template #itemText let-row="row" let-columnDef="columnDef" >
+  <ng-container *ngIf="columnDef.link else plainText" >
+      <a class="mat-color-primary text-decoration-underline"  
+      [routerLink]="" (click)="emitRowAction(row, 'view')"> {{formatedValue(row,columnDef)}}</a>
+  </ng-container>
+  <ng-template #plainText >
+    {{formatedValue(row,columnDef)}}  
+  </ng-template>
+</ng-template>
