@@ -1,7 +1,8 @@
 import { MessageViewModel } from './message-view-model';
 
 export class MessageWrapModel {
-
+    availableActions:string[];
+    performAction:string;    
     exception: boolean;
     businessErrors: boolean;
     validationErrors: boolean;

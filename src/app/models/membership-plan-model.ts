@@ -14,6 +14,6 @@ export class MemershipPlanModel extends MessageWrapModel {
     activeSubscriptions:string;
     updatedOn:string;
     updateBy:string;
-    actions:string;
+
     
 }

@@ -1,19 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MembershipPlanService } from 'app/association-settings/services/membership-plan.service';
+import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
-import { BaseComponent } from 'app/core/components/base/base.component';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
-import { Subscription } from 'rxjs';
-import { MembershipPlanPopupComponent } from './membership-popup/membership-plan-popup.component';
 import { NotificationService } from 'app/common/services/notification.service';
+import { BaseComponent } from 'app/core/components/base/base.component';
 import { MemershipPlanModel } from 'app/models/membership-plan-model';
 import { ResultViewModel } from 'app/models/result-view-model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-membership-plan',
@@ -22,10 +20,8 @@ import { ResultViewModel } from 'app/models/result-view-model';
   animations: soraxAnimations
 })
 export class MembershipPlanComponent extends BaseComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  public dataSource: any;
-  public displayedColumns: any;
+  public membershipPlanData: any;
+  public membershipColumns: SoraxColumnDefinition[];
 
   public subscription: Subscription;
 
@@ -43,7 +39,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = this.membershipPlanService.getDisplayedColumns();
+     this.initializeColumns();
     this.getPageResults()
   }
   ngAfterViewInit() {
@@ -62,7 +58,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
       .subscribe(response => {
         Object.assign(this.resultViewModel, response);
         this.listPlans =this.resultViewModel.result;
-        this.dataSource =   new MatTableDataSource(this.listPlans);
+        this.membershipPlanData =  this.listPlans;
         //setting the messages 
         Object.assign(this.messages, response);
         this.loader.close();  
@@ -71,6 +67,19 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   openPopUp(data: any = {}, isNew?) {
+    
+
+    this.loader.open();
+    this.subscription = this.membershipPlanService.getNewItems(this.page)
+      .subscribe(response => {
+        Object.assign(this.resultViewModel, response);
+        this.listPlans =this.resultViewModel.result;
+        this.membershipPlanData =  this.listPlans;
+        //setting the messages 
+        Object.assign(this.messages, response);
+        this.loader.close();  
+
+      });
     // let title = isNew ? 'Add new Customer' : 'Update Customer';
     // let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
     //   width: '720px',
@@ -115,6 +124,79 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
     //         })
     //     }
     //   })
+  }
+  executeRowActions(rowData:MemershipPlanModel){
+    console.log("Row Items", rowData);
+    console.log("Perform Action:::", rowData.performAction);
+  }
+  
+  sortData(sortParameters: Sort) {
+    this.page.currentPage =0;
+    this.page.sortDirection = sortParameters.direction;
+    this.page.sortColumn = sortParameters.active;
+    this.getPageResults();
+  }
+
+  pageChangeEvent(event: PageEvent) {
+    this.page.pageSize = event.pageSize;
+    this.page.currentPage = event.pageIndex;
+    this.getPageResults();
+  }
+
+  initializeColumns(): void {
+    this.membershipColumns =  [
+      {
+        name: 'Membership Plan name',
+        dataKey: 'membershipPlanName',
+        position: 'left',
+        isSortable: true,
+        link: true,
+      },
+      {
+        name: 'Description',
+        dataKey: 'description',
+        position: 'left',
+        isSortable: true
+      },
+      {
+        name: 'Membership Fee',
+        dataKey: 'membershipFee',
+        position: 'right',
+        isSortable: true
+      },
+      {
+        name: 'Status',
+        dataKey: 'status',
+        position: 'left',
+        isSortable: true
+      },
+      {
+        name: 'Active Subscriptions',
+        dataKey: 'activeSubscriptions',
+        dataType:'Date',
+        position: 'right',
+        isSortable: false
+      },
+      {
+        name: 'Updated On',
+        dataKey: 'updatedOn',
+        position: 'right',
+        isSortable: true,
+        dataType:"Date",
+      },
+      {
+        name: 'Updated By',
+        dataKey: 'updateBy',
+        position: 'right',
+        isSortable: true
+      },
+      {
+        name: 'Actions',
+        dataKey: 'action',
+        position: 'right',
+        isSortable: true
+      },
+    ];
   }
 
 }

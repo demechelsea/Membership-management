@@ -5,8 +5,7 @@ import { Urls } from 'app/common/utils/urls';
 import { MemershipPlanModel } from 'app/models/membership-plan-model';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
-import { UserDB } from 'app/shared/inmemory-db/users';
-import { Observable, of, delay } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +24,15 @@ export class MembershipPlanService extends HttpAppDataService {
       membershipPlanModel.page = page;
     }
     return this.postData(Urls.MEMBERSHIP_PLAN_LIST, membershipPlanModel);
+  }
+
+  getNewItems(page: PageModel): Observable<ResultViewModel> {
+    console.log("PageInfo:::" + page)
+    let membershipPlanModel = new MemershipPlanModel();
+    if (page != null) {
+      membershipPlanModel.page = page;
+    }
+    return this.postData(Urls.MEMBERSHIP_NEW_PLAN_LIST, membershipPlanModel);
   }
 
   addItem(item): Observable<any> {
