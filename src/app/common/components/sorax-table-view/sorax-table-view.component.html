@@ -1,3 +1,4 @@
+<div class="mat-elevation-z8">
 <mat-paginator *ngIf="isPageable" 
       [length]="page?.totalRows" 
       [pageIndex]="page?.currentPage" 
@@ -14,7 +15,6 @@
             [matSortActive]="page?.sortColumn" 
             [matSortDirection]="page?.sortDirection"
             (matSortChange)="emitSortEvent($event)">
-
 
   <ng-container  *ngFor="let tableColumn of tableColumns" 
                   [matColumnDef]="tableColumn.dataKey" >
@@ -46,7 +46,7 @@
         <mat-header-cell *matHeaderCellDef 
                             [arrowPosition]="'before'"  [ngClass]="getCellClass(tableColumn.position)"
                           mat-sort-header>{{tableColumn.name}}</mat-header-cell>
-        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)"> 
+        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)" > 
           <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
         </mat-cell>
       </ng-container>
@@ -69,6 +69,7 @@
       [routerLink]="" (click)="emitRowAction(row, 'view')"> {{formatedValue(row,columnDef)}}</a>
   </ng-container>
   <ng-template #plainText >
-    {{formatedValue(row,columnDef)}}  
+       {{formatedValue(row,columnDef)}}  
   </ng-template>
 </ng-template>
+</div>

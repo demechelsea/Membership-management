@@ -32,6 +32,7 @@ import { UnderdevComponent } from './components/underdev/underdev.component';
 import { AlertMessageDirective } from './directives/alert-message.directive';
 import { NumberOnlyDirective } from './directives/number-only.directive';
 import { ValidationDisplayDirective } from './directives/validation-display.directive';
+import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sorax-autocomplete.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { ValidationDisplayDirective } from './directives/validation-display.dire
     NumberOnlyDirective,
     UnderdevComponent,
     SoraxTableViewComponent,
+    SoraxAutocompleteComponent,
   ],
   imports: [
     CommonModule,
@@ -84,6 +86,7 @@ import { ValidationDisplayDirective } from './directives/validation-display.dire
     ValidationDisplayDirective,
     NumberOnlyDirective,
     SoraxTableViewComponent,
+    SoraxAutocompleteComponent,
     
     TranslateModule,
     FormsModule,

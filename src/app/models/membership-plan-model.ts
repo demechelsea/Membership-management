@@ -6,14 +6,17 @@ export class MemershipPlanModel extends MessageWrapModel {
     page: PageModel;
     
     encryptedId: string;
-    encryptedRefId: string;
-    membershipPlanName: string;
+    planName: string;
     description:string;
-    membershipFee:string;
+    fee:string;
+    interval:string;
+    familyMemberIncluded:string;
+    autoPymtRemainder:string;
+    availableForGeneralPublic:string;
+    sendEmailNotification:string;
+    benefits:string;
     status:string;
     activeSubscriptions:string;
     updatedOn:string;
     updateBy:string;
-
-    
 }

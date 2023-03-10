@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MembershipPlanService } from 'app/association-settings/services/membership-plan.service';
@@ -12,6 +12,7 @@ import { BaseComponent } from 'app/core/components/base/base.component';
 import { MemershipPlanModel } from 'app/models/membership-plan-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Subscription } from 'rxjs';
+import { MembershipPlanPopupComponent } from './membership-popup/membership-plan-popup.component';
 
 @Component({
   selector: 'app-membership-plan',
@@ -66,50 +67,22 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
       });
   }
 
-  openPopUp(data: any = {}, isNew?) {
+  openPopUp(data: MemershipPlanModel, isNew?:boolean) {
     
-
-    this.loader.open();
-    this.subscription = this.membershipPlanService.getNewItems(this.page)
-      .subscribe(response => {
-        Object.assign(this.resultViewModel, response);
-        this.listPlans =this.resultViewModel.result;
-        this.membershipPlanData =  this.listPlans;
-        //setting the messages 
-        Object.assign(this.messages, response);
-        this.loader.close();  
-
-      });
-    // let title = isNew ? 'Add new Customer' : 'Update Customer';
-    // let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
-    //   width: '720px',
-    //   disableClose: true,
-    //   data: { title: title, payload: data }
-    // })
-    // dialogRef.afterClosed()
-    //   .subscribe(res => {
-    //     if (!res) {
-    //       // If user press cancel
-    //       return;
-    //     }
-    //     if (isNew) {
-    //       this.loader.open('Adding new Customer');
-    //       this.membershipPlanService.addItem(res)
-    //         .subscribe(data => {
-    //           this.dataSource = data;
-    //           this.loader.close();
-    //           this.notificationService.showSuccess('Customer Added!');
-    //         })
-    //     } else {
-    //       this.loader.open('Updating Customer');
-    //       this.membershipPlanService.updateItem(data._id, res)
-    //         .subscribe(data => {
-    //           this.dataSource = data;
-    //           this.loader.close();
-    //           this.notificationService.showSuccess('Customer Updated!');
-    //         })
-    //     }
-    //   })
+    let title = isNew ? 'Add new Customer' : 'Update Customer';
+    let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
+      width: '720px',
+      disableClose: true,
+      data: { title: title, payload: data }
+    })
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          // If user press cancel
+          return;
+        }
+        
+      })
   }
   deleteItem(row) {
     // this.confirmService.confirm({ message: `Delete ${row.name}?` })
@@ -147,7 +120,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
     this.membershipColumns =  [
       {
         name: 'Membership Plan name',
-        dataKey: 'membershipPlanName',
+        dataKey: 'planName',
         position: 'left',
         isSortable: true,
         link: true,
@@ -160,7 +133,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
       },
       {
         name: 'Membership Fee',
-        dataKey: 'membershipFee',
+        dataKey: 'fee',
         position: 'right',
         isSortable: true
       },

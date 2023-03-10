@@ -1,85 +1,104 @@
-<h1 matDialogTitle>{{data.title}}</h1>
-{{"ADD" | translate }} {{"MEMBER" | translate }}
-  <form [formGroup]="itemForm" (ngSubmit)="submit()">
-  <div fxLayout="row wrap" fxLayout.lt-sm="column">
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="username"
-        [formControl]="itemForm.controls['name']"
-        placeholder="Name">
-      </mat-form-field>
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">Add membership plan</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
+  </mat-toolbar>
+  <div style="height:500px"  mat-dialog-content class="p-16 m-0"   > 
+    <form [formGroup]="membershipPlanForm" class="membershipPlanForm" fxLayout="column" (ngSubmit)="submit()">
 
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        type="number"
-        name="age"
-        [formControl]="itemForm.controls['age']"
-        placeholder="Age">
-      </mat-form-field>
-    </div>
-
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        type="email"
-        name="email"
-        [formControl]="itemForm.controls['email']"
-        placeholder="Email">
-      </mat-form-field>
-    </div>
-
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="company"
-        [formControl]="itemForm.controls['company']"
-        placeholder="Company">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="phone"
-        [formControl]="itemForm.controls['phone']"
-        placeholder="Phone">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="address"
-        [formControl]="itemForm.controls['address']"
-        placeholder="address">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="balance"
-        [formControl]="itemForm.controls['balance']"
-        placeholder="Balance">
-      </mat-form-field>
-    </div>
-    <div fxFlex="50"  class="pt-16 pr-16">
-      <mat-slide-toggle [formControl]="itemForm.controls['isActive']">Active Customer</mat-slide-toggle>
-    </div>
-
-
-
-    <div fxFlex="100" class="mt-16">
-      <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{"SAVE" }}</button>
-      <span fxFlex></span>
-      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
-    </div>
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100">
+          <sorax-form-field label="Membership plan name" [soraxFormControl]="membershipPlanForm.get('planName')">
+            <input matInput formControlName="planName" type="text" name="planName" placeholder="Membership Plan name">
+          </sorax-form-field>
+        </div>
+        <div fxFlex="100">
+          <sorax-form-field label="Description" [soraxFormControl]="membershipPlanForm.get('description')">
+            <textarea matInput formControlName="description" type="text" placeholder="Description" max-rows="4">
+              </textarea>
+          </sorax-form-field>
+        </div>
+        <div fxFlex="100">
+          <sorax-form-field label="Membership fee" [soraxFormControl]="membershipPlanForm.get('fee')">
+            <input matInput formControlName="fee" type="text" name="planName" placeholder="Membership fee">
+          </sorax-form-field>
+        </div>
+        <div fxFlex="100">
+          <sorax-form-field label="Interval" [soraxFormControl]="membershipPlanForm.get('interval')">
+            <input type="text" 
+              placeholder="Interval" 
+              aria-label="Interval" 
+              matInput
+              [formControl]="membershipPlanForm.controls['interval']" 
+              [matAutocomplete]="autoInterval">
+              <mat-autocomplete autoActiveFirstOption #autoInterval="matAutocomplete">
+                  <mat-option *ngFor="let opt of filteredIntervals$ | async" [value]="opt.id">
+                    {{opt.name}}
+                  </mat-option>
+             </mat-autocomplete>
+          </sorax-form-field>
+        </div>
+        <div fxFlex="100" class="padround8">
+          <mat-slide-toggle [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic payment
+            remainder</mat-slide-toggle>
+        </div>
+        <div fxFlex="100" class="padround8">
+          <mat-slide-toggle [formControl]="membershipPlanForm.controls['familyMemberIncluded']">Family members
+            included</mat-slide-toggle>
+        </div>
+        <div fxFlex="100" class="padround8">
+          <mat-slide-toggle [formControl]="membershipPlanForm.controls['availableForGeneralPublic']">Can general public
+            choose</mat-slide-toggle>
+        </div>
+        <div fxFlex="100" class="padround8">
+          <mat-slide-toggle [formControl]="membershipPlanForm.controls['sendEmailNotification']">Send auto email
+            notification</mat-slide-toggle>
+        </div>
+        <div fxFlex="100">
+          <sorax-form-field label="Benfits" [soraxFormControl]="membershipPlanForm.get('benefits')">
+            <textarea matInput formControlName="benefits" type="text" placeholder="Benfits" max-rows="4">
+              </textarea>
+          </sorax-form-field>
+        </div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+        <div fxFlex="100">tEST TEXT</div>
+      </div>
+    </form>
   </div>
-  </form>
+  
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+    <button mat-icon-button color="warn" aria-label="Delete" matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+    
+    <button mat-raised-button color="primary" aria-label="SAVE">
+      Save
+    </button>
+
+  </div>
+</div>

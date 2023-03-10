@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { UserViewModel } from 'app/models/user-view-model';
-import { KeyValueModel } from 'app/models/key-value-model';
+import { LableValueModel } from 'app/models/lable-value-model';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
 import { MessageWrapModel } from 'app/models/message-wrap-model';
 import { Urls } from 'app/common/utils/urls';
@@ -31,12 +31,12 @@ export class LoginService extends HttpAppDataService  {
 
   public checkAuthentication(employeModel: UserViewModel): Observable<UserViewModel> {
     let keyValueModelMap = [];
-    let userName: KeyValueModel = new KeyValueModel();
+    let userName: LableValueModel = new LableValueModel();
     userName.id = "X-Auth-Username";
     userName.name = employeModel.emailId;
     keyValueModelMap.push(userName);
 
-    let password: KeyValueModel = new KeyValueModel();
+    let password: LableValueModel = new LableValueModel();
     password.id = "X-Auth-Password";
     password.name = employeModel.password;
     keyValueModelMap.push(password);

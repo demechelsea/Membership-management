@@ -21,6 +21,8 @@ export class Urls {
      public static MEMBERSHIP_PLAN_CREATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createMembershipPlan";
      public static MEMBERSHIP_PLAN_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateMembershipPlan";
 
+     public static COMMON_LOOKUP_SERVICE: string = Urls.baseAPIUrl + Urls.contextPath + "/common/lookupService";
+     
      public static TITLES = [
           { viewValue: "Mr", value: "Mr" },
           { viewValue: "Mrs", value: "Mrs" },

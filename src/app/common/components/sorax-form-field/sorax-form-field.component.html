@@ -18,8 +18,8 @@
                 [soraxValidationFormControl]="soraxFormControl" 
                 [fieldName]="label" >
           <span 
-            *ngIf="soraxFormControl.errors && 
-                     soraxFormControl.hasError('required')"
+            *ngIf="soraxFormControl!.errors && 
+                     soraxFormControl!.hasError('required')"
                  >{{label}} is required.</span>
         </span>
       </mat-error>

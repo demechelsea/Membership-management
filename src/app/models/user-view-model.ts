@@ -1,6 +1,6 @@
 import { AddressModel } from './address-model';
 import { AssociationModel } from './association-model';
-import { KeyValueModel } from './key-value-model';
+import { LableValueModel } from './lable-value-model';
 import { MessageWrapModel } from './message-wrap-model';
 import { PageModel } from './page-model';
 import { UserDetailsModel } from './user-details-model';
@@ -20,6 +20,6 @@ export class UserViewModel extends MessageWrapModel {
 
     userDetail: UserDetailsModel;
     organization: AssociationModel;
-    roles: KeyValueModel[];
+    roles: LableValueModel[];
     addresses: AddressModel[];
 }

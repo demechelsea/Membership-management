@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { KeyValueModel } from 'app/models/key-value-model';
+import { LableValueModel } from 'app/models/lable-value-model';
 import { BaseService } from './base.service';
 
 
@@ -33,7 +33,7 @@ export class HttpAppDataService extends BaseService {
       );
   }
 
-  postDataIntoHeaderData(createUrl: string, keyValueMap: KeyValueModel[]): Observable<any> {
+  postDataIntoHeaderData(createUrl: string, keyValueMap: LableValueModel[]): Observable<any> {
     let httpHeaders = new HttpHeaders();
     for (let i = 0; i < keyValueMap.length; i++) {
        let keyValueObj  = keyValueMap[i];
