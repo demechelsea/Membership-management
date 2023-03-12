@@ -4,17 +4,13 @@
     <mat-card>
       <mat-card-content>
         <div class="text-center pt-8 pb-16">
-          <img
-          width="60px"
-          src="assets/images/illustrations/breaking_barriers.svg"
-          alt=""
-        />
-          <p class="text-muted m-0">Sign in to your account</p>
+          <img width="60px" src="assets/images/illustrations/breaking_barriers.svg" alt="" />
+          <p class="font-weight-bold">Sign in to your account</p>
         </div>
 
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
 
-        <form [formGroup]="loginForm" class="loginForm" fxLayout="column" (ngSubmit)="signInClicked()">
+        <form [formGroup]="loginForm" class="signup-form" fxLayout="column" (ngSubmit)="signInClicked()">
           <div formGroupName="user">
             <div class="">
               <sorax-form-field label="Email or phone" exClass="pb18"
@@ -33,14 +29,14 @@
                 I agree with terms and condtions</mat-checkbox>
             </div>
 
-            
+
           </div>
           <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="loginForm.invalid">Sign in</button>
-          <div class="text-center">
-            <a class="mat-primary text-center full-width" [routerLink]="'/auth/forgotPassword'">Forgot
+          <div class="text-center pt-18">
+            <a class="mat-primary text-left full-width" [routerLink]="'/auth/forgotPassword'">Forgot
               password</a>
             <span fxFlex></span>
-            <a [routerLink]="'/auth/signup'" class="mat-primary text-center full-width">Create a new account</a>
+            <a [routerLink]="'/auth/signup'" class="mat-primary text-right full-width">Create a new account</a>
           </div>
         </form>
       </mat-card-content>

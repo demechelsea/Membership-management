@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'app/auth/service/login.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
@@ -15,6 +17,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent  extends BaseComponent implements OnInit {
+  @ViewChild(MatProgressBar) progressBar: MatProgressBar;
+  @ViewChild(MatButton) submitButton: MatButton;
   subscription: Subscription;
 
   resetFormGroup: FormGroup;
@@ -36,14 +40,21 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    // to clear loaders or indeterminate components in exceptional cases
+    this.loader.setComponents([this.progressBar, this.submitButton]);
+ }
   resetPasswordFormSubmitted() {
-    this.loader.open();
+    this.progressBar.mode = 'indeterminate';
+    this.submitButton.disabled =true;
   
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
 
     this.subscription = this.loginService.sendOtpForResetPassword(resetPasswordReqModel).subscribe(
       (response) => {
         Object.assign(this.resetPasswordModel, response);
+        this.progressBar.mode = 'determinate';
+        this.submitButton.disabled =false;
         //setting the messages 
         Object.assign(this.messages, response);
         if (this.messages.isSuccess()) {

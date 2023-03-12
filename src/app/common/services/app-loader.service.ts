@@ -38,6 +38,7 @@ export class AppLoaderService {
     if (this.dialogRef) {
       this.dialogRef.close();
     }
+
     if (Array.isArray(this.component)) {
       this.component.forEach((compObject) => {
         this.clearComponents(compObject)
