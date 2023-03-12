@@ -60,7 +60,7 @@ export class LookupService extends HttpAppDataService {
 
   private getMemberShipIntervals(): LableValueModel[] {
     let intervalOptions: LableValueModel[] = [
-      { id:"OneTimeId", name: "OneTime", localName:"" },
+      { id:"OneTimeID", name: "OneTime", localName:"" },
       { id:"WeeklyID", name: "Weekly", localName:"" },
       { id:"FortnightlyID", name: "Fortnightly", localName:"" },
       { id:"MonthlyID", name: "Monthly", localName:"" },

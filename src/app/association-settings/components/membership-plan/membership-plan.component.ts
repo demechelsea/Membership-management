@@ -9,9 +9,10 @@ import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
-import { MemershipPlanModel } from 'app/models/membership-plan-model';
+import MemershipPlanModel from 'app/models/membership-plan-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Subscription } from 'rxjs';
+
 import { MembershipPlanPopupComponent } from './membership-popup/membership-plan-popup.component';
 
 @Component({
@@ -69,7 +70,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
 
   openPopUp(data: MemershipPlanModel, isNew?:boolean) {
     
-    let title = isNew ? 'Add new Customer' : 'Update Customer';
+    let title = isNew ? 'Add Membership Plan' : 'Update Membership Plan';
     let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
       width: '720px',
       disableClose: true,
@@ -99,8 +100,12 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
     //   })
   }
   executeRowActions(rowData:MemershipPlanModel){
-    console.log("Row Items", rowData);
-    console.log("Perform Action:::", rowData.performAction);
+    console.log("Perform actions:::",rowData.performAction);
+    if(rowData.performAction =="edit"){
+      this.openPopUp(rowData, false);
+    }else{
+      console.log("Delete action performed");
+    }
   }
   
   sortData(sortParameters: Sort) {
