@@ -35,6 +35,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
     private loader: AppLoaderService,
     private route: ActivatedRoute) {
     super();
+   
   }
 
   ngOnInit(): void {
@@ -56,6 +57,13 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
       ),
     });
 
+    
+
+  }
+
+  ngAfterViewInit() {
+     // to clear loaders or indeterminate components in exceptional cases
+     this.loader.setComponents([this.progressBar, this.submitButton]);
   }
 
  
