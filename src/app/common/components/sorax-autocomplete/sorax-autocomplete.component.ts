@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
-import { LableValueModel } from 'app/models/lable-value-model';
+import LableValueModel from 'app/models/lable-value-model';
 import { map, Observable, startWith, Subscription } from 'rxjs';
 
 
@@ -14,6 +14,7 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SoraxAutocompleteComponent implements OnInit {
+  @Input() lookupName: string;
   @Input() placeholder: string;
   @Input() autoCompleteFieldId: FormControl;
   @Input() autoCompleteFieldLabel: FormControl;
@@ -52,7 +53,7 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   private initilizeFilteredOptions(value: string) {
-    this.subscription = this.lookupService.retrieveIntervals(value).subscribe(data => {
+    this.subscription = this.lookupService.retrieveOptions(this.lookupName, value).subscribe(data => {
       this.options = data.result;
 
       this.filteredOptions = this.autoCompleteFieldLabel.valueChanges
@@ -107,7 +108,7 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.subscription) {
-      this.subscription.unsubscribe()
+      this.subscription.unsubscribe();
     }
   }
 }

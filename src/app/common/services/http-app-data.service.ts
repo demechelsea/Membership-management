@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import LableValueModel from 'app/models/lable-value-model';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { LableValueModel } from 'app/models/lable-value-model';
+
 import { BaseService } from './base.service';
 
 

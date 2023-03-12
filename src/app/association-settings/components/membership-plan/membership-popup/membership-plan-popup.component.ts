@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/f
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LookupService } from 'app/common/services/lookup.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
-import { LableValueModel } from 'app/models/lable-value-model';
+import  LableValueModel  from 'app/models/lable-value-model';
 import { MemershipPlanModel } from 'app/models/membership-plan-model';
 import { map, Observable, startWith, Subscription } from 'rxjs';
 
@@ -12,6 +12,8 @@ import { map, Observable, startWith, Subscription } from 'rxjs';
   templateUrl: './membership-plan-popup.component.html'
 })
 export class MembershipPlanPopupComponent extends BaseComponent implements OnInit {
+  intervaloptionsKey:string = LookupService.MEMBERSHIP_INTERVALS;
+  
   subscription: Subscription;
   public membershipPlanForm: FormGroup;
   public intervals: LableValueModel[]=[];
@@ -38,7 +40,7 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
       planName: this.formBuilder.control(planData.description || '', [Validators.required]),
       description: this.formBuilder.control(planData.description || '', [Validators.required]),
       fee: this.formBuilder.control(planData.fee || '', [Validators.required]),
-      interval: this.formBuilder.control('',),
+      interval: this.formBuilder.control('OneTimeID',),
       intervalAutoLabel: this.formBuilder.control('',),
       familyMemberIncluded: this.formBuilder.control(planData.familyMemberIncluded || false, [Validators.required]),
       autoPymtRemainder: this.formBuilder.control(true, [Validators.required]),

@@ -1,6 +1,7 @@
 import { AddressModel } from './address-model';
 import { AssociationModel } from './association-model';
-import { LableValueModel } from './lable-value-model';
+import LableValueModel from './lable-value-model';
+
 import { MessageWrapModel } from './message-wrap-model';
 import { PageModel } from './page-model';
 import { UserDetailsModel } from './user-details-model';

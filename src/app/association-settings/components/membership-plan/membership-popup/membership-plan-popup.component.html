@@ -29,7 +29,7 @@
           </sorax-form-field>
         </div>
         <div fxFlex="100">
-          <sorax-autocomplete 
+          <sorax-autocomplete [lookupName]="intervaloptionsKey"
                   placeholder="Interval"
                   [autoCompleteFieldId]="membershipPlanForm.controls['interval']" 
                   [autoCompleteFieldLabel]="membershipPlanForm.controls['intervalAutoLabel']"
