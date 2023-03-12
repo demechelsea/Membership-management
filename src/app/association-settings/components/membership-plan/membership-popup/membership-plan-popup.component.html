@@ -29,19 +29,12 @@
           </sorax-form-field>
         </div>
         <div fxFlex="100">
-          <sorax-form-field label="Interval" [soraxFormControl]="membershipPlanForm.get('interval')">
-            <input type="text" 
-              placeholder="Interval" 
-              aria-label="Interval" 
-              matInput
-              [formControl]="membershipPlanForm.controls['interval']" 
-              [matAutocomplete]="autoInterval">
-              <mat-autocomplete autoActiveFirstOption #autoInterval="matAutocomplete">
-                  <mat-option *ngFor="let opt of filteredIntervals$ | async" [value]="opt.id">
-                    {{opt.name}}
-                  </mat-option>
-             </mat-autocomplete>
-          </sorax-form-field>
+          <sorax-autocomplete 
+                  placeholder="Interval"
+                  [autoCompleteFieldId]="membershipPlanForm.controls['interval']" 
+                  [autoCompleteFieldLabel]="membershipPlanForm.controls['intervalAutoLabel']"
+                  (selectedOptionEmitter)="onSelectedOption($event)" >
+          </sorax-autocomplete>
         </div>
         <div fxFlex="100" class="padround8">
           <mat-slide-toggle [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic payment

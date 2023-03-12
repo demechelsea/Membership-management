@@ -201,12 +201,20 @@ html {
     padding: 0px !important;
   }
 
-  .loader-modalbox {
+.loader-modalbox {
     .mat-dialog-container {
         padding: 24px !important;
     }
 }
-.mat-dialog-content {
-    height: initial !important;
 
-}
+.mat-autocomplete-panel .mat-option:hover{
+    background-color: #ccd2e5 !important;
+ }
+ .mat-option.mat-active:not(.mat-option-disabled) {
+    background-color: #ccd2e5 !important;
+  }
+
+
+
+
+

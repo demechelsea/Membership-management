@@ -31,13 +31,6 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
 
   ngOnInit() {
     this.buildMembershipPlanForm(this.data.payload);
-
-    this.initIntervals('')
-
-    this.filteredIntervals$ = this.membershipPlanForm.get('interval').valueChanges.pipe(
-       startWith(''),
-       map(value => this.filterIntervals(value ||'')),
-     );
   }
 
   buildMembershipPlanForm(planData: MemershipPlanModel) {
@@ -45,7 +38,8 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
       planName: this.formBuilder.control(planData.description || '', [Validators.required]),
       description: this.formBuilder.control(planData.description || '', [Validators.required]),
       fee: this.formBuilder.control(planData.fee || '', [Validators.required]),
-      interval: this.formBuilder.control(planData.interval || '', [Validators.required]),
+      interval: this.formBuilder.control('',),
+      intervalAutoLabel: this.formBuilder.control('',),
       familyMemberIncluded: this.formBuilder.control(planData.familyMemberIncluded || false, [Validators.required]),
       autoPymtRemainder: this.formBuilder.control(true, [Validators.required]),
       availableForGeneralPublic: this.formBuilder.control(planData.availableForGeneralPublic || false, [Validators.required]),
@@ -59,20 +53,14 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
     this.dialogRef.close(this.membershipPlanForm.value)
   }
 
-  initIntervals(value:any) {
-    this.subscription = this.lookupService.retrieveIntervals(value).subscribe(
-      (response) => {
-        Object.assign(this.intervals, response.result);
-      }
-    );
+  
+  onSelectedOption(option: LableValueModel) {
+    console.log("selected OptionId:::"+option.id);
+    console.log("selected Option:::"+option.name);
+    this.membershipPlanForm.controls['interval'].setValue(option.id);
+   this.membershipPlanForm.controls['intervalAutoLabel'].setValue(option.name);
+    
   }
-
-  filterIntervals(value:any) {
-    const filterValue = value.toLowerCase();
-    return this.intervals.filter(option => option.name.toLowerCase().includes(filterValue));
-
-  }
-
 
   ngOnDestroy() {
     if (this.subscription != null) {

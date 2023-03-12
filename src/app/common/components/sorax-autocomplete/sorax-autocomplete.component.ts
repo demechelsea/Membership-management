@@ -1,18 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Optional,
-  Self,
-  SimpleChanges,
-} from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
+import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { LableValueModel } from 'app/models/lable-value-model';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'sorax-autocomplete',
@@ -20,96 +13,103 @@ import { map, Observable, startWith } from 'rxjs';
   styleUrls: ['./sorax-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SoraxAutocompleteComponent implements OnInit, ControlValueAccessor, OnChanges {
+export class SoraxAutocompleteComponent implements OnInit {
   @Input() placeholder: string;
-  @Input() autoOptions: Observable<LableValueModel[]>;
-  @Input() inputControl: FormControl;
+  @Input() autoCompleteFieldId: FormControl;
+  @Input() autoCompleteFieldLabel: FormControl;
+  @Output() selectedOptionEmitter: EventEmitter<LableValueModel>
+    = new EventEmitter<LableValueModel>();
 
+  @Input() displayFn: (option: any) => string;
+  subscription: Subscription;
 
-  searchResults: Observable<any>;
-  noResults = false;
-  isLoading = false;
+  filteredOptions: Observable<LableValueModel[]>;
+  options: LableValueModel[];
 
-  private _lengthToTriggerSearch = 3
-  isSearching: boolean;
-
-  constructor(@Optional() @Self() private controlDir: NgControl,
-    private changeDetectorRef: ChangeDetectorRef,
-    public lookupService: LookupService,
-  ) {
-    if (this.controlDir) {
-      this.controlDir.valueAccessor = this
-    }
-  }
-
-  displayFn(result: LableValueModel): string | undefined {
-    return result ? result.name : undefined
+  constructor(public lookupService: LookupService) {
   }
 
 
   ngOnInit() {
+    this.initilizeFilteredOptions('');
+    this.addValidationRule();
+  }
 
-    if (this.controlDir) {
-      // Set validators for the outer ngControl equals to the inner
-      const control = this.controlDir.control
-      // Update outer ngControl status
-      control.updateValueAndValidity({ emitEvent: false })
+  ngAfterViewInit() {
+    this.addValidationRule();
+  }
+
+  public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    const selectedOption = this.options.find(option => option.id === event.option.value);
+    this.selectedOptionEmitter.emit(selectedOption);
+    this.setAutoControlIdLabel(selectedOption)
+  }
+
+  public validateOnFocusOut(event: any) {
+    this.resetInputControlValue();
+    this.addValidationRule();
+
+  }
+
+  private initilizeFilteredOptions(value: string) {
+    this.subscription = this.lookupService.retrieveIntervals(value).subscribe(data => {
+      this.options = data.result;
+
+      this.filteredOptions = this.autoCompleteFieldLabel.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => {
+            this.resetInputControlValue();
+            return this.filterOptionsByValue(value);
+          })
+        );
+      this.prepolulateAutoComplete();
+    });
+  }
+
+  private filterOptionsByValue(value: string): LableValueModel[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  private resetInputControlValue() {
+    if (this.autoCompleteFieldId) {
+      this.autoCompleteFieldId.setValue('');
+    }
+  }
+  private prepolulateAutoComplete(): void {
+    this.setAutoControlIdLabel(this.findOptionByIdOrName());
+    this.addValidationRule();
+  }
+
+  private findOptionByIdOrName() {
+    if (this.autoCompleteFieldId) {
+      return this.options.find(option => (option.id == this.autoCompleteFieldId.value));
+    }
+    return this.options.find(option => (option.name == this.autoCompleteFieldLabel.value));
+  }
+
+  private setAutoControlIdLabel(option: LableValueModel) {
+    if (option) {
+      if (this.autoCompleteFieldId) {
+        this.autoCompleteFieldId.setValue(option.id);
+      }
+      this.autoCompleteFieldLabel.setValue(option.name);
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // if (changes.options) {
-    //   if (this.isLoading) {
-    //     this.isLoading = false
-    //     if (
-    //       !changes.options.firstChange &&
-    //       !changes.options.currentValue.length
-    //     ) {
-    //       this.noResults = true
-    //     } else {
-    //       this.noResults = false
-    //     }
-    //   }
-    // }
+  private addValidationRule() {
+    if (this.options) {
+      this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      this.autoCompleteFieldLabel.updateValueAndValidity();
+    }
   }
 
-  writeValue(obj: any): void {
-    obj && this.inputControl.setValue(obj)
-  }
-  registerOnChange(fn: any): void {
-
-    // // Pass the value to the outer ngControl if it has an id otherwise pass null
-    // this.inputControl.valueChanges.pipe().subscribe({
-    //   next: (value) => {
-    //     if (typeof value === "string") {
-    //       if (this.isMinLength(value)) {
-    //         this.isSearching = true
-    //         /**
-    //          * Fire change detection to display the searching status option
-    //          */
-    //         this.changeDetectorRef.detectChanges()
-    //         fn(value.toUpperCase())
-    //       } else {
-    //         this.isSearching = false
-    //         this.noResults = false
-    //         fn(null)
-    //       }
-    //     } else {
-    //       fn(value)
-    //     }
-    //   },
-    // })
-  }
-
-
-  registerOnTouched(fn: any): void {
-    //this.onTouched = fn;
-  }
-  setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.inputControl.disable() : this.inputControl.enable();
-  }
-
-  isMinLength(value: string) {
-    return value.length >= this._lengthToTriggerSearch
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
   }
 }
+
+

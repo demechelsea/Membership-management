@@ -1,20 +1,12 @@
-<mat-form-field>
-    <input type="text" 
-        placeholder="Interval" 
-        aria-label="Interval" 
-        matInput
-        [matAutocomplete]="soraxAutoComplete">
-    <mat-autocomplete autoActiveFirstOption #soraxAutoComplete="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngIf="isLoading; else optionsTemplate" disabled="true">
-        <em>Loading...</em>
-        </mat-option>
-        <ng-template #optionsTemplate>
-        <mat-option   class="provided" *ngFor="let opt of filteredIntervals | async" [value]="opt.id">
-            {{opt.name}}
-        </mat-option>
-        </ng-template>
-        <mat-option *ngIf="!isLoading && noResults" value="" disabled="true">
-        <b>No results found</b>
-        </mat-option>
-    </mat-autocomplete>
-</mat-form-field>
+<input  *ngIf="autoCompleteFieldId" type="hidden" [formControl]="autoCompleteFieldId" >
+<sorax-form-field [label]="placeholder" [soraxFormControl]="autoCompleteFieldLabel">
+  <input matInput [formControl]="autoCompleteFieldLabel" 
+                [matAutocomplete]="soraxAuto" (blur)="validateOnFocusOut($event)">
+  <mat-autocomplete #soraxAuto="matAutocomplete"  (optionSelected)="onOptionSelected($event)">
+    <mat-option *ngFor="let option of filteredOptions | async" 
+                [value]="option.id">
+     {{ displayFn ? displayFn(option) : option.name }}
+    </mat-option>
+  </mat-autocomplete>
+</sorax-form-field>
+`
