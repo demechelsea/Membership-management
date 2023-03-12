@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { BaseService } from 'app/common/services/base.service';
@@ -17,6 +19,10 @@ import { LoginService } from '../../service/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
+  @ViewChild(MatProgressBar) progressBar: MatProgressBar;
+  @ViewChild(MatButton) submitButton: MatButton;
+
+
   loginForm: FormGroup;
   displayMessage: any;
 
@@ -54,7 +60,8 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
  
   signInClicked() {
-    this.loader.open('Signin in...');
+    this.progressBar.mode = 'indeterminate';
+    this.submitButton.disabled =true;
     let userViewModel = this.loginForm.value.user as UserViewModel;
     //  if (!this.loginForm.invalid) {
     //   // do what you wnat with your data
@@ -68,7 +75,8 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
         //setting the messages 
         Object.assign(this.messages, response);
-        this.loader.close();
+        this.progressBar.mode = 'determinate';
+        this.submitButton.disabled =false;
         if (this.userModel.authToken != null) {
           this.loginService.setAuthenticationToken(this.userModel);
           BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");;

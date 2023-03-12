@@ -1,68 +1,47 @@
-<div class="seciton-left">
-  <div class="section-left-content">
-    <h1 class="text-36 font-weight-light">Don't have an account?</h1>
-    <p class="mb-24 text-small">Stop wasting time and money. It saves alot!!!</p>
-    <button mat-flat-button color="accent" [routerLink]="'/auth/signup'">Sign Up</button>
-  </div>
-</div>
-<div class="form-holder h-full-screen mat-bg-card mat-elevation-z4" [perfectScrollbar]="{}">
- 
-  <form
-    [formGroup]="loginForm"
-    class="loginForm"
-    fxLayout="column"
-    (ngSubmit)="signInClicked()"
-  >
-  <div formGroupName="user">
-      <!-- headline -->
-      <div class="form-headline text-center mb-32">
-        <h1 class="font-weight-light">Sign in to your account</h1>
-      </div>
-      <div class="mb-48" fxLayout="row wrap" fxLayoutAlign="center center">
-        <img
-          width="200px"
+<div class="page-wrap h-full slate">
+  <div class="session-form-hold">
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+    <mat-card>
+      <mat-card-content>
+        <div class="text-center pt-8 pb-16">
+          <img
+          width="60px"
           src="assets/images/illustrations/breaking_barriers.svg"
           alt=""
         />
-      </div>
-      <div soraxdir-alert-message   [errorMessage]="messages | json" ></div>
+          <p class="text-muted m-0">Sign in to your account</p>
+        </div>
 
-      <sorax-form-field label="Email or phone"
-            exClass="pb18"
-          [soraxFormControl]="loginForm.get('user.emailId')">
-        <input
-            matInput
-            formControlName="emailId"
-            type="email"
-            name="emailId"
-            placeholder="Email or phone"
-            >
-     </sorax-form-field>
+        <div soraxdir-alert-message [errorMessage]="messages | json"></div>
 
-     <sorax-form-field label="Password" 
-     exClass="pb18"
-       [soraxFormControl]="loginForm.get('user.password')">
-        <input
-            matInput
-            formControlName="password"
-            type="password"
-            name="password"
-            placeholder="*******"
-            >
-    </sorax-form-field>
+        <form [formGroup]="loginForm" class="loginForm" fxLayout="column" (ngSubmit)="signInClicked()">
+          <div formGroupName="user">
+            <div class="">
+              <sorax-form-field label="Email or phone" exClass="pb18"
+                [soraxFormControl]="loginForm.get('user.emailId')">
+                <input matInput formControlName="emailId" type="email" name="emailId" placeholder="Email or phone">
+              </sorax-form-field>
+            </div>
+            <div class="">
+              <sorax-form-field label="Password" exClass="pb18" [soraxFormControl]="loginForm.get('user.password')">
+                <input matInput formControlName="password" type="password" name="password" placeholder="*******">
+              </sorax-form-field>
+            </div>
 
-    <div fxLayout="row" class="padround18"
-          fxLayoutAlign="space-between center" >
-        <mat-checkbox  formControlName="agreed">
-                  I agree with terms and condtions</mat-checkbox>
-       
-       <a  class="mat-color-primary text-decoration-underline"  
-                  [routerLink]="'/auth/forgotPassword'" >Forgot password</a>
-      
-    </div>
- </div>
-      <button  mat-raised-button color="primary" [disabled]="loginForm.invalid">Signin</button>
-      
-  </form>
+            <div class="pb-16">
+              <mat-checkbox formControlName="agreed">
+                I agree with terms and condtions</mat-checkbox>
+            </div>
+          </div>
+          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="loginForm.invalid">Sign in</button>
+          <div class="text-center">
+            <a class="mat-primary text-center full-width" [routerLink]="'/auth/forgotPassword'">Forgot
+              password</a>
+            <span fxFlex></span>
+            <a [routerLink]="'/auth/signup'" class="mat-primary text-center full-width">Create a new account</a>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
-
