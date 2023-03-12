@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import LableValueModel from 'app/models/lable-value-model';
+import { LableValueModel } from 'app/models/lable-value-model';
 
 export const VALIDATION_MESSAGES = {
   required: '{{fieldName}} is required',
