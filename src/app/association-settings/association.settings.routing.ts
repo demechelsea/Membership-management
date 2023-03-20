@@ -6,8 +6,13 @@ import { MembershipPlanComponent } from 'app/association-settings/components/mem
 
 
 export const AssociationSettingsRoutes: Routes = [
-  { path: 'membershipPlan', component: MembershipPlanComponent,
-  data: { title: 'Membership Settings', breadcrumb: 'Membership Settings'}
- },
-  { path: 'committee', component: CommitteeComponent }
+  {
+    path: 'membershipPlan', component: MembershipPlanComponent,
+    data: { title: 'Membership Settings', breadcrumb: 'Membership Settings' }
+  },
+  {
+    path: 'committee', component: CommitteeComponent,
+    data: { title: 'Committee Settings', breadcrumb: 'Committee Settings' }
+  }
+
 ];

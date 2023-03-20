@@ -79,7 +79,7 @@ export class NavigationService {
       icon: 'settings',
       sub: [
         {name: 'MEMBERSHIP_SETTING', state: 'associationSettings/membershipPlan'},
-        {name: 'Committee Settings', state: 'underdev'},
+        {name: 'Committee Settings', state: 'associationSettings/committee'},
         {name: 'Email Settings', state: 'underdev'},
         {name: 'SMS Settings', state: 'underdev'},
         {name: 'Policies & Doc store', state: 'underdev'},
