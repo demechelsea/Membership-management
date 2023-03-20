@@ -21,7 +21,7 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
   subscription: Subscription;
   signUpForm: FormGroup;
 
-  employeModel: UserViewModel = new UserViewModel();
+  userViewModel: UserViewModel = new UserViewModel();
 
   constructor(private formBuilder: FormBuilder
     , private loginService: LoginService
@@ -38,13 +38,13 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
     const confirmPassword = new FormControl('', Validators.required);
 
     this.signUpForm = this.formBuilder.group({
-      employee: this.formBuilder.group(
+      user: this.formBuilder.group(
         {
-          employeeDetail: this.formBuilder.group({
+          userDetail: this.formBuilder.group({
             firstName: this.formBuilder.control("", Validators.required),
             surName: this.formBuilder.control("", Validators.required)
           }),
-          organization: this.formBuilder.group({
+          association: this.formBuilder.group({
             name: this.formBuilder.control("", Validators.required)
           }),
           emailId: this.formBuilder.control("", [Validators.required, Validators.email]),
@@ -68,18 +68,18 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
     this.progressBar.mode = 'indeterminate';
     this.submitButton.disabled = true;
 
-    let employeModelReqModel = this.signUpForm.value.employee as UserViewModel;
-    this.subscription = this.loginService.signupNewUser(employeModelReqModel).subscribe(
+    let userViewModelReqModel = this.signUpForm.value.employee as UserViewModel;
+    this.subscription = this.loginService.signupNewUser(userViewModelReqModel).subscribe(
       (response) => {
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled = false;
-        Object.assign(this.employeModel, response);
+        Object.assign(this.userViewModel, response);
         //saving the messages
         Object.assign(this.messages, response);
 
         if (this.messages.isSuccess()) {
           //this.employeModel.encryptedRefId
-          this.router.navigate(['/auth/verifyUser', this.employeModel.encryptedRefId]);
+          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedRefId]);
         }
       });
   }

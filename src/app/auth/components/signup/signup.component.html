@@ -13,40 +13,40 @@
 
         <form autocomplete="off"  [formGroup]="signUpForm" class="signup-form" fxLayout="column" fxLayoutAlign="start"
           (ngSubmit)="submitForRegistration()">
-          <div formGroupName="employee">
-            <sorax-form-field label="First name" class="pb18" formGroupName="employeeDetail"
-              [soraxFormControl]="signUpForm.get('employee.employeeDetail.firstName')">
+          <div formGroupName="user">
+            <sorax-form-field label="First name" class="pb18" formGroupName="userDetail"
+              [soraxFormControl]="signUpForm.get('user.userDetail.firstName')">
               <input formControlName="firstName" matInput type="text" name="first_name" placeholder="First name" />
             </sorax-form-field>
 
-            <sorax-form-field label="Family name" class="pb18" formGroupName="employeeDetail"
-              [soraxFormControl]="signUpForm.get('employee.employeeDetail.surName')">
+            <sorax-form-field label="Family name" class="pb18" formGroupName="userDetail"
+              [soraxFormControl]="signUpForm.get('user.userDetail.surName')">
               <input formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
             </sorax-form-field>
 
-            <sorax-form-field label="Company name" class="pb18" formGroupName="organization"
-              [soraxFormControl]="signUpForm.get('employee.organization.name')">
-              <input formControlName="name" matInput type="text" name="company_name" placeholder="Company name" />
+            <sorax-form-field label="Association name" class="pb18" formGroupName="association"
+              [soraxFormControl]="signUpForm.get('user.association.name')">
+              <input formControlName="name" matInput type="text" name="AssociationName" placeholder="Society name" />
             </sorax-form-field>
           </div>
           <div class="">
-            <sorax-form-field label="Email" class="pb18" formGroupName="employee" 
-              [soraxFormControl]="signUpForm.get('employee.emailId')">
+            <sorax-form-field label="Email" class="pb18" formGroupName="user" 
+              [soraxFormControl]="signUpForm.get('user.emailId')">
               <input formControlName="emailId" matInput type="email" name="email" placeholder="Email"  />
             </sorax-form-field>
 
-            <sorax-form-field label="Phone" class="pb18" formGroupName="employee"
-              [soraxFormControl]="signUpForm.get('employee.phone')">
+            <sorax-form-field label="Phone" class="pb18" formGroupName="user"
+              [soraxFormControl]="signUpForm.get('user.phone')">
               <input formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
             </sorax-form-field>
 
-            <sorax-form-field label="Password" class="pb18" formGroupName="employee"
-              [soraxFormControl]="signUpForm.get('employee.password')">
+            <sorax-form-field label="Password" class="pb18" formGroupName="user"
+              [soraxFormControl]="signUpForm.get('user.password')">
               <input formControlName="password" matInput type="password" name="password" placeholder="********" />
             </sorax-form-field>
 
-            <sorax-form-field label="Confirm password" class="pb18" formGroupName="employee"
-              [soraxFormControl]="signUpForm.get('employee.confirmPassword')">
+            <sorax-form-field label="Confirm password" class="pb18" formGroupName="user"
+              [soraxFormControl]="signUpForm.get('user.confirmPassword')">
               <input formControlName="confirmPassword" matInput type="password" name="confirm_password"
                 placeholder="Confirm password" />
             </sorax-form-field>

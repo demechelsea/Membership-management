@@ -61,8 +61,8 @@ export class LoginService extends HttpAppDataService {
   }
 
 
-  public signupNewUser(employeModel: UserViewModel): Observable<UserViewModel> {
-    return this.postData(Urls.REGISTER_USER, employeModel);
+  public signupNewUser(userViewModel: UserViewModel): Observable<UserViewModel> {
+    return this.postData(Urls.REGISTER_USER, userViewModel);
   }
 
   setAuthenticationToken(authenticatedUser: UserViewModel) {
