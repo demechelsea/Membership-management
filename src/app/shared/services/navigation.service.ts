@@ -78,7 +78,7 @@ export class NavigationService {
       type: 'dropDown',
       icon: 'settings',
       sub: [
-        {name: 'Membership Settings', state: 'associationSettings/membershipPlan'},
+        {name: 'MEMBERSHIP_SETTING', state: 'associationSettings/membershipPlan'},
         {name: 'Committee Settings', state: 'underdev'},
         {name: 'Email Settings', state: 'underdev'},
         {name: 'SMS Settings', state: 'underdev'},

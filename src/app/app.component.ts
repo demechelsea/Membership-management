@@ -15,7 +15,7 @@ import { LayoutService } from './layouts/services/layout.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  appTitle = 'Egret';
+  appTitle = 'SocietyRax';
   pageTitle = '';
 
   constructor(

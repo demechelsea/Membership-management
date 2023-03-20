@@ -13,8 +13,8 @@
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div fxLayout="row wrap" fxLayout.lt-sm="column">
         <div fxFlex="100">
-          <sorax-form-field label="Membership plan name" [soraxFormControl]="membershipPlanForm.get('planName')">
-            <input matInput formControlName="planName" type="text" name="planName" placeholder="Membership Plan name">
+          <sorax-form-field label="{{'MEMBERSHIP_PLAN_NAME' | translate}}" [soraxFormControl]="membershipPlanForm.get('planName')">
+            <input matInput formControlName="planName" type="text" name="planName" placeholder="{{'MEMBERSHIP_PLAN_NAME' | translate}}">
           </sorax-form-field>
         </div>
         <div fxFlex="100">

@@ -8,7 +8,7 @@ import { SORAX_VALIDATION_MESSAGES_KEY, VALIDATION_MESSAGES } from '../utils/sor
 import { formatString } from '../utils/string-utils';
 
 @Directive({
-  selector: '[soraxdir-validation-display]',
+  selector: '[sorax-validation-display-dir]',
  
  
 })

@@ -14,13 +14,13 @@
       </span>
    
       <mat-error>
-        <span soraxdir-validation-display 
+        <span sorax-validation-display-dir
                 [soraxValidationFormControl]="soraxFormControl" 
                 [fieldName]="label" >
           <span 
             *ngIf="soraxFormControl!.errors && 
                      soraxFormControl!.hasError('required')"
-                 >{{label}} is required.</span>
+                 >{{label}} {{ "IS_REQUIRED" |translate}}.</span>
         </span>
       </mat-error>
   </mat-form-field>

@@ -1,5 +1,8 @@
 {
   "DASHBOARD": "Dashboard",
+  "MEMBERSHIP_PLAN_NAME": "Membership Plan Name",
+  "MEMBERSHIP_SETTING":"Membership Settings",
+  "IS_REQUIRED":"is required",
   "APPS": "Apps",
   "INBOX": "Inbox",
   "CHAT": "Chat",
