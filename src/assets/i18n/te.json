@@ -1,5 +1,8 @@
 {
-  "DASHBOARD": "Tablero",
+  "DASHBOARD": "సారాంశ పట్టిక",
+  "MEMBERSHIP_PLAN_NAME": "సభ్యత్వ ప్రణాళిక పేరు",
+  "IS_REQUIRED":"ఇక్కడ తప్పనిసరి",
+  "MEMBERSHIP_SETTING":"సభ్యత్వ సెట్టింగ్‌లు  ",
   "APPS": "Apps",
   "INBOX": "Mensaje",
   "CHAT": "Charla",

@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@ang
 import LableValueModel from 'app/models/lable-value-model';
 
 export const VALIDATION_MESSAGES = {
-  required: '{{fieldName}} is required',
+  required: '{{fieldName}} is required.',
   equalTo: "{{fieldName}} is is not matched.",
   email: '{{fieldName}} is in an invalid format',
   emailAddressTaken: '{{fieldName}} {{emailAddress.value}} is already used.',

@@ -10,11 +10,12 @@ export const AuthRoutes: Routes = [
   {
     path: "",
     children: [
+      {path: "", redirectTo: 'login',pathMatch: 'full'},
       { path: "login", component: LoginComponent, data:{title:"Login"} },
-      { path: "signup", component: SignupComponent },
-      { path: "verifyUser/:id", component: VerifyUserComponent },
-      { path: "forgotPassword", component: ResetPasswordComponent },
-      { path: "changePassword/:id", component: ChangePassowrdComponent },
+      { path: "signup", component: SignupComponent, data:{title:"Signup"}},
+      { path: "verifyUser/:id", component: VerifyUserComponent , data:{title:"Account Verification"}},
+      { path: "forgotPassword", component: ResetPasswordComponent , data:{title:"Reset Passwrod"}},
+      { path: "changePassword/:id", component: ChangePassowrdComponent, data:{title:"Change Passwrod"} },
     ]
   }
 ];
