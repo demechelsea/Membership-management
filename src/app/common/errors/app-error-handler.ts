@@ -15,7 +15,7 @@ export class AppErrorHandler extends ErrorHandler {
         return this.injector.get(NotificationService);
       }
 
-    handleError(error:HttpErrorResponse): void {
+    handleError(error:any): void {
       let errorMessage="Unexpected error has happened";
       if(error.status ==0){
         errorMessage="Application is unable to reach the server, please check your internet connection";

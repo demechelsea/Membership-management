@@ -44,20 +44,18 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
       this.router.navigate(['/dashboard']);
     }
 
-    const password = new FormControl('test12345',[Validators.required]);
+    const password = new FormControl('',[Validators.required]);
 
     this.loginForm = this.formBuilder.group({
       user: this.formBuilder.group(
         {
-          emailId: this.formBuilder.control("tek.naresh@gmail.com",
+          emailId: this.formBuilder.control("",
                           [Validators.required, SoraxValidators.phoneEmail]),
           password: password,
           agreed: [true, Validators.requiredTrue],
         },
       ),
     });
-
-    
 
   }
 
