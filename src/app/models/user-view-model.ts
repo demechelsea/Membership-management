@@ -12,6 +12,7 @@ export class UserViewModel extends MessageWrapModel {
 
     encryptedId: string;
     encryptedRefId: string;
+    encryptedAssociationId:string;
     authToken: string;
     emailId: string;
     phone: string;
@@ -20,7 +21,9 @@ export class UserViewModel extends MessageWrapModel {
     appUserFlag: string;
 
     userDetail: UserDetailsModel;
-    organization: AssociationModel;
+    association: AssociationModel;
+    mappedAssociation: AssociationModel[];
     roles: LableValueModel[];
+    applications: LableValueModel[];
     addresses: AddressModel[];
 }

@@ -52,7 +52,7 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
 
     this.subscription = this.loginService.sendOtpForResetPassword(resetPasswordReqModel).subscribe(
       (response) => {
-        Object.assign(this.resetPasswordModel, response);
+        Object.assign(this.resetPasswordModel, response['result']);
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled =false;
         //setting the messages 
@@ -60,7 +60,7 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
         if (this.messages.isSuccess()) {
           this.notificationService.showMessages(this.messages);
          
-          this.router.navigate(['/auth/changePassword', this.resetPasswordModel.encryptedId]);
+          this.router.navigate(['/auth/changePassword', this.resetPasswordModel.encryptedRefId]);
         }
       });
    

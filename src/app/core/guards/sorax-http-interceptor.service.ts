@@ -12,7 +12,7 @@ export class SoraxHttpInterceptorService implements HttpInterceptor{
   intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
  
     let authToken="";
-    let authenticatedUserJsonString =sessionStorage.getItem("smptAuthenticatedUser");
+    let authenticatedUserJsonString =sessionStorage.getItem("societyRaxAuthenticatedUser");
     if( authenticatedUserJsonString!=null){
       authToken = JSON.parse( authenticatedUserJsonString).authToken;
       httpRequest= httpRequest.clone({

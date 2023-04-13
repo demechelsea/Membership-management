@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 import { UserViewModel } from 'app/models/user-view-model';
 import { LoginService } from 'app/auth/service/login.service';
 import { BaseService } from 'app/common/services/base.service';
@@ -20,7 +20,8 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
 
   verifyForm: FormGroup;
   resetPasswordModel: ResetPasswordModel = new ResetPasswordModel();
-  employeModel: UserViewModel = new UserViewModel();
+  userViewModel: UserViewModel = new UserViewModel();
+  userViewModelAsParam: UserViewModel = new UserViewModel();
 
   constructor( private formBuilder: FormBuilder
                         , private loginService:LoginService
@@ -32,40 +33,45 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
   ngOnInit(): void {
     this.subscription = this.activatedRoute.params.subscribe((params) => {
       let pid = params["id"];
-      this.resetPasswordModel.encryptedId = pid;
+      this.resetPasswordModel.encryptedRefId = pid;
     });
 
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    this.userViewModelAsParam = queryParams as UserViewModel;
+    
     this.verifyForm = this.formBuilder.group({
         otp: this.formBuilder.control("", [Validators.required, SoraxValidators.otpValidator]) 
       
     });
-
-   
   }
+
 
   verifyUser() {
     let resetPasswordReqModel = this.verifyForm.value as ResetPasswordModel;
-    resetPasswordReqModel.encryptedId= this.resetPasswordModel.encryptedId;
+    resetPasswordReqModel.encryptedId = this.userViewModelAsParam.encryptedId;
+    resetPasswordReqModel.encryptedRefId= this.resetPasswordModel.encryptedRefId;
 
    this.subscription = this.loginService.verifyUser(resetPasswordReqModel).subscribe(
       (response) => {
-          Object.assign(this.resetPasswordModel, response);
+          Object.assign(this.resetPasswordModel, response['result']);
           //setting the messages 
           Object.assign(this.messages, response);
-          Object.assign(this.employeModel, response);
+          
+          Object.assign(this.userViewModel, response['result'].userDTO);
           //setting base messages
           BaseService.baseMessages=this.messages;
 
-          if(this.employeModel.authToken !=null){
-            this.loginService.setAuthenticationToken(this.employeModel);
+          if(this.userViewModel.authToken !=null){
+            this.loginService.setAuthenticationToken(this.userViewModel);
             this.router.navigate(['/dashboard']);
           }
       });
   }
 
+
   resendOTP() {
     let resetPasswordReqModel = this.verifyForm.value as ResetPasswordModel;
-    resetPasswordReqModel.encryptedId= this.resetPasswordModel.encryptedId;
+    resetPasswordReqModel.encryptedRefId= this.resetPasswordModel.encryptedRefId;
 
     this.subscription = this.loginService.resendOTP(resetPasswordReqModel).subscribe(
       (response) => {

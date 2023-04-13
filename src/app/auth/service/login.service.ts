@@ -31,12 +31,12 @@ export class LoginService extends HttpAppDataService {
   public checkAuthentication(employeModel: UserViewModel): Observable<UserViewModel> {
     let keyValueModelMap = [];
     let userName: LableValueModel = new LableValueModel();
-    userName.id = "X-Auth-Username";
+    userName.id = "x-auth-username";
     userName.name = employeModel.emailId;
     keyValueModelMap.push(userName);
 
     let password: LableValueModel = new LableValueModel();
-    password.id = "X-Auth-Password";
+    password.id = "x-auth-password";
     password.name = employeModel.password;
     keyValueModelMap.push(password);
 
@@ -62,6 +62,10 @@ export class LoginService extends HttpAppDataService {
 
 
   public signupNewUser(userViewModel: UserViewModel): Observable<UserViewModel> {
+    if (!userViewModel.encryptedAssociationId) {
+      return this.postData(Urls.REGISTER_ASSOCIATION, userViewModel);
+    }
+
     return this.postData(Urls.REGISTER_USER, userViewModel);
   }
 
@@ -69,7 +73,7 @@ export class LoginService extends HttpAppDataService {
 
     let authenticatedUserJsonString = JSON.stringify(authenticatedUser);
     this.loggedInUser = JSON.parse(authenticatedUserJsonString);
-    sessionStorage.smptAuthenticatedUser = authenticatedUserJsonString;
+    sessionStorage.societyRaxAuthenticatedUser = authenticatedUserJsonString;
 
     for (let i = 0; i < this.loginLogoutObservers.length; i++) {
       this.loginLogoutObservers[i].next("login");
@@ -77,7 +81,7 @@ export class LoginService extends HttpAppDataService {
   }
 
   isLoggedIn(): boolean {
-    let authenticatedUserJsonString = sessionStorage.getItem("smptAuthenticatedUser");
+    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
     if (authenticatedUserJsonString != null) {
       this.loggedInUser = JSON.parse(authenticatedUserJsonString);
     }
@@ -87,7 +91,7 @@ export class LoginService extends HttpAppDataService {
 
 
   logout() {
-    sessionStorage.removeItem("smptAuthenticatedUser");
+    sessionStorage.removeItem("societyRaxAuthenticatedUser");
     this.loggedInUser = null;
 
     for (let i = 0; i < this.loginLogoutObservers.length; i++) {

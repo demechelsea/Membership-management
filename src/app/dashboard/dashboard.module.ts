@@ -22,29 +22,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
 import { DashboardRoutes } from './dashboard.routing';
+import { SoraxCommonModule } from 'app/common/sorax-common.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatIconModule,
-    MatCardModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatListModule,
-    MatTabsModule,
-    MatTableModule,
-    MatGridListModule,
-    FlexLayoutModule,
-    NgChartsModule,
-    NgxEchartsModule.forRoot({
-      echarts
-    }),
-    NgApexchartsModule,
-    NgxDatatableModule,
-    SharedPipesModule,
+    SoraxCommonModule,
     RouterModule.forChild(DashboardRoutes)
   ],
   declarations: [

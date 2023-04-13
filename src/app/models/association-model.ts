@@ -4,6 +4,8 @@ export class AssociationModel extends MessageWrapModel {
     id: bigint;
     encryptedId: string;
     name: string;
+    place:string;
+    
     websiteAddress: string;
     status: string;
     statusDt: string;

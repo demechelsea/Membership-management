@@ -5,6 +5,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { BaseService } from './base.service';
+import { Urls } from '../utils/urls';
+
 
 
 @Injectable({
@@ -14,10 +16,11 @@ export class HttpAppDataService extends BaseService {
 
   constructor(private httpClient: HttpClient) {
     super();
-   }
+  }
 
+ 
   fetchData(getUrl: string, inputParams?: any): Observable<any> {
-    return this.httpClient.get<any>(getUrl, { responseType: "json", params: inputParams })
+    return this.httpClient.get<any>(getUrl, { headers:this.prepareCustomHeaders(), responseType: "json", params: inputParams })
       .pipe(
         catchError(this.handleError)
       );
@@ -28,39 +31,56 @@ export class HttpAppDataService extends BaseService {
   }
 
   insertData(createUrl: string, inputParams: any): Observable<any> {
-    return this.httpClient.post<any>(createUrl, inputParams, { responseType: "json" })
+    return this.httpClient.post<any>(createUrl, inputParams, {  headers:this.prepareCustomHeaders(), responseType: "json" })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   postDataIntoHeaderData(createUrl: string, keyValueMap: LableValueModel[]): Observable<any> {
-    let httpHeaders = new HttpHeaders();
-    for (let i = 0; i < keyValueMap.length; i++) {
-       let keyValueObj  = keyValueMap[i];
-       if(keyValueObj.name!=null){
-        httpHeaders=httpHeaders.append(keyValueObj.id, keyValueObj.name);
-       }
-    }
-    //httpHeaders =httpHeaders.append("Access-Control-Allow-Origin", "*");
-    httpHeaders =httpHeaders.append('Content-Type', 'text/plain,application/json');  
-
+    let httpHeaders = this.prepareCustomHeaders(keyValueMap);
     //it needs to submit empty JSON object
-    return this.httpClient.post<any>(createUrl,{}, {headers:httpHeaders, responseType:"json",withCredentials:true})
-    .pipe(
-      catchError(this.handleError)
-    );
+    return this.httpClient.post<any>(createUrl, {"applications": Urls.APPLICATIONS}, { headers: httpHeaders, responseType: "json", withCredentials:false})
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  prepareCustomHeaders(keyValueMap?: LableValueModel[]): HttpHeaders {
+    let keyValueModelMap = this.getDefaultCustomHeaders();
+   
+    if (keyValueMap != null && keyValueMap != undefined) {
+      
+      keyValueModelMap =  keyValueModelMap.concat(keyValueMap);
+    }
+
+    let httpHeaders = new HttpHeaders();
+    for (let i = 0; i < keyValueModelMap.length; i++) {
+      let keyValueObj = keyValueModelMap[i];
+      if (keyValueObj.name != null) {
+        httpHeaders = httpHeaders.set(keyValueObj.id, keyValueObj.name);
+      }
+    }
+    return httpHeaders;
+  }
+
+  private getDefaultCustomHeaders() {
+    const keyValueModelMap = [];
+    keyValueModelMap.push(new LableValueModel('X-Auth-Access-client', 'SORAX_UI_ANGULAR'));
+    keyValueModelMap.push(new LableValueModel('X-Header-Info', 'npm install ngx-device-detector --save after upgrade'));
+    keyValueModelMap.push(new LableValueModel('X-User-Agent', navigator.userAgent));
+    return keyValueModelMap;
   }
 
   deleteData(deleteUrl: string, inputParams?: any): Observable<any> {
-    return this.httpClient.delete<any>(deleteUrl, { responseType: "json", params: inputParams })
+    return this.httpClient.delete<any>(deleteUrl, {  headers:this.prepareCustomHeaders(), responseType: "json", params: inputParams })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   updateData(updateUrl: string, inputParams: any): Observable<any> {
-    return this.httpClient.delete<any>(updateUrl, { responseType: "json", params: inputParams })
+    return this.httpClient.delete<any>(updateUrl, {  headers:this.prepareCustomHeaders(), responseType: "json", params: inputParams })
       .pipe(
         catchError(this.handleError)
       );

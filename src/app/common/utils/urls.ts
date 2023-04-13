@@ -2,7 +2,7 @@ import { environment } from 'environments/environment';
 
 export class Urls {
      public static baseAPIUrl: string = environment.apiURL;
-     public static contextPath: string = "/societyrax";
+     public static contextPath: string = "";
      public static LOGIN_URL: string = Urls.baseAPIUrl + "/authenticate/login";
      public static REGISTER_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/registerAssociation";
      
@@ -24,6 +24,8 @@ export class Urls {
      public static MEMBERSHIP_PLAN_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateMembershipPlan";
 
      public static COMMON_LOOKUP_SERVICE: string = Urls.baseAPIUrl + Urls.contextPath + "/common/lookupService";
+
+     public static APPLICATIONS = [{name:"SOCIETYRAX_APP"}];
      
      public static TITLES = [
           { viewValue: "Mr", value: "Mr" },

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { BaseService } from 'app/common/services/base.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
@@ -52,7 +52,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
           emailId: this.formBuilder.control("",
                           [Validators.required, SoraxValidators.phoneEmail]),
           password: password,
-          agreed: [true, Validators.requiredTrue],
+          agreed: [false, Validators.requiredTrue],
         },
       ),
     });
@@ -77,7 +77,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
       (response) => {
         //if user is not successfully logged in, it will write the relavant error messges to the model
         //and it gets displayed using Alert directive service i.e., soraxdir-alert-message
-        Object.assign(this.userModel, response);
+        Object.assign(this.userModel, response['result']);
 
         //setting the messages 
         Object.assign(this.messages, response);
@@ -92,7 +92,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
         } else if (this.userModel.encryptedRefId != null) {
           //this.userModel.encryptedRefId
-          this.router.navigate(['/verifyUser', this.userModel.encryptedRefId]);
+          this.router.navigate(['/auth/verifyUser', this.userModel.encryptedRefId], {queryParams: this.userModel});
 
         }
       });

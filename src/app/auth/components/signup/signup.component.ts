@@ -45,7 +45,8 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
             surName: this.formBuilder.control("", Validators.required)
           }),
           association: this.formBuilder.group({
-            name: this.formBuilder.control("", Validators.required)
+            name: this.formBuilder.control("", Validators.required),
+            place: this.formBuilder.control("", Validators.required)
           }),
           emailId: this.formBuilder.control("", [Validators.required, Validators.email]),
           phone: this.formBuilder.control("", Validators.required),
@@ -68,18 +69,17 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
     this.progressBar.mode = 'indeterminate';
     this.submitButton.disabled = true;
 
-    let userViewModelReqModel = this.signUpForm.value.employee as UserViewModel;
+    let userViewModelReqModel = this.signUpForm.value.user as UserViewModel;
     this.subscription = this.loginService.signupNewUser(userViewModelReqModel).subscribe(
       (response) => {
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled = false;
-        Object.assign(this.userViewModel, response);
+        Object.assign(this.userViewModel, response['result']);
         //saving the messages
         Object.assign(this.messages, response);
 
         if (this.messages.isSuccess()) {
-          //this.employeModel.encryptedRefId
-          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedRefId]);
+          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedRefId], { queryParams: this.userViewModel });
         }
       });
   }

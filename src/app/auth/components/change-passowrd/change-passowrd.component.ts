@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
@@ -9,6 +9,8 @@ import { ResetPasswordModel } from 'app/models/reset-password-model';
 import { Subscription } from 'rxjs';
 
 import { LoginService } from '../../service/login.service';
+import { MatButton } from '@angular/material/button';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'sorax-change-passowrd',
@@ -16,6 +18,9 @@ import { LoginService } from '../../service/login.service';
   styleUrls: ['./change-passowrd.component.scss']
 })
 export class ChangePassowrdComponent extends BaseComponent implements OnInit {
+  @ViewChild(MatProgressBar) progressBar: MatProgressBar;
+  @ViewChild(MatButton) submitButton: MatButton;
+
   subscription: Subscription;
 
   resetFormGroup: FormGroup;
@@ -24,8 +29,8 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
      private loginService: LoginService,
       private router:Router,
-      private activatedRoute: ActivatedRoute,
       private loader: AppLoaderService,
+      private activatedRoute: ActivatedRoute,
      private notificationService: NotificationService
   ) {
     super();
@@ -35,7 +40,7 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
 
     this.subscription = this.activatedRoute.params.subscribe((params) => {
       let pid = params["id"];
-      this.resetPasswordModel.encryptedId = pid;
+      this.resetPasswordModel.encryptedRefId = pid;
     });
     
     const password = new FormControl('', Validators.required);
@@ -43,15 +48,21 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
     const confirmPassword = new FormControl('', Validators.required);
     
     this.resetFormGroup = this.formBuilder.group({
-      encryptedId: this.formBuilder.control(this.resetPasswordModel.encryptedId),
+      encryptedRefId: this.formBuilder.control(this.resetPasswordModel.encryptedRefId),
       otp: this.formBuilder.control('',[Validators.required,SoraxValidators.otpValidator]),
       password: password,
       confirmPassword: confirmPassword
     });
   }
 
+  ngAfterViewInit() {
+    // to clear loaders or indeterminate components in exceptional cases
+    this.loader.setComponents([this.progressBar, this.submitButton]);
+ }
+
   resetPasswordFormSubmitted() {
-    this.loader.open();
+    this.progressBar.mode = 'indeterminate';
+    this.submitButton.disabled =true;
     this.changePassword();
    
   }
@@ -59,11 +70,14 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   private changePassword() {
 
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
-    resetPasswordReqModel.encryptedId = this.resetPasswordModel.encryptedId;
+    resetPasswordReqModel.encryptedRefId = this.resetPasswordModel.encryptedRefId;
 
     this.subscription = this.loginService.changePassword(resetPasswordReqModel).subscribe(
       (response) => {
-        Object.assign(this.resetPasswordModel, response);
+        this.progressBar.mode = 'determinate';
+        this.submitButton.disabled =false;
+
+        Object.assign(this.resetPasswordModel, response['result']);
         //setting the messages 
         Object.assign(this.messages, response);
         if (this.messages.isSuccess()) {
@@ -74,13 +88,17 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   }
 
   resendOTP() {
-    this.loader.open();
+    this.progressBar.mode = 'indeterminate';
+    this.submitButton.disabled =true;
+
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
     resetPasswordReqModel.encryptedId = this.resetPasswordModel.encryptedId;
 
     this.subscription = this.loginService.resendOTP(resetPasswordReqModel).subscribe(
       (response) => {
-        Object.assign(this.resetPasswordModel, response);
+        this.progressBar.mode = 'indeterminate';
+        this.submitButton.disabled =true;
+        Object.assign(this.resetPasswordModel, response['result']);
         //setting the messages 
         Object.assign(this.messages, response);
       });
@@ -91,6 +109,7 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
     if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
+
     this.loader.close();
   }
 

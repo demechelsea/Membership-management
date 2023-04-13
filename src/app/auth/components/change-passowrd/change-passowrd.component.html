@@ -1,75 +1,48 @@
-<div class="seciton-left">
-  <div class="section-left-content">
-    <h1 class="text-36 font-weight-light">Don't have an account?</h1>
-    <p class="mb-24 text-small">Stop wasting time and money. It saves alot!!!</p>
-    <button mat-flat-button color="accent" [routerLink]="'/auth/signup'">Sign Up</button>
+<div class="page-wrap h-full slate">
+  <div class="session-form-hold">
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+    <mat-card>
+      <mat-card-content>
+        <div class="text-center pt-8 pb-16">
+          <img width="60px" src="assets/images/illustrations/undraw_setup.svg" alt="" />
+          <p class="font-weight-bold">Change password</p>
+        </div>
+
+        <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+
+        <form [formGroup]="resetFormGroup" class="signup-form" fxLayout="column"
+          (ngSubmit)="resetPasswordFormSubmitted()">
+
+          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+            <sorax-form-field label="Otp" fxFlex="1 0 auto" class="pb18" [soraxFormControl]="resetFormGroup.get('otp')">
+              <input soraxdir-numbers-only formControlName="otp" matInput type="text" name="otp"
+                placeholder="Enter otp" />
+            </sorax-form-field>
+
+            <div class="resendButton">
+              <button type="button" mat-raised-button color="accent" (click)="resendOTP()">Resend OTP</button>
+            </div>
+          </div>
+          <sorax-form-field label="New Password" class="pb18" [soraxFormControl]="resetFormGroup.get('password')">
+            <input formControlName="password" matInput type="password" name="password"
+              placeholder="Enter new password" />
+          </sorax-form-field>
+          <sorax-form-field label="Confirm password" class="pb18"
+            [soraxFormControl]="resetFormGroup.get('confirmPassword')">
+            <input formControlName="confirmPassword" matInput type="password" name="confirm_password"
+              placeholder="Reenter new password" />
+          </sorax-form-field>
+          
+          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="resetFormGroup.invalid">Change
+            Password</button>
+
+          <div class="text-center pt-18">
+            <a [routerLink]="'/auth/login'" class="mat-primary text-left full-width">Sign in</a>
+            <span fxFlex></span>
+            <a [routerLink]="'/auth/signup'" class="mat-primary text-right full-width">Create a new account</a>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
-<div class="form-holder h-full-screen mat-bg-card mat-elevation-z4" [perfectScrollbar]="{}">
- 
-  <form
-  [formGroup]="resetFormGroup" 
-    class="signup-form"
-    fxLayout="column"
-    (ngSubmit)="resetPasswordFormSubmitted()"
-  >
- <!-- headline -->
-      <div class="form-headline text-center mb-32">
-        <h1 class="font-weight-light" >Change password</h1>
-      </div>
-      <div class="mb-48" fxLayout="row wrap" fxLayoutAlign="center center">
-        <img
-          width="200px"
-          src="assets/images/illustrations/undraw_setup.svg"
-          alt=""
-        />
-      </div>
-      <div soraxdir-alert-message   [errorMessage]="messages | json" ></div>
-      
-      <div fxLayout="row"   fxLayoutGap="20px"
-         fxLayoutAlign="center center" >
-         <sorax-form-field label="Otp"  fxFlex="1 0 auto"
-              class="pb18"
-              [soraxFormControl]="resetFormGroup.get('otp')">
-            <input  soraxdir-numbers-only
-            formControlName="otp"
-            matInput
-            type="text"
-            name="otp"
-            placeholder="Enter otp"
-          />
-        </sorax-form-field>
-        
-          <div class="resendButton">
-            <button type="button" mat-raised-button color="accent"  (click)="resendOTP()">Resend OTP</button>
-        </div>
-      </div>
-       <sorax-form-field label="New Password" 
-              class="pb18"
-              [soraxFormControl]="resetFormGroup.get('password')">
-            <input
-            formControlName="password"
-            matInput
-            type="password"
-            name="password"
-            placeholder="Enter new password"
-          />
-       </sorax-form-field>
-       <sorax-form-field label="Confirm password" 
-            class="pb18"
-            [soraxFormControl]="resetFormGroup.get('confirmPassword')">
-          <input
-          formControlName="confirmPassword"
-          matInput
-          type="password"
-          name="confirm_password"
-          placeholder="Reenter new password"
-        />
-      </sorax-form-field>
-     
-      <button type="submit" mat-raised-button color="primary" 
-      [disabled]="resetFormGroup.invalid" >Change password</button>
-    
-  </form>
-</div>
-

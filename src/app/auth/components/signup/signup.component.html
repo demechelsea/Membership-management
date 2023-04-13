@@ -26,7 +26,12 @@
 
             <sorax-form-field label="Association name" class="pb18" formGroupName="association"
               [soraxFormControl]="signUpForm.get('user.association.name')">
-              <input formControlName="name" matInput type="text" name="AssociationName" placeholder="Society name" />
+              <input formControlName="name" matInput type="text" name="AssociationName" placeholder="Association name" />
+            </sorax-form-field>
+
+            <sorax-form-field label="Association Place" class="pb18" formGroupName="association"
+              [soraxFormControl]="signUpForm.get('user.association.place')">
+              <input formControlName="place" matInput type="text" name="AssociationPlace" placeholder="Association Place" />
             </sorax-form-field>
           </div>
           <div class="">
