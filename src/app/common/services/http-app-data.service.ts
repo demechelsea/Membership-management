@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { BaseService } from './base.service';
 import { Urls } from '../utils/urls';
+import { UserViewModel } from 'app/models/user-view-model';
 
 
 
@@ -13,6 +14,7 @@ import { Urls } from '../utils/urls';
   providedIn: 'root'
 })
 export class HttpAppDataService extends BaseService {
+  loggedInUser: UserViewModel = new UserViewModel();
 
   constructor(private httpClient: HttpClient) {
     super();
@@ -69,6 +71,9 @@ export class HttpAppDataService extends BaseService {
     keyValueModelMap.push(new LableValueModel('X-Auth-Access-client', 'SORAX_UI_ANGULAR'));
     keyValueModelMap.push(new LableValueModel('X-Header-Info', 'npm install ngx-device-detector --save after upgrade'));
     keyValueModelMap.push(new LableValueModel('X-User-Agent', navigator.userAgent));
+    if(this.isLoggedIn()){
+      keyValueModelMap.push(new LableValueModel('X-Association-id', this.getAssociationId())); 
+    }
     return keyValueModelMap;
   }
 
@@ -97,5 +102,21 @@ export class HttpAppDataService extends BaseService {
     }
 
     return throwError(error);
+  }
+
+  getAssociationId(): string {
+    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
+    if (authenticatedUserJsonString != null) {
+      this.loggedInUser = JSON.parse(authenticatedUserJsonString);
+    }
+    return this.loggedInUser.association!.encryptedId;
+  }
+
+  isLoggedIn(): boolean {
+    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
+    if (authenticatedUserJsonString != null) {
+      this.loggedInUser = JSON.parse(authenticatedUserJsonString);
+    }
+    return (this.loggedInUser != null && this.loggedInUser.authToken != null);
   }
 }

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
+import { LocalstorageService } from 'app/common/services/localstorage.service';
 import { Urls } from 'app/common/utils/urls';
+import { AssociationModel } from 'app/models/association-model';
 import LableValueModel from 'app/models/lable-value-model';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
 import { UserViewModel } from 'app/models/user-view-model';
@@ -18,7 +20,7 @@ export class LoginService extends HttpAppDataService {
 
   loggedInUser: UserViewModel = new UserViewModel();
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private localStorageService: LocalstorageService) {
     super(httpClient);
 
     this.loginLogoutObservable = Observable.create(
@@ -70,30 +72,20 @@ export class LoginService extends HttpAppDataService {
   }
 
   setAuthenticationToken(authenticatedUser: UserViewModel) {
-
-    let authenticatedUserJsonString = JSON.stringify(authenticatedUser);
-    this.loggedInUser = JSON.parse(authenticatedUserJsonString);
-    sessionStorage.societyRaxAuthenticatedUser = authenticatedUserJsonString;
-
+    this.localStorageService.setAuthenticationToken(authenticatedUser);
+    this.loggedInUser = this.localStorageService.getLoggedInUser();
     for (let i = 0; i < this.loginLogoutObservers.length; i++) {
       this.loginLogoutObservers[i].next("login");
     }
   }
 
   isLoggedIn(): boolean {
-    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
-    if (authenticatedUserJsonString != null) {
-      this.loggedInUser = JSON.parse(authenticatedUserJsonString);
-    }
-
-    return (this.loggedInUser != null && this.loggedInUser.authToken != null);
+    return this.localStorageService.isLoggedIn();
   }
 
-
+  
   logout() {
-    sessionStorage.removeItem("societyRaxAuthenticatedUser");
-    this.loggedInUser = null;
-
+    this.localStorageService.logout();
     for (let i = 0; i < this.loginLogoutObservers.length; i++) {
       this.loginLogoutObservers[i].next("logout");
     }

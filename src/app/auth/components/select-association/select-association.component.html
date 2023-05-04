@@ -1,0 +1,30 @@
+<div class="page-wrap h-full slate">
+    <div class="session-form-hold">
+      <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+      <mat-card>
+        <mat-card-content>
+          <div class="text-center pt-8">
+            <img width="60px" src="assets/images/illustrations/done_2.svg" alt="" />
+            <p class="font-weight-bold">Choose your association</p>
+          </div>
+          <div class="pb-28">
+            <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+            <mat-nav-list class="notification-list" role="list">
+              <mat-list-item *ngFor="let association of userViewModel.mappedAssociation" 
+                                      role="listitem" routerLinkActive="open">
+                <a (click)="selectAssociation(association)">
+                  <div class="mat-list-text" >
+                    <h4 class="message">{{association.name}}</h4>
+                    <small class="text-muted">{{association.place}}</small>
+                  </div>
+                </a>
+              </mat-list-item>
+            </mat-nav-list>
+          </div>
+          <div fxLayout="column" class="p-16">
+            <button mat-raised-button color="primary" [routerLink]="'/auth/login'">Back to Sigin</button>
+           </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+ </div>

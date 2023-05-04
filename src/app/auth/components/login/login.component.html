@@ -7,9 +7,7 @@
           <img width="60px" src="assets/images/illustrations/breaking_barriers.svg" alt="" />
           <p class="font-weight-bold">Sign in to your account</p>
         </div>
-
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
-
         <form [formGroup]="loginForm" class="signup-form" fxLayout="column" (ngSubmit)="signInClicked()">
           <div formGroupName="user">
             <div class="">

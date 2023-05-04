@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserViewModel } from 'app/models/user-view-model';
 import { LoginService } from 'app/auth/service/login.service';
 import { BaseService } from 'app/common/services/base.service';
@@ -62,8 +62,16 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
           BaseService.baseMessages=this.messages;
 
           if(this.userViewModel.authToken !=null){
-            this.loginService.setAuthenticationToken(this.userViewModel);
-            this.router.navigate(['/dashboard']);
+            if(this.userViewModel.mappedAssociation?.length > 1){
+              const userModelJson  = JSON.stringify(this.userViewModel);
+              this.router.navigate(['/auth/selectMappedAssociation', this.userViewModel.encryptedId], 
+                              {queryParams: {"data":userModelJson}});
+            } else {
+              this.userViewModel.association = this.userViewModel.mappedAssociation[0];
+              this.loginService.setAuthenticationToken(this.userViewModel);
+              BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
+              this.router.navigate(['/dashboard']);
+            }
           }
       });
   }

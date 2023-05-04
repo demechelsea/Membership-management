@@ -214,3 +214,7 @@ html {
  .mat-option.mat-active:not(.mat-option-disabled) {
     background-color: #ccd2e5 !important;
  }
+
+ .mat-list-item-content:hover {
+    background-color: #ccd2e5;
+}

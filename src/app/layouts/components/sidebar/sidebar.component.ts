@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { NavigationService } from "../../../shared/services/navigation.service";
-import { ThemeService } from "../../../shared/services/theme.service";
-import { Subscription } from "rxjs";
-import { ILayoutConf, LayoutService } from "app/layouts/services/layout.service";
-import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ILayoutConf, LayoutService } from 'app/layouts/services/layout.service';
+import { AssociationModel } from 'app/models/association-model';
+import { Subscription } from 'rxjs';
+
+import { NavigationService } from '../../../shared/services/navigation.service';
+import { ThemeService } from '../../../shared/services/theme.service';
+import { LocalstorageService } from 'app/common/services/localstorage.service';
 
 @Component({
   selector: "app-sidebar-side",
@@ -15,13 +17,13 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   public iconTypeMenuTitle: string;
   private menuItemsSub: Subscription;
   public layoutConf: ILayoutConf;
+  public association:AssociationModel;
 
   constructor(
     private navService: NavigationService,
     public themeService: ThemeService,
-    private layout: LayoutService,
-    public jwtAuth: JwtAuthService
-  ) {}
+    private localStorageService: LocalstorageService,
+    private layout: LayoutService) {}
 
   ngOnInit() {
     this.iconTypeMenuTitle = this.navService.iconTypeMenuTitle;
@@ -33,13 +35,17 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
       ).length;
     });
     this.layoutConf = this.layout.layoutConf;
+    this.association = this.localStorageService.getAssociation();
   }
+
   ngAfterViewInit() {}
+
   ngOnDestroy() {
     if (this.menuItemsSub) {
       this.menuItemsSub.unsubscribe();
     }
   }
+
   toggleCollapse() {
     if (
       this.layoutConf.sidebarCompactToggle

@@ -84,12 +84,19 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled =false;
         if (this.userModel.authToken != null) {
-          this.loginService.setAuthenticationToken(this.userModel);
-          BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");;
+          if(this.userModel.mappedAssociation?.length > 1){
+            const userModelJson  = JSON.stringify(this.userModel);
+            this.router.navigate(['/auth/selectMappedAssociation', this.userModel.encryptedId], 
+                            {queryParams: {"data":userModelJson}});
 
-          let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
-          this.router.navigate([returnUrl || '/dashboard']);
-
+          } else {
+            this.userModel.association = this.userModel.mappedAssociation[0];
+            this.loginService.setAuthenticationToken(this.userModel);
+            BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
+            
+            let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+            this.router.navigate([returnUrl || '/dashboard']);
+          }
         } else if (this.userModel.encryptedRefId != null) {
           //this.userModel.encryptedRefId
           this.router.navigate(['/auth/verifyUser', this.userModel.encryptedRefId], {queryParams: this.userModel});
