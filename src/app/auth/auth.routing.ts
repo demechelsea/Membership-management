@@ -13,10 +13,12 @@ export const AuthRoutes: Routes = [
     children: [
       {path: "", redirectTo: 'login',pathMatch: 'full'},
       { path: "login", component: LoginComponent, data:{title:"Login"} },
+      { path: "login/:assocContextPath", component: LoginComponent, data:{title:"Login"} },
       { path: "signup", component: SignupComponent, data:{title:"Signup"}},
       { path: "verifyUser/:id", component: VerifyUserComponent , data:{title:"Account Verification"}},
       { path: "selectMappedAssociation/:id", component: SelectAssociationComponent , data:{title:"Select Association"}},
       { path: "forgotPassword", component: ResetPasswordComponent , data:{title:"Reset Passwrod"}},
+      { path: "forgotPassword/:assocContextPath", component: ResetPasswordComponent , data:{title:"Reset Passwrod"}},
       { path: "changePassword/:id", component: ChangePassowrdComponent, data:{title:"Change Passwrod"} },
     ]
   }

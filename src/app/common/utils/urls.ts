@@ -13,8 +13,8 @@ export class Urls {
      public static RESEND_OTP_PASSWORD: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/reSendOTPForPasswordChange";
      public static SECURITY_REFRESH_TOKEN: string = "/authenticate/refreshAuthToken";
 
-     public static CREATE_EMPLOYEE: string = Urls.baseAPIUrl + Urls.contextPath + "/employee/createEmployee";
-     public static EMPLOYEE_VIEW_ALL: string = Urls.baseAPIUrl + Urls.contextPath + "/employee/retrieveEmployees";
+     public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/association/retrieveAssoication";
+     
 
      public static MEMBERSHIP_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlans";
      public static MEMBERSHIP_NEW_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlansNew";

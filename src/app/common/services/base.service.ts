@@ -19,7 +19,6 @@ export class BaseService {
   }
   
   clearBaseMessages(){
-    console.log("Cleared messages IN BASE SERVICE");
     BaseService.baseMessages.messages =[];    
   }
 

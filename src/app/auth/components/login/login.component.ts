@@ -11,6 +11,7 @@ import { UserViewModel } from 'app/models/user-view-model';
 import { Subscription } from 'rxjs';
 
 import { LoginService } from '../../service/login.service';
+import { AssociationService } from 'app/auth/service/association.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
     private loginService: LoginService,
+    private associationService : AssociationService,
     private router: Router,
     private loader: AppLoaderService,
     private route: ActivatedRoute) {
@@ -39,6 +41,12 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
+    this.subscription = this.route.params.subscribe((params) => {
+      let assocContextPath = params["assocContextPath"];
+      this.associationService.retrieveAndStoreAssociationContext(assocContextPath);
+    });
+
     //if user is already logged in, navigate the user back to home page
     if (this.loginService != null && this.loginService.isLoggedIn()) {
       this.router.navigate(['/dashboard']);

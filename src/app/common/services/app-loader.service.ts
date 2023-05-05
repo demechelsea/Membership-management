@@ -30,7 +30,6 @@ export class AppLoaderService {
   }
 
   public setComponents(components: any) {
-    console.log("Setting components", components);
     this.component = components;
   }
 

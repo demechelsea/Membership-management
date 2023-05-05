@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AssociationService } from 'app/auth/service/association.service';
 import { LoginService } from 'app/auth/service/login.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { NotificationService } from 'app/common/services/notification.service';
@@ -26,6 +27,7 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
      private loginService: LoginService,
+     private associationService: AssociationService,
      private router: Router,
      private route: ActivatedRoute,
       private loader: AppLoaderService,
@@ -35,6 +37,12 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.subscription = this.route.params.subscribe((params) => {
+      let assocContextPath = params["assocContextPath"];
+      this.associationService.retrieveAndStoreAssociationContext(assocContextPath);
+    });
+
+
     this.resetFormGroup = this.formBuilder.group({
       userName: this.formBuilder.control('', [Validators.required, SoraxValidators.phoneEmail]),
     });
