@@ -18,7 +18,6 @@ export const AuthRoutes: Routes = [
       { path: "verifyUser/:id", component: VerifyUserComponent , data:{title:"Account Verification"}},
       { path: "selectMappedAssociation/:id", component: SelectAssociationComponent , data:{title:"Select Association"}},
       { path: "forgotPassword", component: ResetPasswordComponent , data:{title:"Reset Passwrod"}},
-      { path: "forgotPassword/:assocContextPath", component: ResetPasswordComponent , data:{title:"Reset Passwrod"}},
       { path: "changePassword/:id", component: ChangePassowrdComponent, data:{title:"Change Passwrod"} },
     ]
   }

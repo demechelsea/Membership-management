@@ -8,14 +8,12 @@ import { Observable, Observer } from 'rxjs';
 })
 export class LocalstorageService {
   loggedInUser: UserViewModel = new UserViewModel();
-  contextAssociation:AssociationModel =new AssociationModel();
   
   constructor() { }
 
     
   setContextAssociation(contextAssociation: AssociationModel) {
     let contextAssociationStr = JSON.stringify(contextAssociation);
-    this.loggedInUser = JSON.parse(contextAssociationStr);
     sessionStorage.contextAssociation = contextAssociationStr;
   }
   
@@ -46,10 +44,9 @@ export class LocalstorageService {
     return this.loggedInUser!.association;
   }
 
-  getContextAssociation() {
+  getContextAssociation():AssociationModel {
     let contextAssociationStr = sessionStorage.getItem("contextAssociation");;
-    this.contextAssociation = JSON.parse(contextAssociationStr);
-    return this.contextAssociation;
+    return JSON.parse(contextAssociationStr);;
   }
 
 

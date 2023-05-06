@@ -5,7 +5,7 @@ import { LookupService } from 'app/common/services/lookup.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import LableValueModel from 'app/models/lable-value-model';
 import MemershipPlanModel from 'app/models/membership-plan-model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-membership-plan-popup',
@@ -14,7 +14,7 @@ import { Observable, Subscription } from 'rxjs';
 export class MembershipPlanPopupComponent extends BaseComponent implements OnInit {
   intervaloptionsKey:string = LookupService.MEMBERSHIP_INTERVALS;
   
-  subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
   public membershipPlanForm: FormGroup;
   public intervals: LableValueModel[]=[];
   public isLoading:boolean;
@@ -67,8 +67,8 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
   }
 
   ngOnDestroy() {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
+  
 }

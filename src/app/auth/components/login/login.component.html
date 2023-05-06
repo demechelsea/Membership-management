@@ -5,7 +5,7 @@
       <mat-card-content>
         <div class="text-center pt-8 pb-16">
           <img width="60px" src="assets/images/illustrations/breaking_barriers.svg" alt="" />
-          <p class="font-weight-bold">Sign in to your account</p>
+          <p class="font-weight-bold">Sign in to your {{contextAssociation.name}} account</p>
         </div>
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
         <form [formGroup]="loginForm" class="signup-form" fxLayout="column" (ngSubmit)="signInClicked()">
@@ -21,20 +21,17 @@
                 <input matInput formControlName="password" type="password" name="password" placeholder="*******">
               </sorax-form-field>
             </div>
-
             <div class="pb-16">
               <mat-checkbox formControlName="agreed">
                 I agree with terms and condtions</mat-checkbox>
             </div>
-
-
           </div>
-          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="loginForm.invalid">Sign in</button>
-          <div class="text-center pt-18">
-            <a class="mat-primary text-left full-width" [routerLink]="'/auth/forgotPassword'">Forgot
-              password</a>
+          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="pageLoaded && loginForm.invalid">Sign in</button>
+          <div class="text-center pt-18" >
+            <a *ngIf="!contextAssociation.name" [routerLink]="'/auth/signup'" class="mat-primary text-left full-width">Create a new account</a>
+            <a *ngIf="contextAssociation.setting?.publicRegistrationFlg =='Y'" [routerLink]="'/auth/signup'" class="mat-primary text-left full-width">Member Registration</a>
             <span fxFlex></span>
-            <a [routerLink]="'/auth/signup'" class="mat-primary text-right full-width">Create a new account</a>
+            <a class="mat-primary text-right full-width" [routerLink]="'/auth/forgotPassword'">Forgot password</a>
           </div>
         </form>
       </mat-card-content>

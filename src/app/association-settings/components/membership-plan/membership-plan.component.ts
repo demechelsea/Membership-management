@@ -11,7 +11,7 @@ import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import MemershipPlanModel from 'app/models/membership-plan-model';
 import { ResultViewModel } from 'app/models/result-view-model';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { MembershipPlanPopupComponent } from './membership-popup/membership-plan-popup.component';
 
@@ -25,7 +25,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   public membershipPlanData: any;
   public membershipColumns: SoraxColumnDefinition[];
 
-  public subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
@@ -49,14 +49,14 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
    //  this.dataSource.sort = this.sort;
   }
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe()
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 
   getPageResults() {
     this.loader.open();
-    this.subscription = this.membershipPlanService.getItems(this.page)
+    this.membershipPlanService.getItems(this.page)
+    .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
         Object.assign(this.resultViewModel, response);
         this.listPlans =this.resultViewModel.result;

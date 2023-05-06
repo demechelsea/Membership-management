@@ -7,6 +7,7 @@ import { BaseService } from 'app/common/services/base.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { AssociationModel } from 'app/models/association-model';
 import { UserViewModel } from 'app/models/user-view-model';
+import { Subject, takeUntil } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 
@@ -18,8 +19,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class SelectAssociationComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
 
-  subscription: Subscription;
-  userViewModel: UserViewModel = new UserViewModel();
+  private ngUnsubscribe$ = new Subject<void>();
+userViewModel: UserViewModel = new UserViewModel();
 
   constructor( private formBuilder: FormBuilder
               , private loginService:LoginService
@@ -29,18 +30,14 @@ export class SelectAssociationComponent extends BaseComponent implements OnInit,
       }
 
   ngOnInit(): void {
-    this.subscription = this.activatedRoute.params.subscribe((params) => {
-      let pid = params["id"];
-    });
+     this.activatedRoute.params
+    .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((params) => {
+        let pid = params["id"];
+      });
     
     const userViewModelJson = this.activatedRoute.snapshot.queryParams["data"];
     this.userViewModel = JSON.parse(userViewModelJson);
-  }
-
-
-
-  ngOnDestroy(): void {
-
   }
 
   selectAssociation(assoication: AssociationModel){
@@ -50,6 +47,11 @@ export class SelectAssociationComponent extends BaseComponent implements OnInit,
     BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
     let returnUrl = this.activatedRoute.snapshot.queryParamMap.get("returnUrl");
     this.router.navigate([returnUrl || '/dashboard']);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
  
 }

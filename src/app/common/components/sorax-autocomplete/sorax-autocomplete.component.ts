@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
-import { map, Observable, startWith, Subscription } from 'rxjs';
+import { map, Observable, startWith, Subject, Subscription, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class SoraxAutocompleteComponent implements OnInit {
     = new EventEmitter<LableValueModel>();
 
   @Input() displayFn: (option: any) => string;
-  subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
 
   filteredOptions: Observable<LableValueModel[]>;
   options: LableValueModel[];
@@ -53,7 +53,9 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   private initilizeFilteredOptions(value: string) {
-    this.subscription = this.lookupService.retrieveOptions(this.lookupName, value).subscribe(data => {
+    this.lookupService.retrieveOptions(this.lookupName, value)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(data => {
       this.options = data.result;
 
       this.filteredOptions = this.autoCompleteFieldLabel.valueChanges
@@ -107,9 +109,8 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }
 

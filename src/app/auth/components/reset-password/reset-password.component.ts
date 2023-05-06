@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AssociationService } from 'app/auth/service/association.service';
 import { LoginService } from 'app/auth/service/login.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,14 +19,13 @@ import { Subscription } from 'rxjs';
 export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
   @ViewChild(MatButton) submitButton: MatButton;
-  subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
 
   resetFormGroup: FormGroup;
   resetPasswordModel: ResetPasswordModel = new ResetPasswordModel();
 
   constructor(private formBuilder: FormBuilder,
      private loginService: LoginService,
-     private associationService: AssociationService,
      private router: Router,
      private route: ActivatedRoute,
       private loader: AppLoaderService,
@@ -37,11 +35,6 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.route.params.subscribe((params) => {
-      let assocContextPath = params["assocContextPath"];
-      this.associationService.retrieveAndStoreAssociationContext(assocContextPath);
-    });
-
 
     this.resetFormGroup = this.formBuilder.group({
       userName: this.formBuilder.control('', [Validators.required, SoraxValidators.phoneEmail]),
@@ -58,7 +51,9 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
 
-    this.subscription = this.loginService.sendOtpForResetPassword(resetPasswordReqModel).subscribe(
+    this.loginService.sendOtpForResetPassword(resetPasswordReqModel)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
       (response) => {
         Object.assign(this.resetPasswordModel, response['result']);
         this.progressBar.mode = 'determinate';
@@ -76,9 +71,9 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
 
 
   ngOnDestroy(): void {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
+
     this.loader.close();
   }
 

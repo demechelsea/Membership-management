@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { UserViewModel } from 'app/models/user-view-model';
 import { LoginService } from 'app/auth/service/login.service';
@@ -18,7 +18,7 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
   @ViewChild(MatButton) submitButton: MatButton;
 
-  subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
   signUpForm: FormGroup;
 
   userViewModel: UserViewModel = new UserViewModel();
@@ -70,7 +70,9 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
     this.submitButton.disabled = true;
 
     let userViewModelReqModel = this.signUpForm.value.user as UserViewModel;
-    this.subscription = this.loginService.signupNewUser(userViewModelReqModel).subscribe(
+    this.loginService.signupNewUser(userViewModelReqModel)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
       (response) => {
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled = false;
@@ -85,10 +87,10 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
+  
 
 
 }

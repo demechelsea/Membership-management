@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserViewModel } from 'app/models/user-view-model';
 import { LoginService } from 'app/auth/service/login.service';
 import { BaseService } from 'app/common/services/base.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { UserViewModel } from 'app/models/user-view-model';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
   styleUrls: ['./verify-user.component.scss']
 })
 export class VerifyUserComponent extends BaseComponent implements OnInit, OnDestroy {
-  subscription: Subscription ;
+  private ngUnsubscribe$ = new Subject<void>();
 
   verifyForm: FormGroup;
   resetPasswordModel: ResetPasswordModel = new ResetPasswordModel();
@@ -31,7 +31,9 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
    }
   
   ngOnInit(): void {
-    this.subscription = this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe((params) => {
       let pid = params["id"];
       this.resetPasswordModel.encryptedRefId = pid;
     });
@@ -51,7 +53,9 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
     resetPasswordReqModel.encryptedId = this.userViewModelAsParam.encryptedId;
     resetPasswordReqModel.encryptedRefId= this.resetPasswordModel.encryptedRefId;
 
-   this.subscription = this.loginService.verifyUser(resetPasswordReqModel).subscribe(
+    this.loginService.verifyUser(resetPasswordReqModel)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
       (response) => {
           Object.assign(this.resetPasswordModel, response['result']);
           //setting the messages 
@@ -81,18 +85,18 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
     let resetPasswordReqModel = this.verifyForm.value as ResetPasswordModel;
     resetPasswordReqModel.encryptedRefId= this.resetPasswordModel.encryptedRefId;
 
-    this.subscription = this.loginService.resendOTP(resetPasswordReqModel).subscribe(
+     this.loginService.resendOTP(resetPasswordReqModel)
+     .pipe(takeUntil(this.ngUnsubscribe$))
+     .subscribe(
       (response) => {
         Object.assign(this.resetPasswordModel, response);
         //setting the messages 
         Object.assign(this.messages, response);
       });
   }
-
-  ngOnDestroy(): void {
-    if(this.subscription!=null){
-      this.subscription.unsubscribe();
-    }
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 
 

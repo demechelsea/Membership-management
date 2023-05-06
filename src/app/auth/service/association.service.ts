@@ -12,38 +12,19 @@ import { Observable, Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class AssociationService extends HttpAppDataService {
-  public messages:MessageWrapModel = new MessageWrapModel();
-  subscription: Subscription;
-  
-  constructor(httpClient: HttpClient, private localStorageService: LocalstorageService) {
+
+  constructor(httpClient: HttpClient) {
     super(httpClient);
   }
 
-  public retrieveAndStoreAssociationContext(assocContextPath:string){
-    if(assocContextPath !=null && assocContextPath != 'undefined'){
-      let keyValueModelMap = [];
-    let contextPathParam: LableValueModel = new LableValueModel();
-    contextPathParam.id = "assocContextPath";
-    contextPathParam.name = assocContextPath;
-    keyValueModelMap.push(contextPathParam);
-    this.subscription = this.postData(Urls.FETCH_ASSOC_BY_CONTEXTPATH, keyValueModelMap).subscribe(
-      (response) => {
-        //setting the messages 
-        Object.assign(this.messages, response);
-        if(this.messages.isSuccess){
-          let associatioModel:AssociationModel = new AssociationModel();
-          Object.assign(associatioModel, response['result']);
-          this.localStorageService.setContextAssociation(associatioModel);
-        }
-      });
+  public retrieveAssociationByContextPath(assocContextPath: string): Observable<AssociationModel> {
+    let associatioModel: AssociationModel = new AssociationModel();
+    associatioModel.soceityRaxUrl = assocContextPath;
+    return this.postData(Urls.FETCH_ASSOC_BY_CONTEXTPATH, associatioModel);
 
-    }
-    
   }
 
   ngOnDestroy() {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
-    }
+   
   }
 }

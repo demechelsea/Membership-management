@@ -17,6 +17,16 @@ export class BaseService {
     messageWrapModel.messages = [messageViewModel];
     return messageWrapModel;
   }
+
+  createErrorMessage(message: string): MessageWrapModel {
+  let messageWrapModel = new MessageWrapModel();
+      let messageViewModel = new MessageViewModel();
+      messageViewModel.type = "BUSINESS_ERROR";
+      messageViewModel.message = message;
+    messageWrapModel.businessErrors = true;
+    messageWrapModel.messages = [messageViewModel];
+    return messageWrapModel;
+  }
   
   clearBaseMessages(){
     BaseService.baseMessages.messages =[];    

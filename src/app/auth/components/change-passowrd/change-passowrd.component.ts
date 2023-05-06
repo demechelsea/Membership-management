@@ -6,7 +6,7 @@ import { NotificationService } from 'app/common/services/notification.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { LoginService } from '../../service/login.service';
 import { MatButton } from '@angular/material/button';
@@ -21,7 +21,8 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
   @ViewChild(MatButton) submitButton: MatButton;
 
-  subscription: Subscription;
+  private ngUnsubscribe$ = new Subject<void>();
+
 
   resetFormGroup: FormGroup;
   resetPasswordModel: ResetPasswordModel = new ResetPasswordModel();
@@ -38,7 +39,9 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.subscription = this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe((params) => {
       let pid = params["id"];
       this.resetPasswordModel.encryptedRefId = pid;
     });
@@ -72,7 +75,9 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
     resetPasswordReqModel.encryptedRefId = this.resetPasswordModel.encryptedRefId;
 
-    this.subscription = this.loginService.changePassword(resetPasswordReqModel).subscribe(
+    this.loginService.changePassword(resetPasswordReqModel)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
       (response) => {
         this.progressBar.mode = 'determinate';
         this.submitButton.disabled =false;
@@ -94,7 +99,9 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
     resetPasswordReqModel.encryptedId = this.resetPasswordModel.encryptedId;
 
-    this.subscription = this.loginService.resendOTP(resetPasswordReqModel).subscribe(
+    this.loginService.resendOTP(resetPasswordReqModel)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
       (response) => {
         this.progressBar.mode = 'indeterminate';
         this.submitButton.disabled =true;
@@ -106,9 +113,8 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
 
  
   ngOnDestroy(): void {
-    if (this.subscription != null) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
 
     this.loader.close();
   }

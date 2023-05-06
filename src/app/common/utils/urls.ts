@@ -12,8 +12,7 @@ export class Urls {
      public static SEND_OTP_PASSWORD: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/sendOTPForPasswordChange";
      public static RESEND_OTP_PASSWORD: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/reSendOTPForPasswordChange";
      public static SECURITY_REFRESH_TOKEN: string = "/authenticate/refreshAuthToken";
-
-     public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/association/retrieveAssoication";
+     public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/retrieveAssoication";
      
 
      public static MEMBERSHIP_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlans";
