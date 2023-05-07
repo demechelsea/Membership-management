@@ -5,9 +5,11 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'app/auth/service/login.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { LocalstorageService } from 'app/common/services/localstorage.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
+import { AssociationModel } from 'app/models/association-model';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
@@ -19,6 +21,9 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
   @ViewChild(MatButton) submitButton: MatButton;
+
+  contextAssociation: AssociationModel = new AssociationModel();
+  
   private ngUnsubscribe$ = new Subject<void>();
 
   resetFormGroup: FormGroup;
@@ -29,7 +34,8 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
      private router: Router,
      private route: ActivatedRoute,
       private loader: AppLoaderService,
-     private notificationService: NotificationService
+      private localStorageService: LocalstorageService,
+      private notificationService: NotificationService
   ) {
     super();
   }
@@ -39,6 +45,7 @@ export class ResetPasswordComponent  extends BaseComponent implements OnInit {
     this.resetFormGroup = this.formBuilder.group({
       userName: this.formBuilder.control('', [Validators.required, SoraxValidators.phoneEmail]),
     });
+    this.contextAssociation = this.localStorageService.getContextAssociation();
   }
 
   ngAfterViewInit() {

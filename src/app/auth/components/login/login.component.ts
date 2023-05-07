@@ -14,8 +14,6 @@ import { UserViewModel } from 'app/models/user-view-model';
 import { Subject, takeUntil } from 'rxjs';
 
 import { LoginService } from '../../service/login.service';
-import { notNull } from 'app/common/utils/string-utils';
-import { plainToClass } from 'class-transformer';
 
 
 
@@ -77,35 +75,11 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   private initilizeAssociationContext() {
     this.route.params.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((params) => {
       let assocContextPath = params["assocContextPath"];
-      if (notNull(assocContextPath)) {
-        this.associationService.retrieveAssociationByContextPath(assocContextPath)
-          .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe(
-            (response) => {
-              Object.assign(this.messages, response);
-              this.pageLoaded = true;
-              if (this.messages.isSuccess()) {
-                this.contextAssociation = plainToClass(AssociationModel, response['result']);
-                this.localStorageService.setContextAssociation(this.contextAssociation);
-              }else{
-                this.resetContextAssociation();
-              }
-            });
-      } else {
+      this.associationService.setAssociationContextToLocalStorage(assocContextPath).then((data) => {
+        this.contextAssociation = this.localStorageService.getContextAssociation();
         this.pageLoaded = true;
-        let storedContextAssoication = this.localStorageService.getContextAssociation();
-        if (storedContextAssoication != null) {
-          this.contextAssociation = storedContextAssoication;
-        } else{
-          this.resetContextAssociation();
-        }
-      }
+      });
     });
-  }
-
-  private resetContextAssociation() {
-    this.contextAssociation = new AssociationModel();
-    this.localStorageService.setContextAssociation(this.contextAssociation);
   }
 
   ngAfterViewInit() {

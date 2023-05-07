@@ -8,6 +8,7 @@ import { BaseService } from './base.service';
 import { Urls } from '../utils/urls';
 import { UserViewModel } from 'app/models/user-view-model';
 import { AssociationModel } from 'app/models/association-model';
+import { notNull } from '../utils/string-utils';
 
 
 
@@ -70,9 +71,10 @@ export class HttpAppDataService extends BaseService {
     keyValueModelMap.push(new LableValueModel('X-Auth-Access-client', 'SORAX_UI_ANGULAR'));
     keyValueModelMap.push(new LableValueModel('X-Header-Info', 'npm install ngx-device-detector --save after upgrade'));
     keyValueModelMap.push(new LableValueModel('X-User-Agent', navigator.userAgent));
-    if (this.isLoggedIn()) {
-      keyValueModelMap.push(new LableValueModel('X-Association-id', this.getAssociationId()));
+    if(notNull(this.getAssociationId())){
+       keyValueModelMap.push(new LableValueModel('X-Association-id', this.getAssociationId()));
     }
+   
     return keyValueModelMap;
   }
 
