@@ -12,5 +12,5 @@ export function notNull(object: any): boolean {
 }
 
 export function nullObj(object: any): boolean {
-  return object == null && object == 'undefined';
+  return object == null || object == 'undefined';
 }
