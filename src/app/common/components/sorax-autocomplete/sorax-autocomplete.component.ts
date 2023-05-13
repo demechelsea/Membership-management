@@ -30,7 +30,6 @@ export class SoraxAutocompleteComponent implements OnInit {
   constructor(public lookupService: LookupService) {
   }
 
-
   ngOnInit() {
     this.initilizeFilteredOptions('');
     this.addValidationRule();
@@ -49,7 +48,6 @@ export class SoraxAutocompleteComponent implements OnInit {
   public validateOnFocusOut(event: any) {
     this.resetInputControlValue();
     this.addValidationRule();
-
   }
 
   private initilizeFilteredOptions(value: string) {
@@ -63,11 +61,12 @@ export class SoraxAutocompleteComponent implements OnInit {
           startWith(''),
           map(value => {
             this.resetInputControlValue();
-            return this.filterOptionsByValue(value);
+            return this.filterOptionsByValue(value.toString());
           })
         );
       this.prepolulateAutoComplete();
-    });
+    }
+    );
   }
 
   private filterOptionsByValue(value: string): LableValueModel[] {

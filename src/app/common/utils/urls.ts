@@ -14,7 +14,7 @@ export class Urls {
      public static SECURITY_REFRESH_TOKEN: string = "/authenticate/refreshAuthToken";
      public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/retrieveAssoication";
      
-
+     public static COMMON_LOOKUP_SERVICE: string = Urls.baseAPIUrl + Urls.contextPath + "/common/lookupService";
      public static MEMBERSHIP_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlans";
      public static MEMBERSHIP_NEW_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlansNew";
 
@@ -22,7 +22,6 @@ export class Urls {
      public static MEMBERSHIP_PLAN_CREATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createMembershipPlan";
      public static MEMBERSHIP_PLAN_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateMembershipPlan";
 
-     public static COMMON_LOOKUP_SERVICE: string = Urls.baseAPIUrl + Urls.contextPath + "/common/lookupService";
 
      public static APPLICATIONS = [{name:"SOCIETYRAX_APP"}];
      
