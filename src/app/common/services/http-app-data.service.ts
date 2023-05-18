@@ -1,8 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AssociationModel } from 'app/models/association-model';
 import LableValueModel from 'app/models/lable-value-model';
-import { UserViewModel } from 'app/models/user-view-model';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -93,16 +91,6 @@ export class HttpAppDataService extends BaseService {
     return throwError(error);
   }
 
-  getAssociationId(): string {
-    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
-    if (authenticatedUserJsonString != null) {
-      let loggedInUser: UserViewModel = JSON.parse(authenticatedUserJsonString);
-      return loggedInUser.association!.encryptedId;
-    } else {
-      let contextAssociationStr = sessionStorage.getItem("contextAssociation");;
-      let contextAssociation: AssociationModel = JSON.parse(contextAssociationStr);;
-      return contextAssociation?.encryptedId;
-    }
-  }
+ 
 
 }
