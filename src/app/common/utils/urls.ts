@@ -21,6 +21,7 @@ export class Urls {
      public static MEMBERSHIP_PLAN_VIEW: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/viewMembershipPlan";
      public static MEMBERSHIP_PLAN_CREATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createMembershipPlan";
      public static MEMBERSHIP_PLAN_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateMembershipPlan";
+     public static MEMBERSHIP_PLAN_DELETE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteMembershipPlan";
 
 
      public static APPLICATIONS = [{name:"SOCIETYRAX_APP"}];

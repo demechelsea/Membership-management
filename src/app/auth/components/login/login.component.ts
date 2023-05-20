@@ -104,6 +104,8 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
           Object.assign(this.messages, response);
           this.progressBar.mode = 'determinate';
           this.submitButton.disabled = false;
+          this.userModel.authToken;
+       
           if (this.userModel.authToken != null) {
             if (this.contextAssociation?.soceityRaxUrl) {
               this.handleContextBasedLogin();
@@ -111,7 +113,26 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
               if (this.userModel.mappedAssociation?.length > 1) {
                 this.navigateToAssociationSelection();
               } else {
-                this.userModel.association = this.userModel.mappedAssociation[0];
+                this.userModel.association = {
+                  encryptedId: "qbEIlSnfW6ibZ+fLxhxnyg==",
+                  id: null,
+                  name : "Velama",
+                  place : "Hyd",
+                  setting: null,
+                  shortName:  null,
+                  soceityRaxUrl :  "ven134512",
+                  status:  "Unverified",
+                  website:  null,
+                  availableActions:["string[]"],
+                  performAction:"string",    
+                  exception: false, 
+                  businessErrors: false,
+                  validationErrors: false,
+                  successMessages: true,
+                  messages: null,
+                  societyRaxId:"Rt09iu",
+                isSuccess:null};
+                console.log(this.userModel)
                 this.navigateToDashboard();
               }
             }

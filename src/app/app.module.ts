@@ -16,7 +16,6 @@ import { InMemoryDataService } from './shared/inmemory-db/inmemory-db.service';
 import { AppRoutingModule, rootRouterConfig } from './app.routing';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
-
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -45,7 +44,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     BrowserAnimationsModule ,
     HttpClientModule,
-
     AppRoutingModule,
     SoraxCommonModule,
     SharedModule,

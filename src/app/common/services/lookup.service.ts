@@ -12,6 +12,8 @@ import { HttpAppDataService } from './http-app-data.service';
 })
 export class LookupService extends HttpAppDataService {
   public static MEMBERSHIP_INTERVALS: string = "membershipIntervalsLOCAL";
+  public static STATUS_OPTIONS: string = "statusOptionsLOCAL";
+
   public static COUNTRIES: string = "countries";
 
 
@@ -33,7 +35,9 @@ export class LookupService extends HttpAppDataService {
       case LookupService.MEMBERSHIP_INTERVALS:
         resultViewModelObj.result = this.getMemberShipIntervals();
         break;
-
+      case LookupService.STATUS_OPTIONS:
+        resultViewModelObj.result = this.getStatusOptions();
+        break;
     }
 
     const optionsResultViewModel$: Observable<ResultViewModel> = new Observable<ResultViewModel>((observer) => {
@@ -55,4 +59,14 @@ export class LookupService extends HttpAppDataService {
     ];
     return intervalOptions;
   }
+
+  private getStatusOptions(): LableValueModel[] {
+    let statusOptions: LableValueModel[] = [
+      { id: 'active', name: 'Active', localName: '', postCode: '', symbol: '' },
+      { id: 'inactive', name: 'Inactive', localName: '', postCode: '', symbol: '' },
+      { id: 'closed', name: 'Closed', localName: '', postCode: '', symbol: '' }
+    ];
+    return statusOptions;
+  }
+  
 }

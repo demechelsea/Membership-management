@@ -1,16 +1,30 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageModel } from 'app/models/page-model';
 import { SoraxColumnDefinition } from './sorax-column-definition';
+import MemershipPlanModel from 'app/models/membership-plan-model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'sorax-table-view',
   templateUrl: './sorax-table-view.component.html',
-  styleUrls: ['./sorax-table-view.component.scss']
+  styleUrls: ['./sorax-table-view.component.scss'],
+  animations: [
+    trigger('smoothFadeIn', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void => *', [
+        animate('1s ease-in')
+      ])
+    ])
+  ]
 })
 export class SoraxTableViewComponent implements OnInit {
+  currentRow: any;
+  tooltipText: string;
   public tableDataSource = new MatTableDataSource([]);
   public displayedColumns: string[];
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
@@ -21,7 +35,6 @@ export class SoraxTableViewComponent implements OnInit {
   @Input() isFilterable = false;
   @Input() tableColumns: SoraxColumnDefinition[];
   @Input() page: PageModel;
-
 
   @Output() sortEvent: EventEmitter<Sort> = new EventEmitter();
   @Output() pageEvent: EventEmitter<PageEvent> = new EventEmitter();
@@ -37,8 +50,8 @@ export class SoraxTableViewComponent implements OnInit {
   ngOnInit(): void {
     const columnNames = this.tableColumns.map((tableColumn: SoraxColumnDefinition) => tableColumn.dataKey);
       this.displayedColumns = columnNames;
-    
   }
+
 
   getCellClass(position: String) {
     return position == 'right' ? "header-align-right" : "header-align-left";
@@ -56,7 +69,7 @@ export class SoraxTableViewComponent implements OnInit {
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.matPaginator;
   }
-
+  
   setTableDataSource(data: any) {
     this.tableDataSource = new MatTableDataSource<any>(data);
     this.tableDataSource.paginator = this.matPaginator;
@@ -80,5 +93,45 @@ export class SoraxTableViewComponent implements OnInit {
     row.performAction =selectedAction;
     this.rowAction.emit(row);
   }
+
+  getTooltipText(row: any): string {
+    // Use the data in the row object to generate the text for the tooltip
+    return `Plan Name: ${row.planName}<br>
+    Description: ${row.description}<br>
+    Fee: ${row.fee}<br>
+    Interval: ${row.interval}<br>
+    Family Member Included: ${row.familyMemberIncluded}<br>
+    Auto Payment Reminder: ${row.autoPymtRemainder}<br>
+    Available for General Public: ${row.availableForGeneralPublic}<br>
+    Send Email Notification: ${row.sendEmailNotification}<br>
+    Benefits: ${row.benefits}<br>
+    Status: ${row.status}`;
+   }
+   
+
+  tooltipTop = 0;
+  tooltipLeft = 0;
+
+  updateTooltipPosition(event: MouseEvent, row: any) {
+    this.tooltipTop = event.clientY;
+    this.tooltipLeft = event.clientX + 20;
+    this.tooltipText = this.getTooltipText(row);
+}
+
+showToolstip = false;
+
+hideTooltip() {
+  this.tooltipText = '';
+  this.showToolstip = false;
+ }
+
+ showTooltip() {
+  this.showToolstip = true;
+ }
+ 
+
+
+ 
+
 
 }

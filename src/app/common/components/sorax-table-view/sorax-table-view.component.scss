@@ -3,5 +3,25 @@
     padding: 21px 0;
     justify-content: flex-end;
   }
-
+  .tooltip {
+    position: fixed;
+    background-color: #0c1e3f;    color: white;
+    padding: 10px 15px;
+    border-radius: 0 20px 20px 20px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    transition: opacity .2s ease-in-out;
+    opacity: 0;
+   }
+   
+   .tooltip.show {
+    opacity: 1;
+   }
+   
+  
+  .mat-header-cell {
+    font-weight: bold;
+    color: white;
+  }
+  
  

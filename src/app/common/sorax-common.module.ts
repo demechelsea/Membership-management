@@ -34,7 +34,6 @@ import { NumberOnlyDirective } from './directives/number-only.directive';
 import { ValidationDisplayDirective } from './directives/validation-display.directive';
 import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sorax-autocomplete.component';
 
-
 @NgModule({
   declarations: [
     TaskComponent,
@@ -50,7 +49,6 @@ import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sora
   ],
   imports: [
     CommonModule,
-          
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,

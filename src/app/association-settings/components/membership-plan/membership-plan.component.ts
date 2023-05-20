@@ -69,12 +69,11 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   openPopUp(data: MemershipPlanModel, isNew?:boolean) {
-    
     let title = isNew ? 'Add Membership Plan' : 'Update Membership Plan';
     let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
       width: '720px',
       disableClose: true,
-      data: { title: title, payload: data }
+      data: { title: title, payload: data, isNew: isNew }
     })
     dialogRef.afterClosed()
       .subscribe(res => {
@@ -129,50 +128,53 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
         position: 'left',
         isSortable: true,
         link: true,
+        clickEvent: (data) => {
+          this.openPopUp(data, false);
+        },
       },
       {
         name: 'Description',
         dataKey: 'description',
         position: 'left',
-        isSortable: true
+        isSortable: true,
       },
       {
         name: 'Membership Fee',
         dataKey: 'fee',
-        position: 'right',
-        isSortable: true
+        position: 'left',
+        isSortable: true,
       },
       {
         name: 'Status',
         dataKey: 'status',
         position: 'left',
-        isSortable: true
+        isSortable: true,
       },
       {
         name: 'Active Subscriptions',
         dataKey: 'activeSubscriptions',
         dataType:'Date',
-        position: 'right',
-        isSortable: false
+        position: 'left',
+        isSortable: false,
       },
       {
         name: 'Updated On',
         dataKey: 'updatedOn',
-        position: 'right',
+        position: 'left',
         isSortable: true,
         dataType:"Date",
       },
       {
         name: 'Updated By',
         dataKey: 'updateBy',
-        position: 'right',
-        isSortable: true
+        position: 'left',
+        isSortable: true,
       },
       {
         name: 'Actions',
         dataKey: 'action',
-        position: 'right',
-        isSortable: true
+        position: 'left',
+        isSortable: true,
       },
     ];
   }

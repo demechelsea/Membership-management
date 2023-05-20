@@ -14,7 +14,9 @@
             matSortDisableClear 
             [matSortActive]="page?.sortColumn" 
             [matSortDirection]="page?.sortDirection"
-            (matSortChange)="emitSortEvent($event)">
+            (matSortChange)="emitSortEvent($event)"
+            (mouseleave)="hideTooltip()"
+           >
 
   <ng-container  *ngFor="let tableColumn of tableColumns" 
                   [matColumnDef]="tableColumn.dataKey" >
@@ -46,7 +48,7 @@
         <mat-header-cell *matHeaderCellDef 
                             [arrowPosition]="'before'"  [ngClass]="getCellClass(tableColumn.position)"
                           mat-sort-header>{{tableColumn.name}}</mat-header-cell>
-        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)" > 
+        <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)" (click)="tableColumn.clickEvent && tableColumn.clickEvent(row)" (mousemove)="updateTooltipPosition($event, row)"> 
           <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
         </mat-cell>
       </ng-container>
@@ -55,12 +57,14 @@
         <mat-header-cell *matHeaderCellDef [ngClass]="getCellClass(tableColumn.position)">{{tableColumn.name}}</mat-header-cell>
         <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)">
           <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
+          <div *ngIf="tooltipText" class="tooltip" [ngStyle]="{top: tooltipTop + 'px', left: tooltipLeft + 'px'}" [innerHTML]="tooltipText" [class.show]="showTooltip"  [@smoothFadeIn]></div>
         </mat-cell>
       </ng-template>
   </ng-template> 
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (mouseover)="currentRow = row"></mat-row>
+
 </mat-table>
 
 <ng-template #itemText let-row="row" let-columnDef="columnDef" >

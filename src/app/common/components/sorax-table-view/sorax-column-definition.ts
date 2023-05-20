@@ -5,4 +5,5 @@
     position?: 'right' | 'left'; // should it be right-aligned or left-aligned?
     isSortable?: boolean; // can a column be sorted?
     dataType?:string;
+    clickEvent?: (data: any, boolean) => void;
   }

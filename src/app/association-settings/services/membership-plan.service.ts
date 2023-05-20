@@ -12,9 +12,12 @@ import { Observable } from 'rxjs';
 })
 export class MembershipPlanService extends HttpAppDataService {
 
-  items: any[];
+  private apiUrl = 'http://10.1.11.143:8081';
+  private http: HttpClient;
+
   constructor(httpClient: HttpClient) {
     super(httpClient);
+    this.http = httpClient;
   }
 
   getItems(page: PageModel): Observable<ResultViewModel> {
@@ -35,25 +38,16 @@ export class MembershipPlanService extends HttpAppDataService {
     return this.postData(Urls.MEMBERSHIP_NEW_PLAN_LIST, membershipPlanModel);
   }
 
-  addItem(item): Observable<any> {
-    // item._id = Math.round(Math.random() * 10000000000).toString();
-    // this.items.unshift(item);
-    // return of(this.items.slice()).pipe(delay(1000));
-    return null;
+  createPlan(plan: MemershipPlanModel): Observable<MemershipPlanModel> {
+    alert(plan)
+    return this.http.post<MemershipPlanModel>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_CREATE}`, plan);
   }
-  updateItem(id, item) {
-    // this.items = this.items.map(i => {
-    //   if(i._id === id) {
-    //     return Object.assign({}, i, item);
-    //   }
-    //   return i;
-    // })
-    // return of(this.items.slice()).pipe(delay(1000));
+  
+  updatePlan(id: string, plan: MemershipPlanModel): Observable<MemershipPlanModel> {
+    return this.http.put<MemershipPlanModel>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_UPDATE}/${id}`, plan);
   }
-  removeItem(row) {
-    // let i = this.items.indexOf(row);
-    // this.items.splice(i, 1);
-    // return of(this.items.slice()).pipe(delay(1000));
+  deletePlan(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_DELETE}/${id}`);
   }
 
   getDisplayedColumns() {
