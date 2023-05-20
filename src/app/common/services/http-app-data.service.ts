@@ -4,11 +4,8 @@ import LableValueModel from 'app/models/lable-value-model';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { BaseService } from './base.service';
 import { Urls } from '../utils/urls';
-import { UserViewModel } from 'app/models/user-view-model';
-import { AssociationModel } from 'app/models/association-model';
-import { notNull } from '../utils/string-utils';
+import { BaseService } from './base.service';
 
 
 
@@ -49,10 +46,9 @@ export class HttpAppDataService extends BaseService {
   }
 
   prepareCustomHeaders(keyValueMap?: LableValueModel[]): HttpHeaders {
-    let keyValueModelMap = this.getDefaultCustomHeaders();
+    let keyValueModelMap = [];
 
     if (keyValueMap != null && keyValueMap != undefined) {
-
       keyValueModelMap = keyValueModelMap.concat(keyValueMap);
     }
 
@@ -66,17 +62,7 @@ export class HttpAppDataService extends BaseService {
     return httpHeaders;
   }
 
-  private getDefaultCustomHeaders() {
-    const keyValueModelMap = [];
-    keyValueModelMap.push(new LableValueModel('X-Auth-Access-client', 'SORAX_UI_ANGULAR'));
-    keyValueModelMap.push(new LableValueModel('X-Header-Info', 'npm install ngx-device-detector --save after upgrade'));
-    keyValueModelMap.push(new LableValueModel('X-User-Agent', navigator.userAgent));
-    if(notNull(this.getAssociationId())){
-       keyValueModelMap.push(new LableValueModel('X-Association-id', this.getAssociationId()));
-    }
-   
-    return keyValueModelMap;
-  }
+  
 
   deleteData(deleteUrl: string, inputParams?: any): Observable<any> {
     return this.httpClient.delete<any>(deleteUrl, { headers: this.prepareCustomHeaders(), responseType: "json", params: inputParams })
@@ -105,24 +91,6 @@ export class HttpAppDataService extends BaseService {
     return throwError(error);
   }
 
-  getAssociationId(): string {
-    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
-    if (authenticatedUserJsonString != null) {
-      let loggedInUser: UserViewModel = JSON.parse(authenticatedUserJsonString);
-      return loggedInUser.association!.encryptedId;
-    } else {
-      let contextAssociationStr = sessionStorage.getItem("contextAssociation");;
-      let contextAssociation: AssociationModel = JSON.parse(contextAssociationStr);;
-      return contextAssociation?.encryptedId;
-    }
-  }
+ 
 
-  isLoggedIn(): boolean {
-    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
-    if (authenticatedUserJsonString != null) {
-      let loggedInUser: UserViewModel = JSON.parse(authenticatedUserJsonString);
-      return (loggedInUser != null && loggedInUser.authToken != null);
-    }
-    return false;
-  }
 }

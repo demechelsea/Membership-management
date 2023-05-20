@@ -20,7 +20,6 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorHandlerService } from './shared/services/error-handler.service';
-import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { SoraxCommonModule } from './common/sorax-common.module';
 import { StoreModule } from '@ngrx/store';
@@ -66,15 +65,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [AppComponent],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    // { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     {provide:HTTP_INTERCEPTORS, useClass:SoraxHttpInterceptorService, multi: true},
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    // REQUIRED IF YOU USE JWT AUTHENTICATION
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
+    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
   ],
   bootstrap: [AppComponent]
 })
