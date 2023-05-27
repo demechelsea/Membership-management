@@ -49,7 +49,7 @@ export class SoraxTableViewComponent implements OnInit {
 
   ngOnInit(): void {
     const columnNames = this.tableColumns.map((tableColumn: SoraxColumnDefinition) => tableColumn.dataKey);
-      this.displayedColumns = columnNames;
+    this.displayedColumns = columnNames;
   }
 
 
@@ -59,17 +59,19 @@ export class SoraxTableViewComponent implements OnInit {
 
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
     if (columnDefs.dataType == "Date") {
-      return "formatedText";
+      return rowData[columnDefs.dataKey];
     }
     return rowData[columnDefs.dataKey];
+}
 
-  }
+
+  
 
   // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.matPaginator;
   }
-  
+
   setTableDataSource(data: any) {
     this.tableDataSource = new MatTableDataSource<any>(data);
     this.tableDataSource.paginator = this.matPaginator;
@@ -89,8 +91,8 @@ export class SoraxTableViewComponent implements OnInit {
     this.pageEvent.emit(pageEvent);
   }
 
-  emitRowAction(row: any, selectedAction:String) {
-    row.performAction =selectedAction;
+  emitRowAction(row: any, selectedAction: String) {
+    row.performAction = selectedAction;
     this.rowAction.emit(row);
   }
 
@@ -100,14 +102,12 @@ export class SoraxTableViewComponent implements OnInit {
     Description: ${row.description}<br>
     Fee: ${row.fee}<br>
     Interval: ${row.interval}<br>
-    Family Member Included: ${row.familyMemberIncluded}<br>
-    Auto Payment Reminder: ${row.autoPymtRemainder}<br>
-    Available for General Public: ${row.availableForGeneralPublic}<br>
-    Send Email Notification: ${row.sendEmailNotification}<br>
-    Benefits: ${row.benefits}<br>
-    Status: ${row.status}`;
-   }
-   
+    Status: ${row.status};<br>
+    Active subscription: ${row.activeSubscriptions};<br>
+    UpdatedOn: ${row.modifiedTimestamp};<br>
+    UpdatedBy: ${row.modifiedUser}`;
+  }
+
 
   tooltipTop = 0;
   tooltipLeft = 0;
@@ -116,22 +116,22 @@ export class SoraxTableViewComponent implements OnInit {
     this.tooltipTop = event.clientY;
     this.tooltipLeft = event.clientX + 20;
     this.tooltipText = this.getTooltipText(row);
-}
+  }
 
-showToolstip = false;
+  showToolstip = false;
 
-hideTooltip() {
-  this.tooltipText = '';
-  this.showToolstip = false;
- }
+  hideTooltip() {
+    this.tooltipText = '';
+    this.showToolstip = false;
+  }
 
- showTooltip() {
-  this.showToolstip = true;
- }
- 
+  showTooltip() {
+    this.showToolstip = true;
+  }
 
 
- 
+
+
 
 
 }

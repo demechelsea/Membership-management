@@ -29,6 +29,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
+  
 
   constructor(
     private dialog: MatDialog,
@@ -81,22 +82,8 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
           // If user press cancel
           return;
         }
-        
+        this.getPageResults();
       })
-  }
-  deleteItem(row) {
-    // this.confirmService.confirm({ message: `Delete ${row.name}?` })
-    //   .subscribe(res => {
-    //     if (res) {
-    //       this.loader.open('Deleting Customer');
-    //       this.membershipPlanService.removeItem(row)
-    //         .subscribe(data => {
-    //           this.dataSource = data;
-    //           this.loader.close();
-    //           this.notificationService.showSuccess('Customer deleted!');
-    //         })
-    //     }
-    //   })
   }
   executeRowActions(rowData:MemershipPlanModel){
     console.log("Perform actions:::",rowData.performAction);
@@ -145,6 +132,12 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
         isSortable: true,
       },
       {
+        name: 'Renewal Interval',
+        dataKey: 'interval',
+        position: 'left',
+        isSortable: true,
+      },
+      {
         name: 'Status',
         dataKey: 'status',
         position: 'left',
@@ -159,20 +152,14 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
       },
       {
         name: 'Updated On',
-        dataKey: 'updatedOn',
+        dataKey: 'modifiedTimestamp',
         position: 'left',
         isSortable: true,
         dataType:"Date",
       },
       {
         name: 'Updated By',
-        dataKey: 'updateBy',
-        position: 'left',
-        isSortable: true,
-      },
-      {
-        name: 'Actions',
-        dataKey: 'action',
+        dataKey: 'modifiedUser',
         position: 'left',
         isSortable: true,
       },

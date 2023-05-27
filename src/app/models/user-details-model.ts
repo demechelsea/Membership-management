@@ -11,5 +11,4 @@ export class UserDetailsModel extends MessageWrapModel {
     dateofBirth: string;
     gender: string;
     maritalStatus: string;
-
 }

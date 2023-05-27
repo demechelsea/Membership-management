@@ -62,9 +62,9 @@ export class LookupService extends HttpAppDataService {
 
   private getStatusOptions(): LableValueModel[] {
     let statusOptions: LableValueModel[] = [
-      { id: 'active', name: 'Active', localName: '', postCode: '', symbol: '' },
-      { id: 'inactive', name: 'Inactive', localName: '', postCode: '', symbol: '' },
-      { id: 'closed', name: 'Closed', localName: '', postCode: '', symbol: '' }
+      { id: 'activeID', name: 'Active', localName: '', postCode: '', symbol: '' },
+      { id: 'inactiveID', name: 'Inactive', localName: '', postCode: '', symbol: '' },
+      { id: 'closedID', name: 'Closed', localName: '', postCode: '', symbol: '' }
     ];
     return statusOptions;
   }

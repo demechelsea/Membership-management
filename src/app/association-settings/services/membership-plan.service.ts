@@ -2,17 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
+import { AssociationModel } from 'app/models/association-model';
 import MemershipPlanModel from 'app/models/membership-plan-model';
+import MembershipPlanDTO from 'app/models/membership-plan-DTO';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MembershipPlanService extends HttpAppDataService {
 
-  private apiUrl = 'http://10.1.11.143:8081';
   private http: HttpClient;
 
   constructor(httpClient: HttpClient) {
@@ -21,7 +23,7 @@ export class MembershipPlanService extends HttpAppDataService {
   }
 
   getItems(page: PageModel): Observable<ResultViewModel> {
-    console.log("PageInfo:::" + page)
+
     let membershipPlanModel = new MemershipPlanModel();
     if (page != null) {
       membershipPlanModel.page = page;
@@ -30,7 +32,6 @@ export class MembershipPlanService extends HttpAppDataService {
   }
 
   getNewItems(page: PageModel): Observable<ResultViewModel> {
-    console.log("PageInfo:::" + page)
     let membershipPlanModel = new MemershipPlanModel();
     if (page != null) {
       membershipPlanModel.page = page;
@@ -38,19 +39,12 @@ export class MembershipPlanService extends HttpAppDataService {
     return this.postData(Urls.MEMBERSHIP_NEW_PLAN_LIST, membershipPlanModel);
   }
 
-  createPlan(plan: MemershipPlanModel): Observable<MemershipPlanModel> {
-    alert(plan)
-    return this.http.post<MemershipPlanModel>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_CREATE}`, plan);
+  createPlan(plan: MembershipPlanDTO): Observable<MemershipPlanModel> {
+    return this.postData(Urls.MEMBERSHIP_PLAN_CREATE, plan);
   }
   
-  updatePlan(id: string, plan: MemershipPlanModel): Observable<MemershipPlanModel> {
-    return this.http.put<MemershipPlanModel>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_UPDATE}/${id}`, plan);
-  }
-  deletePlan(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${Urls.MEMBERSHIP_PLAN_DELETE}/${id}`);
+  updatePlan(id: number, plan: MemershipPlanModel): Observable<MemershipPlanModel> {
+    return this.postData(Urls.MEMBERSHIP_PLAN_UPDATE, plan);
   }
 
-  getDisplayedColumns() {
-    return ['membershipPlanName', 'description', 'membershipFee', 'status', 'activeSubscriptions', 'updatedOn', 'updatedBy', 'actions'];
-  }
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
@@ -42,7 +42,9 @@ export class SoraxAutocompleteComponent implements OnInit {
   public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     const selectedOption = this.options.find(option => option.id === event.option.value);
     this.selectedOptionEmitter.emit(selectedOption);
-    this.setAutoControlIdLabel(selectedOption)
+    this.setAutoControlIdLabel(selectedOption);
+
+
   }
 
   public validateOnFocusOut(event: any) {

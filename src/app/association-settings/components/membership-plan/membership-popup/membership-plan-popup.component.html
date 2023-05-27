@@ -9,7 +9,6 @@
   </mat-toolbar>
   <div style="height:500px" mat-dialog-content class="p-16 m-0">
     <form [formGroup]="membershipPlanForm" class="membershipPlanForm" fxLayout="column" (ngSubmit)="submit(membershipPlanForm.value)">
-
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div fxLayout="row wrap" fxLayout.lt-sm="column">
         <div fxFlex="100">
@@ -32,36 +31,41 @@
         </div>
         <div fxFlex="100">
           <sorax-autocomplete [lookupName]="intervaloptionsKey" placeholder="Interval"
-            [autoCompleteFieldId]="membershipPlanForm.controls['interval']"
-            [autoCompleteFieldLabel]="membershipPlanForm.controls['intervalAutoLabel']"
-            (selectedOptionEmitter)="onSelectedOption($event)">
+            [autoCompleteFieldLabel]="membershipPlanForm.controls['interval']"
+            (selectedOptionEmitter)="onSelectedIntervalOption($event)">
           </sorax-autocomplete>
-        </div>
-        <div fxFlex="100" class="padround8">
-          <mat-slide-toggle [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic payment
-            remainder</mat-slide-toggle>
+          
         </div>
         <div fxFlex="100">
+          <div fxFlex="100" class="padround8">
+            <mat-slide-toggle [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic payment
+              remainder</mat-slide-toggle>
+          </div>
+          
           <div fxFlex="100" class="padround8">
             <mat-slide-toggle [formControl]="membershipPlanForm.controls['familyMemberIncluded']">Family members
               included</mat-slide-toggle>
           </div>
+        </div>
+        <div fxFlex="100">
           <div fxFlex="100" class="padround8">
             <mat-slide-toggle [formControl]="membershipPlanForm.controls['autoApproveApplicants']">Auto approve
               applicants</mat-slide-toggle>
           </div>
-        </div>
-        <div fxFlex="100">
           <div fxFlex="100" class="padround8">
             <mat-slide-toggle [formControl]="membershipPlanForm.controls['availableForGeneralPublic']">Can general
               public
               choose</mat-slide-toggle>
           </div>
-          <div fxFlex="100" class="padround8">
+        </div>
+          <div fxFlex="100" class="padround8" *ngIf="data.isNew">
             <mat-slide-toggle [formControl]="membershipPlanForm.controls['sendEmailNotification']">Send Email
               notification to all Subscribers</mat-slide-toggle>
           </div>
-        </div>
+          <div fxFlex="100" class="padround8" *ngIf="!data.isNew">
+            <mat-slide-toggle [formControl]="membershipPlanForm.controls['notifySubscribers']">Notify Subscribers for this plan</mat-slide-toggle>
+          </div>
+        
         <div fxFlex="100">
           <sorax-form-field label="Benfits" [soraxFormControl]="membershipPlanForm.get('benefits')">
             <textarea matInput formControlName="benefits" type="text" placeholder="Benfits" max-rows="4">
@@ -70,28 +74,15 @@
         </div>
         <div fxFlex="100" *ngIf="!data.isNew">
           <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
-            [autoCompleteFieldId]="membershipPlanForm.controls['status']"
-            [autoCompleteFieldLabel]="membershipPlanForm.controls['statusAutoLabel']"
+            [autoCompleteFieldLabel]="membershipPlanForm.controls['status']"
             (selectedOptionEmitter)="onSelectedStatusOption($event)">
           </sorax-autocomplete>
-        </div>
-        <div fxFlex="100" *ngIf="!data.isNew">
-          <sorax-form-field label="Notify Subscribers for this plan"
-            [soraxFormControl]="membershipPlanForm.get('notifySubscribers')">
-            <input matInput formControlName="notifySubscribers" type="text" name="notifySubscribers"
-              placeholder="Notify Subscribers for this plan">
-          </sorax-form-field>
         </div>
       </div>
     </form>
   </div>
 
-  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="start center">
-    <div fxFlex>
-      <button *ngIf="!data.isNew" mat-icon-button color="warn" aria-label="Delete" matTooltip="Delete" (click)="deletePlan(data.payload.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end end">
     <button mat-raised-button color="primary" aria-label="Close" (click)="dialogRef.close()">
       Close
     </button>
