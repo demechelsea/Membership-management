@@ -6,6 +6,8 @@ import { JwtAuthService } from '../../../shared/services/auth/jwt-auth.service';
 import { EgretNotifications2Component } from '../../../shared/components/egret-notifications2/egret-notifications2.component';
 import { LoginService } from 'app/auth/service/login.service';
 import { Router } from '@angular/router';
+import { AssociationModel } from 'app/models/association-model';
+import { LocalstorageService } from 'app/common/services/localstorage.service';
 
 @Component({
   selector: 'app-header-side',
@@ -28,6 +30,8 @@ export class HeaderComponent implements OnInit {
 
   public egretThemes;
   public layoutConf: any;
+  public association:AssociationModel;
+
   constructor(
     private themeService: ThemeService,
     private layout: LayoutService,
@@ -36,10 +40,13 @@ export class HeaderComponent implements OnInit {
     public jwtAuth: JwtAuthService,
     private loginService: LoginService,
     private router: Router,
+    private localStorageService: LocalstorageService,
   ) {}
   ngOnInit() {
     this.egretThemes = this.themeService.egretThemes;
     this.layoutConf = this.layout.layoutConf;
+    this.association = this.localStorageService.getAssociation();
+
     this.translate.use(this.currentLang.code);
   }
   setLang(lng) {
