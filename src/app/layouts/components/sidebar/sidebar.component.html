@@ -1,13 +1,8 @@
 <div class="sidebar-panel">
     <div id="scroll-area" [perfectScrollbar] class="navigation-hold" fxLayout="column">
         <div class="sidebar-hold">
-
-            <!-- App Logo -->
             <div class="branding">
-                <span class="app-logo-text">{{association!.name}}</span>
-
-                <span style="margin: auto" *ngIf="layoutConf.sidebarStyle !== 'compact'"></span>
-                <div
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div
                 class="sidebar-compact-switch"
                 [ngClass]="{active: layoutConf.sidebarCompactToggle}"
                 (click)="toggleCollapse()"

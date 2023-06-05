@@ -1,5 +1,9 @@
 <div class="app-admin-wrap" [dir]='layoutConf?.dir'>
   <!-- Header for top navigation layout -->
+  <app-header-side *ngIf="layoutConf.navigationPos === 'side'" [notificPanel]="notificationPanel">
+  </app-header-side>
+
+  
   <!-- Main Container -->
   <mat-sidenav-container [dir]='layoutConf.dir'
     class="app-admin-container app-side-nav-container mat-drawer-transition sidebar-{{layoutConf?.sidebarColor}} topbar-{{layoutConf?.topbarColor}} footer-{{layoutConf?.footerColor}}"
@@ -12,10 +16,7 @@
       <!-- App content -->
       <div class="main-content-wrap" id="main-content-wrap" [perfectScrollbar]=""
         [disabled]="layoutConf.topbarFixed || !layoutConf.perfectScrollbar">
-        <!-- Header for side navigation layout -->
-        <app-header-side *ngIf="layoutConf.navigationPos === 'side'" [notificPanel]="notificationPanel">
-        </app-header-side>
-
+               
         <div class="rightside-content-hold" id="rightside-content-hold" [perfectScrollbar]="scrollConfig"
           [disabled]="!layoutConf.topbarFixed || !layoutConf.perfectScrollbar">
           <!-- View Loader -->
@@ -35,8 +36,7 @@
           <span class="m-auto" *ngIf="!layoutConf.footerFixed"></span>
           <app-footer *ngIf="!layoutConf.footerFixed" style="margin: 0 -.33rem -.33rem"></app-footer>
         </div>
-        <span class="m-auto" *ngIf="layoutConf.footerFixed"></span>
-        <app-footer *ngIf="layoutConf.footerFixed"></app-footer>
+    
       </div>
       <!-- View overlay for mobile navigation -->
       <div class="sidebar-backdrop" [ngClass]="{'visible': layoutConf.sidebarStyle !== 'closed' && layoutConf.isMobile}"
