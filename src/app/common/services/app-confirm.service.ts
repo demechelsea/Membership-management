@@ -19,7 +19,7 @@ export class AppConfirmService {
     data.message = data.message || 'Are you sure?';
     let dialogRef: MatDialogRef<AppComfirmComponent>;
     dialogRef = this.dialog.open(AppComfirmComponent, {
-      width: '380px',
+      width: '480px',
       disableClose: true,
       data: {title: data.title, message: data.message}
     });

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { MembershipPlanService } from 'app/association-settings/services/membership-plan.service';
+import { MembershipPlanService } from 'app/association-settings/services/membership-plan-service/membership-plan.service';
 import { soraxAnimations } from 'app/common/animations/sorax-animations';
 import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
-import MemershipPlanModel from 'app/models/membership-plan-model';
+import MemershipPlanModel from 'app/models/membershipPlanModel';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
@@ -146,7 +146,6 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
       {
         name: 'Active Subscriptions',
         dataKey: 'activeSubscriptions',
-        dataType:'Date',
         position: 'left',
         isSortable: false,
       },

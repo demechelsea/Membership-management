@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { Urls } from '../utils/urls';
 import { BaseService } from './base.service';
 import { AssociationModel } from 'app/models/association-model';
-import MembershipPlanDTO from 'app/models/membership-plan-DTO';
+import MembershipPlanDTO from 'app/models/membershipPlanDTO';
 
 
 
@@ -32,33 +32,6 @@ export class HttpAppDataService extends BaseService {
   }
 
   insertData(createUrl: string, inputParams: any): Observable<any> {
-    /*
-    let association = new AssociationModel();
-    association.soceityRaxUrl = "fmg400210";
-
-    let membershipPlanDTO = new MembershipPlanDTO();
-    membershipPlanDTO=inputParams;
-    membershipPlanDTO.association = association;
-    membershipPlanDTO.discription = inputParams.description
-    console.log(inputParams);
-    const planJson = JSON.stringify(membershipPlanDTO);
-    alert("posting");
-    {
-      planName:inputParams.planName,
-      discription: inputParams.description,
-      interval:inputParams.interval,
-      fee: inputParams.fee,
-      familyMemberIncluded:1 ,
-      autoPymtRemainder:0,
-      availableForGeneralPublic:1,
-      sendEmailNotification:1,
-      notifySubscribers:0,
-      benefits: inputParams.benefits,
-
-  association:association
-}*/
-console.log(inputParams)
-
     return this.httpClient.post<any>(createUrl, inputParams, { headers: this.prepareCustomHeaders(), responseType: "json" })
       .pipe(
         catchError(this.handleError)
@@ -88,7 +61,7 @@ console.log(inputParams)
         httpHeaders = httpHeaders.set(keyValueObj.id, keyValueObj.name);
       }
     }
-    httpHeaders = httpHeaders.set("Content-Type", "application/json");
+    //httpHeaders = httpHeaders.set("Content-Type", "application/json");
     return httpHeaders;
   }
 

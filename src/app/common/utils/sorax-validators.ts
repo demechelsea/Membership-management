@@ -71,13 +71,24 @@ export class SoraxValidators {
     })
   }
 
-  static isValidOption(validOptions: LableValueModel[]): ValidatorFn {
+  static isValidOption(validOptions: any[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
-      const selectedOption = validOptions.find(option => option.name === value);
+      const selectedOption = validOptions.find(option => {
+        if (option.name) {
+          return option.name === value;
+        }
+        else if (option.positionName) {
+          return option.positionName === value;
+        }
+        else if (option.userDetail) {
+          return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}` === value;
+        }
+      });
       return selectedOption ? null : { 'invalidOption': true };
     };
   }
+  
 }
 
 export const isEmptyOrWhiteSpace = (value: any) => {

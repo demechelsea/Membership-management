@@ -1,5 +1,5 @@
 import { AssociationSetting } from './association-setting';
-import { MessageWrapModel } from './message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 
 export class AssociationModel extends MessageWrapModel {
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { MessageViewModel } from 'app/models/message-view-model';
-import { MessageWrapModel } from 'app/models/message-wrap-model';
+import { MessageViewModel } from 'app/models/messageViewModel';
+import { MessageWrapModel } from 'app/models/messageWrapModel';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

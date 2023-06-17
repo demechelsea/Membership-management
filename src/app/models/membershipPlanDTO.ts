@@ -1,6 +1,5 @@
 import { AssociationModel } from './association-model';
-import { MessageWrapModel } from './message-wrap-model';
-import { PageModel } from './page-model';
+import { MessageWrapModel } from './messageWrapModel';
 
 export default class MembershipPlanDTO extends MessageWrapModel {
     id:number;
@@ -18,8 +17,7 @@ export default class MembershipPlanDTO extends MessageWrapModel {
     association: AssociationModel;
     status:string;
     createdUser:string;
-    autoApproveApplicants: string;
+    authApproveSubscribers: string;
     modifiedTimestamp: Date;
     modifiedUser:string;
-
 }

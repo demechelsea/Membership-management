@@ -3,7 +3,7 @@ import { Component, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-confirm',
-  template: `<h1 matDialogTitle class="mb-8">{{ data.title }}</h1>
+  template: `<div class="box"><h1 matDialogTitle class="mb-8">{{ data.title }}</h1>
     <div mat-dialog-content class="mb-16">{{ data.message }}</div>
     <div mat-dialog-actions class="pb-16">
     <button
@@ -11,14 +11,19 @@ import { Component, Inject } from '@angular/core';
     mat-raised-button
     color="primary"
     (click)="dialogRef.close(true)">OK</button>
-    &nbsp;
+     
     <span fxFlex></span>
     <button
     type="button"
     color="accent"
     mat-raised-button
     (click)="dialogRef.close(false)">Cancel</button>
-    </div>`,
+    </div></div>`,
+  styles: [`
+    .box {
+      padding: 10px;
+    }
+  `]
 })
 export class AppComfirmComponent {
   constructor(

@@ -1,4 +1,4 @@
-import { MessageWrapModel } from './message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 
 export class AssociationSetting extends MessageWrapModel {
     

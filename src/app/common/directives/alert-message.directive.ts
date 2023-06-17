@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, Inject, Injector,  NgZone, OnChanges, Renderer2 } from '@angular/core';
 import { BaseService } from 'app/common/services/base.service';
 import { NotificationService } from 'app/common/services/notification.service';
-import { MessageWrapModel } from 'app/models/message-wrap-model';
+import { MessageWrapModel } from 'app/models/messageWrapModel';
 
 
 @Directive({

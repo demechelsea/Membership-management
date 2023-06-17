@@ -1,0 +1,62 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div style="height:500px" mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="committeeForm" class="committeeForm" fxLayout="column" (ngSubmit)="submit(committeeForm.value)">
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+       
+        <div fxLayout="end" fxFlex="100">
+          <div fxFlex="45" style="margin-right: 10%;">
+            <sorax-form-field label="Committee start date" [soraxFormControl]="committeeForm.get('startDate')">
+              <input matInput formControlName="startDate" type="date" placeholder="Enter committee start date" >
+            </sorax-form-field>
+          </div>
+        
+          <div fxFlex="45">
+            <sorax-form-field label="Committee end date" [soraxFormControl]="committeeForm.get('endDate')">
+              <input matInput formControlName="endDate" type="date" placeholder="Enter committee end date" [min]="minEndDate">
+            </sorax-form-field>
+          </div>
+        </div>
+        
+     
+        </div>
+        <div fxFlex="100">
+          <sorax-form-field label="Number of committee members" [soraxFormControl]="committeeForm.get('teamSize')">
+            <input matInput formControlName="teamSize" type="text" name="teamSize" placeholder="Enter number of committee members">
+          </sorax-form-field>
+        </div>
+
+        <div fxFlex="100">
+          <sorax-form-field label="Committee name" [soraxFormControl]="committeeForm.get('name')">
+            <input matInput formControlName="name" type="text" name="planName" placeholder="Enter a committee name">
+          </sorax-form-field>
+        </div>
+
+        <div fxFlex="100" *ngIf="!data.isNew">
+          <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
+            [autoCompleteFieldLabel]="committeeForm.controls['status']"
+            (selectedOptionEmitter)="onSelectedStatusOption($event)">
+          </sorax-autocomplete>
+        </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end end">
+    <button mat-raised-button color="primary" aria-label="Close" (click)="dialogRef.close()">
+      Close
+    </button>
+
+    <button mat-raised-button color="primary" aria-label="Create a plan" [textContent]="buttonText" (click)="submit(committeeForm.value)">
+      Create a plan
+    </button>
+
+  </div>
+</div>

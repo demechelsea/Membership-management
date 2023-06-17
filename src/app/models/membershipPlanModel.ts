@@ -1,5 +1,5 @@
 import { AssociationModel } from './association-model';
-import { MessageWrapModel } from './message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 import { PageModel } from './page-model';
 
 export default class MemershipPlanModel extends MessageWrapModel {
@@ -14,7 +14,7 @@ export default class MemershipPlanModel extends MessageWrapModel {
     autoPymtRemainder:string;
     availableForGeneralPublic:string;
     sendEmailNotification:string;
-    autoApproveApplicants: string;
+    authApproveSubscribers: string;
     benefits:string;
     status:string;
     activeSubscriptions:string;

@@ -1,0 +1,39 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div style="height:500px" mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="positionForm" class="positionForm" fxLayout="column" (ngSubmit)="submit(positionForm.value)">
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+        
+        <div fxFlex="100">
+          <sorax-form-field label="Position Name" [soraxFormControl]="positionForm.get('positionName')">
+            <input matInput formControlName="positionName" type="text" name="positionName" placeholder="Enter position name">
+          </sorax-form-field>
+        </div>
+
+        <div fxFlex="100">
+          <sorax-form-field label="Position Rank" [soraxFormControl]="positionForm.get('positionRank')">
+            <input matInput formControlName="positionRank" type="text" name="positionRank" placeholder="Enter a position rank">
+          </sorax-form-field>
+        </div>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end end">
+    <button mat-raised-button color="primary" aria-label="Close" (click)="dialogRef.close()">
+      Close
+    </button>
+
+    <button mat-raised-button color="primary" aria-label="Create a Position" [textContent]="buttonText" (click)="submit(positionForm.value)">
+      Create a Position
+    </button>
+
+  </div>
+</div>

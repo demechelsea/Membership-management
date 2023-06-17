@@ -1,4 +1,4 @@
-import { MessageViewModel } from './message-view-model';
+import { MessageViewModel } from './messageViewModel';
 
 export class MessageWrapModel {
     availableActions:string[];

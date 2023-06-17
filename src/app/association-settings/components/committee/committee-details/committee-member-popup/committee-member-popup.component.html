@@ -1,0 +1,143 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div style="height:500px" mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="committeeMemberForm" class="committeeMemberForm" fxLayout="column"
+      (ngSubmit)="submit(committeeMemberForm.value)">
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+      <div style="display: flex;">
+
+        <div style="width: 65%;">
+
+          <div *ngIf="data.isNew">
+            <div fxFlex="70" *ngIf="data.isNew">
+              <sorax-autocomplete [lookupName]="memberoptionsKey" placeholder="Member"
+                [autoCompleteFieldLabel]="committeeMemberForm.controls['member']"
+                (selectedOptionEmitter)="onSelectedMemberOption($event)" [id]="id" [displayFn]="memberDisplayFn">
+              </sorax-autocomplete>
+
+            </div>
+          </div>
+
+          <div>
+            <div fxFlex="30" style="margin-right: 10%;">
+              <sorax-form-field label="First Name" [soraxFormControl]="committeeMemberForm.get('firstName')">
+                <input matInput formControlName="firstName" type="text" name="firstName">
+              </sorax-form-field>
+            </div>
+            <div fxFlex="30">
+              <sorax-form-field label="Given Name" [soraxFormControl]="committeeMemberForm.get('givenName')">
+                <input matInput formControlName="givenName" type="text" name="givenName">
+              </sorax-form-field>
+            </div>
+          </div>
+          <div>
+            <div fxFlex="30" style="margin-right: 10%;">
+              <sorax-form-field label="Phone number" [soraxFormControl]="committeeMemberForm.get('primaryPhone')">
+                <input matInput formControlName="primaryPhone" type="text" name="primaryPhone">
+              </sorax-form-field>
+            </div>
+            <div fxFlex="30">
+              <sorax-form-field label="Email" [soraxFormControl]="committeeMemberForm.get('primaryEmail')">
+                <input matInput formControlName="primaryEmail" type="text" name="primaryEmail">
+              </sorax-form-field>
+            </div>
+          </div>
+
+          <div>
+            <div fxFlex="70">
+              <sorax-form-field label="prefered name"
+                [soraxFormControl]="committeeMemberForm.get('preferredNameDisplay')">
+                <input matInput formControlName="preferredNameDisplay" type="text" name="preferredNameDisplay"
+                  placeholder="Enter a committee name">
+              </sorax-form-field>
+
+            </div>
+          </div>
+
+          <div>
+            <div fxFlex="35" style="margin-right: 10%;">
+              <sorax-autocomplete [lookupName]="positionoptionsKey" placeholder="Position"
+                [autoCompleteFieldLabel]="committeeMemberForm.controls['committeePosition']"
+                (selectedOptionEmitter)="onSelectedPositionOption($event)" [id]="committeeId" [displayFn]="positionDisplayFn">
+              </sorax-autocomplete>
+            </div>
+            <div fxFlex="30">
+              <button mat-raised-button color="primary" (click)="onAddPosition()">Add new Position</button>
+            </div>
+          </div>
+
+          <div>
+            <div fxFlex="70">
+              <sorax-form-field label="Position start date" [soraxFormControl]="committeeMemberForm.get('startDate')">
+                <input matInput formControlName="startDate" name="startDate" type="date"
+                  placeholder="Enter committee start date">
+              </sorax-form-field>
+            </div>
+          </div>
+
+          <div *ngIf="!data.isNew">
+            <div fxFlex="35" style="margin-right: 10%;">
+              <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
+                [autoCompleteFieldLabel]="committeeMemberForm.controls['status']"
+                (selectedOptionEmitter)="onSelectedStatusOption($event)">
+              </sorax-autocomplete>
+            </div>
+
+            <div fxFlex="30">
+              <sorax-form-field label="Committee end date" [soraxFormControl]="committeeMemberForm.get('endDate')">
+                <input matInput formControlName="endDate" type="date" placeholder="Enter committee end date"
+                  [min]="minEndDate">
+              </sorax-form-field>
+            </div>
+          </div>
+
+          <div>
+            <div fxFlex="35" style="margin-right: 10%;">
+              <mat-slide-toggle [formControl]="committeeMemberForm.controls['phoneVisibilityFlg']">Show phone to
+                public</mat-slide-toggle>
+            </div>
+
+            <div fxFlex="35">
+              <mat-slide-toggle [formControl]="committeeMemberForm.controls['emailVisibilityFlg']">Show email to
+                public</mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-container">
+          <div class="form-group">
+            <label for="photo">Upload Photo(Visible to public):</label>
+            <input type="file" class="form-control" id="photo" name="photo" accept="image/*"
+              (change)="onFileSelected($event)">
+          </div>
+          <div class="photo-preview">
+            <img *ngIf="imageURL; else noImage" [src]="imageURL" alt="Photo to display to public">
+            <ng-template #noImage>
+              <p>Photo to display to public</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end end">
+    <button mat-raised-button color="primary" aria-label="Close" (click)="dialogRef.close()">
+      Close
+    </button>
+
+    <button mat-raised-button color="primary" aria-label="Create a plan" [textContent]="buttonText"
+      (click)="submit(committeeMemberForm.value)">Create a committee member</button>
+
+  </div>
+</div>
+

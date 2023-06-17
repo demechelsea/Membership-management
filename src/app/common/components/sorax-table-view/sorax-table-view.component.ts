@@ -4,8 +4,8 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageModel } from 'app/models/page-model';
 import { SoraxColumnDefinition } from './sorax-column-definition';
-import MemershipPlanModel from 'app/models/membership-plan-model';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'sorax-table-view',
@@ -23,6 +23,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class SoraxTableViewComponent implements OnInit {
+
   currentRow: any;
   tooltipText: string;
   public tableDataSource = new MatTableDataSource([]);
@@ -35,17 +36,20 @@ export class SoraxTableViewComponent implements OnInit {
   @Input() isFilterable = false;
   @Input() tableColumns: SoraxColumnDefinition[];
   @Input() page: PageModel;
+  @Input() tableType: string;
 
   @Output() sortEvent: EventEmitter<Sort> = new EventEmitter();
   @Output() pageEvent: EventEmitter<PageEvent> = new EventEmitter();
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
+  @Output() viewEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() deleteEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  // this property needs to have a setter, to dynamically get changes from parent component
   @Input() set tableData(data: any[]) {
     this.setTableDataSource(data);
   }
 
-  constructor() { }
+  constructor(private dialog: MatDialog,) { }
 
   ngOnInit(): void {
     const columnNames = this.tableColumns.map((tableColumn: SoraxColumnDefinition) => tableColumn.dataKey);
@@ -58,16 +62,17 @@ export class SoraxTableViewComponent implements OnInit {
   }
 
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
+    if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active') {
+      return '-';
+    }
     if (columnDefs.dataType == "Date") {
-      return rowData[columnDefs.dataKey];
+      const date = new Date(rowData[columnDefs.dataKey]);
+      const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
+      return new Intl.DateTimeFormat('en-US', options).format(date);
     }
     return rowData[columnDefs.dataKey];
-}
+  }
 
-
-  
-
-  // we need this, in order to make pagination work with *ngIf
   ngAfterViewInit(): void {
     this.tableDataSource.paginator = this.matPaginator;
   }
@@ -93,11 +98,21 @@ export class SoraxTableViewComponent implements OnInit {
 
   emitRowAction(row: any, selectedAction: String) {
     row.performAction = selectedAction;
+    if (selectedAction === 'view') {
+      this.viewEvent.emit(row);
+    }
+    if (selectedAction === 'edit') {
+      this.editEvent.emit(row);
+    }
+    if (selectedAction === 'delete') {
+      this.deleteEvent.emit(row);
+    }
+    
     this.rowAction.emit(row);
   }
 
+
   getTooltipText(row: any): string {
-    // Use the data in the row object to generate the text for the tooltip
     return `Plan Name: ${row.planName}<br>
     Description: ${row.description}<br>
     Fee: ${row.fee}<br>
@@ -128,9 +143,6 @@ export class SoraxTableViewComponent implements OnInit {
   showTooltip() {
     this.showToolstip = true;
   }
-
-
-
 
 
 
