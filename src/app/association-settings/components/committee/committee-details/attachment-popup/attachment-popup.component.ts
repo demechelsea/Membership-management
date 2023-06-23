@@ -7,7 +7,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
 import CommitteeDTO from 'app/models/committeeDTO';
-
+import { FileUploadComponent } from 'app/views/forms/file-upload/file-upload.component';
 
 
 @Component({

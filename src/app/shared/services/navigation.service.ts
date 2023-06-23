@@ -80,8 +80,8 @@ export class NavigationService {
       sub: [
         {name: 'MEMBERSHIP_SETTING', state: 'associationSettings/membershipPlan'},
         {name: 'Committee Settings', state: 'associationSettings/committee'},
-        {name: 'Email Settings', state: 'underdev'},
-        {name: 'SMS Settings', state: 'underdev'},
+        {name: 'Email Settings', state: 'associationSettings/emailSetting'},
+        {name: 'SMS Settings', state: 'associationSettings/smsSetting'},
         {name: 'Policies & Doc store', state: 'underdev'},
         {name: 'Finance Settings', state: 'underdev'},
         {name: 'Digital Id Card Settings', state: 'underdev'}, 
