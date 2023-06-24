@@ -14,6 +14,8 @@ import { DatePipe } from '@angular/common';
 import { DetailsComponent } from './components/committee/committee-details/committee-details.component';
 import { CommitteeMemberPopupComponent } from './components/committee/committee-details/committee-member-popup/committee-member-popup.component';
 import { AttachmentPopupComponent } from './components/committee/committee-details/attachment-popup/attachment-popup.component';
+import { EmailComponent } from './components/email settings/email.component';
+import { SmsComponent } from './components/sms settings/sms.component';
 
 
 const declarationsList = [
@@ -24,13 +26,15 @@ const declarationsList = [
   PositionPopupComponent,
   DetailsComponent,
   CommitteeMemberPopupComponent,
-  AttachmentPopupComponent
+  AttachmentPopupComponent,
+  EmailComponent,
+  SmsComponent
 ];
 
 const importsList = [
   SoraxCommonModule,
   RouterModule.forChild(AssociationSettingsRoutes),
-  DragDropModule,
+  DragDropModule
 ];
 
 const providerList = [

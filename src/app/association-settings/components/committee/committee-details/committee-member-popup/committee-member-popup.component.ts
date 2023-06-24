@@ -74,12 +74,12 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
     const isUpdate = !this.data.isNew;
     this.committeeMemberForm = this.formBuilder.group({
       //id: [committeeMemberData.committee.id ],
-      member: [committeeMemberData?.associationMember || '', Validators.required],
+      member:[isUpdate ? committeeMemberData.associationMember : ''],
       firstName: [committeeMemberData?.associationMember?.userDetail?.firstName || '',],
       givenName: [committeeMemberData?.associationMember?.userDetail?.givenName || '',],
       primaryPhone: [committeeMemberData?.associationMember?.userDetail?.primaryPhone || '',],
       primaryEmail: [committeeMemberData?.associationMember?.userDetail?.primaryEmail || '',],
-      committeePosition: [committeeMemberData.committeePosition || ''],
+      committeePosition: [committeeMemberData.committeePosition?.positionName || ''],
       preferredNameDisplay: [committeeMemberData.preferredNameDisplay || ''],
       phoneVisibilityFlg: [this.convertToNumber(committeeMemberData.phoneVisibilityFlg) || 0, Validators.required],
       emailVisibilityFlg: [this.convertToNumber(committeeMemberData.emailVisibilityFlg) || 0, Validators.required],
@@ -87,7 +87,9 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
       photoLink: [committeeMemberData.photoLink || ''],
       status: [committeeMemberData?.associationMember?.status || 'active', isUpdate ? Validators.required : []],
       endDate: [isUpdate ? moment(committeeMemberData.endDate).format('YYYY-MM-DD') : moment(this.endDate).format('YYYY-MM-DD'), Validators.required],
-      committee:[isUpdate ? committeeMemberData.committee : '']
+      committee:[isUpdate ? committeeMemberData.committee.id : ''],
+      associationMember:[isUpdate ? committeeMemberData.associationMember.id : this.associationMemberId],
+      positionId:[isUpdate ? committeeMemberData.committeePosition.id : this.positionId],
     });
   }
 

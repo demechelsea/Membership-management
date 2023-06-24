@@ -1,23 +1,19 @@
-
 .card {
-    background-color: rgb(34,42,69);
-    margin: 16px 0;
-    width: 35%;
-  }
+  background-color: #ccd2e5;
+  margin: 16px 0;
+  width: 100%;
+}
 
-  .card-title {
-    color: white;
-  }
+.card-title{ 
+  text-decoration: solid;
+}
 
-  .card-content {
-    color: white;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background-color: #ccd2e5;
+}
 
 .grid-item-1 {
     grid-column: 1 / 2;

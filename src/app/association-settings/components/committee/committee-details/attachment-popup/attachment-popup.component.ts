@@ -1,13 +1,12 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
+import CommitteeDTO from 'app/models/committeeDTO';
+import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import LableValueModel from 'app/models/lable-value-model';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
-import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
-import CommitteeDTO from 'app/models/committeeDTO';
-
 
 
 @Component({

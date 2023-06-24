@@ -49,8 +49,6 @@ export class LookupService extends HttpAppDataService {
     return this.postData(Urls.COMMON_LOOKUP_SERVICE, { name: lookupName, id: referenceId });
   }
 
-
-
   private getLocalData(lookupName: string): Observable<any> {
     const resultViewModelObj: ResultViewModel = new ResultViewModel();
     switch (lookupName) {
