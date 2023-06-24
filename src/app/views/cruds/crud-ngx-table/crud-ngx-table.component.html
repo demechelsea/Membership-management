@@ -1,10 +1,10 @@
-<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+<div class="m-3 flex flex-col md:flex-row justify-between " [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
 
-  <div class="info-card primary">
+  <div class="info-card primary flex-grow">
     <div class="description">Crud table is a part of custom CRUD module. Module name: CrudsModule</div>
   </div>
-
-  <button mat-raised-button class="mb-8" color="primary" (click)="openPopUp({}, true)">{{"ADD" | translate }}
+  <div class="md:w-[100px] lg:w-1/6 xl:w-2/6"></div>
+  <button mat-raised-button class="m-2" color="primary" (click)="openPopUp({}, true)">{{"ADD" | translate }}
     Customer</button>
 </div>
 <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
@@ -46,7 +46,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+          <button mat-icon-button mat-sm-button color="primary" class="mr-4 rtl:ml-4" (click)="openPopUp(row)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">

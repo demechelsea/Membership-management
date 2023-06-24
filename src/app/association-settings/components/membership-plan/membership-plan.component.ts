@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MembershipPlanService } from 'app/association-settings/services/membership-plan-service/membership-plan.service';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
@@ -19,7 +19,7 @@ import { MembershipPlanPopupComponent } from './membership-popup/membership-plan
   selector: 'app-membership-plan',
   templateUrl: './membership-plan.component.html',
   styleUrls: ['./membership-plan.component.scss'],
-  animations: soraxAnimations
+  animations: SoraxAnimations
 })
 export class MembershipPlanComponent extends BaseComponent implements OnInit {
   public membershipPlanData: any;

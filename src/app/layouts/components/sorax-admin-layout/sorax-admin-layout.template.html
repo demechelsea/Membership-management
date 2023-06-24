@@ -20,8 +20,7 @@
         <div class="rightside-content-hold" id="rightside-content-hold" [perfectScrollbar]="scrollConfig"
           [disabled]="!layoutConf.topbarFixed || !layoutConf.perfectScrollbar">
           <!-- View Loader -->
-          <div class="view-loader" *ngIf="isModuleLoading" style="position:fixed;" fxLayout="column"
-            fxLayoutAlign="center center">
+          <div class="view-loader flex flex-col items-center justify-center" *ngIf="isModuleLoading" style="position:fixed;">
             <div class="spinner">
               <div class="double-bounce1 mat-bg-accent"></div>
               <div class="double-bounce2 mat-bg-primary"></div>
@@ -45,7 +44,7 @@
 
     <!-- Notificaation bar displays when click on bell icon on Header bar -->
     <mat-sidenav #notificationPanel mode="over" class="" position="end">
-      <div class="nofication-panel" fxLayout="column">
+      <div class="nofication-panel">
         <app-notifications [notificPanel]="notificationPanel"></app-notifications>
       </div>
     </mat-sidenav>

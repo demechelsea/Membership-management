@@ -2,24 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule as MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule as MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule as MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule as MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule as MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule as MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule as MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatSlideToggleModule as MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule as MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule as MatTabsModule } from '@angular/material/tabs';
 import { StarRatingModule } from 'angular-star-rating';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -36,7 +35,6 @@ import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     MatIconModule,
     MatButtonModule,
     MatCardModule,

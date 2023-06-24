@@ -3,31 +3,27 @@
     <button 
     mat-icon-button
     [style.alignSelf]="'center'"
-    class="mr-16" 
+    class="mr-4 rtl:ml-4" 
     (click)="matSidenav.toggle()"><mat-icon>short_text</mat-icon>
     </button>
     
     <!-- Selected active user -->
-    <div 
-      class="active-chat-user" 
-      fxLayout="row" 
-      fxLayoutAlign="start center"
-      *ngIf="activeContact.id"
-    >
+    <div class="active-chat-user flex items-center justify-start" *ngIf="activeContact.id">
+
       <a 
         [ngClass]="{online: activeContact.status === 'online'}" 
-        class="toolbar-avatar mr-16"
+        class="toolbar-avatar mr-4 rtl:ml-4"
       >
         <img [src]="activeContact.avatar" alt="">
         <span class="status-dot"></span>
       </a>
-      <div fxLayout="column">
+      <div class="flex flex-col">
         <h6 class="m-0 font-normal fz-1">{{activeContact.name}}</h6>
       </div>
     </div>
 
     <!-- Right side top menu -->
-    <span fxFlex></span>
+    <span class="flex-grow"></span>
     <button 
     [style.alignSelf]="'center'" 
     mat-icon-button 
@@ -47,8 +43,7 @@
     <div class="conversations-hold" [perfectScrollbar]>
 
       <!-- single chat item -->
-      <div class="single-conversation" 
-        fxLayout="row" 
+      <div class="single-conversation flex flex-row" 
         *ngFor="let chat of chatCollection?.chats"
         [ngClass]="{sender: chat.contactId === activeContact.id, me: chat.contactId !== activeContact.id}"
       >
@@ -91,12 +86,11 @@
     <div class="chat-input-actions">
       <form 
         #msgForm="ngForm" 
-        class="inputForm" 
+        class="inputForm flex flex-row" 
         (ngSubmit)="sendMessage($event)" 
         (keydown.enter)="sendMessage($event)"
-        fxLayout="row"
       >
-        <mat-form-field class="full-width mr-16">
+        <mat-form-field class="full-width mr-4 rtl:ml-4">
           <textarea
           matInput
           required
@@ -121,14 +115,10 @@
   </div>
 </div>
 
-<div class="chat-intro" 
-*ngIf="!chatCollection && !chatService.collectionLoading" 
-fxLayout="column" 
-fxLayoutAlign="center center">
+<div class="chat-intro !flex flex-col justify-center items-center" 
+*ngIf="!chatCollection && !chatService.collectionLoading">
   <mat-card 
-  class="text-center"
-  fxLayout="row"
-  fxLayoutAlign="center center"
+  class="text-center !flex flex-row justify-center items-center"
   [ngStyle]="{height: '220px', width: '220px', borderRadius: '50%'}">
     <mat-icon 
     color="primary"

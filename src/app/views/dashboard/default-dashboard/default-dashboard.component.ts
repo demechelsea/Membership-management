@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { egretAnimations } from 'app/shared/animations/egret-animations';
 import { ThemeService } from 'app/shared/services/theme.service';
 import tinyColor from 'tinycolor2';
 
@@ -7,7 +7,7 @@ import tinyColor from 'tinycolor2';
   selector: 'app-default-dashboard',
   templateUrl: './default-dashboard.component.html',
   styleUrls: ['./default-dashboard.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class DefaultDashboardComponent implements OnInit {
 

@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CrudService } from '../crud.service';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef as MatDialogRef, MatDialog as MatDialog } from '@angular/material/dialog';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { AppConfirmService } from '../../../shared/services/app-confirm/app-confirm.service';
 import { AppLoaderService } from '../../../shared/services/app-loader/app-loader.service';
 import { NgxTablePopupComponent } from './ngx-table-popup/ngx-table-popup.component';
 import { Subscription } from 'rxjs';
-import { soraxAnimations } from "../../../common/animations/sorax-animations";
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { egretAnimations } from "../../../shared/animations/egret-animations";
+import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-crud-ngx-table',
   templateUrl: './crud-ngx-table.component.html',
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class CrudNgxTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;

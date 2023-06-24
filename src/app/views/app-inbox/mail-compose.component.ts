@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({

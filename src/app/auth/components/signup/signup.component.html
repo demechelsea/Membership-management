@@ -1,9 +1,9 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold">
     <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-    <mat-card>
+    <mat-card class="!m-0">
       <mat-card-content>
-        <div class="text-center pt-8 ">
+        <div class="flex flex-col items-center !py-4">
           <img width="60px" src="assets/images/illustrations/posting_photo.svg" alt="" />
           <p class="font-weight-bold">Lets get started!</p>
           <p class="text-muted m-0">Thank you for your interest!</p>
@@ -11,54 +11,54 @@
 
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
 
-        <form autocomplete="off"  [formGroup]="signUpForm" class="signup-form" fxLayout="column" fxLayoutAlign="start"
+        <form autocomplete="off"  [formGroup]="signUpForm" class="signup-form flex flex-col" fxLayoutAlign="start"
           (ngSubmit)="submitForRegistration()">
           <div formGroupName="user">
-            <sorax-form-field label="First name" class="pb18" formGroupName="userDetail"
+            <sorax-form-field label="First name"  formGroupName="userDetail"
               [soraxFormControl]="signUpForm.get('user.userDetail.firstName')">
-              <input formControlName="firstName" matInput type="text" name="first_name" placeholder="First name" />
+              <input #soraxInput  formControlName="firstName" matInput type="text" name="first_name" placeholder="First name" />
             </sorax-form-field>
 
-            <sorax-form-field label="Family name" class="pb18" formGroupName="userDetail"
+            <sorax-form-field label="Family name"  formGroupName="userDetail"
               [soraxFormControl]="signUpForm.get('user.userDetail.surName')">
-              <input formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
+              <input #soraxInput  formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
             </sorax-form-field>
 
-            <sorax-form-field label="Association name" class="pb18" formGroupName="association"
+            <sorax-form-field label="Association name"  formGroupName="association"
               [soraxFormControl]="signUpForm.get('user.association.name')">
-              <input formControlName="name" matInput type="text" name="AssociationName" placeholder="Association name" />
+              <input #soraxInput  formControlName="name" matInput type="text" name="AssociationName" placeholder="Association name" />
             </sorax-form-field>
 
-            <sorax-form-field label="Association Place" class="pb18" formGroupName="association"
+            <sorax-form-field label="Association Place"  formGroupName="association"
               [soraxFormControl]="signUpForm.get('user.association.place')">
-              <input formControlName="place" matInput type="text" name="AssociationPlace" placeholder="Association Place" />
+              <input #soraxInput  formControlName="place" matInput type="text" name="AssociationPlace" placeholder="Association Place" />
             </sorax-form-field>
           </div>
           <div class="">
-            <sorax-form-field label="Email" class="pb18" formGroupName="user" 
+            <sorax-form-field label="Email"  formGroupName="user" 
               [soraxFormControl]="signUpForm.get('user.emailId')">
-              <input formControlName="emailId" matInput type="email" name="email" placeholder="Email"  />
+              <input #soraxInput  formControlName="emailId" matInput type="email" name="email" placeholder="Email"  />
             </sorax-form-field>
 
-            <sorax-form-field label="Phone" class="pb18" formGroupName="user"
+            <sorax-form-field label="Phone" formGroupName="user"
               [soraxFormControl]="signUpForm.get('user.phone')">
-              <input formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
+              <input #soraxInput  formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
             </sorax-form-field>
 
-            <sorax-form-field label="Password" class="pb18" formGroupName="user"
+            <sorax-form-field label="Password"  formGroupName="user"
               [soraxFormControl]="signUpForm.get('user.password')">
-              <input formControlName="password" matInput type="password" name="password" placeholder="********" />
+              <input #soraxInput  formControlName="password" matInput type="password" name="password" placeholder="********" />
             </sorax-form-field>
 
-            <sorax-form-field label="Confirm password" class="pb18" formGroupName="user"
+            <sorax-form-field label="Confirm password" formGroupName="user"
               [soraxFormControl]="signUpForm.get('user.confirmPassword')">
-              <input formControlName="confirmPassword" matInput type="password" name="confirm_password"
+              <input #soraxInput  formControlName="confirmPassword" matInput type="password" name="confirm_password"
                 placeholder="Confirm password" />
             </sorax-form-field>
           </div>
-          <mat-checkbox class="mb-24" formControlName="agreed">I agree with terms and condtions</mat-checkbox>
-          <button mat-raised-button color="primary" [disabled]="signUpForm.invalid">Signup</button>
-          <div class="text-center pt18">
+          <mat-checkbox  formControlName="agreed">I agree with terms and condtions</mat-checkbox>
+          <button mat-raised-button class="mat-primary full-width mt-4 mb-8"  [disabled]="signUpForm.invalid">Signup</button>
+          <div class="text-center ">
             <a [routerLink]="'/auth/login'" class="mat-color-primary text-center full-width">Sign in with an existing
               account</a>
           </div>

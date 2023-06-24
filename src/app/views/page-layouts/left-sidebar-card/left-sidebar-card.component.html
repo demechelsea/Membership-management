@@ -3,7 +3,7 @@
 
   <!-- Left Sidebar -->
   <egret-sidebar name="layout-left-sidebar-card" class="mat-bg-default--mobile">
-    <div class="sidebar-header text-white py-24 px-16">
+    <div class="sidebar-header text-white py-24 px-4">
       <h5 class="text-white">Sidebar header</h5>
     </div>
     <div>
@@ -19,7 +19,7 @@
   <!-- body content -->
   <div class="content">
     <!-- Body content header -->
-    <div class="content-header text-white p-24">
+    <div class="content-header text-white p-6">
       <h4 class="text-white">Left sidebar card</h4>
     </div>
 
@@ -27,13 +27,11 @@
     <div class="content-body">
       <div class="content-card mat-bg-card">
         <!-- card header -->
-        <div class="card-header px-24 py-8 border-bottom">
+        <div class="card-header px-6 py-2 border-bottom">
           <button
-            fxHide
-            fxShow.lt-md
             mat-icon-button
             egretSidebarToggler="layout-left-sidebar-card"
-            class="mr-8"
+            class="block lg:!hidden mr-2 rtl:ml-2"
           >
             <mat-icon>menu</mat-icon>
           </button>
@@ -41,7 +39,7 @@
           Card toolbar
         </div>
         <!-- Card body -->
-        <div class="card-body p-24">
+        <div class="card-body p-6">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima
           sapiente earum aspernatur quia officia eaque beatae rem molestiae fuga
           tempora, architecto doloremque facilis, illum, soluta ducimus dolorum

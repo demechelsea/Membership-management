@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { LayoutService } from 'app/layouts/services/layout.service';
+import { egretAnimations } from 'app/shared/animations/egret-animations';
+import { LayoutService } from 'app/shared/services/layout.service';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard-dark',
   templateUrl: './dashboard-dark.component.html',
   styleUrls: ['./dashboard-dark.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class DashboardDarkComponent implements OnInit, OnDestroy {
     dailyTrafficChartBar: any;

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgChartsModule } from 'ng2-charts';
 
 import { ChartsComponent } from './charts.component';
@@ -15,7 +14,6 @@ import { ChartsRoutes } from "./charts.routing";
     CommonModule,
     MatListModule,
     MatCardModule,
-    FlexLayoutModule,
     NgChartsModule,
     RouterModule.forChild(ChartsRoutes)
   ],

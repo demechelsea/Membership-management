@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
 // import { GestureConfig } from '@angular/material/core';
 import { 
   PerfectScrollbarModule, 
@@ -45,6 +46,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     BrowserAnimationsModule ,
     HttpClientModule,
+    LayoutModule,
     DragDropModule,
     AppRoutingModule,
     SoraxCommonModule,

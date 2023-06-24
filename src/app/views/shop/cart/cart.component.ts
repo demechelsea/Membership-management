@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopService, CartItem } from '../shop.service';
-import { soraxAnimations } from "../../../common/animations/sorax-animations";
+import { egretAnimations } from "../../../shared/animations/egret-animations";
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
-  animations: [soraxAnimations]
+  animations: [egretAnimations]
 })
 export class CartComponent implements OnInit {
   public cart: CartItem[];

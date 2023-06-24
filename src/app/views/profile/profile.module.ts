@@ -2,22 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule as MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule as MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule as MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule as MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTabsModule } from '@angular/material/tabs';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatMenuModule as MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule as MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule as MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule as MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule as MatTabsModule } from '@angular/material/tabs';
 import { NgChartsModule } from 'ng2-charts';
-import { FileUploadModule } from 'ng2-file-upload';
 import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
 
 import { ProfileComponent } from "./profile.component";
@@ -43,9 +41,7 @@ import { ProfileRoutes } from "./profile.routing";
     MatTabsModule,
     MatInputModule,
     MatProgressBarModule,
-    FlexLayoutModule,
     NgChartsModule,
-    FileUploadModule,
     SharedPipesModule,
     RouterModule.forChild(ProfileRoutes)
   ],

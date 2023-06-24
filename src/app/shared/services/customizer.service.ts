@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router, NavigationStart } from "@angular/router";
 import { filter } from "rxjs/operators";
-import { LayoutService } from "../../layouts/services/layout.service";
+import { LayoutService } from "./layout.service";
 
 @Injectable({
   providedIn: "root"
@@ -83,7 +83,7 @@ export class CustomizerService {
   }
 
   getSidebarColors() {
-    let sidebarColors = ['black', 'slate', 'white', 'grey', 'brown', 'purple', 'dark-blue',];
+    let sidebarColors = ['black', 'slate', 'white', 'dark-blue',];
     return this.colors.filter(color => {
       return sidebarColors.includes(color.class);
     })
@@ -105,7 +105,7 @@ export class CustomizerService {
   }
 
   getFooterColors() {
-    let footerColors = ['black', 'slate', 'white', 'dark-gray', 'purple', 'dark-blue', 'indigo', 'pink', 'red', 'yellow', 'green'];
+    let footerColors = ['black', 'slate', 'white', 'dark-gray', 'dark-blue', 'indigo'];
     return this.colors.filter(color => {
       return footerColors.includes(color.class);
     })

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { egretAnimations } from 'app/shared/animations/egret-animations';
 
 @Component({
   selector: 'app-learning-management',
   templateUrl: './learning-management.component.html',
   styleUrls: ['./learning-management.component.scss'],
+  animations: egretAnimations
+
 })
 export class LearningManagementComponent implements OnInit {
   welcomeProgressChart = {
@@ -141,7 +144,7 @@ export class LearningManagementComponent implements OnInit {
           show: false,
         },
 
-        categories: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur'],
+        categories: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
       },
       yaxis: {
         show: false,

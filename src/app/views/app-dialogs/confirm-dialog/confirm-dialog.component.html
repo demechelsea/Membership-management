@@ -1,12 +1,12 @@
 <mat-card class="p-0">
   <mat-card-title class="">
-    <div class="card-title-text">
+    <div class="card-title-text pl-4 rtl:pr-4 py-3">
       <span>Confirm Dialog</span>
     </div>
     <mat-divider></mat-divider>
   </mat-card-title>
-  <mat-card-content>
-    <div class="pb-16">
+  <mat-card-content class="!pt-4">
+    <div class="!pb-4">
         <mat-form-field class="full-width">
             <input
             matInput
@@ -15,7 +15,7 @@
             [(ngModel)]="title">
         </mat-form-field>
     </div>
-    <div class="pb-16">
+    <div class="!pb-4">
         <mat-form-field class="full-width">
             <input
             matInput
@@ -24,7 +24,7 @@
             [(ngModel)]="text">
         </mat-form-field>
     </div>
-    <button mat-raised-button color="primary" (click)="openDialog()" class="mb-16">Open dialog</button>
+    <button mat-raised-button color="primary" (click)="openDialog()" class="mb-4">Open dialog</button>
     <p>You selected: {{selectedOption}}</p>
   </mat-card-content>
 </mat-card>

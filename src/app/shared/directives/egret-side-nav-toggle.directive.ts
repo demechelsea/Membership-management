@@ -1,5 +1,5 @@
 import { Directive, Host, Self, Optional, OnDestroy, OnInit } from '@angular/core';
-import { MediaChange, MediaObserver } from "@angular/flex-layout";
+// import { MediaChange, MediaObserver } from "@angular/flex-layout";
 import { Subscription } from "rxjs";
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -11,7 +11,7 @@ export class EgretSideNavToggleDirective implements OnInit, OnDestroy {
   isMobile;
   screenSizeWatcher: Subscription;
   constructor(
-    private mediaObserver: MediaObserver,
+    // private mediaObserver: MediaObserver,
     @Host() @Self() @Optional() public sideNav: MatSidenav
   ) {
   }
@@ -34,13 +34,13 @@ export class EgretSideNavToggleDirective implements OnInit, OnDestroy {
     })
   }
   initSideNav() {
-    this.isMobile = this.mediaObserver.isActive('xs') || this.mediaObserver.isActive('sm');
+    // this.isMobile = this.mediaObserver.isActive('xs') || this.mediaObserver.isActive('sm');
     this.updateSidenav();
-    this.screenSizeWatcher = this.mediaObserver.asObservable()
-    .subscribe((change: MediaChange[]) => {
-        this.isMobile = (change[0].mqAlias == 'xs') || (change[0].mqAlias == 'sm');
-      this.updateSidenav();
-    });
+    // this.screenSizeWatcher = this.mediaObserver.asObservable()
+    // .subscribe((change: MediaChange[]) => {
+    //     this.isMobile = (change[0].mqAlias == 'xs') || (change[0].mqAlias == 'sm');
+    //   this.updateSidenav();
+    // });
   }
 
 }

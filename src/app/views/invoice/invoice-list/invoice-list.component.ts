@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { MatTable } from "@angular/material/table";
+import { MatTable as MatTable } from "@angular/material/table";
 import { InvoiceService } from "../invoice.service";
 import { AppConfirmService } from "app/shared/services/app-confirm/app-confirm.service";
 import { Invoice } from "app/shared/models/invoice.model";

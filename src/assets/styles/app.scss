@@ -5,6 +5,11 @@
  *
 */
 
+// Import Tailwind 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // // Third pirty style files
 // // Sidebar Scroll
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
@@ -17,11 +22,8 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
-// // Drag and Drop
-@import '~dragula/dist/dragula.css';
-
 // // Calendar
-@import '~angular-calendar/css/angular-calendar.css';
+@import 'angular-calendar/scss/angular-calendar.scss';
 
 // // User tour
 @import '~hopscotch/dist/css/hopscotch.min.css';
@@ -31,7 +33,6 @@
 
 // // Highlightjs theme
 @import '~highlight.js/styles/github.css';
-
 
 // Main Variables File
 @import "scss/variables";
@@ -47,7 +48,7 @@
 // Angular material theme files
 @import "scss/themes/init";
 
-@import "scss/utilities/utilities";
+// @import "scss/utilities/utilities";
 @import "scss/components/components";
 @import "scss/palette";
 
@@ -63,14 +64,15 @@ html {
 }
 
 
-.toast-top-right{
+.toast-top-right {
     width: 30% !important;
     padding-left: 10px !important;
     padding-top: 2px !important;
     padding-bottom: 2px !important;
     padding-right: 10px !important;
 }
-.ngx-toastr{
+
+.ngx-toastr {
     width: 100% !important;
 }
 
@@ -78,28 +80,29 @@ html {
     padding: 15px;
     margin-bottom: 15px;
 }
-.alert-danger{
-   color: #721c24;
-   background-color:#f8d7da; 
-   border-color: #f5c6cb;
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
 
-.alert-warning{
+.alert-warning {
     color: #856404;
-    background-color:#fff3cd; 
+    background-color: #fff3cd;
     border-color: #ffeeba;
 }
 
-.alert-info{
-   color: #0c5460;
-   background-color:#d1ecf1; 
-   border-color: #bee5eb;
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
 }
 
-.alert-success{
-   color: #155724;
-   background-color:#d4edda; 
-   border-color: #c3e6cb;
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
 }
 
 .closebtn {
@@ -117,104 +120,167 @@ html {
     color: black;
 }
 
-.sorax-form-field{
-    font-size: 12px;     
-    letter-spacing:1.2px;
+
+.sorax-form-field {
+    font-size: 12px;
+    letter-spacing: 1.2px;
     padding-bottom: 8px;
-}
-
-.pb18{
-    padding-bottom: 18px !important; 
-}
-
-.pt18{
-    padding-top: 18px; 
-}
-.padround18{
-    padding: 18px;
-}
-
-.padround8{
-    padding: 8px;
-}
-
-.mat-form-field-wrapper{
     margin-bottom: -0.65em !important;
 }
-.mat-form-field-flex > .mat-form-field-infix {
-     padding: .8em 0px !important;
+
+.mat-mdc-form-field-infix {
+    min-height: 40px !important;
 }
-.mat-form-field-label-wrapper { 
-    top: -1.3em !important; 
+
+.mat-mdc-form-field-wrapper {
+    margin-bottom: -0.65em !important;
 }
-.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+
+.mat-mdc-form-field-flex>.mat-mdc-form-field-infix {
+    padding: .8em 0px !important;
+}
+
+.mat-mdc-form-field-label-wrapper {
+    top: 0.3em !important;
+}
+
+.mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float .mat-mdc-form-field-label {
     transform: translateY(-1.1em) scale(.75);
     width: 133.33333%;
 }
-.mat-table{
-    width: 100%;
-    table-layout: fixed;
+
+.mdc-notched-outline__notch {
+    border-right: none;
 }
-.mat-row {
+
+// .mdc-text-field:not(:hover):not(:focus) .mdc-floating-label:not(:hover):not(:focus) {
+//     top: 50%;
+//     transform: translateY(-100%) !important;
+//     pointer-events: none;
+// }
+
+.pb18 {
+    padding-bottom: 18px !important;
+}
+
+.pb8{
+    padding-bottom: 8px !important;
+}
+
+.pt18 {
+    padding-top: 18px;
+}
+
+.pr0 {
+    padding-right: 0px !important;
+}
+.pr8 {
+    padding-right: 0px !important;
+}
+
+.padround18 {
+    padding: 18px;
+}
+
+.padround8 {
+    padding: 8px;
+}
+
+.mat-table .mat-mdc-table .mdc-data-table__table {
+    width: 100%;
+    table-layout: fixed !important;
+}
+
+.mat-row .mat-mdc-row {
     min-height: 45px;
 }
 
-.mat-row:nth-child(even){
-    background-color:  #ffffff;
-}
-        
-.mat-row:nth-child(odd){
-    background-color:   #eef0f7;
+.mat-row:nth-child(even) {
+    background-color: #ffffff;
 }
 
-.mat-header-cell {
-    border-left: 1px solid #eef0f7;
-    background-color: #ccd2e5;
-    color: #1a1f33 !important;
+.mat-mdc-row:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.mat-row:nth-child(odd) {
+    background-color: #eef0f7;
+}
+
+.mat-mdc-row:nth-child(odd) {
+    background-color: #eef0f7;
+}
+
+.egret-navy .mat-header-cell .mat-mdc-header-cell .mdc-data-table__header-cell {
+    border-left: 1px solid #eef0f7 !important;
+    background-color: #ccd2e5 !important;
+    color: #5a5f75 !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
-    font-size: 13px;
+    font-size: 13px !important;
 }
 
-.mat-cell {
+.mat-cell .mat-mdc-cell .mdc-data-table__cell {
     border-left: 1px solid #ccd2e5;
     padding-left: 5px !important;
     padding-right: 5px !important;
     font-size: 13px;
     overflow-wrap: break-word !important;
     word-wrap: break-word !important;
-    word-break:break-all !important;
+    word-break: break-all !important;
 }
 
 .header-align-right {
     display: flex;
-    padding:  0 5px 0 5px !important;
+    padding: 0 5px 0 5px !important;
     justify-content: flex-end;
-  }
+}
 
- .header-align-left{
+.header-align-left {
     display: flex;
-    padding:  0 5px 0 5px !important;
+    padding: 0 5px 0 5px !important;
     justify-content: flex-start;
-  }
-  .mat-dialog-container{
+}
+
+.mat-mdc-dialog-container {
     padding: 0px !important;
-  }
+}
 
 .loader-modalbox {
-    .mat-dialog-container {
+    .mat-mdc-dialog-container {
         padding: 24px !important;
     }
 }
 
-.mat-autocomplete-panel .mat-option:hover{
+.mat-mdc-autocomplete-panel .mat-mdc-option:hover {
     background-color: #ccd2e5 !important;
- }
+}
 
- .mat-option.mat-active:not(.mat-option-disabled) {
+.mat-mdc-option.mat-mdc-active:not(.mat-mdc-option-disabled) {
     background-color: #ccd2e5 !important;
- }
+}
 
- .mat-list-item-content:hover {
+.mat-mdc-list-item-content:hover {
     background-color: #ccd2e5;
+}
+
+.mat-mdc-tab-group {
+    width: 100%;
+}
+
+.mat-mdc-tab-header {
+    border-bottom: 1px solid #ccc;
+}
+
+.mat-mdc-tab-label {
+    border: 1px solid transparent;
+}
+
+.mat-tab-label-active {
+    background-color: #ffffff; 
+    color: #007bff;
+  }
+  
+ .mat-mdc-tab.mdc-tab {
+    border-right: 1px solid #ccc !important;
 }

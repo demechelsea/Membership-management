@@ -49,3 +49,14 @@
     grid-row: 3 / 4;
   }
   
+  .page-layout{
+    background: #222a45 !important;
+    color: #ccd2e5 !important;
+  }
+  .mat-mdc-card-content{
+    padding: 0px !important;
+  }
+
+  .page-layout .content-header {
+    height: 145px;
+  }

@@ -3,7 +3,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
@@ -31,7 +31,7 @@ import CommitteeDTO from 'app/models/committeeDTO';
   selector: 'app-committee',
   templateUrl: './committee.component.html',
   styleUrls: ['./committee.component.scss'],
-  animations: soraxAnimations
+  animations: SoraxAnimations
 })
 export class CommitteeComponent extends BaseComponent implements OnInit {
 

@@ -13,7 +13,7 @@
     </span>
   </mat-checkbox>
 
-  <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+  <div class="flex justify-end items-center flex-grow">
     <button
       mat-icon-button
       (click)="todo.read = !todo.read"
@@ -76,13 +76,12 @@
   </div>
 </mat-toolbar>
 
-<div style="margin: 20px 0px 0px 16px;">
-  <mat-chip-list #chipList>
+<div class="!p-4 mat-bg-card">
+  <mat-chip-listbox #chipList>
     <div *ngFor="let tagId of todo?.tag">
       <mat-chip
-        fxLayout="row"
         *ngIf="tagMap.get(tagId)"
-        fxLayoutAlign="center center"
+        class="!flex justify-center items-center"
         [selectable]="true"
         [removable]="true"
         (removed)="removeTagFromTodo(tagId)"
@@ -91,15 +90,14 @@
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </div>
-  </mat-chip-list>
+  </mat-chip-listbox>
 </div>
 
 <!-- input fields for title and notes -->
 <form
   *ngIf="todoForm"
   [formGroup]="todoForm"
-  fxLayout="column"
-  fxLayoutGap="8px"
+  class="flex flex-col"
   style="padding: 0px 16px;margin-top: 20px;"
   (ngSubmit)="saveTodo()"
 >
@@ -117,8 +115,8 @@
     ></textarea>
   </mat-form-field>
 
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="50px">
-    <mat-form-field>
+  <div class="flex justify-start items-center">
+    <mat-form-field class="!mr-4 rtl:ml-4">
       <input
         formControlName="startDate"
         matInput
@@ -142,8 +140,8 @@
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
   </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <div class="flex justify-start items-center !mt-4">
+    <button class="!mr-4 rtl:ml-4" color="primary" mat-raised-button>Save</button>
     <button type="button" mat-button routerLink="/todo/list">Cancel</button>
-    <button color="primary" mat-raised-button>Save</button>
   </div>
 </form>

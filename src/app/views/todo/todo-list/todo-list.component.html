@@ -1,11 +1,4 @@
-<mat-toolbar fxLayoutGap="5px">
-  <!-- <mat-checkbox
-    [checked]="isMasterToggled"
-    [indeterminate]="
-      toggledItemNumber > 0 && toggledItemNumber < todoList.length
-    "
-    (change)="masterToggle()"
-  ></mat-checkbox> -->
+<mat-toolbar>
 
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>arrow_drop_down</mat-icon>
@@ -49,7 +42,7 @@
     </button>
   </mat-menu>
 
-  <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+  <div class="flex justify-end items-center flex-grow">
     <button mat-raised-button color="primary" routerLink="/todo/add">
       Create Todo
     </button>
@@ -58,18 +51,13 @@
 
 <div cdkDropList class="todo-list" (cdkDropListDropped)="drop($event)">
   <div
-    class="todo-box"
+    class="todo-box flex justify-center items-center"
     *ngIf="todoList?.length < 1"
-    fxLayout="row"
-    fxLayoutAlign="center center"
   >
     Loading...
   </div>
   <div
-    class="todo-box"
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap="20px"
+    class="todo-box flex justify-start items-center mat-bg-card"
     *ngFor="let todo of (todoList | todoSearch: searchTerm)"
     cdkDrag
     cdkDragHandle
@@ -80,34 +68,24 @@
     ></mat-checkbox> -->
     <mat-icon class="move-handler">open_with</mat-icon>
 
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 0%">
+    <div class="flex justify-between items-center flex-grow !ml-4 rtl:mr-4 rtl:ml-4">
       <div
-        style="cursor: pointer;"
-        fxLayout="column"
-        fxLayoutGap="8px"
-        fxFlex="1 1 0%"
+        class="flex flex-col flex-grow cursor-pointer"        
         routerLink="/todo/list/{{ todo?.id }}"
       >
-        <span>{{ todo?.title }}</span>
-        <span>{{ todo?.note }}</span>
+        <span class="font-bold !mb-2">{{ todo?.title }}</span>
+        <span class="!mb-2">{{ todo?.note }}</span>
 
-        <!-- <div fxLayout="row" fxLayoutGap="5px">
-          <div class="tag" *ngFor="let tag of todo?.tag">
-            <div class="circle"></div>
-            <div>{{ tagMap.size > 0 ? tagMap.get(tag) : null }}</div>
-          </div>
-        </div> -->
-
-        <mat-chip-list #chipList>
+        <mat-chip-listbox #chipList>
           <div *ngFor="let tag of todo?.tag">
             <mat-chip *ngIf="tagMap.get(tag)">
               {{ tagMap.get(tag) }}
             </mat-chip>
           </div>
-        </mat-chip-list>
+        </mat-chip-listbox>
       </div>
 
-      <div fxFlexAlign="end center" fxLayout="row">
+      <div class="flex justify-end items-center">
         <button mat-icon-button (click)="toggleImportant(todo)">
           <mat-icon
             [ngClass]="{

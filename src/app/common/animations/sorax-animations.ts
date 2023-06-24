@@ -34,7 +34,7 @@ const reusable = animation(
   }
 );
 
-export const soraxAnimations = [
+export const SoraxAnimations = [
   trigger('animate', [transition('void => *', [useAnimation(reusable)])]),
 
   trigger('fadeInOut', [

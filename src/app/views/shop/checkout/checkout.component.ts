@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { CountryDB } from '../../../shared/inmemory-db/countries';
 import { ShopService, CartItem } from '../shop.service';
-import { soraxAnimations } from "../../../common/animations/sorax-animations";
+import { egretAnimations } from "../../../shared/animations/egret-animations";
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class CheckoutComponent implements OnInit {
   public cart: CartItem[];

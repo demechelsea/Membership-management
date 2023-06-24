@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { FontSizeDirective } from './font-size.directive';
 import { ScrollToDirective } from './scroll-to.directive';
@@ -27,9 +28,11 @@ const directives = [
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    LayoutModule
+
   ],
   declarations: directives,
   exports: directives
 })
-export class SharedDirectivesModule {}
+export class SharedDirectivesModule { }
