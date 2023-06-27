@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Renderer2 } from '@angular/core';
 import { NavigationService } from '../../../shared/services/navigation.service';
-import { LayoutService } from '../../../layouts/services/layout.service';
+import { LayoutService } from '../../../shared/services/layout.service';
 import { CustomizerService } from 'app/shared/services/customizer.service';
 import { ThemeService, ITheme } from 'app/shared/services/theme.service';
 

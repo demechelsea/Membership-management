@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
 // import { GestureConfig } from '@angular/material/core';
 import { 
   PerfectScrollbarModule, 
@@ -29,6 +29,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AppErrorHandler } from './common/errors/app-error-handler';
 import { SoraxHttpInterceptorService } from './core/guards/sorax-http-interceptor.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -44,7 +46,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     BrowserAnimationsModule ,
     HttpClientModule,
-
+    LayoutModule,
+    DragDropModule,
     AppRoutingModule,
     SoraxCommonModule,
     SharedModule,

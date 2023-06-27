@@ -6,6 +6,8 @@ import { catchError } from 'rxjs/operators';
 
 import { Urls } from '../utils/urls';
 import { BaseService } from './base.service';
+import { AssociationModel } from 'app/models/association-model';
+import MembershipPlanDTO from 'app/models/membershipPlanDTO';
 
 
 
@@ -59,6 +61,7 @@ export class HttpAppDataService extends BaseService {
         httpHeaders = httpHeaders.set(keyValueObj.id, keyValueObj.name);
       }
     }
+    //httpHeaders = httpHeaders.set("Content-Type", "application/json");
     return httpHeaders;
   }
 

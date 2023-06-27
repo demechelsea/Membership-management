@@ -4,71 +4,141 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LookupService } from 'app/common/services/lookup.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import LableValueModel from 'app/models/lable-value-model';
-import MemershipPlanModel from 'app/models/membership-plan-model';
-import { Observable, Subject, Subscription } from 'rxjs';
+import MemershipPlanModel from 'app/models/membershipPlanModel';
+import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
+import { MembershipPlanService } from '../../../services/membership-plan-service/membership-plan.service';
+import { LocalstorageService } from 'app/common/services/localstorage.service';
+
+
 
 @Component({
   selector: 'app-membership-plan-popup',
-  templateUrl: './membership-plan-popup.component.html'
+  templateUrl: './membership-plan-popup.component.html',
+
 })
 export class MembershipPlanPopupComponent extends BaseComponent implements OnInit {
-  intervaloptionsKey:string = LookupService.MEMBERSHIP_INTERVALS;
-  
+  intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
+  statusoptionsKey: string = LookupService.STATUS_OPTIONS;
+
   private ngUnsubscribe$ = new Subject<void>();
   public membershipPlanForm: FormGroup;
-  public intervals: LableValueModel[]=[];
-  public isLoading:boolean;
-  public noResults:boolean;
+  public intervals: LableValueModel[] = [];
+  public isLoading: boolean;
+  public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
 
+  buttonText = 'Create a plan';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<MembershipPlanPopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private membershipPlanService: MembershipPlanService,
+    private localStorageService: LocalstorageService
   ) {
     super();
+    this.buttonText = data.isNew ? 'Create a plan' : 'Update plan';
+
   }
 
   ngOnInit() {
     this.buildMembershipPlanForm(this.data.payload);
+
+    if (!this.data.isNew) {
+      this.membershipPlanForm.controls['fee'].disable();
+      this.membershipPlanForm.controls['interval'].disable();
+    }
+
     this.cdRef.detectChanges();
   }
 
   buildMembershipPlanForm(planData: MemershipPlanModel) {
+    const isUpdate = !this.data.isNew;
     this.membershipPlanForm = this.formBuilder.group({
-      planName: this.formBuilder.control(planData.description || '', [Validators.required]),
-      description: this.formBuilder.control(planData.description || '', [Validators.required]),
-      fee: this.formBuilder.control(planData.fee || '', [Validators.required]),
-      interval: this.formBuilder.control('OneTimeID',),
-      intervalAutoLabel: this.formBuilder.control('',),
-      familyMemberIncluded: this.formBuilder.control(planData.familyMemberIncluded || false, [Validators.required]),
-      autoPymtRemainder: this.formBuilder.control(true, [Validators.required]),
-      availableForGeneralPublic: this.formBuilder.control(planData.availableForGeneralPublic || false, [Validators.required]),
-      sendEmailNotification: this.formBuilder.control(planData.sendEmailNotification || false, [Validators.required]),
-      benefits: this.formBuilder.control(planData.benefits || '', [Validators.required]),
-      status: this.formBuilder.control(planData.status || '', [Validators.required]),
+      id: [ isUpdate ? planData.id : null, isUpdate ? Validators.required : []],
+      planName: [planData.planName || '', Validators.required],
+      description: [planData.description || '', Validators.required],
+      fee: [planData.fee || '', Validators.required],
+      interval: [planData.interval || '', Validators.required],
+      familyMemberIncluded: [this.convertToNumber(planData.familyMemberIncluded) || 0, Validators.required],
+      autoPymtRemainder: [this.convertToNumber(planData.autoPymtRemainder) || 0, Validators.required],
+      availableForGeneralPublic: [this.convertToNumber(planData.availableForGeneralPublic) || 0, Validators.required],
+      sendEmailNotification: [this.convertToNumber(planData.sendEmailNotification) || 0, Validators.required],
+      authApproveSubscribers: [this.convertToNumber(planData.authApproveSubscribers) || 0, Validators.required],
+      benefits: [planData.benefits || '', Validators.required],
+      status: [planData.status || '', isUpdate ? Validators.required : []],
+      notifySubscribers: [this.convertToNumber(planData.notifySubscribers) || 0, isUpdate ? Validators.required : []],
+      modifiedTimestamp: ['',],
+      modifiedUser: ['',],
     })
   }
 
-  submit() {
-    this.dialogRef.close(this.membershipPlanForm.value)
+
+  submit(plan: MemershipPlanModel) {
+    plan.createdUser = this.localStorageService.getLoggedInUser().emailId;
+    console.log('Plan object:', plan);
+    if (this.membershipPlanForm.valid) {
+      const formData = this.membershipPlanForm.value;
+      const planData = this.mapFormDataToPlanData(formData);
+      if (this.data.isNew) {
+        this.membershipPlanService.createPlan(planData)
+          .pipe(takeUntil(this.ngUnsubscribe$))
+          .subscribe(response => {
+            this.dialogRef.close(response);
+          }, error => {
+            console.error('Failed to create a new plan:', error);
+            alert('Something went wrong. Please try again later.');
+          });
+      } else {
+        this.membershipPlanService.updatePlan(plan.id, planData)
+          .pipe(takeUntil(this.ngUnsubscribe$))
+          .subscribe(response => {
+            console.log('Updated an existing plan:', response);
+            this.dialogRef.close(response);
+          }, error => {
+            console.error('Failed to update an existing plan:', error);
+            alert('Something went wrong. Please try again later.');
+          });
+      }
+    } else {
+      alert('Please fill in all the required fields.');
+    }
   }
 
-  
-  onSelectedOption(option: LableValueModel) {
-    console.log("selected OptionId:::"+option.id);
-    console.log("selected Option:::"+option.name);
-    this.membershipPlanForm.controls['interval'].setValue(option.id);
-   this.membershipPlanForm.controls['intervalAutoLabel'].setValue(option.name);
-    
+
+  // Define a function that maps the form value to a new object that matches the plan model
+  mapFormDataToPlanData(formData: any): MemershipPlanModel {
+    return {
+      ...formData,
+      familyMemberIncluded: formData.familyMemberIncluded ? "Y" : "N",
+      autoPymtRemainder: formData.autoPymtRemainder ? "Y" : "N",
+      availableForGeneralPublic: formData.availableForGeneralPublic ? "Y" : "N",
+      sendEmailNotification: formData.sendEmailNotification ? "Y" : "N",
+      notifySubscribers: formData.notifySubscribers ? "Y" : "N",
+      authApproveSubscribers: formData.authApproveSubscribers ? "Y" : "N",
+    };
   }
+
+  convertToNumber(str: string): number {
+    return str == "Y" ? 1 : 0;
+  }
+
+  onSelectedIntervalOption(option: LableValueModel) {
+    this.membershipPlanForm.controls['interval'].setValue(option.name);
+  }
+
+  onSelectedStatusOption(option: LableValueModel) {
+    this.membershipPlanForm.controls['status'].setValue(option.name);
+  }
+
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
-  
+
+
+
 }

@@ -1,20 +1,20 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold">
     <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-    <mat-card>
+    <mat-card class="!m-0">
       <mat-card-content>
-        <div class="text-center pt-8 pb-16">
+        <div class="flex flex-col items-center !py-4">
           <img width="60px" src="assets/images/illustrations/done_2.svg" alt="" />
           <p class="font-weight-bold">Verify email/phone</p>
         </div>
 
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
 
-        <form [formGroup]="verifyForm" class="signup-form" fxLayout="column" (ngSubmit)="verifyUser()">
+        <form [formGroup]="verifyForm" class="signup-form flex flex-col" (ngSubmit)="verifyUser()">
         
-          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <div class="flex flex-wrap justify-between items-center">
             <sorax-form-field label="Enter Otp" fxFlex="1 0 auto" [soraxFormControl]="verifyForm.get('otp')">
-              <input soraxdir-numbers-only formControlName="otp" matInput type="text" name="otp"
+              <input #soraxInput  soraxdir-numbers-only formControlName="otp" matInput type="text" name="otp"
                 placeholder="Enter otp" />
             </sorax-form-field>
 
@@ -23,10 +23,10 @@
             </div>
           </div>
 
-          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="verifyForm.invalid">Verify
+          <button mat-raised-button class="mat-primary full-width mt-4 mb-8" [disabled]="verifyForm.invalid">Verify
             Email/Phone</button>
 
-            <div class="text-center pt-18">
+            <div class="text-center flex">
               <a [routerLink]="'/auth/login'" class="mat-primary text-left full-width">Sign in</a>
               <span fxFlex></span>
               <a [routerLink]="'/auth/signup'" class="mat-primary text-right full-width">Create a new account</a>

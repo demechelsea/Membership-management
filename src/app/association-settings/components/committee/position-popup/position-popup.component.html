@@ -1,0 +1,36 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+    <span class="mat-headline-4">{{data.title}}</span>
+    <button mat-icon (click)="dialogRef.close()" aria-label="Close dialog" class="float-right">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div  mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="positionForm" class="positionForm flex flex-col padround18"
+      (ngSubmit)="submit(positionForm.value)">
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+      
+      <sorax-form-field label="Position Name" [soraxFormControl]="positionForm.get('positionName')">
+        <input #soraxInput matInput formControlName="positionName" type="text" name="positionName"
+          placeholder="Enter position name">
+      </sorax-form-field>
+
+      <sorax-form-field label="Position Rank" [soraxFormControl]="positionForm.get('positionRank')">
+        <input #soraxInput matInput formControlName="positionRank" type="text" name="positionRank"
+          placeholder="Enter a position rank">
+      </sorax-form-field>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16 text-center flex">
+    <button mat-raised-button class="mat-primary text-left" aria-label="Close" (click)="dialogRef.close()">
+      Close
+    </button>
+    <span class="flex-grow"></span>
+    <button mat-raised-button class="mat-primary text-right" aria-label="Create a Position" [textContent]="buttonText"
+      (click)="submit(positionForm.value)">
+      Create a Position
+    </button>
+
+  </div>
+</div>

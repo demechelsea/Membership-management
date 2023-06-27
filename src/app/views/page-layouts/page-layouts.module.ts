@@ -6,7 +6,6 @@ import { LeftSidebarCardComponent } from './left-sidebar-card/left-sidebar-card.
 import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.module';
 import { SharedMaterialModule } from 'app/shared/shared-material.module';
 import { SharedComponentsModule } from 'app/shared/components/shared-components.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FullWidthCardComponent } from './full-width-card/full-width-card.component';
 import { PerfectScrollbarModule } from 'app/shared/components/perfect-scrollbar';
 import { RightSidebarCardComponent } from './right-sidebar-card/right-sidebar-card.component';
@@ -20,7 +19,6 @@ import { FullWidthCardTabComponent } from './full-width-card-tab/full-width-card
     SharedMaterialModule,
     SharedDirectivesModule,
     SharedComponentsModule,
-    FlexLayoutModule,
     CommonModule,
     PerfectScrollbarModule,
     PageLayoutsRoutingModule

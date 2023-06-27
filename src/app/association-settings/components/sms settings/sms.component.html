@@ -1,0 +1,183 @@
+<mat-tab-group>
+    <mat-tab label="Settings">
+        <div fxLayout="row" fxLayoutAlign="space-between" style="margin-bottom: 100px;">
+            <mat-card class="custom-bg" style="width: 40%;">
+                <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-card-title>Senders Profile</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="content" fxLayout="row" fxLayoutAlign="space-between" style="height: 300px;">
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <div fxFlex fxLayout="column" fxLayoutAlign="center">
+                            <label>Available SMS: 1157</label>
+                        </div>
+                    </div>
+                    <div fxLayout="column">
+                        <div fxFlex>
+                            <label>Sent Today : 125</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Sent in Last 7 days : 258</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Sent in Last 15 days : 503</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Sent in Last 1 Months : 1508</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Sent in Last 3 Months : 5028</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Sent in Last 1 Year : 12508</label>
+                        </div>
+                        <div fxFlex>
+                            <label>Total SMS sent : 52508</label>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="custom-bg" style="width: 40%;">
+                <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-card-title>Senders Profile</mat-card-title>
+                    <button mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-card-header>
+                <mat-card-content class="content" style="height: 300px;">
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>SMS Name</mat-label>
+                            <input matInput disabled>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>SMS Identity</mat-label>
+                            <input matInput disabled>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-around" style="text-align: right;">
+            <mat-card class="custom-bg" style="width: 30%;" >
+                <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-card-title>Package</mat-card-title>
+                    <button mat-raised-button class="mb-8" color="primary">Buy this package</button>
+                </mat-card-header>
+                <mat-card-content class="content" fxLayout="row" fxLayoutAlign="space-between" style="height: 300px;">
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <div fxFlex fxLayout="column" fxLayoutAlign="center">
+                            <label>Features and cost</label>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="custom-bg" style="width: 30%;">
+                <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-card-title>Package 2</mat-card-title>
+                    <button mat-raised-button class="mb-8" color="primary">Buy this package</button>
+                </mat-card-header>
+                <mat-card-content class="content" fxLayout="row" fxLayoutAlign="space-between" style="height: 300px;">
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <div fxFlex fxLayout="column" fxLayoutAlign="center">
+                            <label>Features and cost</label>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="custom-bg" style="width: 30%;">
+                <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-card-title>Package 3</mat-card-title>
+                    <button mat-raised-button class="mb-8" color="primary">Buy this package</button>
+                </mat-card-header>
+                <mat-card-content class="content" fxLayout="row" fxLayoutAlign="space-between" style="height: 300px;">
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <div fxFlex fxLayout="column" fxLayoutAlign="center">
+                            <label>Features and cost</label>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+    </mat-tab>
+    <mat-tab label="System Templates">
+        <sorax-table-view [tableData]="smsTemplateData" [tableColumns]="smsTemplateColumns" [isFilterable]="false"
+            [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)"
+            [tableType]="'EmailTemplate'">
+        </sorax-table-view>
+    </mat-tab>
+    <mat-tab label="Unsubscribed Lists">
+        <div class="m-12" [@animate]="{value:'*',params:{y:'60px',delay:'300ms'}}" fxLayout="row"
+            fxLayoutAlign="space-between">
+            <div>
+                <mat-form-field appearance="outline" style="width: 300px;">
+                    <mat-label>Filter By</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <button mat-raised-button class="mb-8 reduced-height" color="primary" align="right">Filter List</button>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" style="width: 300px;">
+                    <mat-label>Add phone number</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <button mat-raised-button class="mb-8 reduced-height" color="primary" align="right">Add SMS to
+                    Unsubscribed List</button>
+            </div>
+        </div>
+        <sorax-table-view [tableData]="smsUnsubscribedListData" [tableColumns]="smsUnsubscribedListsColumn"
+            [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)"
+            (sortEvent)="sortData($event)">
+        </sorax-table-view>
+    </mat-tab>
+    <mat-tab label="History">
+        <div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: left;">
+            <mat-form-field appearance="outline" style="width: 300px;">
+                <mat-label>Filter By</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <button mat-raised-button class="mb-8 reduced-height" color="primary" align="right">Filter List</button>
+        </div>
+        <sorax-table-view [tableData]="smsHistorytData" [tableColumns]="smsHistoryColumn" [isFilterable]="false"
+            [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)">
+        </sorax-table-view>
+
+        <mat-card class="custom-sm" style="width: 80%;">
+            <mat-card-content style="text-align: right;">
+                <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+                    <div fxLayout="column" style="width: 70%;">
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <mat-form-field appearance="outline" fxFlex>
+                                <mat-label>Sent to</mat-label>
+                                <input matInput disabled>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>SMS subject</mat-label>
+                            <input matInput disabled>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>SMS Heading body</mat-label>
+                            <div class="mat-form-field-wrapper" style="height: 250px;"></div>
+                            <input matInput disabled>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="column" style="width: 30%;">
+                        <mat-form-field appearance="outline" fxFlex>
+                            <mat-label>Sent Date</mat-label>
+                            <input matInput disabled>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <button mat-raised-button class="mb-8" color="primary">Close</button>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>

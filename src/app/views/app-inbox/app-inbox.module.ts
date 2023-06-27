@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule as MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule as MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule as MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule as MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule as MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatTooltipModule as MatTooltipModule } from '@angular/material/tooltip';
 import { QuillModule } from 'ngx-quill';
 
 import { AppInboxComponent } from './app-inbox.component';
@@ -25,6 +25,7 @@ import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
   imports: [
     CommonModule,
     FormsModule,
+    LayoutModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
@@ -37,7 +38,6 @@ import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
     MatCheckboxModule,
     MatTooltipModule,
     MatExpansionModule,
-    FlexLayoutModule,
     QuillModule,
     SharedPipesModule,
     RouterModule.forChild(InboxRoutes)

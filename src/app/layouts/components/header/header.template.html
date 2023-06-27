@@ -1,31 +1,28 @@
-<mat-toolbar class="topbar mat-bg-card sorax-header">
+<mat-toolbar class="topbar flex mat-bg-card sorax-header">
   <!-- Sidenav toggle button -->
   <span class="srax-logo-text">{{association!.name}}</span>
   
-  <span fxFlex></span>
+  <span class="flex-grow"></span>
   <!-- Language Switcher -->
   <button mat-button [matMenuTriggerFor]="menu">
-    <span class="fi fi-{{currentLang.flag}} mr-8"></span>
+    <span class="fi fi-{{currentLang.flag}} mr-2 rtl:ml-2"></span>
     <span>{{currentLang.name}}</span>
   </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let lang of availableLangs" (click)="setLang(lang)">
-        <span class="fi mr-8 fi-{{lang.flag}}"></span>
+        <span class="fi mr-2 rtl:ml-2 fi-{{lang.flag}}"></span>
         <span>{{lang.name}}</span>
   </button>
 </mat-menu>
 
 
-  <egret-search-input-over placeholder="Country (e.g. US)" resultPage="/search"></egret-search-input-over>
-  <!-- Open "views/search-view/result-page.component" to know more about subscribing to input field value -->
-
-  <!-- Notification toggle button -->
+<!-- Notification toggle button -->
   <button
     mat-icon-button
     matTooltip="Notifications"
     (click)="toggleNotific()"
     [style.overflow]="'visible'"
-    class="topbar-button-right"
+    class=""
   >
     <mat-icon>notifications</mat-icon>
     <span class="notification-number mat-bg-warn">3</span>
@@ -34,7 +31,7 @@
   <button
     mat-icon-button
     [matMenuTriggerFor]="accountMenu"
-    class="topbar-button-right img-button"
+    class=""
   >
     <img src="assets/images/avatars/002-woman.svg" alt="" />
   </button>

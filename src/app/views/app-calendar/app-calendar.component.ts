@@ -3,7 +3,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } fr
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { soraxAnimations } from '../../common/animations/sorax-animations';
+import { egretAnimations } from '../../shared/animations/egret-animations';
 import { EgretCalendarEvent } from '../../shared/models/event.model';
 import { AppCalendarService } from './app-calendar.service';
 import { CalendarFormDialogComponent } from './calendar-form-dialog/calendar-form-dialog.component';
@@ -13,7 +13,7 @@ import { AppConfirmService } from '../../shared/services/app-confirm/app-confirm
   selector: 'app-calendar',
   templateUrl: './app-calendar.component.html',
   styleUrls: ['./app-calendar.component.css'],
-  animations: soraxAnimations,
+  animations: egretAnimations,
 })
 export class AppCalendarComponent implements OnInit {
   public view = 'month';

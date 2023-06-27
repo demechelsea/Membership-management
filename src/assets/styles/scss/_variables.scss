@@ -1,6 +1,5 @@
 // General
 $transitionDuration: 300ms !default;
-$gutter: 1rem !default;
 $transitionTiming: cubic-bezier(.35,0,.25,1);
 $sidebarTrnTime: .3s;
 
@@ -12,11 +11,11 @@ $compact-big-sidebar-width: 150px !default;
 $sidebar-navigation-icon-size: 16px;
 
 // Typography
-$font-family-base: Archivo, "Helvetica Neue", sans-serif !default;
+$font-family-base: 'Inter', "Helvetica Neue", sans-serif !default;
 $font-size-base: .875rem !default;
-$font-weight-base: 400 !default;
-$font-weight-medium: 500 !default;
-$font-weight-bold: 600 !default;
+$font-weight-base: 500 !default;
+$font-weight-medium: 600 !default;
+$font-weight-bold: 700 !default;
 
 $font-size-h1: 24px !default;
 $font-size-h2: 20px !default;

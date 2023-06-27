@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TablesService } from '../tables.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { egretAnimations } from 'app/shared/animations/egret-animations';
 
 @Component({
   selector: 'app-material-table',
   templateUrl: './material-table.component.html',
   styleUrls: ['./material-table.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class MaterialTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;

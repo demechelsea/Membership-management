@@ -1,12 +1,12 @@
-<input  *ngIf="autoCompleteFieldId" type="hidden" [formControl]="autoCompleteFieldId" >
+<input *ngIf="autoCompleteFieldId" type="hidden" [formControl]="autoCompleteFieldId">
 <sorax-form-field [label]="placeholder" [soraxFormControl]="autoCompleteFieldLabel">
-  <input matInput [formControl]="autoCompleteFieldLabel" 
-                [matAutocomplete]="soraxAuto" (blur)="validateOnFocusOut($event)">
-  <mat-autocomplete #soraxAuto="matAutocomplete"  (optionSelected)="onOptionSelected($event)">
-    <mat-option *ngFor="let option of filteredOptions | async" 
-                [value]="option.id">
-     {{ displayFn ? displayFn(option) : option.name }}
+  <input #soraxInput matInput [formControl]="autoCompleteFieldLabel" [matAutocomplete]="soraxAuto"
+    (blur)="validateOnFocusOut($event)">
+  <mat-autocomplete #soraxAuto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+      {{ displayFn ? displayFn(option) : option.name}}
     </mat-option>
   </mat-autocomplete>
 </sorax-form-field>
-`
+
+

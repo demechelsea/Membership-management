@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PerfectScrollbarModule } from 'app/shared/components/perfect-scrollbar';
+import { PerfectScrollbarModule } from 'app/shared/components/perfect-scrollbar/perfect-scrollbar.module';
 import { SharedComponentsModule } from 'app/shared/components/shared-components.module';
 import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.module';
 import { SharedMaterialModule } from 'app/shared/shared-material.module';
@@ -33,7 +32,6 @@ import { AlertMessageDirective } from './directives/alert-message.directive';
 import { NumberOnlyDirective } from './directives/number-only.directive';
 import { ValidationDisplayDirective } from './directives/validation-display.directive';
 import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sorax-autocomplete.component';
-
 
 @NgModule({
   declarations: [
@@ -50,12 +48,10 @@ import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sora
   ],
   imports: [
     CommonModule,
-          
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
     SharedMaterialModule,
-    FlexLayoutModule,
     PerfectScrollbarModule, 
     SharedDirectivesModule,
     SharedComponentsModule,
@@ -92,7 +88,6 @@ import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sora
     FormsModule,
     ReactiveFormsModule,
     SharedMaterialModule,
-    FlexLayoutModule,
     PerfectScrollbarModule, 
     SharedDirectivesModule,
     SharedComponentsModule, 

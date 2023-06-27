@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { soraxAnimations } from "../../../common/animations/sorax-animations";
+import { egretAnimations } from "../../../shared/animations/egret-animations";
 import { ShopService, CartItem } from '../shop.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { Product } from '../../../shared/models/product.model';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   public productID;

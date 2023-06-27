@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { TodoItem, TagItem } from 'app/shared/models/todo.model';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog as MatDialog } from '@angular/material/dialog';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 @Component({

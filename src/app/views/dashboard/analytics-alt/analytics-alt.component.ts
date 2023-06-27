@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
-import { LayoutService } from 'app/layouts/services/layout.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { egretAnimations } from 'app/shared/animations/egret-animations';
+import { LayoutService } from 'app/shared/services/layout.service';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-analytics-alt',
   templateUrl: './analytics-alt.component.html',
   styleUrls: ['./analytics-alt.component.scss'],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class AnalyticsAltComponent implements OnInit {
   dailyTrafficChartBar: any;

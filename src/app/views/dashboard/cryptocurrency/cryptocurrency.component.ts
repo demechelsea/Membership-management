@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { soraxAnimations } from "app/common/animations/sorax-animations";
+import { egretAnimations } from "app/shared/animations/egret-animations";
 import { ThemeService } from "app/shared/services/theme.service";
 import tinyColor from 'tinycolor2';
 
@@ -7,7 +7,7 @@ import tinyColor from 'tinycolor2';
   selector: "app-cryptocurrency",
   templateUrl: "./cryptocurrency.component.html",
   styleUrls: ["./cryptocurrency.component.scss"],
-  animations: soraxAnimations
+  animations: egretAnimations
 })
 export class CryptocurrencyComponent implements OnInit {
   cryptoChart: any;

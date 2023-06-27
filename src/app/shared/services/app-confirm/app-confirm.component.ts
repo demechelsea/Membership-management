@@ -3,22 +3,24 @@ import { Component, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-confirm',
-  template: `<h1 matDialogTitle class="mb-8">{{ data.title }}</h1>
-    <div mat-dialog-content class="mb-16">{{ data.message }}</div>
-    <div mat-dialog-actions class="pb-16">
+  template: `<div class="p-4">
+    <h1 class="text-lg pl-1 !mb-2">{{ data.title }}</h1>
+    <div class="mb-4 pl-1" *ngIf="!!data.message">{{ data.message }}</div>
+    <div mat-dialog-actions class="!pb-2 flex">
     <button
     type="button"
     mat-raised-button
     color="primary"
     (click)="dialogRef.close(true)">OK</button>
     &nbsp;
-    <span fxFlex></span>
+    <span class="mx-2"></span>
     <button
     type="button"
     color="accent"
-    mat-raised-button
+    mat-button
     (click)="dialogRef.close(false)">Cancel</button>
-    </div>`,
+    </div>
+  </div>`,
 })
 export class AppComfirmComponent {
   constructor(

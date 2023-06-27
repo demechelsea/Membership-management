@@ -3,7 +3,7 @@
 
   <!-- Left Sidebar -->
   <egret-sidebar name="layout-right-sidebar-card" [right]="true" class="mat-bg-default--mobile">
-    <div class="sidebar-header text-white blue py-24 px-16">
+    <div class="sidebar-header text-white blue py-24 px-4">
       <h5 class="text-white">Sidebar header</h5>
     </div>
     <div>
@@ -27,12 +27,11 @@
     <div class="content-body">
       <div class="content-card mat-bg-default">
         <!-- card header -->
-        <div class="card-header px-24 py-8 border-bottom">
+        <div class="card-header px-6 py-2 border-bottom">
           <button
-            fxHide
-            fxShow.lt-md
             mat-button
             egretSidebarToggler="layout-right-sidebar-card"
+            class="block lg:!hidden"
           >
             <mat-icon>menu</mat-icon>
           </button>
@@ -40,7 +39,7 @@
           Card toolbar
         </div>
         <!-- Card body -->
-        <div class="card-body p-24 scrollable" [perfectScrollbar]>
+        <div class="card-body p-6 scrollable" [perfectScrollbar]>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima
           sapiente earum aspernatur quia officia eaque beatae rem molestiae fuga
           tempora, architecto doloremque facilis, illum, soluta ducimus dolorum

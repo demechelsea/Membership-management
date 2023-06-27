@@ -10,10 +10,10 @@ import {
   ElementRef,
   ChangeDetectorRef
 } from "@angular/core";
-import { MatchMediaService } from "app/shared/services/match-media.service";
-import { MediaObserver } from "@angular/flex-layout";
+// import { MatchMediaService } from "app/shared/services/match-media.service";
+// import { MediaObserver } from "@angular/flex-layout";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+// import { takeUntil } from "rxjs/operators";
 import { EgretSidebarHelperService } from "./egret-sidebar-helper.service";
 
 @Component({
@@ -48,8 +48,8 @@ export class EgretSidebarComponent implements OnInit, OnDestroy {
   private unsubscribeAll: Subject<any>;
 
   constructor(
-    private matchMediaService: MatchMediaService,
-    private mediaObserver: MediaObserver,
+    // private matchMediaService: MatchMediaService,
+    // private mediaObserver: MediaObserver,
     private sidebarHelperService: EgretSidebarHelperService,
     private _renderer: Renderer2,
     private _elementRef: ElementRef,
@@ -61,26 +61,26 @@ export class EgretSidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sidebarHelperService.setSidebar(this.name, this);
 
-    if (this.mediaObserver.isActive(this.lockedBreakpoint)) {
-      this.sidebarLockedOpen = true;
-      this.opened = true;
-    } else {
-      this.sidebarLockedOpen = false;
-      this.opened = false;
-    }
+    // if (this.mediaObserver.isActive(this.lockedBreakpoint)) {
+    //   this.sidebarLockedOpen = true;
+    //   this.opened = true;
+    // } else {
+    //   this.sidebarLockedOpen = false;
+    //   this.opened = false;
+    // }
 
-    this.matchMediaService.onMediaChange
-      .pipe(takeUntil(this.unsubscribeAll))
-      .subscribe(() => {
-        // console.log("medua sub");
-        if (this.mediaObserver.isActive(this.lockedBreakpoint)) {
-          this.sidebarLockedOpen = true;
-          this.opened = true;
-        } else {
-          this.sidebarLockedOpen = false;
-          this.opened = false;
-        }
-      });
+    // this.matchMediaService.onMediaChange
+    //   .pipe(takeUntil(this.unsubscribeAll))
+    //   .subscribe(() => {
+    //     // console.log("medua sub");
+    //     if (this.mediaObserver.isActive(this.lockedBreakpoint)) {
+    //       this.sidebarLockedOpen = true;
+    //       this.opened = true;
+    //     } else {
+    //       this.sidebarLockedOpen = false;
+    //       this.opened = false;
+    //     }
+    //   });
   }
 
   open() {

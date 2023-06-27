@@ -1,4 +1,4 @@
-import { MessageWrapModel } from './message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 
 export class UserDetailsModel extends MessageWrapModel {
 
@@ -11,5 +11,4 @@ export class UserDetailsModel extends MessageWrapModel {
     dateofBirth: string;
     gender: string;
     maritalStatus: string;
-
 }

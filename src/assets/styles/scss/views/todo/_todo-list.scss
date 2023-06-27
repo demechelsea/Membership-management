@@ -8,7 +8,6 @@
   max-width: 100%;
   min-height: 60px;
   display: block;
-  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -19,10 +18,6 @@
   font-size: 14px;
 
   display: flex;
-
-  &:hover {
-    background: rgba(119, 68, 68, 0.05);
-  }
 }
 
 .move-handler {

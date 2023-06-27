@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'app/shared/components/perfect-scrollbar';
 import { SearchModule } from '../search/search.module';
 import { SharedPipesModule } from '../pipes/shared-pipes.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedDirectivesModule } from '../directives/shared-directives.module';
 
 // ONLY REQUIRED FOR **SIDE** NAVIGATION LAYOUT
@@ -62,7 +61,6 @@ const components = [
     FormsModule,
     RouterModule,
     TranslateModule,
-    FlexLayoutModule,
     PerfectScrollbarModule,
     SearchModule,
     SharedPipesModule,

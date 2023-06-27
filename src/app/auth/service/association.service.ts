@@ -5,7 +5,7 @@ import { LocalstorageService } from 'app/common/services/localstorage.service';
 import { notNull, nullObj } from 'app/common/utils/string-utils';
 import { Urls } from 'app/common/utils/urls';
 import { AssociationModel } from 'app/models/association-model';
-import { MessageWrapModel } from 'app/models/message-wrap-model';
+import { MessageWrapModel } from 'app/models/messageWrapModel';
 import { plainToClass } from 'class-transformer';
 import { from, lastValueFrom, Observable } from 'rxjs';
 

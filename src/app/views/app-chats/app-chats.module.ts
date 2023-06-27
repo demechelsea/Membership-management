@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatButtonModule as MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule as MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule as MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '../../shared/shared.module'
 import { AppChatsComponent } from './app-chats.component';
 import { ChatsRoutes } from './app-chats.routing';
@@ -24,6 +24,7 @@ import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
   imports: [
     CommonModule,
     FormsModule,
+    LayoutModule,
     MatSidenavModule,
     MatMenuModule,
     MatInputModule,
@@ -32,12 +33,11 @@ import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
     MatListModule,
     MatToolbarModule,
     MatCardModule,
-    FlexLayoutModule,
     PerfectScrollbarModule,
     SharedPipesModule,
     RouterModule.forChild(ChatsRoutes)
   ],
   declarations: [AppChatsComponent, ChatLeftSidenavComponent, ChatContentsComponent],
-  providers: [ ChatService ]
+  providers: [ChatService]
 })
-export class AppChatsModule {}
+export class AppChatsModule { }

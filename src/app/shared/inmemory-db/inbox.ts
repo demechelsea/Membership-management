@@ -5,7 +5,7 @@ export class InboxDB {
         name: 'Henrik Gevorg',
         photo: 'assets/images/face-1.jpg'
       },
-      date: new Date('1/25/2018'),
+      date: new Date('1/25/2022'),
       selected: false,
       subject: 'Welcome to Angular Egret',
       message: `<p>Natus consequuntur perspiciatis esse beatae illo quos eaque.</p>
@@ -29,7 +29,7 @@ export class InboxDB {
         name: 'Gevorg Spartak',
         photo: 'assets/images/face-2.jpg'
       },
-      date: new Date('4/3/2017'),
+      date: new Date('4/3/2021'),
       selected: false,
       subject: 'Confirm your email address',
       message: `<p>Natus consequuntur perspiciatis esse beatae illo quos eaque.</p>
@@ -58,7 +58,7 @@ export class InboxDB {
         name: 'Petros Toros',
         photo: 'assets/images/face-3.jpg'
       },
-      date: new Date('1/20/2017'),
+      date: new Date('1/20/2021'),
       selected: false,
       subject: 'New order informations',
       message: `<p>Natus consequuntur perspiciatis esse beatae illo quos eaque.</p>

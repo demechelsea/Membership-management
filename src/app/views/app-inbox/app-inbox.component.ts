@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MediaChange, MediaObserver } from "@angular/flex-layout";
-import { MatDialog } from '@angular/material/dialog';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AppInboxService } from './app-inbox.service';
 import { MailComposeComponent } from './mail-compose.component';
@@ -23,7 +23,7 @@ export class AppInboxComponent implements OnInit, OnDestroy {
 
 
   constructor(private router: Router,
-    private mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     public composeDialog: MatDialog,
     private inboxService: AppInboxService) { }
 
@@ -57,11 +57,11 @@ export class AppInboxComponent implements OnInit, OnDestroy {
     })
   }
   inboxSideNavInit() {
-    this.isMobile = this.mediaObserver.isActive('xs') || this.mediaObserver.isActive('sm');
+    this.isMobile = this.breakpointObserver.isMatched('(max-width: 959px)');
     this.updateSidenav();
-    this.screenSizeWatcher = this.mediaObserver.asObservable()
-    .subscribe((change: MediaChange[]) => {
-      this.isMobile = (change[0].mqAlias == 'xs') || (change[0].mqAlias == 'sm');
+
+    this.screenSizeWatcher = this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
+      this.isMobile = result.matches;
       this.updateSidenav();
     });
   }

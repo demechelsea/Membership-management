@@ -5,6 +5,7 @@ export default class LableValueModel {
   postCode: string;
   symbol: string;
   localName: string;
+  firstName?: string;
 
   constructor(id?: string, name?: string) {
     this.id = id;

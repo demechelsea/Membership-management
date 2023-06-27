@@ -1,19 +1,20 @@
 <div class="event-dialog-wrapper">
-  <mat-toolbar matDialogTitle class="mat-primary m-0">
-    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-toolbar class="mat-primary m-0">
+    <div class="flex justify-between items-center w-full py-2">
       <span class="title dialog-title">{{dialogTitle}}</span>
+      <span class="flex-grow"></span>
       <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </mat-toolbar>
 
-  <div mat-dialog-content class="p-16 m-0">
+  <div mat-dialog-content class="p-4 m-0">
 
-    <form name="eventForm" [formGroup]="eventForm" class="event-form" fxFlex>
-      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <form name="eventForm" [formGroup]="eventForm" class="event-form">
+      <div class="flex flex-wrap pt-2">
 
-        <div fxFlex="100">
+        <div class="w-full">
           <mat-form-field class="full-width">
             <input 
             matInput 
@@ -24,8 +25,8 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100" formGroupName="color">
-          <mat-form-field fxFlex>
+        <div class="flex flex-col w-full" formGroupName="color">
+          <mat-form-field class="w-full">
             <input 
             matInput 
             class="color-picker-input" 
@@ -37,9 +38,8 @@
             (colorPickerChange)="eventForm.patchValue({color:{primary: event.color.primary}})"
             />
           </mat-form-field>
-          <span fxFlex="16px"></span>
 
-          <mat-form-field fxFlex>
+          <mat-form-field>
             <input 
             matInput 
             class="color-picker-input" 
@@ -53,8 +53,8 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100">
-          <mat-form-field fxFlex>
+        <div class="flex flex-col w-full">
+          <mat-form-field>
             <input 
             matInput 
             [matDatepicker]="startDateDP" 
@@ -64,9 +64,8 @@
             <mat-datepicker-toggle matSuffix [for]="startDateDP"></mat-datepicker-toggle>
             <mat-datepicker #startDateDP></mat-datepicker>
           </mat-form-field>
-          <span fxFlex="16px"></span>
 
-          <mat-form-field fxFlex>
+          <mat-form-field>
             <input 
             matInput 
             [matDatepicker]="endDateDP" 
@@ -78,7 +77,7 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="column" fxFlex="100">
+        <div class="flex flex-col w-full">
           <mat-form-field formGroupName="meta" class="">
             <input 
             matInput 
@@ -101,7 +100,7 @@
     </form>
   </div>
 
-  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="m-0 px-6 py-4 flex justify-between items-center">
 
     <button 
     mat-raised-button 

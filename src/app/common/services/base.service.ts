@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MessageViewModel } from '../../models/message-view-model';
-import { MessageWrapModel } from '../../models/message-wrap-model';
+import { MessageViewModel } from '../../models/messageViewModel';
+import { MessageWrapModel } from '../../models/messageWrapModel';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { MessageWrapModel } from '../models/message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 
 export class AddressModel extends MessageWrapModel {
 	id: bigint;

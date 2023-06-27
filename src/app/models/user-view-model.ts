@@ -1,8 +1,10 @@
 import { AddressModel } from './address-model';
 import { AssociationModel } from './association-model';
 import LableValueModel from './lable-value-model';
+import MemershipPlanModel from './membershipPlanModel';
+import MembershipPlanDTO from './membershipPlanDTO';
 
-import { MessageWrapModel } from './message-wrap-model';
+import { MessageWrapModel } from './messageWrapModel';
 import { PageModel } from './page-model';
 import { UserDetailsModel } from './user-details-model';
 
@@ -22,8 +24,11 @@ export class UserViewModel extends MessageWrapModel {
 
     userDetail: UserDetailsModel;
     association: AssociationModel;
+    membershipPlan: MemershipPlanModel;
+    membershipPlanDTO: MembershipPlanDTO;
     mappedAssociation: AssociationModel[];
     roles: LableValueModel[];
     applications: LableValueModel[];
     addresses: AddressModel[];
+
 }

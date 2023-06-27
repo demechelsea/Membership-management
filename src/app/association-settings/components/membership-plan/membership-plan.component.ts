@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { MembershipPlanService } from 'app/association-settings/services/membership-plan.service';
-import { soraxAnimations } from 'app/common/animations/sorax-animations';
+import { MembershipPlanService } from 'app/association-settings/services/membership-plan-service/membership-plan.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
-import MemershipPlanModel from 'app/models/membership-plan-model';
+import MemershipPlanModel from 'app/models/membershipPlanModel';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
@@ -19,7 +19,7 @@ import { MembershipPlanPopupComponent } from './membership-popup/membership-plan
   selector: 'app-membership-plan',
   templateUrl: './membership-plan.component.html',
   styleUrls: ['./membership-plan.component.scss'],
-  animations: soraxAnimations
+  animations: SoraxAnimations
 })
 export class MembershipPlanComponent extends BaseComponent implements OnInit {
   public membershipPlanData: any;
@@ -29,6 +29,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
+  
 
   constructor(
     private dialog: MatDialog,
@@ -69,12 +70,11 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   openPopUp(data: MemershipPlanModel, isNew?:boolean) {
-    
     let title = isNew ? 'Add Membership Plan' : 'Update Membership Plan';
     let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
       width: '720px',
       disableClose: true,
-      data: { title: title, payload: data }
+      data: { title: title, payload: data, isNew: isNew }
     })
     dialogRef.afterClosed()
       .subscribe(res => {
@@ -82,22 +82,8 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
           // If user press cancel
           return;
         }
-        
+        this.getPageResults();
       })
-  }
-  deleteItem(row) {
-    // this.confirmService.confirm({ message: `Delete ${row.name}?` })
-    //   .subscribe(res => {
-    //     if (res) {
-    //       this.loader.open('Deleting Customer');
-    //       this.membershipPlanService.removeItem(row)
-    //         .subscribe(data => {
-    //           this.dataSource = data;
-    //           this.loader.close();
-    //           this.notificationService.showSuccess('Customer deleted!');
-    //         })
-    //     }
-    //   })
   }
   executeRowActions(rowData:MemershipPlanModel){
     console.log("Perform actions:::",rowData.performAction);
@@ -129,50 +115,52 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
         position: 'left',
         isSortable: true,
         link: true,
+        clickEvent: (data) => {
+          this.openPopUp(data, false);
+        },
       },
       {
         name: 'Description',
         dataKey: 'description',
         position: 'left',
-        isSortable: true
+        isSortable: true,
       },
       {
         name: 'Membership Fee',
         dataKey: 'fee',
-        position: 'right',
-        isSortable: true
+        position: 'left',
+        isSortable: true,
+      },
+      {
+        name: 'Renewal Interval',
+        dataKey: 'interval',
+        position: 'left',
+        isSortable: true,
       },
       {
         name: 'Status',
         dataKey: 'status',
         position: 'left',
-        isSortable: true
+        isSortable: true,
       },
       {
         name: 'Active Subscriptions',
         dataKey: 'activeSubscriptions',
-        dataType:'Date',
-        position: 'right',
-        isSortable: false
+        position: 'left',
+        isSortable: false,
       },
       {
         name: 'Updated On',
-        dataKey: 'updatedOn',
-        position: 'right',
+        dataKey: 'modifiedTimestamp',
+        position: 'left',
         isSortable: true,
         dataType:"Date",
       },
       {
         name: 'Updated By',
-        dataKey: 'updateBy',
-        position: 'right',
-        isSortable: true
-      },
-      {
-        name: 'Actions',
-        dataKey: 'action',
-        position: 'right',
-        isSortable: true
+        dataKey: 'modifiedUser',
+        position: 'left',
+        isSortable: true,
       },
     ];
   }

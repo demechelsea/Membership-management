@@ -34,27 +34,4 @@
       color: darken($warn, 30%);
     }
   }
-
-  // .ngx-datatable.material {
-  //   background-color: $background-card !important;
-  //   color: $text-color !important;
-  // }
-  // .ngx-datatable .datatable-header-cell,
-  // .ngx-datatable .datatable-body-cell,
-  // .page-count,
-  // .ngx-datatable .datatable-footer .datatable-pager a {
-  //   color: $text-color !important;
-  // }
-  // .ngx-datatable .datatable-footer .datatable-pager .pager li.disabled a {
-  //   color: $disabled-text-color !important;
-  // }
-  // .ngx-datatable.material .datatable-header {
-  //   background: map-get($background, background);
-  // }
-  // .ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover,
-  // .ngx-datatable.material:not(.cell-selection)
-  //   .datatable-body-row:hover
-  //   .datatable-row-group {
-  //   background: map-get($background, hover);
-  // }
 }

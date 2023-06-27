@@ -149,6 +149,9 @@
       display: none;
     }
   }
+  .icon-menu-list {
+    flex-direction: column;
+  }
   .nav-item-sep {
     margin: 1rem 0;
     span {

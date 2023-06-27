@@ -1,7 +1,46 @@
-<nav mat-tab-nav-bar [backgroundColor]="background" [tabPanel]="tabPanel">
-    <a mat-tab-link *ngFor="let link of links"
-       (click)="activeLink = link"
-       [active]="activeLink == link"> {{link}} </a>
-    <a mat-tab-link disabled>Disabled Link</a>
-  </nav>
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+<mat-tab-group #tabGroup [selectedIndex]="activeLink" (selectedTabChange)="onTabChange($event)" 
+            mat-stretch-tabs="false" mat-align-tabs="start"
+            color="primary">
+   <mat-tab >
+      <ng-template mat-tab-label>Committee summary</ng-template>
+      <div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;" *ngIf="!showDetails">
+         <button mat-raised-button class="mb-8" color="primary" align="right"
+            (click)="openCommitteePopUp({}, true)">Create a New Committee</button>
+      </div>
+      <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" >
+         <mat-card-content class="p-0">
+            <sorax-table-view *ngIf="!showDetails" [tableData]="committeePlanData" [tableColumns]="committeeColumns" [isFilterable]="false"
+               [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)" (rowAction)="emitRowAction($event)"
+               (viewEvent)="viewCommittee($event)" (editEvent)="editCommittee($event)" [tableType]="'committee'">
+            </sorax-table-view>
+         </mat-card-content>
+         <committee-member-details  *ngIf="showDetails" (addPosition)="onAddPosition()" [selectedRow]="selectedRow"></committee-member-details>
+      </mat-card>
+
+   </mat-tab>
+
+   <mat-tab *ngIf="selectedRow">
+      <ng-template mat-tab-label>Committee positions</ng-template>
+      <div *ngIf="selectedRow.status == 'Active'" class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
+         <button mat-raised-button class="mb-8" color="primary" align="right"
+            (click)="openPositionPopUp({}, true)" >Create a New Position</button>
+      </div>
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
+         <mat-card *ngFor="let position of positions" cdkDrag [ngStyle]="{'background-color': 'rgb(34,42,69)', 'width': '50%'}">
+            <div style="display: flex; align-items: center;">
+               <div [ngStyle]="{'color': 'white'}"> {{position.positionName}}</div>
+               <div style="flex: 1;"></div>
+               <button mat-icon-button (click)="openPositionPopUp(position, false)" [ngStyle]="{'color': 'white'}">
+                  <mat-icon>edit</mat-icon>
+               </button>
+               <button mat-icon-button (click)="delete(position)" [ngStyle]="{'color': 'red'}">
+                  <mat-icon>delete</mat-icon> 
+               </button>
+            </div>
+         </mat-card>
+      </div>
+
+
+   </mat-tab>
+
+</mat-tab-group>

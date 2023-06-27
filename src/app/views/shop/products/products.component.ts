@@ -1,19 +1,26 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, forwardRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { ShopService, CartItem } from '../shop.service';
 import { Product } from '../../../shared/models/product.model';
-import { UntypedFormBuilder, UntypedFormGroup, FormControl } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { soraxAnimations } from '../../../common/animations/sorax-animations';
+import { egretAnimations } from '../../../shared/animations/egret-animations';
 import { AppLoaderService } from '../../../shared/services/app-loader/app-loader.service';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
-  animations: [soraxAnimations]
+  animations: [egretAnimations],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ProductsComponent),  // replace name as appropriate
+      multi: true
+    }
+  ]
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   public isSideNavOpen: boolean;

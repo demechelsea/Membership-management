@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
@@ -15,7 +14,6 @@ import { MapRoutes } from "./map.routing";
     CommonModule,
     MatCardModule,
     MatListModule,
-    FlexLayoutModule,
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,

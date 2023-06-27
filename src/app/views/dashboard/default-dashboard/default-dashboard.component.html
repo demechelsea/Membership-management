@@ -143,7 +143,7 @@
 
     <mat-card class="p-0" [@animate]="{value:'*',params:{scale:'.9',delay:'300ms'}}">
       <mat-card-title class="">
-        <div class="card-title-text align-items-center">
+        <div class="card-title-text items-center">
           <h6 class="text-14 m-0">Campaign Performance</h6>
           <span fxFlex></span>
           <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu2">
@@ -167,8 +167,8 @@
         <mat-divider></mat-divider>
       </mat-card-title>
       <mat-card-content>
-       <div class="mb-16">
-        <p class="mb-8 text-muted">Facebook Campaign</p>
+       <div class="mb-4">
+        <p class="m-2 text-muted">Facebook Campaign</p>
         <mat-progress-bar
         class=""
         color="primary"
@@ -176,8 +176,8 @@
         [value]="90">
         </mat-progress-bar>
        </div>
-       <div class="mb-16">
-        <p class="mb-8 text-muted">Google AdSense</p>
+       <div class="mb-4">
+        <p class="m-2 text-muted">Google AdSense</p>
         <mat-progress-bar
         class=""
         color="primary"
@@ -185,8 +185,8 @@
         [value]="80">
         </mat-progress-bar>
        </div>
-       <div class="mb-16">
-        <p class="mb-8 text-muted">Twitter Campaign</p>
+       <div class="mb-4">
+        <p class="m-2 text-muted">Twitter Campaign</p>
         <mat-progress-bar
         class=""
         color="accent"
@@ -194,8 +194,8 @@
         [value]="60">
         </mat-progress-bar>
        </div>
-       <div class="mb-16">
-        <p class="mb-8 text-muted">LinkedIn Campaign</p>
+       <div class="mb-4">
+        <p class="m-2 text-muted">LinkedIn Campaign</p>
         <mat-progress-bar
         class=""
         color="warn"
@@ -240,15 +240,15 @@
         <h6 class="text-18 mb-4">Recent Tickets</h6>
       </mat-card-title>
       <mat-card-content class="p-0">
-        <mat-list class="compact-list mb-16">
+        <mat-list class="compact-list mb-4">
           <mat-list-item class="" *ngFor="let t of tickets">
-            <img mat-list-avatar class="mr-16" [src]="t.img" alt="">
+            <img mat-list-avatar class="mr-4 rtl:ml-4" [src]="t.img" alt="">
             <div fxLayout="row" fxFlex="100">
-              <h6 class="m-0 mr-16">{{t.name}}</h6>
+              <h6 class="m-0 mr-4 rtl:ml-4">{{t.name}}</h6>
               <span fxFlex></span>
               <div fxFlex="40">{{t.text | excerpt:20 }}</div>
               <span fxFlex></span>
-              <small class="text-muted mr-16">{{ t.date | relativeTime}}</small>
+              <small class="text-muted mr-4 rtl:ml-4">{{ t.date | relativeTime}}</small>
             </div>
             <mat-chip mat-sm-chip [color]="'warn'" [selected]="t.isOpen">{{t.isOpen ? 'active' : 'closed'}}</mat-chip>
           </mat-list-item>
@@ -266,9 +266,9 @@
       fxFlex="100"
       fxFlex.gt-sm="50">
         <mat-card class="user-card p-0">
-          <mat-card-title class="mb-16">
+          <mat-card-title class="mb-4">
             <div class="card-title-text">
-              <a href="" class="toolbar-avatar md mr-16"><img [src]="user.photo" alt=""></a>
+              <a href="" class="toolbar-avatar md mr-4 rtl:ml-4"><img [src]="user.photo" alt=""></a>
               <span class="text-18">{{user.name}}</span>
               <span fxFlex></span>
               <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">

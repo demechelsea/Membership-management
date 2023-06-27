@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+
 import { MatSidenav } from '@angular/material/sidenav';
 import { ChatService } from './chat.service';
 
@@ -26,7 +27,7 @@ export class AppChatsComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     public chatService: ChatService
   ) {
     // console.log(chatService.chats)
@@ -52,11 +53,11 @@ export class AppChatsComponent implements OnInit, OnDestroy {
     });
   }
   chatSideBarInit() {
-    this.isMobile = this.mediaObserver.isActive('xs') || this.mediaObserver.isActive('sm');
+    this.isMobile = this.breakpointObserver.isMatched('(max-width: 959px)');
     this.updateSidenav();
-    this.screenSizeWatcher = this.mediaObserver.asObservable()
-    .subscribe((change: MediaChange[]) => {
-      this.isMobile = (change[0].mqAlias == 'xs') || (change[0].mqAlias == 'sm');
+
+    this.screenSizeWatcher = this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
+      this.isMobile = result.matches;
       this.updateSidenav();
     });
   }

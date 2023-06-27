@@ -1,36 +1,41 @@
 <div class="page-wrap h-full slate">
   <div class="session-form-hold">
     <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-    <mat-card>
+    <mat-card class="!m-0">
       <mat-card-content>
-        <div class="text-center pt-8 pb-16">
+        <div class="flex flex-col items-center !py-4">
           <img width="60px" src="assets/images/illustrations/breaking_barriers.svg" alt="" />
           <p class="font-weight-bold">Sign in to your {{contextAssociation!.name}} account</p>
         </div>
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
-        <form [formGroup]="loginForm" class="signup-form" fxLayout="column" (ngSubmit)="signInClicked()">
+        <form [formGroup]="loginForm" class="signup-form" (ngSubmit)="signInClicked()">
           <div formGroupName="user">
-            <div class="">
-              <sorax-form-field label="Email or phone" exClass="pb18"
-                [soraxFormControl]="loginForm.get('user.emailId')">
-                <input matInput formControlName="emailId" type="email" name="emailId" placeholder="Email or phone">
-              </sorax-form-field>
-            </div>
-            <div class="">
-              <sorax-form-field label="Password" exClass="pb18" [soraxFormControl]="loginForm.get('user.password')">
-                <input matInput formControlName="password" type="password" name="password" placeholder="*******">
-              </sorax-form-field>
-            </div>
-            <div class="pb-16">
-              <mat-checkbox formControlName="agreed">
-                I agree with terms and condtions</mat-checkbox>
-            </div>
+            <sorax-form-field label="Email or phone" exClass="pb18" [soraxFormControl]="loginForm.get('user.emailId')" >
+
+              <input  #soraxInput  matInput formControlName="emailId" type="email" name="emailId" placeholder="Email or phone" >
+            </sorax-form-field>
+
+            <mat-form-field 
+                  autocomplete="off"
+                class="full-width " 
+                appearance="outline"
+                >
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password" name="password" >
+              </mat-form-field>
+
+            <mat-checkbox formControlName="agreed">
+              I agree with terms and condtions</mat-checkbox>
           </div>
-          <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="pageLoaded && loginForm.invalid">Sign in</button>
-          <div class="text-center pt-18" >
-            <a *ngIf="!contextAssociation.name" [routerLink]="'/auth/signup'" class="mat-primary text-left full-width">Create a new account</a>
-            <a *ngIf="contextAssociation.setting?.publicRegistrationFlg =='Y'" [routerLink]="'/auth/signup'" class="mat-primary text-left full-width">Member Registration</a>
-            <span fxFlex></span>
+          <button mat-raised-button class="mat-primary full-width mt-4 mb-8"
+            [disabled]="pageLoaded && loginForm.invalid">Sign in</button>
+          <div class="text-center flex">
+            <a *ngIf="!contextAssociation.name" [routerLink]="'/auth/signup'"
+              class="mat-primary text-left full-width">Create a new account</a>
+
+            <a *ngIf="contextAssociation.setting?.publicRegistrationFlg =='Y'" [routerLink]="'/auth/signup'"
+              class="mat-primary text-left full-width">Member Registration</a>
+            <span class="flex-grow"></span>
             <a class="mat-primary text-right full-width" [routerLink]="'/auth/forgotPassword'">Forgot password</a>
           </div>
         </form>
