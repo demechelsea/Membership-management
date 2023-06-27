@@ -17,6 +17,7 @@ import { CommitteeMemberDTO } from 'app/models/committeeMemberDTO';
 import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
 import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import * as moment from 'moment';
+import { opencommitteeMemberPopupService } from 'app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service';
 
 
 @Component({
@@ -35,17 +36,14 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   public committeeMembersColumns: SoraxColumnDefinition[];
   public attachmentColumns: SoraxColumnDefinition[];
 
+  @Output() viewCommittee: EventEmitter<void> = new EventEmitter<void>();
+
   public listAttachments: CommitteeMemberAttachmentDTO[];
   public listCommitteeMembers: CommitteeMemberDTO[];
 
   private ngUnsubscribe$ = new Subject<void>();
 
   resultViewModel: ResultViewModel = new ResultViewModel();
-
-  // @ViewChild('committee') committee: CommitteeComponent;
-  // private openCommitteeMemberPopupSubscription: Subscription;
-
-
   rowAction: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private dialog: MatDialog,
@@ -53,27 +51,24 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     private committeeService: CommitteeMemberService,
     private attachmentService: AttachmentService,
     private loader: AppLoaderService,
-    private confirmService: AppConfirmService,) {
+    private confirmService: AppConfirmService,
+    private opencommitteeMemberPopupService: opencommitteeMemberPopupService) {
     super();
   }
   ngOnInit(): void {
     this.initializeColumns();
     this.getCommitteeMembersData();
     this.getAttachmentData();
+    let committeeModel = new CommitteeMemberDTO();
+    this.opencommitteeMemberPopupService.openCommitteeMemberPopup$.subscribe(() => {
+      this.openCommitteeMemberPopUp(committeeModel, true)
+    });
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
-
-  // ngAfterViewInit() {
-  //   // Subscribe to openCommitteeMemberPopup event
-  //   this.openCommitteeMemberPopupSubscription = this.committee.openCommitteeMemberPopup.subscribe(() => {
-  //     this.openCommitteeMemberPopUp(null, true);
-  //   });
-  // }
-
 
   getCommitteeMembersData() {
     this.committeeService.getCommitteeMembers(this.page, this.selectedRow.id)
@@ -94,8 +89,8 @@ export class DetailsComponent extends BaseComponent implements OnInit {
       });
   }
 
-  viewCommittee(){
-    
+  viewCommittees(){
+    this.viewCommittee.emit();
   }
 
   getAttachmentData() {
@@ -120,12 +115,13 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     this.openCommitteeMemberPopUp(row, false);
   }
 
-  openCommitteeMemberPopUp(data: CommitteeMemberDTO, isNew?: boolean) {   
+  openCommitteeMemberPopUp(data?: CommitteeMemberDTO, isNew?: boolean) { 
     let title = isNew ? 'Create a new committee member' : 'Edit committee member';
     let dialogRef: MatDialogRef<any> = this.dialog.open(CommitteeMemberPopupComponent, {
       width: '720px',
       disableClose: true,
-      data: { title: title, payload: data, isNew: isNew, selectedCommittee: this.selectedRow }
+      data: { title: title, payload: data, isNew: isNew, selectedCommittee: this.selectedRow, associationMemberId: data?.associationMember?.id,
+        positionId: data?.committeePosition?.id, selectedCommitteeMember: data.id }
     });
     dialogRef.componentInstance.addPosition.subscribe(() => {
       this.addPosition.emit();
@@ -133,15 +129,10 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (!res) {
-        // If user press cancel
         console.log("no res", res);
         return;
       }
         this.getCommitteeMembersData();
-        // if (this.openCommitteeMemberPopupSubscription) {
-        //   this.openCommitteeMemberPopupSubscription.unsubscribe();
-        // }
-        // this.openCommitteeMemberPopUp(null, true); 
     }
     );
   }
@@ -167,8 +158,14 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     this.attachmentService.deleteAttachment(row)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
+        this.notificationService.showSuccess('Attachment deleted successfully!');
+        this.getAttachmentData();
+      }, error => {
+        this.notificationService.showError('Failed to delete attachment. Please try again later.');
+        console.error('Failed to delete attachment:', error);
       });
   }
+  
 
   committeeExecuteRowActions(rowData: CommitteeMemberDTO) {
     if (rowData.performAction == "edit") {

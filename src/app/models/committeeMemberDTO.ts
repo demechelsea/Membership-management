@@ -16,4 +16,6 @@ export class CommitteeMemberDTO extends MessageWrapModel {
     endDate: Date;
     photoLink: String;
     page: PageModel;
+    status: string;
+
 }

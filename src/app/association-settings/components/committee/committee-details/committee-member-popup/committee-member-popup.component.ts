@@ -11,6 +11,7 @@ import { CommitteeMemberDTO } from 'app/models/committeeMemberDTO';
 import { CommitteePositionDTO } from 'app/models/committeePositionDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
 import { AssociationMemberDTO } from 'app/models/AssociationMemberDTO ';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
   committeeId: number;
   associationMemberId: number;
   positionId: number;
+  selectedCommitteeMemberId: number;
   startDate: string;
   endDate: string
 
@@ -50,12 +52,16 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private committeeMemberService: CommitteeMemberService,
+    private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew ? 'Create a committee member' : 'Update committee member';
     this.committeeId = data.selectedCommittee.id;
     this.startDate = data.selectedCommittee.startDate;
     this.endDate = data.selectedCommittee.endDate;
+    this.associationMemberId = data.associationMemberId;
+    this.positionId = data.positionId;
+    this.selectedCommitteeMemberId = data.selectedCommitteeMember;
   }
 
 
@@ -73,24 +79,28 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
   buildCommitteeMemberForm(committeeMemberData: CommitteeMemberDTO) {
     const isUpdate = !this.data.isNew;
     this.committeeMemberForm = this.formBuilder.group({
-      //id: [committeeMemberData.committee.id ],
-      member:[isUpdate ? committeeMemberData.associationMember : ''],
+      id: [isUpdate ? this.selectedCommitteeMemberId : null],
+      member: [committeeMemberData.associationMember],
       firstName: [committeeMemberData?.associationMember?.userDetail?.firstName || '',],
       givenName: [committeeMemberData?.associationMember?.userDetail?.givenName || '',],
       primaryPhone: [committeeMemberData?.associationMember?.userDetail?.primaryPhone || '',],
       primaryEmail: [committeeMemberData?.associationMember?.userDetail?.primaryEmail || '',],
-      committeePosition: [committeeMemberData.committeePosition?.positionName || ''],
+      committeePosition: [isUpdate ? committeeMemberData.committeePosition.positionName : ''],
       preferredNameDisplay: [committeeMemberData.preferredNameDisplay || ''],
-      phoneVisibilityFlg: [this.convertToNumber(committeeMemberData.phoneVisibilityFlg) || 0, Validators.required],
-      emailVisibilityFlg: [this.convertToNumber(committeeMemberData.emailVisibilityFlg) || 0, Validators.required],
-      startDate: [isUpdate ? moment(committeeMemberData.startDate).format('YYYY-MM-DD') : moment(this.startDate).format('YYYY-MM-DD'), Validators.required],
+      phoneVisibilityFlg: [this.convertToNumber(committeeMemberData.phoneVisibilityFlg) || 0],
+      emailVisibilityFlg: [this.convertToNumber(committeeMemberData.emailVisibilityFlg) || 0],
+      startDate: [isUpdate ? moment(committeeMemberData.startDate).format('YYYY-MM-DD') : moment(this.startDate).format('YYYY-MM-DD')],
       photoLink: [committeeMemberData.photoLink || ''],
-      status: [committeeMemberData?.associationMember?.status || 'active', isUpdate ? Validators.required : []],
-      endDate: [isUpdate ? moment(committeeMemberData.endDate).format('YYYY-MM-DD') : moment(this.endDate).format('YYYY-MM-DD'), Validators.required],
-      committee:[isUpdate ? committeeMemberData.committee.id : ''],
-      associationMember:[isUpdate ? committeeMemberData.associationMember.id : this.associationMemberId],
-      positionId:[isUpdate ? committeeMemberData.committeePosition.id : this.positionId],
+      status: [isUpdate ? committeeMemberData.status : 'Active'],
+      endDate: [isUpdate ? moment(committeeMemberData.endDate).format('YYYY-MM-DD') : moment(this.endDate).format('YYYY-MM-DD')],
     });
+
+    if (isUpdate) {
+      this.committeeMemberForm.controls['firstName'].disable();
+      this.committeeMemberForm.controls['givenName'].disable();
+      this.committeeMemberForm.controls['primaryPhone'].disable();
+      this.committeeMemberForm.controls['primaryEmail'].disable();
+    }
   }
 
   convertToNumber(str: string): number {
@@ -106,44 +116,44 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
   }
 
   submit(committeeMember: CommitteeMemberDTO) {
-
-    committeeMember.committee = new CommitteeDTO();
-    committeeMember.committee.id = this.committeeId;
-
-    committeeMember.associationMember = new AssociationMemberDTO();
-    committeeMember.associationMember.id = this.associationMemberId;
-
-    committeeMember.committeePosition = new CommitteePositionDTO();
-    committeeMember.committeePosition.id = this.positionId;
-    
-
-    console.log("hi ", committeeMember)
     if (this.committeeMemberForm.valid) {
       const formData = this.committeeMemberForm.value;
+      formData.id = this.selectedCommitteeMemberId;
+      formData.committee = new CommitteeDTO()
+      formData.committee.id = this.committeeId;
+      formData.associationMember = new AssociationMemberDTO();
+      formData.associationMember.id = this.associationMemberId;
+      formData.committeePosition = new CommitteePositionDTO();
+      formData.committeePosition.id = this.positionId;
+
       const planData = this.mapFormDataToPlanData(formData);
       if (this.data.isNew) {
         this.committeeMemberService.createCommitteeMember(planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Committee member created successfully!');
             this.dialogRef.close(response);
           }, error => {
-            console.error('Failed to create a new committee:', error);
-            alert('Something went wrong. Please try again later.');
+            this.notificationService.showError('Failed to create a new committee member. Please try again later.');
+            console.error('Failed to create a new committee member:', error);
           });
       } else {
         this.committeeMemberService.updateCommitteeMember(committeeMember.id, planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            console.log('Updated an existing committee:', response);
+            this.notificationService.showSuccess('Committee member updated successfully!');
+            console.log('Updated an existing committee member:', response);
             this.dialogRef.close(response);
           }, error => {
-            console.error('Failed to update an existing committee:', error);
-            alert('Something went wrong. Please try again later.');
+            this.notificationService.showError('Failed to update an existing committee member. Please try again later.');
+            console.error('Failed to update an existing committee member:', error);
           });
       }
     } else {
+      this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
+
 
   mapFormDataToPlanData(formData: any): CommitteeMemberDTO {
     return {

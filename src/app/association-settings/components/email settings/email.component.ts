@@ -15,6 +15,8 @@ import { EmailSettingService } from 'app/association-settings/services/emailSett
 import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 import { EmailTemplateDTO } from 'app/models/emailTemplateDTO';
 import { EmailTemplateService } from 'app/association-settings/services/emailTemplate/emailTemplate.service';
+import { SMTPPopupComponent } from './SMTP-popup/SMTP-popup.component';
+import { EmailSendersProfilePopupComponent } from './Senders profile-Popup/sendersProfile-Popup.component';
 
 
 @Component({
@@ -66,7 +68,7 @@ export class EmailComponent extends BaseComponent implements OnInit {
     this.emailTemplateService.getEmailTemplates(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        console.log(response);
+        console.log("ji" , response);
         this.listTemplateEmails = response.result;
         this.emailTemplateData = this.listTemplateEmails;
       });
@@ -114,13 +116,43 @@ export class EmailComponent extends BaseComponent implements OnInit {
     this.page.currentPage = 0;
     this.page.sortDirection = sortParameters.direction;
     this.page.sortColumn = sortParameters.active;
-    this.getEmailTemplateData();
+    //this.getEmailTemplateData();
   }
 
   pageChangeEvent(event: PageEvent) {
     this.page.pageSize = event.pageSize;
     this.page.currentPage = event.pageIndex;
-    this.getEmailTemplateData();
+    //this.getEmailTemplateData();
+  }
+
+  openSMTPPopUp(data: EmailSettingDTO) {
+    let title = 'Edit SMTP Email setting';
+    let dialogRef: MatDialogRef<any> = this.dialog.open(SMTPPopupComponent, {
+      width: '720px',
+      disableClose: true,
+      data: { title: title, payload: data}
+    })
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+      })
+  }
+
+  openSendersProfilePopUp(data: EmailSettingDTO) {
+    let title = 'Edit SMTP Email setting';
+    let dialogRef: MatDialogRef<any> = this.dialog.open(EmailSendersProfilePopupComponent, {
+      width: '720px',
+      disableClose: true,
+      data: { title: title, payload: data}
+    })
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+      })
   }
 
 

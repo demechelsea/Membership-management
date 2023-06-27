@@ -14,7 +14,7 @@
                (viewEvent)="viewCommittee($event)" (editEvent)="editCommittee($event)" [tableType]="'committee'">
             </sorax-table-view>
          </mat-card-content>
-         <committee-member-details  *ngIf="showDetails" (addPosition)="onAddPosition()" [selectedRow]="selectedRow"></committee-member-details>
+         <committee-member-details  (viewCommittee)="onViewCommittees()" *ngIf="showDetails" (addPosition)="onAddPosition()" [selectedRow]="selectedRow"></committee-member-details>
       </mat-card>
 
    </mat-tab>
