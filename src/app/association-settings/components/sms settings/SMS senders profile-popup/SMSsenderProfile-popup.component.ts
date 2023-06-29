@@ -12,30 +12,30 @@ import { EmailSettingService } from 'app/association-settings/services/emailSett
 
 @Component({
   selector: 'app-component-popup',
-  templateUrl: './sendersProfile-Popup.component.html',
+  templateUrl: './SMSsenderProfile-popup.component.html',
 
 })
-export class EmailSendersProfilePopupComponent extends BaseComponent implements OnInit {
+export class SMSSenderProfilePopupComponent extends BaseComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject<void>();
-  public sendersProfileForm: FormGroup;
+  public SMSsendersProfileForm: FormGroup;
   public isLoading: boolean;
   public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
 
-  buttonText = 'Create a SMTP Email setting';
+  buttonText = 'Create SMS senders profile';
 
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<EmailSendersProfilePopupComponent>,
+    public dialogRef: MatDialogRef<SMSSenderProfilePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private confirmService: AppConfirmService,
     public emailSettingService: EmailSettingService
   ) {
     super();
-    this.buttonText = 'Update senders profile';
+    this.buttonText = 'Update SMS senders profile';
   }
 
   ngOnInit() {
@@ -45,19 +45,17 @@ export class EmailSendersProfilePopupComponent extends BaseComponent implements 
 
   buildSMTPForm(EmailSettingDTO: EmailSettingDTO) {
     const isUpdate = !this.data.isNew;
-    this.sendersProfileForm = this.formBuilder.group({
+    this.SMSsendersProfileForm = this.formBuilder.group({
       id: [EmailSettingDTO.id, Validators.required],
       smtpHost: [EmailSettingDTO.smtpHost, Validators.required],
       port: [EmailSettingDTO.port, Validators.required],
-      replyToEmail: [EmailSettingDTO.replyToEmail, Validators.required],
-      emailId: [EmailSettingDTO.emailId, Validators.required],
-      password: [EmailSettingDTO.password, Validators.required],
+
     })
   }
 
 
   submit(plan: EmailSettingDTO) {
-    if (this.sendersProfileForm.valid) {
+    if (this.SMSsendersProfileForm.valid) {
       this.emailSettingService.updateEmailSetting(plan.id, plan)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe(

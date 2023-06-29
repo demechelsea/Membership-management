@@ -5,7 +5,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
-  <div  mat-dialog-content class="padround18">
+  <div mat-dialog-content class="padround18">
     <form [formGroup]="membershipPlanForm" class="membershipPlanForm flex flex-col padround18"
       (ngSubmit)="submit(membershipPlanForm.value)">
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
@@ -30,35 +30,48 @@
         (selectedOptionEmitter)="onSelectedIntervalOption($event)">
       </sorax-autocomplete>
 
-      <mat-slide-toggle  class="padround8" [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic payment
-        remainder</mat-slide-toggle>
+      <div class="p-4">
+        <mat-slide-toggle class="w-full md:w-1/2" [formControl]="membershipPlanForm.controls['autoPymtRemainder']">Automatic
+          payment
+          remainder</mat-slide-toggle>
 
-      <mat-slide-toggle class="padround8" [formControl]="membershipPlanForm.controls['familyMemberIncluded']">Family members
-        included</mat-slide-toggle>
+        <mat-slide-toggle class="w-full md:w-1/2" [formControl]="membershipPlanForm.controls['familyMemberIncluded']">Family
+          members
+          included</mat-slide-toggle>
+      </div>
 
-      <mat-slide-toggle class="padround8" [formControl]="membershipPlanForm.controls['authApproveSubscribers']">Auto approve
-        applicants</mat-slide-toggle>
+      <div  class="p-4">
+        <mat-slide-toggle class="w-full md:w-1/2" [formControl]="membershipPlanForm.controls['authApproveSubscribers']">Auto
+          approve
+          applicants</mat-slide-toggle>
 
-      <mat-slide-toggle class="padround8" [formControl]="membershipPlanForm.controls['availableForGeneralPublic']">Can general
-        public choose</mat-slide-toggle>
+        <mat-slide-toggle class="w-full md:w-1/2" [formControl]="membershipPlanForm.controls['availableForGeneralPublic']">Can
+          general
+          public choose</mat-slide-toggle>
+      </div>
 
-      <mat-slide-toggle class="padround8" [formControl]="membershipPlanForm.controls['sendEmailNotification']">Send Email
+      <mat-slide-toggle class="w-full md:w-1/2 p-4" [formControl]="membershipPlanForm.controls['sendEmailNotification']">Send
+        Email
         notification to all Subscribers</mat-slide-toggle>
 
-      <mat-slide-toggle class="padround8" [formControl]="membershipPlanForm.controls['notifySubscribers']">Notify Subscribers for this
-        plan</mat-slide-toggle>
-
-      <sorax-form-field label="Benfits" [soraxFormControl]="membershipPlanForm.get('benefits')">
-        <textarea #soraxInput matInput formControlName="benefits" type="text" placeholder="Benfits" max-rows="4">
+      <sorax-form-field label="Benefits and Conditions" [soraxFormControl]="membershipPlanForm.get('benefits')">
+        <textarea #soraxInput matInput formControlName="benefits" type="text" placeholder="Benefits and Conditions"
+          max-rows="4">
               </textarea>
       </sorax-form-field>
 
-      <div *ngIf="!data.isNew">
-        <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
+      <div *ngIf="!data.isNew" class="flex justify-between">
+        <sorax-autocomplete class="w-full md:w-1/2 pr-16" [lookupName]="statusoptionsKey" placeholder="Status"
           [autoCompleteFieldLabel]="membershipPlanForm.controls['status']"
           (selectedOptionEmitter)="onSelectedStatusOption($event)">
         </sorax-autocomplete>
+
+        <mat-slide-toggle class="w-full md:w-1/2" [formControl]="membershipPlanForm.controls['notifySubscribers']">Notify
+          Subscribers for this
+          plan</mat-slide-toggle>
       </div>
+
+     
     </form>
   </div>
 

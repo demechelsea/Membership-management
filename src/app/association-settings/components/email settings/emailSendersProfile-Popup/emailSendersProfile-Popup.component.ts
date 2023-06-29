@@ -12,13 +12,13 @@ import { EmailSettingService } from 'app/association-settings/services/emailSett
 
 @Component({
   selector: 'app-component-popup',
-  templateUrl: './senderProfile-popup.component.html',
+  templateUrl: './emailSendersProfile-Popup.component.html',
 
 })
-export class SMSSenderProfilePopupComponent extends BaseComponent implements OnInit {
+export class EmailSendersProfilePopupComponent extends BaseComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject<void>();
-  public SMSsendersProfileForm: FormGroup;
+  public sendersProfileForm: FormGroup;
   public isLoading: boolean;
   public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
@@ -28,7 +28,7 @@ export class SMSSenderProfilePopupComponent extends BaseComponent implements OnI
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<SMSSenderProfilePopupComponent>,
+    public dialogRef: MatDialogRef<EmailSendersProfilePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private confirmService: AppConfirmService,
@@ -45,17 +45,19 @@ export class SMSSenderProfilePopupComponent extends BaseComponent implements OnI
 
   buildSMTPForm(EmailSettingDTO: EmailSettingDTO) {
     const isUpdate = !this.data.isNew;
-    this.SMSsendersProfileForm = this.formBuilder.group({
+    this.sendersProfileForm = this.formBuilder.group({
       id: [EmailSettingDTO.id, Validators.required],
       smtpHost: [EmailSettingDTO.smtpHost, Validators.required],
       port: [EmailSettingDTO.port, Validators.required],
-
+      replyToEmail: [EmailSettingDTO.replyToEmail, Validators.required],
+      emailId: [EmailSettingDTO.emailId, Validators.required],
+      password: [EmailSettingDTO.password, Validators.required],
     })
   }
 
 
   submit(plan: EmailSettingDTO) {
-    if (this.SMSsendersProfileForm.valid) {
+    if (this.sendersProfileForm.valid) {
       this.emailSettingService.updateEmailSetting(plan.id, plan)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe(

@@ -16,7 +16,7 @@ import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 import { EmailTemplateDTO } from 'app/models/emailTemplateDTO';
 import { EmailTemplateService } from 'app/association-settings/services/emailTemplate/emailTemplate.service';
 import { SMTPPopupComponent } from './SMTP-popup/SMTP-popup.component';
-import { EmailSendersProfilePopupComponent } from './Senders profile-Popup/sendersProfile-Popup.component';
+import { EmailSendersProfilePopupComponent } from './emailSendersProfile-Popup/emailSendersProfile-Popup.component';
 
 
 @Component({

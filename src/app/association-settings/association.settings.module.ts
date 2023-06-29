@@ -17,8 +17,10 @@ import { AttachmentPopupComponent } from './components/committee/committee-detai
 import { EmailComponent } from './components/email settings/email.component';
 import { SmsComponent } from './components/sms settings/sms.component';
 import { SMTPPopupComponent } from './components/email settings/SMTP-popup/SMTP-popup.component';
-import { EmailSendersProfilePopupComponent } from './components/email settings/Senders profile-Popup/sendersProfile-Popup.component';
-import { SMSSenderProfilePopupComponent } from './components/sms settings/senders profile-popup/senderProfile-popup.component';
+import { EmailSendersProfilePopupComponent } from './components/email settings/emailSendersProfile-Popup/emailSendersProfile-Popup.component';
+import { SMSSenderProfilePopupComponent } from './components/sms settings/SMS senders profile-popup/SMSsenderProfile-popup.component';
+import { PoliciesAndDocstoreComponent } from './components/policies and Doc store/policiesAndDocstore.component';
+import { PoliciesAndDocstorePopupComponent } from './components/policies and Doc store/policiesAndDocstore-popup/policiesAndDocstore.component';
 
 
 const declarationsList = [
@@ -34,7 +36,9 @@ const declarationsList = [
   SmsComponent,
   SMTPPopupComponent,
   EmailSendersProfilePopupComponent,
-  SMSSenderProfilePopupComponent
+  SMSSenderProfilePopupComponent,
+  PoliciesAndDocstoreComponent,
+  PoliciesAndDocstorePopupComponent
 ];
 
 const importsList = [

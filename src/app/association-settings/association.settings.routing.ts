@@ -4,6 +4,7 @@ import { CommitteeComponent } from './components/committee/committee.component';
 import { MembershipPlanComponent } from 'app/association-settings/components/membership-plan/membership-plan.component';
 import { EmailComponent } from './components/email settings/email.component';
 import { SmsComponent } from './components/sms settings/sms.component';
+import { PoliciesAndDocstoreComponent } from './components/policies and Doc store/policiesAndDocstore.component';
 
 
 
@@ -22,7 +23,11 @@ export const AssociationSettingsRoutes: Routes = [
   },
   {
     path: 'smsSetting', component: SmsComponent,
-    data: { title: 'Email Settings', breadcrumb: 'Email Settings' }
+    data: { title: 'SMS Settings', breadcrumb: 'SMS Settings' }
+  },
+  {
+    path: 'PoliciesAndDocstore', component: PoliciesAndDocstoreComponent,
+    data: { title: 'Policies and Docstore', breadcrumb: 'Policies and Docstore' }
   }
 
 ];

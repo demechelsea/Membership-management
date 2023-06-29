@@ -15,7 +15,7 @@ import { MessageSettingDTO } from 'app/models/messageSettingDTO';
 import { MessageTemplateDTO } from 'app/models/messageTemplateDTO';
 import { SmsSettingService } from 'app/association-settings/services/smsSettingService/smsSetting.service';
 import { SmsTemplateService } from 'app/association-settings/services/smsTemplate/smsTemplate.service';
-import { SMSSenderProfilePopupComponent } from './senders profile-popup/senderProfile-popup.component';
+import { SMSSenderProfilePopupComponent } from './SMS senders profile-popup/SMSsenderProfile-popup.component';
 import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 
 
