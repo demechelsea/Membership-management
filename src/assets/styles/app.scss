@@ -120,11 +120,9 @@ html {
     color: black;
 }
 
-
 .sorax-form-field {
     font-size: 12px;
     letter-spacing: 1.2px;
-    padding-bottom: 8px;
     margin-bottom: -0.65em !important;
 }
 
@@ -141,7 +139,7 @@ html {
 }
 
 .mat-mdc-form-field-label-wrapper {
-    top: 0.3em !important;
+    top: 5px !important;
 }
 
 .mat-mdc-form-field-appearance-outline.mat-mdc-form-field-can-float.mat-mdc-form-field-should-float .mat-mdc-form-field-label {
@@ -153,11 +151,16 @@ html {
     border-right: none;
 }
 
-// .mdc-text-field:not(:hover):not(:focus) .mdc-floating-label:not(:hover):not(:focus) {
-//     top: 50%;
-//     transform: translateY(-100%) !important;
-//     pointer-events: none;
-// }
+.mdc-floating-label  {
+    top: 20px !important;
+    transform-origin: top left;
+    pointer-events: none;
+}
+
+
+.mdc-floating-label--float-above {
+    transform: translateY(-170%) scale(0.75) !important;
+}
 
 .pb18 {
     padding-bottom: 18px !important;
@@ -165,6 +168,9 @@ html {
 
 .pb8{
     padding-bottom: 8px !important;
+}
+.pb10{
+    padding-bottom: 10px !important;
 }
 
 .pt18 {

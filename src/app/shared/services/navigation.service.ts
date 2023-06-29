@@ -93,8 +93,7 @@ export class NavigationService {
       type: 'link',
       tooltip: 'Website Builder',
       icon: 'chat',
-      state: 'underdev',
-      badges: [{ color: 'warn', value: '1' }]
+      state: 'builder/websiteBuilder'
     },
     
   ];

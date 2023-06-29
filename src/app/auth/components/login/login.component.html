@@ -10,20 +10,16 @@
         <div soraxdir-alert-message [errorMessage]="messages | json"></div>
         <form [formGroup]="loginForm" class="signup-form" (ngSubmit)="signInClicked()">
           <div formGroupName="user">
-            <sorax-form-field label="Email or phone" exClass="pb18" [soraxFormControl]="loginForm.get('user.emailId')" >
+            <sorax-form-field label="Email or phone"  [soraxFormControl]="loginForm.get('user.emailId')" >
 
               <input  #soraxInput  matInput formControlName="emailId" type="email" name="emailId" placeholder="Email or phone" >
             </sorax-form-field>
 
-            <mat-form-field 
-                  autocomplete="off"
-                class="full-width " 
-                appearance="outline"
-                >
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password" name="password" >
-              </mat-form-field>
+            <sorax-form-field label="Password" [soraxFormControl]="loginForm.get('user.password')" >
 
+              <input  #soraxInput  matInput formControlName="password" type="password" name="password" placeholder="Password" >
+            </sorax-form-field>
+           
             <mat-checkbox formControlName="agreed">
               I agree with terms and condtions</mat-checkbox>
           </div>

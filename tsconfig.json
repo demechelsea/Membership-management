@@ -19,7 +19,8 @@
     "paths": {
       "home/*":[ "app/home/*"     ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports": true
     
   }
 }
