@@ -44,6 +44,18 @@ export const rootRouterConfig: Routes = [
     ]
   },
   {
+    path: '',
+    component: SoraxAdminLayoutComponent,
+    canActivate: [SoraxAuthGuard],
+    children: [
+      {
+        path: 'builder',
+        loadChildren: () => import('app/website-builder/website.builder.module').then(m => m.WebsiteBuilderModule),
+      },
+    
+    ]
+  },
+  {
     path: 'underdev',
     component: SoraxAdminLayoutComponent,
     canActivate: [SoraxAuthGuard],

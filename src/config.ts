@@ -1,5 +1,5 @@
 export const config = {
-  apiUrl: 'http://10.1.11.143:8081',
+  apiUrl: 'http://localhost:4599',
   authRoles: {
     sa: ['SA'], // Only Super Admin has access
     admin: ['SA', 'Admin'], // Only SA & Admin has access

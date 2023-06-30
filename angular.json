@@ -36,7 +36,10 @@
               "dom-set",
               "moment",
               "apexcharts",
-              "quill"
+              "quill",
+              "grapesjs",
+              "grapesjs-blocks-basic",
+              "grapesjs-blocks-flexbox"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
@@ -50,9 +53,14 @@
             ],
             "styles": [
               "src/assets/styles/app.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/grapesjs/dist/css/grapes.min.css"
+
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/grapesjs/dist/grapes.min.js"
+
+            ]
           },
           "configurations": {
             "production": {
