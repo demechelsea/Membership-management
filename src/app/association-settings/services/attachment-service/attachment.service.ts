@@ -35,7 +35,6 @@ export class AttachmentService extends HttpAppDataService {
   }
 
   deleteAttachment( attachmentModel: CommitteeMemberAttachmentDTO): Observable<CommitteeMemberAttachmentDTO> {
-    alert(attachmentModel.id)
     return this.postData(Urls.DELETE_COMMITTEE_DOCSTORE, attachmentModel);
   }
 }

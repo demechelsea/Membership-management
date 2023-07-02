@@ -15,6 +15,8 @@ import { MessageSettingDTO } from 'app/models/messageSettingDTO';
 import { MessageTemplateDTO } from 'app/models/messageTemplateDTO';
 import { SmsSettingService } from 'app/association-settings/services/smsSettingService/smsSetting.service';
 import { SmsTemplateService } from 'app/association-settings/services/smsTemplate/smsTemplate.service';
+import { SMSSenderProfilePopupComponent } from './SMS senders profile-popup/SMSsenderProfile-popup.component';
+import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 
 
 @Component({
@@ -121,6 +123,21 @@ export class SmsComponent extends BaseComponent implements OnInit {
     this.page.pageSize = event.pageSize;
     this.page.currentPage = event.pageIndex;
     this.getSmsTemplateData();
+  }
+
+  openSendersProfilePopUp(data: EmailSettingDTO) {
+    let title = 'Edit SMTP Email setting';
+    let dialogRef: MatDialogRef<any> = this.dialog.open(SMSSenderProfilePopupComponent, {
+      width: '720px',
+      disableClose: true,
+      data: { title: title, payload: data}
+    })
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+      })
   }
 
 

@@ -4,32 +4,30 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
-import CommitteeDTO from 'app/models/committeeDTO';
 import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import LableValueModel from 'app/models/lable-value-model';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 
 @Component({
-  selector: 'attachment-component-popup',
-  templateUrl: './attachment-popup.component.html',
+  selector: 'policiesAndDocstore-component-popup',
+  templateUrl: './policiesAndDocstore.component.html',
 
 })
-export class AttachmentPopupComponent extends BaseComponent implements OnInit {
+export class PoliciesAndDocstorePopupComponent extends BaseComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject<void>();
-  public attachmentForm: FormGroup;
+  public policiesAndDocstoreForm: FormGroup;
   public isLoading: boolean;
   public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
 
-  buttonText = 'Create a position';
+  buttonText = 'Create attachment';
   selectedFile: any;
-  id: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<AttachmentPopupComponent>,
+    public dialogRef: MatDialogRef<PoliciesAndDocstorePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private attachmentService: AttachmentService,
@@ -37,22 +35,18 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
   ) {
     super();
     this.buttonText = data.isNew ? 'Add attachment' : 'Update attachment';
-    this.id = data.id;
   }
 
   ngOnInit() {
-    this.buildAttachmentForm(this.data.payload);
+    this.buildPoliciesAndDocstoreForm(this.data.payload);
     this.cdRef.detectChanges();
   }
 
-  buildAttachmentForm(attachmentData: CommitteeMemberAttachmentDTO) {
-    attachmentData.committee = new CommitteeDTO();
-    attachmentData.committee.id = this.id;
-    this.attachmentForm = this.formBuilder.group({
-      docType: [attachmentData.docType || '', Validators.required],
-      docName: [attachmentData.docName || '', Validators.required],
-      displayToPublicFlg: [attachmentData.displayToPublicFlg || '', Validators.required],
-      committee:[attachmentData.committee || '']
+  buildPoliciesAndDocstoreForm(policiesAndDocstoreData: CommitteeMemberAttachmentDTO) {
+    this.policiesAndDocstoreForm = this.formBuilder.group({
+      docType: [policiesAndDocstoreData.docType || '', Validators.required],
+      docName: [policiesAndDocstoreData.docName || '', Validators.required],
+      displayToPublicFlg: [policiesAndDocstoreData.displayToPublicFlg || '', Validators.required],
     })
   }
 

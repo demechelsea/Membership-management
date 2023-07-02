@@ -8,6 +8,7 @@ import { PositionService } from 'app/association-settings/services/position-serv
 import { CommitteePositionDTO } from 'app/models/committeePositionDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 
@@ -35,6 +36,7 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private positionService: PositionService,
     private confirmService: AppConfirmService,
+    private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew ? 'Create a position' : 'Update position';
@@ -63,36 +65,36 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
     if (this.positionForm.valid) {
       const formData = this.positionForm.value;
       if (!this.data.isNew) {
-        // Show confirmation dialog before updating position
         this.confirmService.confirm({ message: `Members will be affected by editing. Are you sure you want to update this position?` })
           .subscribe((result) => {
             if (result) {
-              // User confirmed, update position
               this.positionService.updatePosition(plan.id, formData)
                 .pipe(takeUntil(this.ngUnsubscribe$))
                 .subscribe(response => {
+                  this.notificationService.showSuccess('Position updated successfully!');
                   this.dialogRef.close(response);
                 }, error => {
-                  console.error('Failed to update an existing plan:', error);
-                  alert('Something went wrong. Please try again later.');
+                  this.notificationService.showError('Failed to update an existing position. Please try again later.');
+                  console.error('Failed to update an existing position:', error);
                 });
             }
           });
       } else {
-        // Create new position
         this.positionService.createPosition(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Position created successfully!');
             this.dialogRef.close(response);
           }, error => {
-            console.error('Failed to create a new plan:', error);
-            alert('Something went wrong. Please try again later.');
+            this.notificationService.showError('Failed to create a new position. Please try again later.');
+            console.error('Failed to create a new position:', error);
           });
       }
     } else {
-      alert('Please fill in all the required fields.');
+      this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
+  
   
 
   ngOnDestroy() {

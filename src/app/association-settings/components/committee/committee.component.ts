@@ -25,6 +25,7 @@ import { PageModel } from 'app/models/page-model';
 import { ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import CommitteeDTO from 'app/models/committeeDTO';
+import { opencommitteeMemberPopupService } from 'app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service';
 
 
 @Component({
@@ -36,8 +37,8 @@ import CommitteeDTO from 'app/models/committeeDTO';
 export class CommitteeComponent extends BaseComponent implements OnInit {
 
   returnToCommitteeMemberPopup = false;
-   @Output() openCommitteeMemberPopup: EventEmitter<void> = new EventEmitter<void>();
-  
+  @Output() openCommitteeMemberPopup: EventEmitter<void> = new EventEmitter<void>();
+
   @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
   links = ['Committee summary', 'Committee positions'];
@@ -75,7 +76,9 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     private committeeService: CommitteeService,
     private loader: AppLoaderService,
     private confirmService: AppConfirmService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    private opencommitteeMemberPopupService: opencommitteeMemberPopupService
+
   ) {
     super();
   }
@@ -104,30 +107,16 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
   }
 
   onAddPosition() {
-     this.tabGroup.selectedIndex = 1;
+    this.tabGroup.selectedIndex = 1;
     this.returnToCommitteeMemberPopup = true;
 
-    this.openPositionPopUp({
-      id: 0,
-      committee: new CommitteeDTO(),
-      positionName: '',
-      positionRank: 0,
-      page: new PageModel,
-      result: undefined,
-      availableActions: [],
-      performAction: '',
-      exception: false,
-      businessErrors: false,
-      validationErrors: false,
-      successMessages: false,
-      messages: [],
-      isSuccess: function (): boolean {
-        throw new Error('Function not implemented.');
-      }
-    }, true);
+    let positionModel = new CommitteePositionDTO();
+    this.openPositionPopUp(positionModel, true);
   }
 
-
+  onViewCommittees() {
+    this.showDetails = false;
+  }
 
   getPageResults() {
     this.loader.open();
@@ -231,7 +220,7 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
         if (this.returnToCommitteeMemberPopup) {
           this.returnToCommitteeMemberPopup = false;
           this.tabGroup.selectedIndex = 0;
-          this.openCommitteeMemberPopup.emit();
+          this.opencommitteeMemberPopupService.openCommitteeMemberPopup();
         }
       })
 

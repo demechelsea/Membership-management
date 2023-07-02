@@ -27,12 +27,9 @@ export class EmailSettingService extends HttpAppDataService {
     }
     return this.postData(Urls.EMAIL_SETTINGS_BY_ASSOC, emailSettingModel);
   }
-
-  createEmails(emailModel: EmailSettingDTO): Observable<EmailSettingDTO> {
-    return this.postData(Urls.EMAIL_SETTINGS_REGISTER, emailModel);
-  }
-
-  updateEmails(emailModel: EmailSettingDTO): Observable<EmailSettingDTO> {
+  updateEmailSetting(id : number, emailModel: EmailSettingDTO): Observable<EmailSettingDTO> {
+    let emailSettingModel = new EmailSettingDTO();
+    emailSettingModel.id = id;
     return this.postData(Urls.EMAIL_SETTINGS_UPDATE, emailModel);
   }
 }

@@ -1,17 +1,19 @@
 .custom-bg {
-    background-color: #2196f3;
-  }
-  .custom-bg .mat-card-content {
-    background-color: white;
-  }
+  background-color: #222a45;
+}
 
-  .content{
-    padding: 15px;
-  }
+.inner-content {
+  background-color: white;
+  margin: 5px;
+  height: 200px;
+}
 
-  .reduced-height {
-    height: 43px;
-    margin-left: -5px;
-  }
+.mat-card-content {
+  background-color: white;
+}
 
-  
+.content{
+  padding: 10px;
+  background-color: white;
+}
+

@@ -9,6 +9,7 @@ import { LocalstorageService } from 'app/common/services/localstorage.service';
 import committeeDTO from 'app/models/committeeDTO';
 import { CommitteeService } from 'app/association-settings/services/committee-service/committee.service';
 import * as moment from 'moment';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private committeeService: CommitteeService,
-    private localStorageService: LocalstorageService
+    private localStorageService: LocalstorageService,
+    private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew ? 'Create a committee' : 'Update committee';
@@ -76,26 +78,29 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
         this.committeeService.createCommittee(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Committee created successfully!');
             this.dialogRef.close(response);
           }, error => {
+            this.notificationService.showError('Failed to create a new committee. Please try again later.');
             console.error('Failed to create a new committee:', error);
-            alert('Something went wrong. Please try again later.');
           });
       } else {
         this.committeeService.updateCommittee(committee.id, formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Committee updated successfully!');
             console.log('Updated an existing committee:', response);
             this.dialogRef.close(response);
           }, error => {
+            this.notificationService.showError('Failed to update an existing committee. Please try again later.');
             console.error('Failed to update an existing committee:', error);
-            alert('Something went wrong. Please try again later.');
           });
       }
     } else {
-      alert('Please fill in all the required fields.');
+      this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
+  
 
   onSelectedIntervalOption(option: LableValueModel) {
     this.committeeForm.controls['interval'].setValue(option.name);

@@ -82,7 +82,7 @@ export class NavigationService {
         {name: 'Committee Settings', state: 'associationSettings/committee'},
         {name: 'Email Settings', state: 'associationSettings/emailSetting'},
         {name: 'SMS Settings', state: 'associationSettings/smsSetting'},
-        {name: 'Policies & Doc store', state: 'underdev'},
+        {name: 'Policies & Doc store', state: 'associationSettings/PoliciesAndDocstore'},
         {name: 'Finance Settings', state: 'underdev'},
         {name: 'Digital Id Card Settings', state: 'underdev'}, 
         {name: 'Visibility Settings', state: 'underdev'}, 

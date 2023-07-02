@@ -8,6 +8,7 @@ import MemershipPlanModel from 'app/models/membershipPlanModel';
 import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
 import { MembershipPlanService } from '../../../services/membership-plan-service/membership-plan.service';
 import { LocalstorageService } from 'app/common/services/localstorage.service';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 
@@ -36,7 +37,8 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private membershipPlanService: MembershipPlanService,
-    private localStorageService: LocalstorageService
+    private localStorageService: LocalstorageService,
+    private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew ? 'Create a plan' : 'Update plan';
@@ -78,7 +80,6 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
 
   submit(plan: MemershipPlanModel) {
     plan.createdUser = this.localStorageService.getLoggedInUser().emailId;
-    console.log('Plan object:', plan);
     if (this.membershipPlanForm.valid) {
       const formData = this.membershipPlanForm.value;
       const planData = this.mapFormDataToPlanData(formData);
@@ -86,26 +87,30 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
         this.membershipPlanService.createPlan(planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Plan created successfully!');
             this.dialogRef.close(response);
           }, error => {
+            this.notificationService.showError('Failed to create a new plan. Please try again later.');
             console.error('Failed to create a new plan:', error);
-            alert('Something went wrong. Please try again later.');
           });
       } else {
         this.membershipPlanService.updatePlan(plan.id, planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
+            this.notificationService.showSuccess('Plan updated successfully!');
             console.log('Updated an existing plan:', response);
             this.dialogRef.close(response);
           }, error => {
+            this.notificationService.showError('Failed to update an existing plan. Please try again later.');
             console.error('Failed to update an existing plan:', error);
-            alert('Something went wrong. Please try again later.');
           });
       }
     } else {
-      alert('Please fill in all the required fields.');
+      this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
+  
+  
 
 
   // Define a function that maps the form value to a new object that matches the plan model
