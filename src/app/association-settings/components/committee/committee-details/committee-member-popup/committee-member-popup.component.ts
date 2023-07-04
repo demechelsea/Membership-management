@@ -68,6 +68,11 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
   ngOnInit() {
     this.buildCommitteeMemberForm(this.data.payload);
     this.cdRef.detectChanges();
+    this.committeeMemberForm.get('status').valueChanges.pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(status => {
+      if (status !== 'Inactive') {
+        this.committeeMemberForm.get('endDate').setValue(null);
+      } });      
   }
 
   onAddPosition() {
@@ -120,11 +125,9 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
       const formData = this.committeeMemberForm.value;
       formData.id = this.selectedCommitteeMemberId;
       formData.committee = new CommitteeDTO()
-      formData.committee.id = this.committeeId;
-      formData.associationMember = new AssociationMemberDTO();
-      formData.associationMember.id = this.associationMemberId;
-      formData.committeePosition = new CommitteePositionDTO();
-      formData.committeePosition.id = this.positionId;
+      formData.committee.setValue({ id: this.committeeId });
+      formData.associationMember.setValue({ id: this.associationMemberId });
+      formData.committeePosition.setValue({ id: this.positionId });
 
       const planData = this.mapFormDataToPlanData(formData);
       if (this.data.isNew) {

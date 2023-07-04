@@ -78,7 +78,8 @@
             </sorax-autocomplete>
           </div>
 
-          <sorax-form-field label="Committee end date" [soraxFormControl]="committeeMemberForm.get('endDate')">
+          <sorax-form-field label="Committee end date" [soraxFormControl]="committeeMemberForm.get('endDate')"
+           *ngIf="committeeMemberForm.get('status').value === 'Inactive'">
             <input #soraxInput matInput formControlName="endDate" type="date" placeholder="Enter committee end date"
               [min]="minEndDate">
           </sorax-form-field>

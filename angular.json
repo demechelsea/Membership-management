@@ -55,11 +55,9 @@
               "src/assets/styles/app.scss",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/grapesjs/dist/css/grapes.min.css"
-
             ],
             "scripts": [
               "node_modules/grapesjs/dist/grapes.min.js"
-
             ]
           },
           "configurations": {

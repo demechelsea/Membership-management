@@ -4,18 +4,19 @@
   width: 100%;
 }
 
-.card-title{ 
+.card-title {
   text-decoration: solid;
 }
 
-  .page-layout{
-    background: #222a45 !important;
-    color: #ccd2e5 !important;
-  }
-  .mat-mdc-card-content{
-    padding: 0px !important;
-  }
+.page-layout {
+  background: #222a45 !important;
+  color: #ccd2e5 !important;
+}
 
-  .page-layout .content-header {
-    height: 145px;
-  }
+.mat-mdc-card-content {
+  padding: 0px !important;
+}
+
+.page-layout .content-header {
+  height: 145px;
+}

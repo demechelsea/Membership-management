@@ -62,7 +62,7 @@ export class SoraxTableViewComponent implements OnInit {
   }
 
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
-    if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active') {
+    if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active' && this.tableType === 'committee') {
       return '-';
     }
     if (columnDefs.dataType == "Date") {

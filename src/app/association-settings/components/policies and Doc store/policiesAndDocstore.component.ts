@@ -42,7 +42,7 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
   }
   ngOnInit(): void {
     this.initializeColumns();
-    this.getPoliciesAndDocstoreData();
+    //this.getPoliciesAndDocstoreData();
   }
 
   ngOnDestroy() {

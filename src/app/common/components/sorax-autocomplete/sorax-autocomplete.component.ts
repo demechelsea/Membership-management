@@ -84,7 +84,9 @@ export class SoraxAutocompleteComponent implements OnInit {
         return option.positionName.toLowerCase().includes(filterValue);
       }
       else if (option.userDetail) {
-        return (`${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`).toLowerCase().includes(filterValue);
+        return (`${option.userDetail.firstName} ${option.userDetail.givenName} 
+        ${option.userDetail.parentName} ${option.userDetail.primaryEmail}
+        ${option.userDetail.primaryPhone} ${option.userDetail.parentName}`).toLowerCase().includes(filterValue);
       }
 
     });

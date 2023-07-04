@@ -17,6 +17,10 @@ import { EmailTemplateDTO } from 'app/models/emailTemplateDTO';
 import { EmailTemplateService } from 'app/association-settings/services/emailTemplate/emailTemplate.service';
 import { SMTPPopupComponent } from './SMTP-popup/SMTP-popup.component';
 import { EmailSendersProfilePopupComponent } from './emailSendersProfile-Popup/emailSendersProfile-Popup.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailSubscriptionDTO } from 'app/models/emailSubscriptionDTO';
+import { EmailUnsubscriptionService } from 'app/association-settings/services/emailUnsubscriptionService/emailUnsubscription.service';
+import { EmailHistoryService } from 'app/association-settings/services/emailHistoryService/emailHistory.service';
 
 
 @Component({
@@ -38,8 +42,13 @@ export class EmailComponent extends BaseComponent implements OnInit {
   public emailSettingColumn: SoraxColumnDefinition[];
 
   public listTemplateEmails: EmailTemplateDTO[];
-  public listEmailSetting: EmailSettingDTO[];
+  public listEmailUnsubscribed: EmailSettingDTO[];
   public listEmailHistory: EmailSettingDTO[];
+
+  public UnsubscribeListForm: FormGroup;
+  buttonText = 'Add to unsubscribe list';
+
+  emailContent: boolean = false;
 
   private ngUnsubscribe$ = new Subject<void>();
 
@@ -49,13 +58,19 @@ export class EmailComponent extends BaseComponent implements OnInit {
     private notificationService: NotificationService,
     private emailSettingService: EmailSettingService,
     private emailTemplateService: EmailTemplateService,
+    private emailUnsubscribeService: EmailUnsubscriptionService,
+    private emailHistoryService: EmailHistoryService,
     private loader: AppLoaderService,
+    private formBuilder: FormBuilder,
     private confirmService: AppConfirmService,) {
     super();
   }
   ngOnInit(): void {
     this.initializeColumns();
     this.getEmailTemplateData();
+    this.getEmailUnsubscribeData();
+    this.getEmailHistoryData()
+    this.buildUnsubscribeListForm(new EmailSubscriptionDTO());
   }
 
   ngOnDestroy() {
@@ -63,47 +78,44 @@ export class EmailComponent extends BaseComponent implements OnInit {
     this.ngUnsubscribe$.complete();
   }
 
+  buildUnsubscribeListForm(emailData: EmailSubscriptionDTO) {
+    this.UnsubscribeListForm = this.formBuilder.group({
+      emailId: [emailData.emailId || '', [Validators.required, Validators.email]],
+    });
+  }
+
+
+  showEmailContent(){
+    this.emailContent = true;
+  }
 
   getEmailTemplateData() {
     this.emailTemplateService.getEmailTemplates(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        console.log("ji" , response);
         this.listTemplateEmails = response.result;
         this.emailTemplateData = this.listTemplateEmails;
       });
   }
 
-  getEmailSettingData() {
-    this.emailSettingService.getEmailSetting(this.page)
+  getEmailHistoryData() {
+    this.emailHistoryService.getEmailHistoryList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
         console.log(response);
-        this.listEmailSetting = response.result;
-        this.emailSettingData = this.listEmailSetting;
+        this.listEmailHistory = response.result;
+        this.emailHistorytData = this.listEmailHistory;
       });
   }
 
-  // getEmailUnsubscribeListData() {
-  //   this.emailTemplateService.getEmailTemplates(this.page)
-  //     .pipe(takeUntil(this.ngUnsubscribe$))
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       this.listTemplateEmails = response.result;
-  //       this.emailTemplateData = this.listTemplateEmails;
-  //     });
-  // }
-
-  // getEmailHistoryData() {
-  //   this.emailSettingService.getEmailSetting(this.page)
-  //     .pipe(takeUntil(this.ngUnsubscribe$))
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       this.listEmailHistory = response.result;
-  //       this.emailHistorytData = this.listEmailHistory;
-  //     });
-  // }
-
+  getEmailUnsubscribeData() {
+    this.emailUnsubscribeService.getEmailUnsubscribedList(this.page)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(response => {
+        this.listEmailUnsubscribed = response.result;
+        this.emailUnsubscribedListstData = this.listEmailUnsubscribed;
+      });
+  }
   committeeExecuteRowActions(rowData: CommitteeMemberDTO) {
     if (rowData.performAction == "edit") {
       // this.openCommitteeMemberPopUp(rowData, false);
@@ -112,49 +124,90 @@ export class EmailComponent extends BaseComponent implements OnInit {
     }
   }
 
+  deleteUnsubscribeList(row: any) {
+    this.emailUnsubscribeService.deleteEmailUnsubscribedList(row)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(response => {
+        this.notificationService.showSuccess('Attachment deleted successfully!');
+        this.getEmailUnsubscribeData();
+      }, error => {
+        this.notificationService.showError('Failed to delete attachment. Please try again later.');
+        console.error('Failed to delete attachment:', error);
+      });
+  }
+
+
+
+  submit() {
+    if (this.UnsubscribeListForm.valid) {
+      const formData = this.UnsubscribeListForm.value;
+      this.emailUnsubscribeService.addEmailToUnsubscribedList(formData)
+        .pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe(response => {
+          this.notificationService.showSuccess("hi");
+          this.getEmailUnsubscribeData();
+        }, error => {
+          this.notificationService.showError('Failed to add email to unsubscribed list. Please try again later.');
+          console.error('Failed to add email to unsubscribed list:', error);
+        });
+    } else {
+      this.notificationService.showWarning('Please enter a valid email address.');
+    }
+  }
+
+
   sortData(sortParameters: Sort) {
     this.page.currentPage = 0;
     this.page.sortDirection = sortParameters.direction;
     this.page.sortColumn = sortParameters.active;
-    //this.getEmailTemplateData();
+    this.getEmailTemplateData();
+    this.getEmailUnsubscribeData();
   }
 
   pageChangeEvent(event: PageEvent) {
     this.page.pageSize = event.pageSize;
     this.page.currentPage = event.pageIndex;
-    //this.getEmailTemplateData();
+    this.getEmailTemplateData();
+    this.getEmailUnsubscribeData();
   }
 
   openSMTPPopUp(data: EmailSettingDTO) {
     let title = 'Edit SMTP Email setting';
-    let dialogRef: MatDialogRef<any> = this.dialog.open(SMTPPopupComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: data}
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-        if (!res) {
-          return;
-        }
-      })
+    this.emailSettingService.getEmailSetting()
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(data => {
+        let dialogRef: MatDialogRef<any> = this.dialog.open(SMTPPopupComponent, {
+          width: '720px',
+          disableClose: true,
+          data: { title: title, payload: data }
+        })
+        dialogRef.afterClosed()
+          .subscribe(res => {
+            if (!res) {
+              return;
+            }
+          })
+      });
   }
 
   openSendersProfilePopUp(data: EmailSettingDTO) {
     let title = 'Edit SMTP Email setting';
-    let dialogRef: MatDialogRef<any> = this.dialog.open(EmailSendersProfilePopupComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: data}
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-        if (!res) {
-          return;
-        }
-      })
+    this.emailSettingService.getEmailSetting()
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(data => {
+        let dialogRef: MatDialogRef<any> = this.dialog.open(EmailSendersProfilePopupComponent, {
+          width: '720px',
+          disableClose: true,
+          data: { title: title, payload: data }
+        })
+        dialogRef.afterClosed()
+          .subscribe(res => {
+            if (!res) {
+              return;
+            }
+          })
+      });
   }
-
 
   initializeColumns(): void {
     this.emailTemplateColumns = [
@@ -200,16 +253,16 @@ export class EmailComponent extends BaseComponent implements OnInit {
       this.emailUnsubscribedListsColumn = [
         {
           name: 'Email Id',
-          dataKey: 'attachmentDate',
+          dataKey: 'emailId',
           position: 'left',
           isSortable: true,
-          dataType: "Date",
         },
         {
           name: 'Unsubscribed On',
-          dataKey: 'docName',
+          dataKey: 'modifiedTimestamp',
           position: 'left',
           isSortable: true,
+          dataType: "Date",
         },
         {
           name: 'Updated By',
@@ -224,17 +277,21 @@ export class EmailComponent extends BaseComponent implements OnInit {
           isSortable: false,
         },
       ],
-      
+
       this.emailHistoryColumn = [
         {
           name: 'Email Subject',
-          dataKey: 'position',
+          dataKey: 'emailSubject',
           position: 'left',
           isSortable: true,
+          link: true,
+          clickEvent: () => {
+            this.showEmailContent();
+          },
         },
         {
           name: 'Email Ids',
-          dataKey: 'fullName',
+          dataKey: 'recipients',
           position: 'left',
           isSortable: true,
         },
@@ -252,9 +309,10 @@ export class EmailComponent extends BaseComponent implements OnInit {
         },
         {
           name: 'Sent On',
-          dataKey: 'docName',
+          dataKey: 'modifiedTimestamp',
           position: 'left',
           isSortable: true,
+          dataType: "Date",
         },
       ]
   }

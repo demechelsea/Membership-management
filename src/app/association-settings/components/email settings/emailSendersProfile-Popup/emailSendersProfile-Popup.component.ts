@@ -39,7 +39,7 @@ export class EmailSendersProfilePopupComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
-    this.buildSMTPForm(this.data.payload);
+    this.buildSMTPForm(this.data.payload.result);
     this.cdRef.detectChanges();
   }
 
@@ -48,10 +48,12 @@ export class EmailSendersProfilePopupComponent extends BaseComponent implements 
     this.sendersProfileForm = this.formBuilder.group({
       id: [EmailSettingDTO.id, Validators.required],
       smtpHost: [EmailSettingDTO.smtpHost, Validators.required],
-      port: [EmailSettingDTO.port, Validators.required],
       replyToEmail: [EmailSettingDTO.replyToEmail, Validators.required],
+      signiture: [EmailSettingDTO.signiture, Validators.required],
       emailId: [EmailSettingDTO.emailId, Validators.required],
       password: [EmailSettingDTO.password, Validators.required],
+      port: [EmailSettingDTO.port, Validators.required],
+
     })
   }
 

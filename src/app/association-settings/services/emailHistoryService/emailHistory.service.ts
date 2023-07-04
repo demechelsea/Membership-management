@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
 import { AssociationDTO } from 'app/models/AssociationDTO';
-import { EmailSettingDTO } from 'app/models/emailSettingDTO';
+import { EmailSubscriptionDTO } from 'app/models/emailSubscriptionDTO';
+import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmailSettingService extends HttpAppDataService {
+export class EmailHistoryService extends HttpAppDataService {
 
   private http: HttpClient;
 
@@ -19,14 +20,12 @@ export class EmailSettingService extends HttpAppDataService {
     this.http = httpClient;
   }
 
-  getEmailSetting(): Observable<ResultViewModel> {
-    let emailSettingModel = new AssociationDTO();
-    return this.postData(Urls.EMAIL_SETTINGS_BY_ASSOC, emailSettingModel);
+  getEmailHistoryList(page: PageModel): Observable<ResultViewModel> {
+    let emailHistoryListModel = new AssociationDTO();
+    if (page != null) {
+      emailHistoryListModel.page = page;
+    }
+    return this.postData(Urls.EMAIL_HISTORY_BY_ASSOC, emailHistoryListModel);
   }
-  
-  updateEmailSetting(id : number, emailModel: EmailSettingDTO): Observable<EmailSettingDTO> {
-    let emailSettingModel = new EmailSettingDTO();
-    emailSettingModel.id = id;
-    return this.postData(Urls.EMAIL_SETTINGS_UPDATE, emailModel);
-  }
+
 }

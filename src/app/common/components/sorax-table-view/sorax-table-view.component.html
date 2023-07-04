@@ -15,18 +15,20 @@
           <ng-container [ngSwitch]="tableType">
             <ng-container *ngSwitchCase="'committee'">
               <a class="link" (click)="viewEvent.emit(row)">View</a>
-              <a class="link" *ngIf="row.status === 'Active'" (click)="editEvent.emit(row)">Edit</a>
+              <a class="link" *ngIf="row.status === 'Active'" (click)="editEvent.emit(row)">Edit/Add EC Members</a>
             </ng-container>
             <ng-container *ngSwitchCase="'attachment'">
               <a class="link" (click)="viewEvent.emit(row)">View</a>
               <a class="link" (click)="deleteEvent.emit(row)">Delete</a>
             </ng-container>
             <ng-container *ngSwitchCase="'member'">
-              <a class="link" (click)="viewEvent.emit(row)">View</a>
               <a class="link" (click)="editEvent.emit(row)">Edit</a>
             </ng-container>
             <ng-container *ngSwitchCase="'EmailTemplate'">
               <a class="link" (click)="editEvent.emit(row)">Edit</a>
+            </ng-container>
+            <ng-container *ngSwitchCase="'emailUnsubscription'">
+              <a class="link" (click)="deleteEvent.emit(row)">Delete</a>
             </ng-container>
           </ng-container>
         </mat-cell>
