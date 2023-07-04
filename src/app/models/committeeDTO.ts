@@ -11,5 +11,4 @@ export default class CommitteeDTO extends MessageWrapModel {
     status:string;
     page: PageModel;
     association: AssociationModel;
-
 }

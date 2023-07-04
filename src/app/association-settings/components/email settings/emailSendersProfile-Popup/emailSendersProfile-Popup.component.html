@@ -5,26 +5,26 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
-  <div  mat-dialog-content class="p-16 m-0">
+  <div mat-dialog-content class="p-16 m-0">
     <form [formGroup]="sendersProfileForm" class="sendersProfileForm flex flex-col padround18"
       (ngSubmit)="submit(sendersProfileForm.value)">
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
-      
-      <sorax-form-field label="SMTP Email host" [soraxFormControl]="sendersProfileForm.get('smtpHost')">
+
+      <sorax-form-field label="Sender name" [soraxFormControl]="sendersProfileForm.get('smtpHost')">
         <input #soraxInput matInput formControlName="smtpHost" type="text" name="smtpHost"
-          placeholder="Enter SMTP Email host">
+          placeholder="Enter sender name">
       </sorax-form-field>
 
-      <sorax-form-field label="PORT" [soraxFormControl]="sendersProfileForm.get('port')">
-        <input #soraxInput matInput formControlName="port" type="text" name="port"
-          placeholder="Enter a port">
+      <sorax-form-field label="Email signature" [soraxFormControl]="sendersProfileForm.get('signiture')">
+        <input #soraxInput matInput formControlName="signiture" type="text" name="signiture"
+          placeholder="Enter a email signature">
       </sorax-form-field>
 
       <sorax-form-field label="Reply to Email address" [soraxFormControl]="sendersProfileForm.get('replyToEmail')">
         <input #soraxInput matInput formControlName="replyToEmail" type="text" name="replyToEmail"
-          placeholder="Enter a port">
+          placeholder="Reply to Email address">
       </sorax-form-field>
-      
+
     </form>
   </div>
 
@@ -33,10 +33,9 @@
       Close
     </button>
     <span class="flex-grow"></span>
-    <button mat-raised-button class="mat-primary text-right" aria-label="Update SMTP Email setting" [textContent]="buttonText"
-      (click)="submit(sendersProfileForm.value)">
+    <button mat-raised-button class="mat-primary text-right" aria-label="Update SMTP Email setting"
+      [textContent]="buttonText" (click)="submit(sendersProfileForm.value)">
       Update SMTP Email setting
     </button>
-
   </div>
 </div>

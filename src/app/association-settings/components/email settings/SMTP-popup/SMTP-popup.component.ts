@@ -36,29 +36,31 @@ export class SMTPPopupComponent extends BaseComponent implements OnInit {
   ) {
     super();
     this.buttonText = 'Update SMTP Email setting';
+    console.log("bui" , data);
+    
   }
 
   ngOnInit() {
-    this.buildSMTPForm(this.data.payload);
+    this.buildSMTPForm(this.data.payload.result);
     this.cdRef.detectChanges();
   }
 
-  buildSMTPForm(EmailSettingDTO: EmailSettingDTO) {
+  buildSMTPForm(emailSettingdata: EmailSettingDTO) {
     const isUpdate = !this.data.isNew;
     this.SMTPForm = this.formBuilder.group({
-      id: [EmailSettingDTO.id, Validators.required],
-      smtpHost: [EmailSettingDTO.smtpHost, Validators.required],
-      port: [EmailSettingDTO.port, Validators.required],
-      replyToEmail: [EmailSettingDTO.replyToEmail, Validators.required],
-      emailId: [EmailSettingDTO.emailId, Validators.required],
-      password: [EmailSettingDTO.password, Validators.required],
+      id: [emailSettingdata.id, Validators.required],
+      smtpHost: [emailSettingdata.smtpHost, Validators.required],
+      port: [emailSettingdata.port, Validators.required],
+      replyToEmail: [emailSettingdata.replyToEmail, Validators.required],
+      emailId: [emailSettingdata.emailId, Validators.required],
+      password: [emailSettingdata.password, Validators.required],
     })
   }
 
 
-  submit(plan: EmailSettingDTO) {
+  submit(emailSetting: EmailSettingDTO) {
     if (this.SMTPForm.valid) {
-      this.emailSettingService.updateEmailSetting(plan.id, plan)
+      this.emailSettingService.updateEmailSetting(emailSetting.id, emailSetting)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe(
           response => this.dialogRef.close(response),

@@ -30,7 +30,6 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
   
-
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,

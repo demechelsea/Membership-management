@@ -65,6 +65,9 @@ export class Urls {
      public static EMAIL_TEMPLATE_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emailTemplateUpdate";
      public static EMAIL_TEMPLATE_DELETE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emailTemplateDelete";
 
+     public static EMAIL_HISTORY_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlHistoryByAssoc";
+     public static EMAIL_HISTORY_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlHistoryById";
+
      public static MSG_SETTINGS_REGISTER : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgSettingRegister";
      public static MSG_SETTINGS_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgSettingByAssoc";
      public static MSG_SETTINGS_UPDATE : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgSettingUpdate";
@@ -78,6 +81,20 @@ export class Urls {
      public static MSG_HISTORY_REGISTER   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgHistoryRegister";
      public static MSG_HISTORY_BY_ASSOC  : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgHistoryByAssoc";
      public static MSG_HISTORY_BY_ID   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgHistoryById";
+
+
+     public static MSG_SUBSCRIPTION_REGISTER   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgSubscriptionRegister";
+     public static MSG_SUBSCRIPTION_BY_ASSOC   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgSubscriptionByAssoc";
+     public static MSG_SUBSCRIPTION_BY_ID   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgSubscriptionById";
+     public static MSG_UNSUBSCRIBED_ALL   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgUnsubscribed";
+     public static MSG_SUBSCRIPTION_UPDATE   : string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgSubscriptionUpdate";
+   
+
+     public static EMAIL_SUBSCRIPTION_REGISTER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emlSubscriptionRegister";
+     public static EMAIL_SUBSCRIPTION_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlSubscriptionByAssoc";
+     public static EMAIL_SUBSCRIPTION_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlSubscriptionById";
+     public static EMAIL_UNSUBSCRIBED_ALL: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlUnsubscribed";
+     public static EMAIL_SUBSCRIPTION_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emlSubscriptionUpdate";
 
 
 

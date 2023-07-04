@@ -223,8 +223,6 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
           this.opencommitteeMemberPopupService.openCommitteeMemberPopup();
         }
       })
-
-
   }
 
 
