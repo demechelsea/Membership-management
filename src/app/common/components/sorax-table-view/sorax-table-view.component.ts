@@ -44,6 +44,7 @@ export class SoraxTableViewComponent implements OnInit {
   @Output() viewEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() editEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() showToPublicToggleChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() set tableData(data: any[]) {
     this.setTableDataSource(data);
@@ -53,14 +54,22 @@ export class SoraxTableViewComponent implements OnInit {
 
   ngOnInit(): void {
     const columnNames = this.tableColumns.map((tableColumn: SoraxColumnDefinition) => tableColumn.dataKey);
-    this.displayedColumns = columnNames;
+    this.displayedColumns = columnNames;  
+    console.log("page" , this.page);
+    
   }
-
+  convertToNumber(str: string): number {
+    return str == "Y" ? 1 : 0;
+  }
 
   getCellClass(position: String) {
     return position == 'right' ? "header-align-right" : "header-align-left";
   }
 
+  onShowToPublicToggleChange(row: any) {
+    this.showToPublicToggleChange.emit(row);
+  }
+  
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
     if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active' && this.tableType === 'committee') {
       return '-';

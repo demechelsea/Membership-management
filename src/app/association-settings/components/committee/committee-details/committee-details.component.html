@@ -30,11 +30,11 @@
         </div>
         <div class="content-body">
             <div class="content-card mat-bg-default">
-                <mat-tab-group *ngIf="selectedRow" [selectedIndex]="0"  mat-stretch-tabs="false" mat-align-tabs="start">
+                <mat-tab-group *ngIf="selectedRow" [selectedIndex]="0" mat-stretch-tabs="false" mat-align-tabs="start">
                     <mat-tab label="Committee Members">
                         <div *ngIf="selectedRow.status == 'Active'" class="m-8"
                             [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
-                            <button mat-raised-button  color="primary" align="right"
+                            <button mat-raised-button color="primary" align="right"
                                 (click)="openCommitteeMemberPopUp({}, true)">Create a new Committee Member</button>
                         </div>
                         <sorax-table-view [tableData]="committeeMembersData" [tableColumns]="committeeMembersColumns"
@@ -44,12 +44,13 @@
                             [tableType]="'member'">
                         </sorax-table-view>
 
+
                     </mat-tab>
                     <mat-tab label="Attachments">
                         <div *ngIf="selectedRow.status === 'Active'" class="m-8"
                             [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
-                            <button mat-raised-button  color="primary" 
-                                (click)="openAttachementPopUp({}, true)">Add New Attachment
+                            <button mat-raised-button color="primary" (click)="openAttachementPopUp({}, true)">Add New
+                                Attachment
                             </button>
                         </div>
                         <sorax-table-view [tableData]="attachmentData" [tableColumns]="attachmentColumns"

@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AssocationAttachmentService } from 'app/association-settings/services/assocation-attachment-service/assocationAttachment.service';
 import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
+import { AssociationDocstoreDTO } from 'app/models/assocationAttachmmentDTO';
 import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import LableValueModel from 'app/models/lable-value-model';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -30,7 +32,7 @@ export class PoliciesAndDocstorePopupComponent extends BaseComponent implements 
     public dialogRef: MatDialogRef<PoliciesAndDocstorePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private attachmentService: AttachmentService,
+    private assocationAttachmentService: AssocationAttachmentService,
     private notificationService: NotificationService
   ) {
     super();
@@ -42,15 +44,19 @@ export class PoliciesAndDocstorePopupComponent extends BaseComponent implements 
     this.cdRef.detectChanges();
   }
 
-  buildPoliciesAndDocstoreForm(policiesAndDocstoreData: CommitteeMemberAttachmentDTO) {
+  buildPoliciesAndDocstoreForm(policiesAndDocstoreData: AssociationDocstoreDTO) {
     this.policiesAndDocstoreForm = this.formBuilder.group({
       docType: [policiesAndDocstoreData.docType || '', Validators.required],
       docName: [policiesAndDocstoreData.docName || '', Validators.required],
-      displayToPublicFlg: [policiesAndDocstoreData.displayToPublicFlg || '', Validators.required],
+      displayToPublicFlg: [this.convertToNumber(policiesAndDocstoreData.displayToPublicFlg) || '', Validators.required],
     })
   }
 
-  onFileSelected(event : any) {
+  convertToNumber(str: string): number {
+    return str == "Y" ? 1 : 0;
+  }
+
+  onFileSelected(event: any) {
     for (let file of event.files) {
       this.selectedFile = file
 
@@ -61,39 +67,39 @@ export class PoliciesAndDocstorePopupComponent extends BaseComponent implements 
     }
   }
 
-  submit(attachment: CommitteeMemberAttachmentDTO) {
+  submit(assocationAttachment: AssociationDocstoreDTO) {
     if (true) {
       const formData = new FormData();
-      formData.append("docType", attachment.docType.valueOf())
-      formData.append("docName", attachment.docName.valueOf())
-      formData.append("displayToPublicFlg", attachment.displayToPublicFlg)
-      formData.append("committeeId", attachment.committee.id.toString())
-  
+      formData.append("docType", assocationAttachment.docType.valueOf())
+      formData.append("docName", assocationAttachment.docName.valueOf())
+      formData.append("displayToPublicFlg", assocationAttachment.displayToPublicFlg.valueOf()? "Y" : "N")
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append('file', this.selectedFile);
-          this.attachmentService.createAttachment(formData)
+          this.assocationAttachmentService.createAsscocationAttachment(formData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe(response => {
-              this.notificationService.showSuccess('Attachment created successfully!');
-              console.log("Response Data: ", response)
-              this.dialogRef.close(response);
-            }, error => {
-              this.notificationService.showError('Failed to create a new attachment. Please try again later.');
-              console.error('Failed to create a new attachment:', error);
+              console.log(response);
+              if (response.success) {
+                this.notificationService.showSuccess(response.messages[0].message);
+                this.dialogRef.close(response);
+              }
+              else {
+                this.notificationService.showError(response.messages[0].message);
+              }
             });
         }
-  
+
       } else {
         this.notificationService.showWarning('Please fill in all the required fields.');
       }
     }
   }
-  
 
-    ngOnDestroy() {
-      this.ngUnsubscribe$.next();
-      this.ngUnsubscribe$.complete();
-    }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
+
+}

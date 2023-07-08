@@ -28,16 +28,16 @@ export class PositionService extends HttpAppDataService {
     return this.postData(Urls.POSITION_LIST, positionModel);
   }
 
-  createPosition(positionModel: CommitteePositionDTO): Observable<CommitteePositionDTO> {
+  createPosition(positionModel: CommitteePositionDTO): Observable<any> {
     return this.postData(Urls.POSITION_CREATE, positionModel);
   }
   
-  updatePosition(id: number, positionModel: CommitteePositionDTO): Observable<CommitteePositionDTO> {
+  updatePosition(id: number, positionModel: CommitteePositionDTO): Observable<any> {
     positionModel.id = id;
     return this.postData(Urls.POSITION_UPDATE, positionModel);
   }
 
-  deletePosition(positionModel: CommitteePositionDTO): Observable<CommitteePositionDTO> {
+  deletePosition(positionModel: CommitteePositionDTO): Observable<any> {
     return this.postData(Urls.POSITION_DELETE, positionModel);
   }
 

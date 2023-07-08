@@ -29,7 +29,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
-  
+
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
@@ -41,12 +41,14 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.initializeColumns();
+    this.initializeColumns();
+    // this.page.sortColumn = 'planName';
+    // this.page.sortDirection = 'asc';
     this.getPageResults()
   }
   ngAfterViewInit() {
-   // this.dataSource.paginator = this.paginator;
-   //  this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+    //  this.dataSource.sort = this.sort;
   }
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
@@ -56,19 +58,19 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   getPageResults() {
     this.loader.open();
     this.membershipPlanService.getItems(this.page)
-    .pipe(takeUntil(this.ngUnsubscribe$))
+      .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
         Object.assign(this.resultViewModel, response);
-        this.listPlans =this.resultViewModel.result;
-        this.membershipPlanData =  this.listPlans;
+        this.listPlans = this.resultViewModel.result;
+        this.membershipPlanData = this.listPlans;
         //setting the messages 
         Object.assign(this.messages, response);
-        this.loader.close();  
+        this.loader.close();
 
       });
   }
 
-  openPopUp(data: MemershipPlanModel, isNew?:boolean) {
+  openPopUp(data: MemershipPlanModel, isNew?: boolean) {
     let title = isNew ? 'Add Membership Plan' : 'Update Membership Plan';
     let dialogRef: MatDialogRef<any> = this.dialog.open(MembershipPlanPopupComponent, {
       width: '720px',
@@ -84,17 +86,16 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
         this.getPageResults();
       })
   }
-  executeRowActions(rowData:MemershipPlanModel){
-    console.log("Perform actions:::",rowData.performAction);
-    if(rowData.performAction =="edit"){
+  executeRowActions(rowData: MemershipPlanModel) {
+    if (rowData.performAction == "edit") {
       this.openPopUp(rowData, false);
-    }else{
+    } else {
       console.log("Delete action performed");
     }
   }
-  
+
   sortData(sortParameters: Sort) {
-    this.page.currentPage =0;
+    this.page.currentPage = 0;
     this.page.sortDirection = sortParameters.direction;
     this.page.sortColumn = sortParameters.active;
     this.getPageResults();
@@ -107,7 +108,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
   }
 
   initializeColumns(): void {
-    this.membershipColumns =  [
+    this.membershipColumns = [
       {
         name: 'Membership Plan name',
         dataKey: 'planName',
@@ -153,7 +154,7 @@ export class MembershipPlanComponent extends BaseComponent implements OnInit {
         dataKey: 'modifiedTimestamp',
         position: 'left',
         isSortable: true,
-        dataType:"Date",
+        dataType: "Date",
       },
       {
         name: 'Updated By',

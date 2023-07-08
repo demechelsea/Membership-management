@@ -23,10 +23,11 @@ export class EmailTemplateService extends HttpAppDataService {
 
   getEmailTemplates(page: PageModel): Observable<ResultViewModel> {
     let emailTemplateModel = new AssociationDTO();
-    if (page != null) {
-      emailTemplateModel.page = page;
-    }
-    return this.postData(Urls.EMAIL_TEMPLATE_BY_ASSOC, emailTemplateModel);
+    let requestData = {
+      emailTemplateDTO: emailTemplateModel,
+      pageDTO: page
+    };
+    return this.postData(Urls.EMAIL_TEMPLATE_BY_ASSOC, requestData);
   }
 
   createEmailTemplates(emailTemplateModel: EmailTemplateDTO): Observable<EmailTemplateDTO> {

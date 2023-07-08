@@ -10,7 +10,6 @@ import { CommitteeMemberService } from 'app/association-settings/services/commit
 import { CommitteeMemberDTO } from 'app/models/committeeMemberDTO';
 import { CommitteePositionDTO } from 'app/models/committeePositionDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
-import { AssociationMemberDTO } from 'app/models/AssociationMemberDTO ';
 import { NotificationService } from 'app/common/services/notification.service';
 
 
@@ -134,22 +133,25 @@ export class CommitteeMemberPopupComponent extends BaseComponent implements OnIn
         this.committeeMemberService.createCommitteeMember(planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Committee member created successfully!');
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to create a new committee member. Please try again later.');
-            console.error('Failed to create a new committee member:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       } else {
         this.committeeMemberService.updateCommitteeMember(committeeMember.id, planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Committee member updated successfully!');
-            console.log('Updated an existing committee member:', response);
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to update an existing committee member. Please try again later.');
-            console.error('Failed to update an existing committee member:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       }
     } else {

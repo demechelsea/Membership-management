@@ -1,11 +1,10 @@
 
 export class PageModel {
-    currentPage: number = 0;
+    currentPage: number;
     totalItems: number;
-    pageSize: number = 5;
+    totalPages: number;
+    pageSize: number;
     sortColumn: string;
     sortDirection: string;
     public pageSizeOptions: number[] = [5, 10, 25, 50, 75, 100];
-
-
 }

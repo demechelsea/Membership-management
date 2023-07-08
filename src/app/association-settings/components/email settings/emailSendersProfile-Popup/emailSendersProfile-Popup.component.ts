@@ -7,6 +7,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 import { EmailSettingService } from 'app/association-settings/services/emailSettingService/emailSetting.service';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 
@@ -31,8 +32,9 @@ export class EmailSendersProfilePopupComponent extends BaseComponent implements 
     public dialogRef: MatDialogRef<EmailSendersProfilePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private confirmService: AppConfirmService,
-    public emailSettingService: EmailSettingService
+    public emailSettingService: EmailSettingService,
+    private notificationService: NotificationService
+
   ) {
     super();
     this.buttonText = 'Update senders profile';
@@ -62,13 +64,15 @@ export class EmailSendersProfilePopupComponent extends BaseComponent implements 
     if (this.sendersProfileForm.valid) {
       this.emailSettingService.updateEmailSetting(plan.id, plan)
         .pipe(takeUntil(this.ngUnsubscribe$))
-        .subscribe(
-          response => this.dialogRef.close(response),
-          error => {
-            console.error('Failed to update an existing plan:', error);
-            alert('Something went wrong. Please try again later.');
+        .subscribe(response =>{
+          if (response.success) {
+            this.notificationService.showSuccess(response.messages[0].message);
+            this.dialogRef.close(response);
           }
-        );
+          else {
+            this.notificationService.showError(response.messages[0].message);
+          }
+        });
     } else {
       alert('Please fill in all the required fields.');
     }

@@ -5,6 +5,7 @@ import { MembershipPlanComponent } from 'app/association-settings/components/mem
 import { EmailComponent } from './components/email settings/email.component';
 import { SmsComponent } from './components/sms settings/sms.component';
 import { PoliciesAndDocstoreComponent } from './components/policies and Doc store/policiesAndDocstore.component';
+import { VisibilitySettingsComponent } from './components/Visibility settings/visibilitySettings.component';
 
 
 
@@ -28,6 +29,10 @@ export const AssociationSettingsRoutes: Routes = [
   {
     path: 'PoliciesAndDocstore', component: PoliciesAndDocstoreComponent,
     data: { title: 'Policies and Docstore', breadcrumb: 'Policies and Docstore' }
+  },
+  {
+    path: 'visibilitySettings', component: VisibilitySettingsComponent,
+    data: { title: 'Visibility Settings', breadcrumb: 'Visibility Settings' }
   }
 
 ];

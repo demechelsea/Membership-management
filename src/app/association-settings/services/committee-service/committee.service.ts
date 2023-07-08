@@ -29,11 +29,11 @@ export class CommitteeService extends HttpAppDataService {
   }
 
 
-  createCommittee(plan: committeeDTO): Observable<committeeDTO> {
+  createCommittee(plan: committeeDTO): Observable<any> {
     return this.postData(Urls.COMMITTEE_CREATE, plan);
   }
   
-  updateCommittee(id: number, plan: committeeDTO): Observable<committeeDTO> {
+  updateCommittee(id: number, plan: committeeDTO): Observable<any> {
     return this.postData(Urls.COMMITTEE_UPDATE, plan);
   }
 

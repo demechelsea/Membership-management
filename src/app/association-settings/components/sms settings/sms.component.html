@@ -80,70 +80,74 @@
     <mat-tab label="System Templates">
         <sorax-table-view [tableData]="smsTemplateData" [tableColumns]="smsTemplateColumns" [isFilterable]="false"
             [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)"
-            [tableType]="'EmailTemplate'">
+            [tableType]="'SmsTemplate'">
         </sorax-table-view>
     </mat-tab>
     <mat-tab label="Unsubscribed Lists">
         <div [@animate]="{value:'*',params:{y:'60px',delay:'300ms'}}" class="flex justify-between">
-            <div class="m-8">
-                <mat-form-field>
-                    <mat-label>Filter By</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <button mat-raised-button color="primary">Filter List</button>
+            <div class="flex justify-start m-8">
+                <sorax-form-field [label]="'Filter By'" [soraxFormControl]="filterControl">
+                    <input #soraxInput matInput [(ngModel)]="filterText">
+                </sorax-form-field>
+                <button mat-raised-button color="primary" (click)="applyUnsubscribedFilter()">Filter List</button>
             </div>
             <div class="m-8">
-                <mat-form-field>
-                    <mat-label>Add phone number</mat-label>
-                    <input matInput>
-                </mat-form-field>
-                <button mat-raised-button color="primary">Add SMS to
-                    Unsubscribed List</button>
+                <form [formGroup]="smsUnsubscribeListForm" (ngSubmit)="submit()">
+                    <div class="flex">
+                        <sorax-form-field label="Phone number"
+                            [soraxFormControl]="smsUnsubscribeListForm.get('phoneNumber')">
+                            <input #soraxInput matInput formControlName="phoneNumber" name="phoneNumber"
+                                placeholder="Add Phone Number">
+                        </sorax-form-field>
+                        <button mat-raised-button color="primary" type="submit">Add to Unsubscribed List</button>
+                    </div>
+                </form>
             </div>
         </div>
         <sorax-table-view [tableData]="smsUnsubscribedListData" [tableColumns]="smsUnsubscribedListsColumn"
             [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)"
-            (sortEvent)="sortData($event)">
+            (sortEvent)="sortData($event)" (deleteEvent)="deleteUnsubscribeSmsList($event)" [tableType]="'smsUnsubscription'">
         </sorax-table-view>
     </mat-tab>
     <mat-tab label="History">
-        <div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
-            <mat-form-field>
-                <mat-label>Filter By</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <button mat-raised-button color="primary">Filter List</button>
+        <div class="flex justify-start m-8">
+            <sorax-form-field [label]="'Filter By'" [soraxFormControl]="filterControl">
+                <input #soraxInput matInput [(ngModel)]="filterText">
+            </sorax-form-field>
+            <button mat-raised-button color="primary" (click)="applyHistoryFilter()">Filter List</button>
         </div>
         <sorax-table-view [tableData]="smsHistorytData" [tableColumns]="smsHistoryColumn" [isFilterable]="false"
             [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)">
         </sorax-table-view>
 
-        <mat-card class="custom-sm">
+        <mat-card class="custom-sm" *ngIf="smsContent">
             <mat-card-content class="flex flex-col">
-                <div class="flex justify-between">
-                    <mat-form-field class="w-3/4 p-2">
-                        <mat-label>Sent to</mat-label>
-                        <input matInput disabled>
-                    </mat-form-field>
-                    <mat-form-field class="w-1/4 p-2">
-                        <mat-label>Sent Date</mat-label>
-                        <input matInput disabled>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="w-3/4 p-2">
-                        <mat-label>SMS subject</mat-label>
-                        <input matInput disabled>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="w-3/4 p-2 h-24">
-                        <mat-label>SMS Heading body</mat-label>
-                        <input matInput disabled>
-                    </mat-form-field>
-                </div>
+                <form [formGroup]="smsHistoryForm">
+                    <div class="flex justify-between">
+                        <sorax-form-field class="w-3/4 p-2" label="Sent to"
+                            [soraxFormControl]="smsHistoryForm.get('recipients')">
+                            <input #soraxInput matInput formControlName="recipients" name="recipients">
+                        </sorax-form-field>
+                        <sorax-form-field class="w-1/4 p-2" label="Sent Date"
+                            [soraxFormControl]="smsHistoryForm.get('modifiedTimestamp')">
+                            <input #soraxInput matInput formControlName="modifiedTimestamp" name="modifiedTimestamp">
+                        </sorax-form-field>
+                    </div>
+                    <div class="w-3/4 p-2">
+                        <sorax-form-field label="SMS subject"
+                            [soraxFormControl]="smsHistoryForm.get('msgSubject')">
+                            <input #soraxInput matInput formControlName="msgSubject" name="msgSubject">
+                        </sorax-form-field>
+                    </div>
+                    <div class="w-3/4 p-2 h-24">
+                        <sorax-form-field label="SMS heading body"
+                        [soraxFormControl]="smsHistoryForm.get('msgContent')">
+                        <input #soraxInput matInput formControlName="msgContent" name="msgContent">
+                    </sorax-form-field>
+                    </div>
+                </form>
                 <div class="flex justify-end">
-                    <button mat-raised-button color="primary">Close</button>
+                    <button mat-raised-button color="primary" (click)="close()">Close</button>
                 </div>
             </mat-card-content>
         </mat-card>

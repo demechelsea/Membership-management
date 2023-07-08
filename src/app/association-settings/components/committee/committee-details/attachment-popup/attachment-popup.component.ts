@@ -59,7 +59,6 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
   onFileSelected(event : any) {
     for (let file of event.files) {
       this.selectedFile = file
-
       const maxSize = 10 * 1024 * 1024;
       if (file.size > maxSize) {
         alert('File size exceeds the 10MB limit');
@@ -73,20 +72,20 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
       formData.append("docType", attachment.docType.valueOf())
       formData.append("docName", attachment.docName.valueOf())
       formData.append("displayToPublicFlg", attachment.displayToPublicFlg)
-      formData.append("committeeId", attachment.committee.id.toString())
-  
+      formData.append("committeeId", attachment.committee.id.toString())      
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append('file', this.selectedFile);
           this.attachmentService.createAttachment(formData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe(response => {
-              this.notificationService.showSuccess('Attachment created successfully!');
-              console.log("Response Data: ", response)
-              this.dialogRef.close(response);
-            }, error => {
-              this.notificationService.showError('Failed to create a new attachment. Please try again later.');
-              console.error('Failed to create a new attachment:', error);
+              if (response.success) {
+                this.notificationService.showSuccess(response.messages[0].message);
+                this.dialogRef.close(response);
+              }
+              else {
+                this.notificationService.showError(response.messages[0].message);
+              }
             });
         }
   

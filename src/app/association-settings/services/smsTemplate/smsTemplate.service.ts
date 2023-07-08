@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
+import { AssociationDTO } from 'app/models/AssociationDTO';
 import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 import { EmailTemplateDTO } from 'app/models/emailTemplateDTO';
 import { MessageSettingDTO } from 'app/models/messageSettingDTO';
@@ -23,15 +24,12 @@ export class SmsTemplateService extends HttpAppDataService {
   }
 
   getSmsTemplates(page: PageModel): Observable<ResultViewModel> {
-    let smsTemplateModel = new MessageTemplateDTO();
-    if (page != null) {
-      smsTemplateModel.page = page;
-    }
-    return this.postData(Urls.MSG_TEMPLATE_BY_ASSOC, smsTemplateModel);
-  }
-
-  createSmsTemplates(emailTemplateModel: MessageTemplateDTO): Observable<MessageTemplateDTO> {
-    return this.postData(Urls.MSG_TEMPLATE_REGISTER, emailTemplateModel);
+    let smsTemplateModel = new AssociationDTO();
+    let requestData = {
+      smsTemplateDTO: smsTemplateModel,
+      pageDTO: page
+    };
+    return this.postData(Urls.MSG_TEMPLATE_BY_ASSOC, requestData);
   }
 
   updateSmsTemplates(emailTemplateModel: MessageTemplateDTO): Observable<MessageTemplateDTO> {

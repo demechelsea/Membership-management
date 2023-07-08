@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -9,11 +9,11 @@ import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Subject, takeUntil } from 'rxjs';
-import { CommitteeMemberDTO } from 'app/models/committeeMemberDTO';
-import { AttachmentService } from 'app/association-settings/services/attachment-service/attachment.service';
-import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import * as moment from 'moment';
 import { PoliciesAndDocstorePopupComponent } from './policiesAndDocstore-popup/policiesAndDocstore.component';
+import { AssociationDocstoreDTO } from 'app/models/assocationAttachmmentDTO';
+import { AssocationAttachmentService } from 'app/association-settings/services/assocation-attachment-service/assocationAttachment.service';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -27,7 +27,9 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
   public policiesAndDocstoreData: any;
   public policiesAndDocstoreColumns: SoraxColumnDefinition[];
 
-  public listpoliciesAndDocstore: CommitteeMemberAttachmentDTO[];
+  @ViewChild('showToPublicTemplate') showToPublicTemplate: any;
+
+  public listpoliciesAndDocstore: AssociationDocstoreDTO[];
 
   private ngUnsubscribe$ = new Subject<void>();
 
@@ -35,14 +37,14 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
 
   constructor(private dialog: MatDialog,
     private notificationService: NotificationService,
-    private attachmentService: AttachmentService,
+    private assocationAttachmentService: AssocationAttachmentService,
     private loader: AppLoaderService,
   ) {
     super();
   }
   ngOnInit(): void {
     this.initializeColumns();
-    //this.getPoliciesAndDocstoreData();
+    this.getPoliciesAndDocstoreData();
   }
 
   ngOnDestroy() {
@@ -50,19 +52,38 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
     this.ngUnsubscribe$.complete();
   }
 
+  filterControl = new FormControl();
+
+  filterText: string;
+
+  applyAttachmentFilter() {
+    if (this.filterText) {
+      this.policiesAndDocstoreData = this.listpoliciesAndDocstore.filter(row =>
+        row.docType.includes(this.filterText) || row.docName.includes(this.filterText)
+      );
+    } else {
+      this.policiesAndDocstoreData = this.listpoliciesAndDocstore;
+    }
+  }
+
+  convertToNumber(str: string): number {
+    return str == "Y" ? 1 : 0;
+  }
+
   getPoliciesAndDocstoreData() {
-    this.attachmentService.getAttachments(this.page, 1)
+    this.page.pageSize = 4;
+    this.assocationAttachmentService.getAssocationAttachments(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
         this.listpoliciesAndDocstore = response.result;
         this.policiesAndDocstoreData = this.listpoliciesAndDocstore.map(attachment => ({
           ...attachment,
-          attachmentDate: `${moment(attachment.modifiedTimestamp).format('YYYY-MM-DD')}`
+          assocationAttachmentDate: `${moment(attachment.modifiedTimestamp).format('YYYY-MM-DD')}`
         }));
       });
   }
 
-  openPoliciesAndDocstorePopUp(data: CommitteeMemberDTO, isNew?: boolean) {
+  openPoliciesAndDocstorePopUp(data: AssociationDocstoreDTO, isNew?: boolean) {
     let title = isNew ? 'Add New Attachment' : 'Edit Attachment';
     let dialogRef: MatDialogRef<any> = this.dialog.open(PoliciesAndDocstorePopupComponent, {
       width: '720px',
@@ -79,15 +100,32 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
       })
   }
 
-  deleteAttachments(row: any) {
-    this.attachmentService.deleteAttachment(row)
+  deleteAssocationAttachments(row: any) {
+    this.assocationAttachmentService.deleteAssocationAttachment(row)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        this.notificationService.showSuccess('Attachment deleted successfully!');
-        this.getPoliciesAndDocstoreData();
-      }, error => {
-        this.notificationService.showError('Failed to delete attachment. Please try again later.');
-        console.error('Failed to delete attachment:', error);
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+          this.getPoliciesAndDocstoreData();
+        }
+        else {
+          this.notificationService.showError(response.messages[0].message);
+        }
+      });
+  }
+
+  onShowToPublicToggleChange(row: any) {
+    row.displayToPublicFlg = !row.displayToPublicFlg;
+    row.displayToPublicFlg = row.displayToPublicFlg ? "Y" : "N";
+    this.assocationAttachmentService.updateAssocationAttachment(row)
+      .subscribe(response => {
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+          this.getPoliciesAndDocstoreData();
+        }
+        else {
+          this.notificationService.showError(response.messages[0].message);
+        }
       });
   }
 
@@ -110,7 +148,7 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
     this.policiesAndDocstoreColumns = [
       {
         name: 'Date',
-        dataKey: 'attachmentDate',
+        dataKey: 'assocationAttachmentDate',
         position: 'left',
         isSortable: true,
         dataType: "Date",
@@ -129,10 +167,10 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
       },
       {
         name: 'Show to public',
-        dataKey: 'stat',
+        dataKey: 'displayToPublicFlg',
         position: 'left',
         isSortable: true,
-        dataType: "Date",
+        cellTemplate: this.showToPublicTemplate,
       },
       {
         name: 'Updated On',

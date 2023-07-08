@@ -99,6 +99,17 @@ export class Urls {
      public static WEBSITE_IMAGE_UPLOAD: string = Urls.baseAPIUrl + Urls.contextPath + "/upload/imageUpload";
      public static WEBSITE_IMAGE_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/upload/listAllImages";
 
+     public static ASSOC_DOCSTORE_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/retrieveAssocDocById";
+     public static ASSOC_DOCSTORE_BY_ASSOCATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/retrieveAssocDocsByAssoc";
+     public static GET_ASSOC_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/retrieveAssocDocByLink";
+     public static REGISTER_ASSOC_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/createAssocDocstore";
+     public static UPDATE_ASSOC_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/updateAssocDocstore";
+     public static DELETE_ASSOC_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/policy/deleteAssocDocstore";
+    
+    
+     public static GET_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/getUserRolesAndPermissions";
+     public static UPDATE_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserRolesAndPermissions";
+
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 

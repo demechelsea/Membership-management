@@ -6,7 +6,9 @@ import LableValueModel from 'app/models/lable-value-model';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AppConfirmService } from 'app/common/services/app-confirm.service';
 import { EmailSettingDTO } from 'app/models/emailSettingDTO';
-import { EmailSettingService } from 'app/association-settings/services/emailSettingService/emailSetting.service';
+import { MessageSettingDTO } from 'app/models/messageSettingDTO';
+import { SmsSettingService } from 'app/association-settings/services/smsSettingService/smsSetting.service';
+import { NotificationService } from 'app/common/services/notification.service';
 
 
 
@@ -23,7 +25,7 @@ export class SMSSenderProfilePopupComponent extends BaseComponent implements OnI
   public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
 
-  buttonText = 'Create SMS senders profile';
+  buttonText = '';
 
 
   constructor(
@@ -32,37 +34,43 @@ export class SMSSenderProfilePopupComponent extends BaseComponent implements OnI
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private confirmService: AppConfirmService,
-    public emailSettingService: EmailSettingService
+    public SmsSettingService: SmsSettingService,
+    private notificationService: NotificationService
+
   ) {
     super();
     this.buttonText = 'Update SMS senders profile';
+    console.log("buiz" , data);
   }
 
   ngOnInit() {
-    this.buildSMTPForm(this.data.payload);
+    this.buildSMTPForm(this.data.payload.result);
     this.cdRef.detectChanges();
   }
 
-  buildSMTPForm(EmailSettingDTO: EmailSettingDTO) {
+  buildSMTPForm(SMSSettingDTO: MessageSettingDTO) {
     const isUpdate = !this.data.isNew;
     this.SMSsendersProfileForm = this.formBuilder.group({
-      id: [EmailSettingDTO.id, Validators.required],
-      smtpHost: [EmailSettingDTO.smtpHost, Validators.required],
-      port: [EmailSettingDTO.port, Validators.required],
-
+      id: [SMSSettingDTO.id, Validators.required],
+      smsName: [SMSSettingDTO.smsName, Validators.required],
+      smsIdentify: [SMSSettingDTO.smsIdentify, Validators.required],
     })
   }
 
 
-  submit(plan: EmailSettingDTO) {
+  submit(emailSetting: MessageSettingDTO) {
     if (this.SMSsendersProfileForm.valid) {
-      this.emailSettingService.updateEmailSetting(plan.id, plan)
+      this.SmsSettingService.updateSmsSetting(emailSetting.id, emailSetting)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe(
-          response => this.dialogRef.close(response),
-          error => {
-            console.error('Failed to update an existing plan:', error);
-            alert('Something went wrong. Please try again later.');
+          response => {
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           }
         );
     } else {

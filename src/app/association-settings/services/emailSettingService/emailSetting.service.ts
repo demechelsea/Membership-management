@@ -24,7 +24,7 @@ export class EmailSettingService extends HttpAppDataService {
     return this.postData(Urls.EMAIL_SETTINGS_BY_ASSOC, emailSettingModel);
   }
   
-  updateEmailSetting(id : number, emailModel: EmailSettingDTO): Observable<EmailSettingDTO> {
+  updateEmailSetting(id : number, emailModel: EmailSettingDTO): Observable<any> {
     let emailSettingModel = new EmailSettingDTO();
     emailSettingModel.id = id;
     return this.postData(Urls.EMAIL_SETTINGS_UPDATE, emailModel);

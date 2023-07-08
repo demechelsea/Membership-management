@@ -59,7 +59,7 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
   buildMembershipPlanForm(planData: MemershipPlanModel) {
     const isUpdate = !this.data.isNew;
     this.membershipPlanForm = this.formBuilder.group({
-      id: [ isUpdate ? planData.id : null, isUpdate ? Validators.required : []],
+      id: [isUpdate ? planData.id : null, isUpdate ? Validators.required : []],
       planName: [planData.planName || '', Validators.required],
       description: [planData.description || '', Validators.required],
       fee: [planData.fee || '', Validators.required],
@@ -87,30 +87,33 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
         this.membershipPlanService.createPlan(planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Plan created successfully!');
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to create a new plan. Please try again later.');
-            console.error('Failed to create a new plan:', error);
-          });
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+                this.notificationService.showError(response.messages[0].message);
+            }
+          },);
       } else {
         this.membershipPlanService.updatePlan(plan.id, planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Plan updated successfully!');
-            console.log('Updated an existing plan:', response);
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to update an existing plan. Please try again later.');
-            console.error('Failed to update an existing plan:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       }
     } else {
       this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
-  
-  
+
+
 
 
   // Define a function that maps the form value to a new object that matches the plan model
