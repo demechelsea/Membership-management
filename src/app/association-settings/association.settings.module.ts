@@ -21,6 +21,7 @@ import { EmailSendersProfilePopupComponent } from './components/email settings/e
 import { SMSSenderProfilePopupComponent } from './components/sms settings/SMS senders profile-popup/SMSsenderProfile-popup.component';
 import { PoliciesAndDocstoreComponent } from './components/policies and Doc store/policiesAndDocstore.component';
 import { PoliciesAndDocstorePopupComponent } from './components/policies and Doc store/policiesAndDocstore-popup/policiesAndDocstore.component';
+import { VisibilitySettingsComponent } from './components/Visibility settings/visibilitySettings.component';
 
 
 const declarationsList = [
@@ -38,7 +39,8 @@ const declarationsList = [
   EmailSendersProfilePopupComponent,
   SMSSenderProfilePopupComponent,
   PoliciesAndDocstoreComponent,
-  PoliciesAndDocstorePopupComponent
+  PoliciesAndDocstorePopupComponent,
+  VisibilitySettingsComponent
 ];
 
 const importsList = [

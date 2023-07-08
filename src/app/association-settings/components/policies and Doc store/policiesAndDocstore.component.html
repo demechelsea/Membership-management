@@ -1,17 +1,18 @@
-<div class="m-4">
-    <mat-form-field>
-        <mat-label>Filter By</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <button mat-raised-button color="primary">Filter List</button>
+<div class="flex justify-start m-8">
+    <sorax-form-field [label]="'Filter By'" [soraxFormControl]="filterControl">
+        <input #soraxInput matInput [(ngModel)]="filterText">
+    </sorax-form-field>
+    <button mat-raised-button color="primary" (click)="applyAttachmentFilter()">Filter List</button>
 </div>
-
-<sorax-table-view [tableData]="policiesAndDocstoreData" [tableColumns]="policiesAndDocstoreColumns"
-    [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)"
-    (sortEvent)="sortData($event)" (deleteEvent)="deleteAttachments($event)" [tableType]="'attachment'">
-</sorax-table-view>
 
 <div class="m-8" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
     <button mat-raised-button color="primary" (click)="openPoliciesAndDocstorePopUp({}, true)">Add Attachment
     </button>
 </div>
+
+<sorax-table-view [tableData]="policiesAndDocstoreData" [tableColumns]="policiesAndDocstoreColumns"
+    [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)"
+    (sortEvent)="sortData($event)" (deleteEvent)="deleteAssocationAttachments($event)"
+    [tableType]="'assocationAttachment'" (showToPublicToggleChange)="onShowToPublicToggleChange($event)">
+</sorax-table-view>
+

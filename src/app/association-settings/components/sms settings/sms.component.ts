@@ -16,7 +16,12 @@ import { MessageTemplateDTO } from 'app/models/messageTemplateDTO';
 import { SmsSettingService } from 'app/association-settings/services/smsSettingService/smsSetting.service';
 import { SmsTemplateService } from 'app/association-settings/services/smsTemplate/smsTemplate.service';
 import { SMSSenderProfilePopupComponent } from './SMS senders profile-popup/SMSsenderProfile-popup.component';
-import { EmailSettingDTO } from 'app/models/emailSettingDTO';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageSubscriptionDTO } from 'app/models/MessageSubscriptionDTO';
+import { SMSUnsubscriptionService } from 'app/association-settings/services/smsUnsubscriptionService/smsUnsubscription.service';
+import { SmsHistoryService } from 'app/association-settings/services/smsHistoryService/smsHistory.service';
+import { MessageHistoryDTO } from 'app/models/messageHistoryDTO';
+import * as moment from 'moment';
 
 
 @Component({
@@ -38,8 +43,14 @@ export class SmsComponent extends BaseComponent implements OnInit {
 
   public listTemplateSms: MessageTemplateDTO[];
   public listSmsSetting: MessageSettingDTO[];
-  public listUnsubscribeList: MessageSettingDTO[];
- // public listSmsHistory: EmailSettingDTO[];
+  public listSmsUnsubscribe: MessageSubscriptionDTO[];
+  public listSmsHistory: MessageHistoryDTO[];
+
+  public smsUnsubscribeListForm: FormGroup;
+  public smsHistoryForm: FormGroup;
+
+
+  smsContent: boolean = false;
 
   private ngUnsubscribe$ = new Subject<void>();
 
@@ -49,13 +60,22 @@ export class SmsComponent extends BaseComponent implements OnInit {
     private notificationService: NotificationService,
     private smsSettingService: SmsSettingService,
     private smsTemplateService: SmsTemplateService,
+    private smsUnsubscribeService: SMSUnsubscriptionService,
+    private smsHistoryService: SmsHistoryService,
     private loader: AppLoaderService,
+    private formBuilder: FormBuilder,
     private confirmService: AppConfirmService,) {
     super();
   }
   ngOnInit(): void {
     this.initializeColumns();
+    this.page.pageSize = 7;
+    this.page.sortColumn = 'planName';
+    this.page.sortDirection = 'asc';
     this.getSmsTemplateData();
+    this.getSmsUnsubscribeData();
+    this.getSmsHistoryData();
+    this.buildSmsUnsubscribeListForm(new MessageSubscriptionDTO());
   }
 
   ngOnDestroy() {
@@ -63,46 +83,115 @@ export class SmsComponent extends BaseComponent implements OnInit {
     this.ngUnsubscribe$.complete();
   }
 
+  buildSmsUnsubscribeListForm(smsSubscriptionData: MessageSubscriptionDTO) {
+    this.smsUnsubscribeListForm = this.formBuilder.group({
+      phoneNumber: [smsSubscriptionData.phoneNumber || ''],
+    });
+  }
+
+  buildSmsHistoryForm(emailHistoryData: MessageHistoryDTO) {
+    this.smsHistoryForm = this.formBuilder.group({
+      msgSubject: [{ value: emailHistoryData.msgSubject, disabled: true }],
+      msgContent: [{ value: emailHistoryData.msgContent, disabled: true }],
+      recipients: [{ value: emailHistoryData.recipients, disabled: true }],
+      modifiedTimestamp: [{ value: moment(emailHistoryData.modifiedTimestamp).format('YYYY-MM-DD') , disabled: true }],
+    });
+  }
+
+
+  filterControl = new FormControl();
+
+  filterText: string;
+
+  applyHistoryFilter() {
+    if (this.filterText) {
+      this.smsHistorytData = this.listSmsHistory.filter(row =>
+        row.msgSubject.includes(this.filterText) || row.recipients.includes(this.filterText)
+      );
+    } else {
+      this.smsHistorytData = this.listSmsHistory;
+    }
+  }
+
+  applyUnsubscribedFilter() {
+    if (this.filterText) {
+      this.smsUnsubscribedListData = this.listSmsUnsubscribe.filter(row =>
+        row.phoneNumber.includes(this.filterText)
+      );
+    } else {
+      this.smsUnsubscribedListData = this.listSmsUnsubscribe;
+    }
+  }
+
+
+  
+  showEmailContent(data:MessageHistoryDTO){
+    this.smsContent = true;
+    this.buildSmsHistoryForm(data);
+  }
+
+  close(){
+    this.smsContent = false;
+  }
 
   getSmsTemplateData() {
     this.smsTemplateService.getSmsTemplates(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        console.log(response);
         this.listTemplateSms = response.result;
         this.smsTemplateData = this.listTemplateSms;
       });
   }
 
-  getSmsSettingData() {
-    this.smsSettingService.getSmsSetting(this.page)
+  getSmsUnsubscribeData() {
+    this.smsUnsubscribeService.getSmsUnsubscribedList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        console.log(response);
-        this.listSmsSetting = response.result;
-        this.smsSettingData = this.listSmsSetting;
+        this.listSmsUnsubscribe = response.result;
+        this.smsUnsubscribedListData = this.listSmsUnsubscribe;
       });
   }
 
-  // getSmsUnsubcribeListData() {
-  //   this.smsSettingService.getSmsSetting(this.page)
-  //     .pipe(takeUntil(this.ngUnsubscribe$))
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       this.listSmsSetting = response.result;
-  //       this.smsSettingData = this.listSmsSetting;
-  //     });
-  // }
+   getSmsHistoryData() {
+    this.smsHistoryService.getSmsHistoryList(this.page)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(response => {
+        this.listSmsHistory = response.result;
+        this.smsHistorytData = this.listSmsHistory;
+      });
+  }
 
-  // getSmsHistoryData() {
-  //   this.smsSettingService.getSmsSetting(this.page)
-  //     .pipe(takeUntil(this.ngUnsubscribe$))
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       this.listSmsHistory = response.result;
-  //       this.smsHistorytData = this.listSmsHistory;
-  //     });
-  // }
+  deleteUnsubscribeList(row: any) {
+    this.smsUnsubscribeService.deleteSmsUnsubscribedList(row)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(response => {
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+        }
+        else {
+          this.notificationService.showError(response.messages[0].message);
+        }
+      });
+  }
+
+  submit() {
+    if (this.smsUnsubscribeListForm.valid) {
+      const formData = this.smsUnsubscribeListForm.value;
+      this.smsUnsubscribeService.addSmsToUnsubscribedList(formData)
+        .pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe(response => {
+          if (response.success) {
+            this.notificationService.showSuccess(response.messages[0].message);
+            this. getSmsUnsubscribeData();
+          }
+          else {
+            this.notificationService.showError(response.messages[0].message);
+          }
+        });
+    } else {
+      this.notificationService.showWarning('Please enter a valid email address.');
+    }
+  }
 
   committeeExecuteRowActions(rowData: CommitteeMemberDTO) {
     if (rowData.performAction == "edit") {
@@ -110,6 +199,18 @@ export class SmsComponent extends BaseComponent implements OnInit {
     } else {
       console.log("Delete action performed");
     }
+  }
+
+  deleteUnsubscribeSmsList(row: any) {
+    this.smsUnsubscribeService.deleteSmsUnsubscribedList(row)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(response => {
+        this.notificationService.showSuccess('Attachment deleted successfully!');
+        this.getSmsUnsubscribeData();
+      }, error => {
+        this.notificationService.showError('Failed to delete attachment. Please try again later.');
+        console.error('Failed to delete attachment:', error);
+      });
   }
 
   sortData(sortParameters: Sort) {
@@ -125,19 +226,23 @@ export class SmsComponent extends BaseComponent implements OnInit {
     this.getSmsTemplateData();
   }
 
-  openSendersProfilePopUp(data: EmailSettingDTO) {
-    let title = 'Edit SMTP Email setting';
-    let dialogRef: MatDialogRef<any> = this.dialog.open(SMSSenderProfilePopupComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: data}
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-        if (!res) {
-          return;
-        }
-      })
+  openSendersProfilePopUp(data: MessageSettingDTO) {
+    let title = 'Edit SMS senders profile';
+    this.smsSettingService.getSmsSetting()
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(data => {
+        let dialogRef: MatDialogRef<any> = this.dialog.open(SMSSenderProfilePopupComponent, {
+          width: '720px',
+          disableClose: true,
+          data: { title: title, payload: data }
+        })
+        dialogRef.afterClosed()
+          .subscribe(res => {
+            if (!res) {
+              return;
+            }
+          })
+      });
   }
 
 
@@ -185,16 +290,16 @@ export class SmsComponent extends BaseComponent implements OnInit {
       this.smsUnsubscribedListsColumn = [
         {
           name: 'Phone number',
-          dataKey: 'attachmentDate',
+          dataKey: 'phoneNumber',
           position: 'left',
           isSortable: true,
-          dataType: "Date",
         },
         {
           name: 'Unsubscribed On',
-          dataKey: 'docName',
+          dataKey: 'modifiedTimestamp',
           position: 'left',
           isSortable: true,
+          dataType: "Date",
         },
         {
           name: 'Updated By',
@@ -209,17 +314,20 @@ export class SmsComponent extends BaseComponent implements OnInit {
           isSortable: false,
         },
       ],
-      
+
       this.smsHistoryColumn = [
         {
           name: 'SMS Subject',
-          dataKey: 'position',
+          dataKey: 'msgSubject',
           position: 'left',
           isSortable: true,
+          clickEvent: (data) => {
+            this.showEmailContent(data);
+          },
         },
         {
           name: 'Phone#',
-          dataKey: 'fullName',
+          dataKey: 'recipients',
           position: 'left',
           isSortable: true,
         },
@@ -237,9 +345,10 @@ export class SmsComponent extends BaseComponent implements OnInit {
         },
         {
           name: 'Sent On',
-          dataKey: 'docName',
+          dataKey: 'modifiedTimestamp',
           position: 'left',
           isSortable: true,
+          dataType: "Date",
         },
       ]
 

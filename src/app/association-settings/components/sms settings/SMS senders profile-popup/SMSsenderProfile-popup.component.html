@@ -10,14 +10,14 @@
       (ngSubmit)="submit(SMSsendersProfileForm.value)">
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       
-      <sorax-form-field label="SMTP Email host" [soraxFormControl]="SMSsendersProfileForm.get('smtpHost')">
-        <input #soraxInput matInput formControlName="smtpHost" type="text" name="smtpHost"
-          placeholder="Enter SMTP Email host">
+      <sorax-form-field label="SMS name" [soraxFormControl]="SMSsendersProfileForm.get('smsName')">
+        <input #soraxInput matInput formControlName="smsName" type="text" name="smsName"
+          placeholder="Enter SMTS name">
       </sorax-form-field>
 
-      <sorax-form-field label="PORT" [soraxFormControl]="SMSsendersProfileForm.get('port')">
-        <input #soraxInput matInput formControlName="port" type="text" name="port"
-          placeholder="Enter a port">
+      <sorax-form-field label="SMS Identity" [soraxFormControl]="SMSsendersProfileForm.get('smsIdentify')">
+        <input #soraxInput matInput formControlName="smsIdentify" type="text" name="smsIdentify"
+          placeholder="Enter a SMS identity">
       </sorax-form-field>
 
     </form>

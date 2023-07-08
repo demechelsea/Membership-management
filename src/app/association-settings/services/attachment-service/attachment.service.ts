@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
-import { AssociationDTO } from 'app/models/AssociationDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
 import { CommitteeMemberAttachmentDTO } from 'app/models/committeeMemberAttachmmentDTO';
 import { PageModel } from 'app/models/page-model';
@@ -22,19 +21,20 @@ export class AttachmentService extends HttpAppDataService {
   }
 
   getAttachments(page: PageModel, id: number): Observable<ResultViewModel> {
-    let committeeModel = new CommitteeDTO();
-    committeeModel.id = id;
-    if (page != null) {
-      committeeModel.page = page;
-    }
-    return this.postData(Urls.COMMITTEE_DOCSTORE_BY_COMMITTEE, committeeModel);
+    let committeeAttachmentModel = new CommitteeDTO();
+    committeeAttachmentModel.id = id;
+    let requestData = {
+      committeeDTO: committeeAttachmentModel,
+      pageDTO: page
+    };
+    return this.postData(Urls.COMMITTEE_DOCSTORE_BY_COMMITTEE, requestData);
   }
 
-  createAttachment(plan: FormData): Observable<CommitteeMemberAttachmentDTO> {
+  createAttachment(plan: FormData): Observable<any> {
     return this.postData(Urls.REGISTER_COMMITTEE_DOCSTORE, plan);
   }
 
-  deleteAttachment( attachmentModel: CommitteeMemberAttachmentDTO): Observable<CommitteeMemberAttachmentDTO> {
+  deleteAttachment( attachmentModel: CommitteeMemberAttachmentDTO): Observable<any> {
     return this.postData(Urls.DELETE_COMMITTEE_DOCSTORE, attachmentModel);
   }
 }

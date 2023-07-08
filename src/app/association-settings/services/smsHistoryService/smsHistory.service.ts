@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EmailHistoryService extends HttpAppDataService {
+export class SmsHistoryService extends HttpAppDataService {
 
   private http: HttpClient;
 
@@ -20,13 +20,13 @@ export class EmailHistoryService extends HttpAppDataService {
     this.http = httpClient;
   }
 
-  getEmailHistoryList(page: PageModel): Observable<ResultViewModel> {
-    let emailHistoryListModel = new AssociationDTO();
+  getSmsHistoryList(page: PageModel): Observable<ResultViewModel> {
+    let smsHistoryListModel = new AssociationDTO();
     let requestData = {
-      emailHistoryListDTO: emailHistoryListModel,
+      smsHistoryListDTO: smsHistoryListModel,
       pageDTO: page
     };
-    return this.postData(Urls.EMAIL_HISTORY_BY_ASSOC, requestData);
+    return this.postData(Urls.MSG_HISTORY_BY_ASSOC, requestData);
   }
 
 }

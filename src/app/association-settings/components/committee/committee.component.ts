@@ -20,11 +20,9 @@ import { CommitteePositionDTO } from 'app/models/committeePositionDTO';
 import { PositionPopupComponent } from './position-popup/position-popup.component';
 import { PositionService } from 'app/association-settings/services/position-service/position.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { PageModel } from 'app/models/page-model';
 
 import { ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import CommitteeDTO from 'app/models/committeeDTO';
 import { opencommitteeMemberPopupService } from 'app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service';
 
 
@@ -67,9 +65,6 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
   addLink() {
     this.links.push(`Link ${this.links.length + 1}`);
   }
-
-
-
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
@@ -143,6 +138,12 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     const draggedPosition = this.positions[event.currentIndex];
     draggedPosition.positionRank = event.currentIndex + 1;
     this.positionService.updatePosition(draggedPosition.id, draggedPosition).subscribe(response => {
+      if (response.success) {
+        this.notificationService.showSuccess(response.messages[0].message);
+      }
+      else {
+        this.notificationService.showError(response.messages[0].message);
+      }
       this.getCommitteePosition()
     });
   }
@@ -153,6 +154,12 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     this.positionService.deletePosition(position)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+        }
+        else {
+          this.notificationService.showError(response.messages[0].message);
+        }
         this.getCommitteePosition()
       });
   }

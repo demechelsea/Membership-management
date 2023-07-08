@@ -2,13 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
-import { AssociationModel } from 'app/models/association-model';
 import MemershipPlanModel from 'app/models/membershipPlanModel';
 import MembershipPlanDTO from 'app/models/membershipPlanDTO';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Observable, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,27 +20,19 @@ export class MembershipPlanService extends HttpAppDataService {
   }
 
   getItems(page: PageModel): Observable<ResultViewModel> {
-
     let membershipPlanModel = new MemershipPlanModel();
-    if (page != null) {
-      membershipPlanModel.page = page;
-    }
-    return this.postData(Urls.MEMBERSHIP_PLAN_LIST, membershipPlanModel);
+    let requestData = {
+      membershipPlanDTO: membershipPlanModel,
+      pageDTO: page
+    };
+    return this.postData(Urls.MEMBERSHIP_PLAN_LIST, requestData);
   }
 
-  getNewItems(page: PageModel): Observable<ResultViewModel> {
-    let membershipPlanModel = new MemershipPlanModel();
-    if (page != null) {
-      membershipPlanModel.page = page;
-    }
-    return this.postData(Urls.MEMBERSHIP_NEW_PLAN_LIST, membershipPlanModel);
-  }
-
-  createPlan(plan: MembershipPlanDTO): Observable<MemershipPlanModel> {
+  createPlan(plan: MembershipPlanDTO): Observable<any> {
     return this.postData(Urls.MEMBERSHIP_PLAN_CREATE, plan);
   }
   
-  updatePlan(id: number, plan: MemershipPlanModel): Observable<MemershipPlanModel> {
+  updatePlan(id: number, plan: MemershipPlanModel): Observable<any> {
     return this.postData(Urls.MEMBERSHIP_PLAN_UPDATE, plan);
   }
 

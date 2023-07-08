@@ -1,9 +1,8 @@
 <div class="mat-elevation-z8">
-  <mat-paginator *ngIf="isPageable" [length]="page?.totalRows" [pageIndex]="page?.currentPage"
+  <mat-paginator *ngIf="isPageable" [length]="page.totalItems" [pageIndex]="page?.currentPage"
     [pageSize]="page?.pageSize" [pageSizeOptions]="page?.pageSizeOptions" (page)="emitPageEvent($event)"
     aria-label="Select page" showFirstLastButtons>
   </mat-paginator>
-
   <mat-table [dataSource]="tableDataSource" matSort matSortDisableClear [matSortActive]="page?.sortColumn"
     [matSortDirection]="page?.sortDirection" (matSortChange)="emitSortEvent($event)" (mouseleave)="hideTooltip()">
 
@@ -27,13 +26,22 @@
             <ng-container *ngSwitchCase="'EmailTemplate'">
               <a class="link" (click)="editEvent.emit(row)">Edit</a>
             </ng-container>
+            <ng-container *ngSwitchCase="'SmsTemplate'">
+              <a class="link" (click)="editEvent.emit(row)">Edit</a>
+            </ng-container>
             <ng-container *ngSwitchCase="'emailUnsubscription'">
+              <a class="link" (click)="deleteEvent.emit(row)">Delete</a>
+            </ng-container>
+            <ng-container *ngSwitchCase="'smsUnsubscription'">
+              <a class="link" (click)="deleteEvent.emit(row)">Delete</a>
+            </ng-container>
+            <ng-container *ngSwitchCase="'assocationAttachment'">
               <a class="link" (click)="deleteEvent.emit(row)">Delete</a>
             </ng-container>
           </ng-container>
         </mat-cell>
       </ng-container>
-      
+
 
 
       <ng-container *ngIf="(tableColumn.dataKey =='action'); else otherThanActionColumns">
@@ -86,13 +94,24 @@
   </mat-table>
 
   <ng-template #itemText let-row="row" let-columnDef="columnDef">
-    <ng-container *ngIf="columnDef.link else plainText">
+    <ng-container *ngIf="columnDef.link; else plainText">
       <a class="mat-color-primary text-decoration-underline" [routerLink]="" (click)="emitRowAction(row, 'view')">
-        {{formatedValue(row,columnDef)}}</a>
+        {{formatedValue(row,columnDef)}}
+      </a>
     </ng-container>
     <ng-template #plainText>
-      {{formatedValue(row,columnDef)}}
+      <ng-container *ngIf="columnDef.dataKey === 'displayToPublicFlg'; else otherText">
+        <mat-slide-toggle [checked]="convertToNumber(row.displayToPublicFlg)" (change)="onShowToPublicToggleChange(row)">
+        </mat-slide-toggle>
+      </ng-container>
+      <ng-template #otherText>
+        {{formatedValue(row,columnDef)}}
+      </ng-template>
     </ng-template>
+
   </ng-template>
+
+
+
 
 </div>

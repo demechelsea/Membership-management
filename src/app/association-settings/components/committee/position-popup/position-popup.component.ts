@@ -28,7 +28,7 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
   buttonText = 'Create a position';
   id: number;
 
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<PositionPopupComponent>,
@@ -56,7 +56,7 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
       id: [isUpdate ? planData.id : null, isUpdate ? Validators.required : []],
       positionName: [planData.positionName || '', Validators.required],
       positionRank: [planData.positionRank || null, Validators.required],
-      committee:[planData.committee || '']
+      committee: [planData.committee || '']
     })
   }
 
@@ -71,11 +71,13 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
               this.positionService.updatePosition(plan.id, formData)
                 .pipe(takeUntil(this.ngUnsubscribe$))
                 .subscribe(response => {
-                  this.notificationService.showSuccess('Position updated successfully!');
-                  this.dialogRef.close(response);
-                }, error => {
-                  this.notificationService.showError('Failed to update an existing position. Please try again later.');
-                  console.error('Failed to update an existing position:', error);
+                  if (response.success) {
+                    this.notificationService.showSuccess(response.messages[0].message);
+                    this.dialogRef.close(response);
+                  }
+                  else {
+                    this.notificationService.showError(response.messages[0].message);
+                  }
                 });
             }
           });
@@ -83,19 +85,21 @@ export class PositionPopupComponent extends BaseComponent implements OnInit {
         this.positionService.createPosition(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Position created successfully!');
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to create a new position. Please try again later.');
-            console.error('Failed to create a new position:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       }
     } else {
       this.notificationService.showWarning('Please fill in all the required fields.');
     }
   }
-  
-  
+
+
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();

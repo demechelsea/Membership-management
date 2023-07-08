@@ -23,18 +23,20 @@ export class CommitteeMemberService extends HttpAppDataService {
   getCommitteeMembers(page: PageModel, id: number): Observable<ResultViewModel> {
     let committeeMemberModel = new CommitteeDTO();
     committeeMemberModel.id = id;
-    if (page != null) {
-      committeeMemberModel.page = page;
-    }
-    return this.postData(Urls.COMMITTEE_MEMBER_LIST, committeeMemberModel);
+    let requestData = {
+      committeeDTO: committeeMemberModel,
+      pageDTO: page
+    };
+    return this.postData(Urls.COMMITTEE_MEMBER_LIST, requestData);
   }
 
 
-  createCommitteeMember(plan: CommitteeMemberDTO): Observable<CommitteeMemberDTO> {
+
+  createCommitteeMember(plan: CommitteeMemberDTO): Observable<any> {
     return this.postData(Urls.REGISTER_COMMITTEE_MEMBER, plan);
   }
 
-  updateCommitteeMember(id: number, plan: CommitteeMemberDTO): Observable<CommitteeMemberDTO> {
+  updateCommitteeMember(id: number, plan: CommitteeMemberDTO): Observable<any> {
     return this.postData(Urls.UPDATE_COMMITTEE_MEMBER, plan);
   }
 

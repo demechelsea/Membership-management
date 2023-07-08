@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, ViewChild,OnInit,AfterViewInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, ViewChild, OnInit, AfterViewInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -56,8 +56,8 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     super();
   }
   ngOnInit(): void {
-    this.initializeColumns();
     this.getCommitteeMembersData();
+    this.initializeColumns();
     this.getAttachmentData();
     let committeeModel = new CommitteeMemberDTO();
     this.opencommitteeMemberPopupService.openCommitteeMemberPopup$.subscribe(() => {
@@ -71,9 +71,11 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   }
 
   getCommitteeMembersData() {
+    this.page.pageSize = 4;
     this.committeeService.getCommitteeMembers(this.page, this.selectedRow.id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
+        this.page.totalItems = response.page.totalItems;
         this.listCommitteeMembers = response.result;
         this.committeeMembersData = this.listCommitteeMembers.map(committeeMember => {
           const start = new Date(committeeMember.startDate);
@@ -89,7 +91,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
       });
   }
 
-  viewCommittees(){
+  viewCommittees() {
     this.viewCommittee.emit();
   }
 
@@ -115,13 +117,15 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     this.openCommitteeMemberPopUp(row, false);
   }
 
-  openCommitteeMemberPopUp(data?: CommitteeMemberDTO, isNew?: boolean) { 
+  openCommitteeMemberPopUp(data?: CommitteeMemberDTO, isNew?: boolean) {
     let title = isNew ? 'Create a new committee member' : 'Edit committee member';
     let dialogRef: MatDialogRef<any> = this.dialog.open(CommitteeMemberPopupComponent, {
       width: '720px',
       disableClose: true,
-      data: { title: title, payload: data, isNew: isNew, selectedCommittee: this.selectedRow, associationMemberId: data?.associationMember?.id,
-        positionId: data?.committeePosition?.id, selectedCommitteeMember: data.id }
+      data: {
+        title: title, payload: data, isNew: isNew, selectedCommittee: this.selectedRow, associationMemberId: data?.associationMember?.id,
+        positionId: data?.committeePosition?.id, selectedCommitteeMember: data.id
+      }
     });
     dialogRef.componentInstance.addPosition.subscribe(() => {
       this.addPosition.emit();
@@ -132,7 +136,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
         console.log("no res", res);
         return;
       }
-        this.getCommitteeMembersData();
+      this.getCommitteeMembersData();
     }
     );
   }
@@ -158,14 +162,15 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     this.attachmentService.deleteAttachment(row)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        this.notificationService.showSuccess('Attachment deleted successfully!');
-        this.getAttachmentData();
-      }, error => {
-        this.notificationService.showError('Failed to delete attachment. Please try again later.');
-        console.error('Failed to delete attachment:', error);
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+          this.getAttachmentData();
+        }
+        else {
+          this.notificationService.showError(response.messages[0].message);
+        }
       });
   }
-  
 
   committeeExecuteRowActions(rowData: CommitteeMemberDTO) {
     if (rowData.performAction == "edit") {

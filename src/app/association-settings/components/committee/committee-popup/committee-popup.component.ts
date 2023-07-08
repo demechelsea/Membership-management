@@ -78,22 +78,25 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
         this.committeeService.createCommittee(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Committee created successfully!');
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to create a new committee. Please try again later.');
-            console.error('Failed to create a new committee:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       } else {
         this.committeeService.updateCommittee(committee.id, formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe(response => {
-            this.notificationService.showSuccess('Committee updated successfully!');
-            console.log('Updated an existing committee:', response);
-            this.dialogRef.close(response);
-          }, error => {
-            this.notificationService.showError('Failed to update an existing committee. Please try again later.');
-            console.error('Failed to update an existing committee:', error);
+            if (response.success) {
+              this.notificationService.showSuccess(response.messages[0].message);
+              this.dialogRef.close(response);
+            }
+            else {
+              this.notificationService.showError(response.messages[0].message);
+            }
           });
       }
     } else {

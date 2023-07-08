@@ -85,7 +85,7 @@ export class NavigationService {
         {name: 'Policies & Doc store', state: 'associationSettings/PoliciesAndDocstore'},
         {name: 'Finance Settings', state: 'underdev'},
         {name: 'Digital Id Card Settings', state: 'underdev'}, 
-        {name: 'Visibility Settings', state: 'underdev'}, 
+        {name: 'Visibility Settings', state: 'associationSettings/visibilitySettings'}, 
       ]
     },
     {

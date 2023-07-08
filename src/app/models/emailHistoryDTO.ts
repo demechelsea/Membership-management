@@ -5,6 +5,7 @@ export class EmailHistoryDTO extends MessageWrapModel {
       emailSubject: string;
       emailContent:string;
       recipients:string;
+      modifiedTimestamp: Date;
       association:AssociationDTO;
       page:PageModel;
 }
