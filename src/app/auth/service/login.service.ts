@@ -13,7 +13,6 @@ import { Observable, Observer } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService extends HttpAppDataService {
-  [x: string]: any;
 
   public loginLogoutObservable: Observable<string>;
   public loginLogoutObservers: Observer<string>[] = [];

@@ -96,6 +96,8 @@ export class Urls {
      public static EMAIL_UNSUBSCRIBED_ALL: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmlUnsubscribed";
      public static EMAIL_SUBSCRIPTION_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emlSubscriptionUpdate";
 
+     public static WEBSITE_IMAGE_UPLOAD: string = Urls.baseAPIUrl + Urls.contextPath + "/upload/imageUpload";
+     public static WEBSITE_IMAGE_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/upload/listAllImages";
 
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];

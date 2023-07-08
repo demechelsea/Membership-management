@@ -1,12 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpAppDataService } from 'app/common/services/http-app-data.service';
+import { splitArrayIntoGroups } from 'app/common/utils/form-utils';
+import { Urls } from 'app/common/utils/urls';
+import { Subject, takeUntil } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GrapesConfigService {
+export class GrapesConfigService extends HttpAppDataService {
   
+  private ngUnsubscribe$ = new Subject<void>();
 
-  constructor() { }
+
+  constructor(httpClient: HttpClient) { 
+    super(httpClient);
+  }
 
   addDeviceToPanel(editor: any) {
     const deviceManager = editor.DeviceManager;
@@ -87,6 +96,71 @@ export class GrapesConfigService {
     };
   }
 
+  getAssetManager():any{
+    return {
+      assets :this.fetchAllImages(),
+      uploadFile: (evnt) => { 
+        this.startUploadInBatches(evnt);
+      }
+    };
+  }
+  fetchAllImages() {
+    this.postData(Urls.WEBSITE_IMAGE_LIST, {}).pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
+      (response) => {
+        
+
+      });
+    
+
+    return [
+      'http://localhost/actta/assets/img/hero-img.jpg',
+      'http://localhost/actta/assets/img/gallery/3.jpg',
+      'http://localhost/actta/assets/img/gallery/6.jpg',
+      'http://localhost/actta/assets/img/gallery/1.jpg'
+    ];
+  }
+  startUploadInBatches(e: any) {
+    let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+    let batchOfFiles =  splitArrayIntoGroups(files, 2);
+    for (let i = 0; i < batchOfFiles.length; i++) {
+        this.uploadImages(batchOfFiles[i]);
+    }
+  }
+
+
+  uploadImages(files: any){
+    const formData: FormData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append('files', files[i], files[i].name);
+      
+    }
+    this.postData(Urls.WEBSITE_IMAGE_UPLOAD, formData).pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(
+      (response) => {
+        console.log("Good come here, uploaded images");
+      });
+  }
+
+  assetManagerEvents(editor:any){
+    const assetManager = editor.AssetManager;
+
+    editor.on('asset:upload:start', () => {
+      console.log('Upload started...');
+    });
+    
+    editor.on('asset:upload:end', () => {
+      console.log('Upload end...');
+    });
+    
+    editor.on('asset:upload:error', (err) => {
+      console.log('Upload error...');
+    });
+    
+    editor.on('asset:upload:response', (response) => {
+      console.log('Upload response...');
+    });
+  }
 
   getStyleSelectors(): any {
     return {
@@ -453,6 +527,11 @@ export class GrapesConfigService {
         container.style.display = 'none';
       },
     };
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 
 }

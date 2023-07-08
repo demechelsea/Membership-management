@@ -45,7 +45,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       blockManager: this.configService.getBlockManager(),    
       styleManager: this.configService.getStyleSelectors(),
       layerManager: this.configService.getLayerManager(),
-      
+      assetManager :this.configService.getAssetManager(),
       colorPicker: { appendTo: 'parent', offset: { top: 26, left: -166, } },
       plugins: [BasicBlocksPlugin, FlexyBlocksPlugin],
       pluginsOpts: {
@@ -58,6 +58,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.configService.assetManagerEvents(this.editor);
     this.websiteThemeService.addNavbarBlock(this.editor);
     this.websiteThemeService.addHomePageBlock(this.editor);
     
@@ -72,6 +73,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
         }
       }, 1000);
     });
+    
 
     // this.editor.on('component:selected', () => {
     //   const selectedComponent = this.editor.getSelected();;
@@ -81,5 +83,8 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     // })
 
   }
+
+  
+  
 
 }

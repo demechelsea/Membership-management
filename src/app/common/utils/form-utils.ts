@@ -12,3 +12,23 @@ export function  acceptOnlyNumbers($event) {
     }
   }
 
+  export function splitArrayIntoGroups<T>(inputArray: T[], groupSize: number): T[][] {
+    const groups: T[][] = [];
+    let currentGroup: T[] = [];
+  
+    for (let i = 0; i < inputArray.length; i++) {
+      let item = inputArray[i];
+      currentGroup.push(item);
+  
+      if (currentGroup.length === groupSize) {
+        groups.push(currentGroup);
+        currentGroup = [];
+      }
+    }  
+    if (currentGroup.length > 0) {
+      groups.push(currentGroup);
+    }
+  
+    return groups;
+  }
+
