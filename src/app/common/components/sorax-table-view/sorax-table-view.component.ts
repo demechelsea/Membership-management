@@ -31,6 +31,7 @@ export class SoraxTableViewComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
 
+  @Input() serverSidePagination = false;
   @Input() isPageable = false;
   @Input() isSortable = false;
   @Input() isFilterable = false;
@@ -88,21 +89,29 @@ export class SoraxTableViewComponent implements OnInit {
 
   setTableDataSource(data: any) {
     this.tableDataSource = new MatTableDataSource<any>(data);
-    this.tableDataSource.paginator = this.matPaginator;
-    this.tableDataSource.sort = this.matSort;
+    if(!this.serverSidePagination) {
+      this.tableDataSource.paginator = this.matPaginator;
+      this.tableDataSource.sort = this.matSort;
+    }
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    if(!this.serverSidePagination) {
+      this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    }
   }
 
   emitSortEvent(sortParameters: Sort) {
-    this.sortEvent.emit(sortParameters);
+    if(this.serverSidePagination){
+       this.sortEvent.emit(sortParameters);
+    }
   }
 
   emitPageEvent(pageEvent: PageEvent) {
-    this.pageEvent.emit(pageEvent);
+    if(this.serverSidePagination){
+     this.pageEvent.emit(pageEvent);
+    }
   }
 
   emitRowAction(row: any, selectedAction: String) {

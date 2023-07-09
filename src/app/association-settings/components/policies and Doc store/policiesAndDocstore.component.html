@@ -10,7 +10,8 @@
     </button>
 </div>
 
-<sorax-table-view [tableData]="policiesAndDocstoreData" [tableColumns]="policiesAndDocstoreColumns"
+<sorax-table-view [serverSidePagination]="true" 
+    [tableData]="policiesAndDocstoreData" [tableColumns]="policiesAndDocstoreColumns"
     [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="pageChangeEvent($event)"
     (sortEvent)="sortData($event)" (deleteEvent)="deleteAssocationAttachments($event)"
     [tableType]="'assocationAttachment'" (showToPublicToggleChange)="onShowToPublicToggleChange($event)">

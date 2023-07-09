@@ -26,6 +26,7 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
 
   public policiesAndDocstoreData: any;
   public policiesAndDocstoreColumns: SoraxColumnDefinition[];
+  
 
   @ViewChild('showToPublicTemplate') showToPublicTemplate: any;
 
@@ -71,11 +72,14 @@ export class PoliciesAndDocstoreComponent extends BaseComponent implements OnIni
   }
 
   getPoliciesAndDocstoreData() {
-    this.page.pageSize = 4;
     this.assocationAttachmentService.getAssocationAttachments(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(response => {
-        this.listpoliciesAndDocstore = response.result;
+         Object.assign(this.resultViewModel, response);
+         Object.assign(this.page, this.resultViewModel.page);
+
+        this.listpoliciesAndDocstore = this.resultViewModel.result;
+
         this.policiesAndDocstoreData = this.listpoliciesAndDocstore.map(attachment => ({
           ...attachment,
           assocationAttachmentDate: `${moment(attachment.modifiedTimestamp).format('YYYY-MM-DD')}`
