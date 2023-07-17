@@ -54,7 +54,7 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   private initilizeFilteredOptions(value: string) {
-    this.lookupService.retrieveOptions(this.lookupName, value, this.id)
+    this.lookupService.retrieveOptions(this.lookupName, value)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(data => {
         this.options = data.result;

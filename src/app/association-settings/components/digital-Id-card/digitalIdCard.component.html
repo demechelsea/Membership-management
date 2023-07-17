@@ -1,0 +1,56 @@
+<div class="flex justify justify-around">
+  <mat-card
+    class="w-96 h-56 p-4 bg-gradient-to-r from-blue-600 to-cyan-400 text-white"
+  >
+    <div class="flex justify-between items-center">
+      <div class="w-16 h-16 bg-white"></div>
+      <div class="text-2xl mx-4">MY SOCIETY NAME</div>
+    </div>
+    <div class="mt-8 text-2xl">Membership Type: Standard # PREFIX0001X</div>
+    <div class="flex justify-between mt-auto">
+      <div>EXP Date: 12/24</div>
+      <img
+        class="w-28 p-4"
+        src="./../../../../assets/images/qr.jpg"
+        alt="QR Code"
+      />
+    </div>
+    <div class="flex justify-center text-2xl mx-4">
+      Member Full name John F Kenady
+    </div>
+  </mat-card>
+
+  <mat-card class="custom-bg p-4 md:w-1/3">
+    <mat-card-header class="items-center flex justify-between pb-2 text-white">
+      <mat-card-title class="text-white p-4"
+        >Configure Digital Card</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content class="content w-full pt-4 justify-around">
+      <div class="flex flex-col">
+        <mat-form-field class="mb-4">
+          <mat-label class="text-gray-600">Logo upload</mat-label>
+          <input matInput class="p-2 h-10" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label class="text-gray-600">Society name</mat-label>
+          <input matInput class="p-2 h-10" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label class="text-gray-600">Card color</mat-label>
+          <input matInput class="p-2 h-10" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label class="text-gray-600">Text color</mat-label>
+          <input matInput class="p-2 h-10" />
+        </mat-form-field>
+      </div>
+      <div class="flex justify-around">
+        <button mat-raised-button class="mat-primary text-left">
+          Restore to Default
+        </button>
+        <button mat-raised-button class="mat-primary text-right">Apply</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

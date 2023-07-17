@@ -1,67 +1,113 @@
 <div class="page-layout overflow-hidden">
-    <div class="content">
-        <div class="content-header padround18 flex flex-wrap flex-col md:flex-row ">
-            <div class="w-full md:w-1/2 ">
-                <span class="mat-headline-3">Committee Name: {{selectedRow.name}}</span>
-            </div>
-            <div class="w-full md:w-1/2 text-right">
-                <span class="mat-headline-3 text-right">
-                    <button mat-raised-button color="primary" (click)="viewCommittees()">View Committees</button></span>
-            </div>
-            <div class="w-full md:w-1/2 ">
-                <p>Start Date: {{selectedRow.startDate | date:'MMMM dd, yyyy'}}</p>
-            </div>
-            <div class="w-full md:w-1/2 ">
-                <p>End Date: {{selectedRow.endDate | date:'MMMM dd, yyyy'}}</p>
-            </div>
+  <div class="content">
+    <div class="content-header padround18 flex flex-wrap flex-col md:flex-row">
+      <div class="w-full md:w-1/2">
+        <span class="mat-headline-3"
+          >Committee Name: {{ selectedRow.name }}</span
+        >
+      </div>
+      <div class="w-full md:w-1/2 text-right">
+        <span class="mat-headline-3 text-right">
+          <button mat-raised-button color="primary" (click)="viewCommittees()">
+            View Committees
+          </button></span
+        >
+      </div>
+      <div class="w-full md:w-1/2">
+        <p>Start Date: {{ selectedRow.startDate | date : "MMMM dd, yyyy" }}</p>
+      </div>
+      <div class="w-full md:w-1/2">
+        <p>End Date: {{ selectedRow.endDate | date : "MMMM dd, yyyy" }}</p>
+      </div>
 
-            <div class="w-full md:w-1/2 ">
-                <p>Active Duration: {{selectedRow.duration}}</p>
-            </div>
-            <div class="w-full md:w-1/2 ">
-                <p>Status: {{selectedRow.status}}</p>
-            </div>
-            <div class="w-full md:w-1/2 ">
-                <p>Updated By: {{selectedRow.modifiedUser}}</p>
-            </div>
-            <div class="w-full md:w-1/2 ">
-                <p>Updated On: {{selectedRow.modifiedTimestamp | date:'MMMM dd, yyyy'}}</p>
-            </div>
-        </div>
-        <div class="content-body">
-            <div class="content-card mat-bg-default">
-                <mat-tab-group *ngIf="selectedRow" [selectedIndex]="0" mat-stretch-tabs="false" mat-align-tabs="start">
-                    <mat-tab label="Committee Members">
-                        <div *ngIf="selectedRow.status == 'Active'" class="m-8"
-                            [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
-                            <button mat-raised-button color="primary" align="right"
-                                (click)="openCommitteeMemberPopUp({}, true)">Create a new Committee Member</button>
-                        </div>
-                        <sorax-table-view [tableData]="committeeMembersData" [tableColumns]="committeeMembersColumns"
-                            [isFilterable]="false" [isPageable]="true" [page]="page"
-                            (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)"
-                            (editEvent)="editCommitteeMember($event)" (rowAction)="emitRowAction($event)"
-                            [tableType]="'member'">
-                        </sorax-table-view>
-
-
-                    </mat-tab>
-                    <mat-tab label="Attachments">
-                        <div *ngIf="selectedRow.status === 'Active'" class="m-8"
-                            [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
-                            <button mat-raised-button color="primary" (click)="openAttachementPopUp({}, true)">Add New
-                                Attachment
-                            </button>
-                        </div>
-                        <sorax-table-view [tableData]="attachmentData" [tableColumns]="attachmentColumns"
-                            [isFilterable]="false" [isPageable]="true" [page]="page"
-                            (pageEvent)="pageChangeEvent($event)" (sortEvent)="sortData($event)"
-                            (rowAction)="emitRowAction($event)" (deleteEvent)="deleteAttachments($event)"
-                            [tableType]="'attachment'">
-                        </sorax-table-view>
-                    </mat-tab>
-                </mat-tab-group>
-            </div>
-        </div>
+      <div class="w-full md:w-1/2">
+        <p>Active Duration: {{ selectedRow.duration }}</p>
+      </div>
+      <div class="w-full md:w-1/2">
+        <p>Status: {{ selectedRow.status }}</p>
+      </div>
+      <div class="w-full md:w-1/2">
+        <p>Updated By: {{ selectedRow.modifiedUser }}</p>
+      </div>
+      <div class="w-full md:w-1/2">
+        <p>
+          Updated On:
+          {{ selectedRow.modifiedTimestamp | date : "MMMM dd, yyyy" }}
+        </p>
+      </div>
     </div>
+    <div class="content-body">
+      <div class="content-card mat-bg-default">
+        <mat-tab-group
+          *ngIf="selectedRow"
+          [selectedIndex]="0"
+          mat-stretch-tabs="false"
+          mat-align-tabs="start"
+          (selectedTabChange)="onTabChanged($event)"
+        >
+          <mat-tab label="Committee Members">
+            <div
+              *ngIf="selectedRow.status == 'Active'"
+              class="m-8"
+              [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+              style="text-align: right"
+            >
+              <button
+                mat-raised-button
+                color="primary"
+                align="right"
+                (click)="openCommitteeMemberPopUp({}, true)"
+              >
+                Create a new Committee Member
+              </button>
+            </div>
+            <sorax-table-view
+              [serverSidePagination]="true"
+              [tableData]="committeeMembersData"
+              [tableColumns]="committeeMembersColumns"
+              [isFilterable]="false"
+              [isPageable]="true"
+              [page]="page"
+              (pageEvent)="committeeMemeberPageChangeEvent($event)"
+              (sortEvent)="committeeSortData($event)"
+              (editEvent)="editCommitteeMember($event)"
+              (rowAction)="emitRowAction($event)"
+              [tableType]="'member'"
+            >
+            </sorax-table-view>
+          </mat-tab>
+          <mat-tab label="Attachments">
+            <div
+              *ngIf="selectedRow.status === 'Active'"
+              class="m-8"
+              [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+              style="text-align: right"
+            >
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="openAttachementPopUp({}, true)"
+              >
+                Add New Attachment
+              </button>
+            </div>
+            <sorax-table-view
+              [serverSidePagination]="true"
+              [tableData]="attachmentData"
+              [tableColumns]="attachmentColumns"
+              [isFilterable]="false"
+              [isPageable]="true"
+              [page]="page"
+              (pageEvent)="attachmentPageChangeEvent($event)"
+              (sortEvent)="attachmentSortData($event)"
+              (rowAction)="emitRowAction($event)"
+              (deleteEvent)="deleteAttachments($event)"
+              [tableType]="'attachment'"
+            >
+            </sorax-table-view>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
 </div>

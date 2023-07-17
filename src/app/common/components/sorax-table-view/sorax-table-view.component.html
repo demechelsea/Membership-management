@@ -7,7 +7,6 @@
     [matSortDirection]="page?.sortDirection" (matSortChange)="emitSortEvent($event)" (mouseleave)="hideTooltip()">
 
     <ng-container *ngFor="let tableColumn of tableColumns" [matColumnDef]="tableColumn.dataKey">
-
       <ng-container *ngIf="(tableColumn.dataKey =='action'); else otherThanActionColumns">
         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
         <mat-cell *matCellDef="let row">
@@ -41,8 +40,6 @@
           </ng-container>
         </mat-cell>
       </ng-container>
-
-
 
       <ng-container *ngIf="(tableColumn.dataKey =='action'); else otherThanActionColumns">
         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
@@ -101,8 +98,8 @@
     </ng-container>
     <ng-template #plainText>
       <ng-container *ngIf="columnDef.dataKey === 'displayToPublicFlg'; else otherText">
-        <mat-slide-toggle [checked]="convertToNumber(row.displayToPublicFlg)" (change)="onShowToPublicToggleChange(row)">
-        </mat-slide-toggle>
+        <mat-slide-toggle [checked]="convertToBoolean(row.displayToPublicFlg)" (change)="onShowToPublicToggleChange(row)">
+        </mat-slide-toggle>               
       </ng-container>
       <ng-template #otherText>
         {{formatedValue(row,columnDef)}}
@@ -110,8 +107,4 @@
     </ng-template>
 
   </ng-template>
-
-
-
-
 </div>

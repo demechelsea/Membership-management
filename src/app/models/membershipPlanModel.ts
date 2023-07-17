@@ -23,6 +23,7 @@ export default class MemershipPlanModel extends MessageWrapModel {
     notifySubscribers: string;
     association: AssociationModel;
     createdUser:string;
+    createdTimestamp:string;
     modifiedTimestamp: Date;
     modifiedUser:string;
 }

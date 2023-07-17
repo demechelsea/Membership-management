@@ -84,7 +84,7 @@ export class NavigationService {
         {name: 'SMS Settings', state: 'associationSettings/smsSetting'},
         {name: 'Policies & Doc store', state: 'associationSettings/PoliciesAndDocstore'},
         {name: 'Finance Settings', state: 'underdev'},
-        {name: 'Digital Id Card Settings', state: 'underdev'}, 
+        {name: 'Digital Id Card Settings', state: 'associationSettings/digitalIdCardSettings'}, 
         {name: 'Visibility Settings', state: 'associationSettings/visibilitySettings'}, 
       ]
     },

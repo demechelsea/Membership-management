@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
 import { AssociationDTO } from 'app/models/AssociationDTO';
-import { EmailSettingDTO } from 'app/models/emailSettingDTO';
 import { EmailTemplateDTO } from 'app/models/emailTemplateDTO';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
@@ -34,7 +33,9 @@ export class EmailTemplateService extends HttpAppDataService {
     return this.postData(Urls.EMAIL_TEMPLATE_REGISTER, emailTemplateModel);
   }
 
-  updateEmailTemplates(emailTemplateModel: EmailTemplateDTO): Observable<EmailTemplateDTO> {
+  updateEmailTemplates(id: number): Observable<any> {
+    let emailTemplateModel = new EmailTemplateDTO();
+    emailTemplateModel.id = id;
     return this.postData(Urls.EMAIL_TEMPLATE_UPDATE, emailTemplateModel);
   }
 

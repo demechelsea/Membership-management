@@ -1,45 +1,44 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { SoraxAnimations } from 'app/common/animations/sorax-animations';
-import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
-import { AppConfirmService } from 'app/common/services/app-confirm.service';
-import { AppLoaderService } from 'app/common/services/app-loader.service';
-import { NotificationService } from 'app/common/services/notification.service';
-import { BaseComponent } from 'app/core/components/base/base.component';
-import { ResultViewModel } from 'app/models/result-view-model';
-import { Observable, Subject, Subscription, from, takeUntil } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ThemePalette } from "@angular/material/core";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { SoraxAnimations } from "app/common/animations/sorax-animations";
+import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
+import { AppConfirmService } from "app/common/services/app-confirm.service";
+import { AppLoaderService } from "app/common/services/app-loader.service";
+import { NotificationService } from "app/common/services/notification.service";
+import { BaseComponent } from "app/core/components/base/base.component";
+import { ResultViewModel } from "app/models/result-view-model";
+import { Observable, Subject, Subscription, from, takeUntil } from "rxjs";
 
-import { CommitteePopupComponent } from './committee-popup/committee-popup.component';
-import { CommitteeService } from 'app/association-settings/services/committee-service/committee.service';
-import committeeDTO from 'app/models/committeeDTO';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { CommitteePositionDTO } from 'app/models/committeePositionDTO';
-import { PositionPopupComponent } from './position-popup/position-popup.component';
-import { PositionService } from 'app/association-settings/services/position-service/position.service';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { CommitteePopupComponent } from "./committee-popup/committee-popup.component";
+import { CommitteeService } from "app/association-settings/services/committee-service/committee.service";
+import committeeDTO from "app/models/committeeDTO";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CommitteePositionDTO } from "app/models/committeePositionDTO";
+import { PositionPopupComponent } from "./position-popup/position-popup.component";
+import { PositionService } from "app/association-settings/services/position-service/position.service";
+import { MatTabChangeEvent } from "@angular/material/tabs";
 
-import { ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
-import { opencommitteeMemberPopupService } from 'app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service';
-
+import { ViewChild } from "@angular/core";
+import { MatTabGroup } from "@angular/material/tabs";
+import { opencommitteeMemberPopupService } from "app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service";
 
 @Component({
-  selector: 'app-committee',
-  templateUrl: './committee.component.html',
-  styleUrls: ['./committee.component.scss'],
-  animations: SoraxAnimations
+  selector: "app-committee",
+  templateUrl: "./committee.component.html",
+  styleUrls: ["./committee.component.scss"],
+  animations: SoraxAnimations,
 })
 export class CommitteeComponent extends BaseComponent implements OnInit {
-
   returnToCommitteeMemberPopup = false;
-  @Output() openCommitteeMemberPopup: EventEmitter<void> = new EventEmitter<void>();
+  @Output() openCommitteeMemberPopup: EventEmitter<void> =
+    new EventEmitter<void>();
 
-  @ViewChild('tabGroup') tabGroup: MatTabGroup;
+  @ViewChild("tabGroup") tabGroup: MatTabGroup;
 
-  links = ['Committee summary', 'Committee positions'];
+  links = ["Committee summary", "Committee positions"];
   activeLink = this.links[0];
   background: ThemePalette = undefined;
 
@@ -52,14 +51,13 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
   listPlans: committeeDTO[];
   positions: CommitteePositionDTO[];
 
-
   showDetails: boolean = false;
   selectedRow: any;
   showCommitteeTable: boolean = true;
   rowAction: EventEmitter<any> = new EventEmitter<any>();
 
   toggleBackground() {
-    this.background = this.background ? undefined : 'primary';
+    this.background = this.background ? undefined : "primary";
   }
 
   addLink() {
@@ -73,7 +71,6 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     private confirmService: AppConfirmService,
     private positionService: PositionService,
     private opencommitteeMemberPopupService: opencommitteeMemberPopupService
-
   ) {
     super();
   }
@@ -115,12 +112,13 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
 
   getPageResults() {
     this.loader.open();
-    this.committeeService.getItems(this.page)
+    this.committeeService
+      .getItems(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(response => {
+      .subscribe((response) => {
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
-        this.committeePlanData = this.listPlans.map(committee => {
+        this.committeePlanData = this.listPlans.map((committee) => {
           const start = new Date(committee.startDate);
           const end = new Date(committee.endDate);
           const durationInMonths = this.calculateDurationInMonths(start, end);
@@ -128,47 +126,45 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
         });
         Object.assign(this.messages, response);
         this.loader.close();
-
       });
-
   }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.positions, event.previousIndex, event.currentIndex);
     const draggedPosition = this.positions[event.currentIndex];
     draggedPosition.positionRank = event.currentIndex + 1;
-    this.positionService.updatePosition(draggedPosition.id, draggedPosition).subscribe(response => {
-      if (response.success) {
-        this.notificationService.showSuccess(response.messages[0].message);
-      }
-      else {
-        this.notificationService.showError(response.messages[0].message);
-      }
-      this.getCommitteePosition()
-    });
-  }
-
-
-
-  delete(position: any) {
-    this.positionService.deletePosition(position)
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(response => {
+    this.positionService
+      .updatePosition(draggedPosition.id, draggedPosition)
+      .subscribe((response) => {
         if (response.success) {
           this.notificationService.showSuccess(response.messages[0].message);
-        }
-        else {
+        } else {
           this.notificationService.showError(response.messages[0].message);
         }
-        this.getCommitteePosition()
+        this.getCommitteePosition();
+      });
+  }
+
+  delete(position: any) {
+    this.positionService
+      .deletePosition(position)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((response) => {
+        if (response.success) {
+          this.notificationService.showSuccess(response.messages[0].message);
+        } else {
+          this.notificationService.showError(response.messages[0].message);
+        }
+        this.getCommitteePosition();
       });
   }
 
   onTabChange(event: MatTabChangeEvent) {
     if (event.index === 1) {
-      this.positionService.getCommitteePositions(this.page, this.selectedRow.id)
+      this.positionService
+        .getCommitteePositions()
         .pipe(takeUntil(this.ngUnsubscribe$))
-        .subscribe(response => {
+        .subscribe((response) => {
           this.positions = response.result;
           this.positions.sort((a, b) => a.positionRank - b.positionRank);
         });
@@ -181,62 +177,65 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     return years * 12 + months;
   }
 
-
   openCommitteePopUp(data: committeeDTO, isNew?: boolean) {
-    let title = isNew ? 'Create a New Committee' : 'Edit Committee';
-    let dialogRef: MatDialogRef<any> = this.dialog.open(CommitteePopupComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: data, isNew: isNew }
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-        if (!res) {
-          return;
-        }
-        this.getPageResults();
-      })
+    let title = isNew ? "Create a New Committee" : "Edit Committee";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      CommitteePopupComponent,
+      {
+        width: "720px",
+        disableClose: true,
+        data: { title: title, payload: data, isNew: isNew },
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      this.getPageResults();
+    });
   }
 
   openPositionPopUp(data: CommitteePositionDTO, isNew?: boolean) {
-    let title = isNew ? 'Create a New Position' : 'Edit Position';
-    let dialogRef: MatDialogRef<any> = this.dialog.open(PositionPopupComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: data, isNew: isNew, id: this.selectedRow.id }
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-        if (!res) {
-          console.log("no res", res)
-          return;
-        }
+    let title = isNew ? "Create a New Position" : "Edit Position";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      PositionPopupComponent,
+      {
+        width: "720px",
+        disableClose: true,
+        data: { title: title, payload: data, isNew: isNew },
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) {
+        console.log("no res", res);
+        return;
+      }
 
-        if (!isNew) {
-          console.log("editing res", res)
-          data.positionName = res.name;
-          data.positionRank = res.positionRank;
-        } else {
-          console.log("creating res", res)
-          this.positions.push(res);
-        }
+      if (!isNew) {
+        console.log("editing res", res);
+        data.positionName = res.name;
+        data.positionRank = res.positionRank;
+      } else {
+        console.log("creating res", res);
+        this.positions.push(res);
+      }
 
-        this.positions.sort((a, b) => a.positionRank - b.positionRank);
-        this.getCommitteePosition()
+      this.positions.sort((a, b) => a.positionRank - b.positionRank);
+      this.getCommitteePosition();
 
-        if (this.returnToCommitteeMemberPopup) {
-          this.returnToCommitteeMemberPopup = false;
-          this.tabGroup.selectedIndex = 0;
-          this.opencommitteeMemberPopupService.openCommitteeMemberPopup();
-        }
-      })
+      if (this.returnToCommitteeMemberPopup) {
+        this.returnToCommitteeMemberPopup = false;
+        this.tabGroup.selectedIndex = 0;
+        this.opencommitteeMemberPopupService.openCommitteeMemberPopup();
+      }
+    });
   }
 
-
   getCommitteePosition() {
-    this.positionService.getCommitteePositions(this.page, this.selectedRow.id)
+    this.positionService
+      .getCommitteePositions()
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(response => {
+      .subscribe((response) => {
         this.positions = response.result;
         this.positions.sort((a, b) => a.positionRank - b.positionRank);
       });
@@ -266,60 +265,56 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
   initializeColumns(): void {
     this.committeeColumns = [
       {
-        name: 'Start Date',
-        dataKey: 'startDate',
-        position: 'left',
+        name: "Start Date",
+        dataKey: "startDate",
+        position: "left",
         isSortable: true,
         dataType: "Date",
       },
       {
-        name: 'End date',
-        dataKey: 'endDate',
-        position: 'left',
+        name: "End date",
+        dataKey: "endDate",
+        position: "left",
         isSortable: true,
         dataType: "Date",
       },
       {
-        name: 'Duration',
-        dataKey: 'duration',
-        position: 'left',
+        name: "Duration",
+        dataKey: "duration",
+        position: "left",
         isSortable: true,
       },
       {
-        name: 'Committee lead by',
-        dataKey: 'leader',
-        position: 'left',
+        name: "Committee lead by",
+        dataKey: "leader",
+        position: "left",
         isSortable: true,
       },
       {
-        name: 'Status',
-        dataKey: 'status',
-        position: 'left',
+        name: "Status",
+        dataKey: "status",
+        position: "left",
         isSortable: true,
       },
       {
-        name: 'Updated On',
-        dataKey: 'modifiedTimestamp',
-        position: 'left',
+        name: "Updated On",
+        dataKey: "modifiedTimestamp",
+        position: "left",
         isSortable: true,
         dataType: "Date",
       },
       {
-        name: 'Updated By',
-        dataKey: 'modifiedUser',
-        position: 'left',
+        name: "Updated By",
+        dataKey: "modifiedUser",
+        position: "left",
         isSortable: true,
       },
       {
-        name: 'Action',
-        dataKey: 'action',
-        position: 'left',
+        name: "Action",
+        dataKey: "action",
+        position: "left",
         isSortable: true,
       },
-
     ];
   }
-
-
-
 }

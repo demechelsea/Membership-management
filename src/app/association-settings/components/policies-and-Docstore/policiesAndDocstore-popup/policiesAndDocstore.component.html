@@ -1,0 +1,94 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+    <span class="mat-headline-4">{{ data.title }}</span>
+    <button
+      mat-icon
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="float-right"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="padround18">
+    <form
+      [formGroup]="policiesAndDocstoreForm"
+      class="policiesAndDocstoreForm padround18"
+      (ngSubmit)="submit(policiesAndDocstoreForm.value)"
+    >
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+      <div class="flex flex-col">
+        <sorax-form-field
+          label="Attachment type"
+          [soraxFormControl]="policiesAndDocstoreForm.get('docType')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="docType"
+            type="text"
+            name="docType"
+            placeholder="Attachment type"
+          />
+        </sorax-form-field>
+
+        <sorax-form-field
+          label="Attachment Name"
+          [soraxFormControl]="policiesAndDocstoreForm.get('docName')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="docName"
+            type="text"
+            name="docName"
+            placeholder="Attachment name"
+          />
+        </sorax-form-field>
+
+        <!-- <app-file-upload></app-file-upload> -->
+        <div class="file-container">
+          <div class="form-group">
+            <label for="file">Browse file:</label><br />
+            <input
+              type="file"
+              class="form-control"
+              id="file"
+              name="file"
+              (change)="onFileSelected($event.target)"
+            />
+          </div>
+        </div>
+
+        <mat-slide-toggle
+          class="padround8"
+          [formControl]="policiesAndDocstoreForm.controls['displayToPublicFlg']"
+          >Show on website/Available to public</mat-slide-toggle
+        >
+      </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16 text-center flex">
+    <button
+      mat-raised-button
+      class="mat-primary text-left"
+      aria-label="Close"
+      (click)="dialogRef.close()"
+    >
+      Close
+    </button>
+    <span class="flex-grow"></span>
+
+    <button
+      mat-raised-button
+      class="mat-primary text-left"
+      aria-label="Create attachment"
+      [textContent]="buttonText"
+      (click)="submit(policiesAndDocstoreForm.value)"
+    >
+      Add attachment
+    </button>
+  </div>
+</div>

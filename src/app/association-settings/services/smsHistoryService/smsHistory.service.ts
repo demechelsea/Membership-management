@@ -21,12 +21,7 @@ export class SmsHistoryService extends HttpAppDataService {
   }
 
   getSmsHistoryList(page: PageModel): Observable<ResultViewModel> {
-    let smsHistoryListModel = new AssociationDTO();
-    let requestData = {
-      smsHistoryListDTO: smsHistoryListModel,
-      pageDTO: page
-    };
-    return this.postData(Urls.MSG_HISTORY_BY_ASSOC, requestData);
+    return this.postData(Urls.MSG_HISTORY_BY_ASSOC, page);
   }
 
 }

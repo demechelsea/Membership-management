@@ -28,11 +28,11 @@ export class LookupService extends HttpAppDataService {
     super(httpClient);
   }
 
-  public retrieveOptions(lookupName: string, referenceId: string, id: number): Observable<ResultViewModel> {
+  public retrieveOptions(lookupName: string, referenceId: string): Observable<ResultViewModel> {
     if (lookupName.includes("LOCAL")) {
       return this.getLocalData(lookupName);
     } else if (lookupName.includes("position")) {
-      return this.positionService.getCommitteePositions(null, id)
+      return this.positionService.getCommitteePositions()
         .pipe(takeUntil(this.ngUnsubscribe$),
           map((response: ResultViewModel) => {
             return response;

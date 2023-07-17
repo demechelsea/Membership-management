@@ -21,12 +21,7 @@ export class EmailUnsubscriptionService extends HttpAppDataService {
   }
 
   getEmailUnsubscribedList(page: PageModel): Observable<ResultViewModel> {
-    let emailUnsubscribeListModel = new AssociationDTO();
-    let requestData = {
-      emailUnsubscribeListDTO: emailUnsubscribeListModel,
-      pageDTO: page
-    };
-    return this.postData(Urls.EMAIL_UNSUBSCRIBED_ALL, requestData);
+    return this.postData(Urls.EMAIL_UNSUBSCRIBED_ALL, page);
   }
   
   addEmailToUnsubscribedList(emailUnsubscribeListModel: EmailSubscriptionDTO): Observable<any> {

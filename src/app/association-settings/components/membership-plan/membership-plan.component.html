@@ -1,15 +1,25 @@
-<div class="m-8" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}" style="text-align: right;">
-  <button mat-raised-button color="primary"  (click)="openPopUp({}, true)">Add Membership Plan</button>
-  </div>
-  <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
-    <mat-card-content class="p-0">
-      <sorax-table-view [tableData]="membershipPlanData"
-                  [tableColumns]="membershipColumns"
-                  [isFilterable]="false"
-                  [isPageable]="true"
-                  [page]="page"
-                  (rowAction)="executeRowActions($event)">
+<div
+  class="m-8"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+  style="text-align: right"
+>
+  <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+    Add Membership Plan
+  </button>
+</div>
+<mat-card
+  class="p-0"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+>
+  <mat-card-content class="p-0">
+    <sorax-table-view
+      [tableData]="membershipPlanData"
+      [tableColumns]="membershipColumns"
+      [isFilterable]="false"
+      [isPageable]="true"
+      [page]="page"
+      (rowAction)="executeRowActions($event)"
+    >
     </sorax-table-view>
-  
-    </mat-card-content>
-  </mat-card>
+  </mat-card-content>
+</mat-card>

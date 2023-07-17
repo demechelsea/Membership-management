@@ -1,4 +1,3 @@
-import { AssociationDTO } from "./AssociationDTO";
 
 export class AssociationDocstoreDTO {
     assocId:number;

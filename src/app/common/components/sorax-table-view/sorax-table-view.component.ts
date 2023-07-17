@@ -24,12 +24,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SoraxTableViewComponent implements OnInit {
 
-  currentRow: any;
   tooltipText: string;
   public tableDataSource = new MatTableDataSource([]);
   public displayedColumns: string[];
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
+
 
   @Input() serverSidePagination = false;
   @Input() isPageable = false;
@@ -51,17 +51,20 @@ export class SoraxTableViewComponent implements OnInit {
     this.setTableDataSource(data);
   }
 
-  constructor(private dialog: MatDialog,) { }
+  constructor(private dialog: MatDialog,) {
+   }
 
   ngOnInit(): void {
     const columnNames = this.tableColumns.map((tableColumn: SoraxColumnDefinition) => tableColumn.dataKey);
-    this.displayedColumns = columnNames;  
-    console.log("page" , this.page);
+    this.displayedColumns = columnNames;
+    console.log();
     
   }
-  convertToNumber(str: string): number {
-    return str == "Y" ? 1 : 0;
+
+  convertToBoolean(str: string): boolean {
+    return str === "Y" ? true : false;
   }
+  
 
   getCellClass(position: String) {
     return position == 'right' ? "header-align-right" : "header-align-left";
@@ -70,7 +73,7 @@ export class SoraxTableViewComponent implements OnInit {
   onShowToPublicToggleChange(row: any) {
     this.showToPublicToggleChange.emit(row);
   }
-  
+
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
     if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active' && this.tableType === 'committee') {
       return '-';
@@ -89,7 +92,7 @@ export class SoraxTableViewComponent implements OnInit {
 
   setTableDataSource(data: any) {
     this.tableDataSource = new MatTableDataSource<any>(data);
-    if(!this.serverSidePagination) {
+    if (!this.serverSidePagination) {
       this.tableDataSource.paginator = this.matPaginator;
       this.tableDataSource.sort = this.matSort;
     }
@@ -97,20 +100,20 @@ export class SoraxTableViewComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    if(!this.serverSidePagination) {
+    if (!this.serverSidePagination) {
       this.tableDataSource.filter = filterValue.trim().toLowerCase();
     }
   }
 
   emitSortEvent(sortParameters: Sort) {
-    if(this.serverSidePagination){
-       this.sortEvent.emit(sortParameters);
+    if (this.serverSidePagination) {
+      this.sortEvent.emit(sortParameters);
     }
   }
 
   emitPageEvent(pageEvent: PageEvent) {
-    if(this.serverSidePagination){
-     this.pageEvent.emit(pageEvent);
+    if (this.serverSidePagination) {
+      this.pageEvent.emit(pageEvent);
     }
   }
 
@@ -125,7 +128,7 @@ export class SoraxTableViewComponent implements OnInit {
     if (selectedAction === 'delete') {
       this.deleteEvent.emit(row);
     }
-    
+
     this.rowAction.emit(row);
   }
 

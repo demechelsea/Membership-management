@@ -21,12 +21,7 @@ export class SMSUnsubscriptionService extends HttpAppDataService {
   }
 
   getSmsUnsubscribedList(page: PageModel): Observable<ResultViewModel> {
-    let smsUnsubscribeListModel = new AssociationDTO();
-    let requestData = {
-      smsUnsubscribeListDTO: smsUnsubscribeListModel,
-      pageDTO: page
-    };
-    return this.postData(Urls.MSG_UNSUBSCRIBED_ALL, requestData);
+    return this.postData(Urls.MSG_UNSUBSCRIBED_ALL, page);
   }
   
   addSmsToUnsubscribedList(smsUnsubscribeListModel: MessageSubscriptionDTO): Observable<any> {

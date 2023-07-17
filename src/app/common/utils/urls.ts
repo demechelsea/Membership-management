@@ -42,7 +42,7 @@ export class Urls {
      public static RETRIEVE_COMMITTEE_MEMBER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeMemberById";
 
 
-     public static POSITION_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommitteePositionsBYCommittee";
+     public static POSITION_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommitteePositionsByAssoc";
      public static POSITION_VIEW: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/viewPosition";
      public static POSITION_CREATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createCommitteePosition";
      public static POSITION_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateCommitteePosition";

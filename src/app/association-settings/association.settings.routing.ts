@@ -2,10 +2,11 @@ import { Routes } from '@angular/router';
 
 import { CommitteeComponent } from './components/committee/committee.component';
 import { MembershipPlanComponent } from 'app/association-settings/components/membership-plan/membership-plan.component';
-import { EmailComponent } from './components/email settings/email.component';
-import { SmsComponent } from './components/sms settings/sms.component';
-import { PoliciesAndDocstoreComponent } from './components/policies and Doc store/policiesAndDocstore.component';
-import { VisibilitySettingsComponent } from './components/Visibility settings/visibilitySettings.component';
+import { VisibilitySettingsComponent } from './components/visibility-settings/visibilitySettings.component';
+import { EmailComponent } from './components/email-settings/email.component';
+import { SmsComponent } from './components/sms-settings/sms.component';
+import { PoliciesAndDocstoreComponent } from './components/policies-and-Docstore/policiesAndDocstore.component';
+import { DigitalIdCardComponent } from './components/digital-Id-card/digitalIdCard.component';
 
 
 
@@ -33,6 +34,10 @@ export const AssociationSettingsRoutes: Routes = [
   {
     path: 'visibilitySettings', component: VisibilitySettingsComponent,
     data: { title: 'Visibility Settings', breadcrumb: 'Visibility Settings' }
+  },
+  {
+    path: 'digitalIdCardSettings', component: DigitalIdCardComponent,
+    data: { title: 'Digital Id Card Settings', breadcrumb: 'Digital Id Card Settings' }
   }
 
 ];

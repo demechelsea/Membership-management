@@ -1,23 +1,28 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LookupService } from 'app/common/services/lookup.service';
-import { BaseComponent } from 'app/core/components/base/base.component';
-import LableValueModel from 'app/models/lable-value-model';
-import MemershipPlanModel from 'app/models/membershipPlanModel';
-import { Observable, Subject, Subscription, map, takeUntil } from 'rxjs';
-import { MembershipPlanService } from '../../../services/membership-plan-service/membership-plan.service';
-import { LocalstorageService } from 'app/common/services/localstorage.service';
-import { NotificationService } from 'app/common/services/notification.service';
-
-
+import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { LookupService } from "app/common/services/lookup.service";
+import { BaseComponent } from "app/core/components/base/base.component";
+import LableValueModel from "app/models/lable-value-model";
+import MemershipPlanModel from "app/models/membershipPlanModel";
+import { Observable, Subject, takeUntil } from "rxjs";
+import { MembershipPlanService } from "../../../services/membership-plan-service/membership-plan.service";
+import { LocalstorageService } from "app/common/services/localstorage.service";
+import { NotificationService } from "app/common/services/notification.service";
 
 @Component({
-  selector: 'app-membership-plan-popup',
-  templateUrl: './membership-plan-popup.component.html',
-
+  selector: "app-membership-plan-popup",
+  templateUrl: "./membership-plan-popup.component.html",
 })
-export class MembershipPlanPopupComponent extends BaseComponent implements OnInit {
+export class MembershipPlanPopupComponent
+  extends BaseComponent
+  implements OnInit
+{
   intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
 
@@ -28,7 +33,7 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
   public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
 
-  buttonText = 'Create a plan';
+  buttonText = "Create a plan";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -41,16 +46,15 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
     private notificationService: NotificationService
   ) {
     super();
-    this.buttonText = data.isNew ? 'Create a plan' : 'Update plan';
-
+    this.buttonText = data.isNew ? "Create a plan" : "Update plan";
   }
 
   ngOnInit() {
     this.buildMembershipPlanForm(this.data.payload);
 
     if (!this.data.isNew) {
-      this.membershipPlanForm.controls['fee'].disable();
-      this.membershipPlanForm.controls['interval'].disable();
+      this.membershipPlanForm.controls["fee"].disable();
+      this.membershipPlanForm.controls["interval"].disable();
     }
 
     this.cdRef.detectChanges();
@@ -60,23 +64,43 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
     const isUpdate = !this.data.isNew;
     this.membershipPlanForm = this.formBuilder.group({
       id: [isUpdate ? planData.id : null, isUpdate ? Validators.required : []],
-      planName: [planData.planName || '', Validators.required],
-      description: [planData.description || '', Validators.required],
-      fee: [planData.fee || '', Validators.required],
-      interval: [planData.interval || '', Validators.required],
-      familyMemberIncluded: [this.convertToNumber(planData.familyMemberIncluded) || 0, Validators.required],
-      autoPymtRemainder: [this.convertToNumber(planData.autoPymtRemainder) || 0, Validators.required],
-      availableForGeneralPublic: [this.convertToNumber(planData.availableForGeneralPublic) || 0, Validators.required],
-      sendEmailNotification: [this.convertToNumber(planData.sendEmailNotification) || 0, Validators.required],
-      authApproveSubscribers: [this.convertToNumber(planData.authApproveSubscribers) || 0, Validators.required],
-      benefits: [planData.benefits || '', Validators.required],
-      status: [planData.status || '', isUpdate ? Validators.required : []],
-      notifySubscribers: [this.convertToNumber(planData.notifySubscribers) || 0, isUpdate ? Validators.required : []],
-      modifiedTimestamp: ['',],
-      modifiedUser: ['',],
-    })
+      planName: [
+        planData.planName || "",
+        [Validators.required, Validators.minLength(3)],
+      ],
+      description: [planData.description || "", Validators.required],
+      fee: [planData.fee || "", [Validators.required, positiveNumberValidator]],
+      interval: [planData.interval || "", Validators.required],
+      familyMemberIncluded: [
+        this.convertToNumber(planData.familyMemberIncluded) || 0,
+        Validators.required,
+      ],
+      autoPymtRemainder: [
+        this.convertToNumber(planData.autoPymtRemainder) || 0,
+        Validators.required,
+      ],
+      availableForGeneralPublic: [
+        this.convertToNumber(planData.availableForGeneralPublic) || 0,
+        Validators.required,
+      ],
+      sendEmailNotification: [
+        this.convertToNumber(planData.sendEmailNotification) || 0,
+        Validators.required,
+      ],
+      authApproveSubscribers: [
+        this.convertToNumber(planData.authApproveSubscribers) || 0,
+        Validators.required,
+      ],
+      benefits: [planData.benefits || "", Validators.required],
+      status: [planData.status || "", isUpdate ? Validators.required : []],
+      notifySubscribers: [
+        this.convertToNumber(planData.notifySubscribers) || 0,
+        isUpdate ? Validators.required : [],
+      ],
+      modifiedTimestamp: [""],
+      modifiedUser: [""],
+    });
   }
-
 
   submit(plan: MemershipPlanModel) {
     plan.createdUser = this.localStorageService.getLoggedInUser().emailId;
@@ -84,39 +108,41 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
       const formData = this.membershipPlanForm.value;
       const planData = this.mapFormDataToPlanData(formData);
       if (this.data.isNew) {
-        this.membershipPlanService.createPlan(planData)
+        this.membershipPlanService
+          .createPlan(planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe(response => {
+          .subscribe((response) => {
             if (response.success) {
-              this.notificationService.showSuccess(response.messages[0].message);
+              this.notificationService.showSuccess(
+                response.messages[0].message
+              );
               this.dialogRef.close(response);
+            } else {
+              this.notificationService.showError(response.messages[0].message);
             }
-            else {
-                this.notificationService.showError(response.messages[0].message);
-            }
-          },);
+          });
       } else {
-        this.membershipPlanService.updatePlan(plan.id, planData)
+        this.membershipPlanService
+          .updatePlan(plan.id, planData)
           .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe(response => {
+          .subscribe((response) => {
             if (response.success) {
-              this.notificationService.showSuccess(response.messages[0].message);
+              this.notificationService.showSuccess(
+                response.messages[0].message
+              );
               this.dialogRef.close(response);
-            }
-            else {
+            } else {
               this.notificationService.showError(response.messages[0].message);
             }
           });
       }
     } else {
-      this.notificationService.showWarning('Please fill in all the required fields.');
+      this.notificationService.showWarning(
+        "Please fill in all the required fields."
+      );
     }
   }
 
-
-
-
-  // Define a function that maps the form value to a new object that matches the plan model
   mapFormDataToPlanData(formData: any): MemershipPlanModel {
     return {
       ...formData,
@@ -134,19 +160,26 @@ export class MembershipPlanPopupComponent extends BaseComponent implements OnIni
   }
 
   onSelectedIntervalOption(option: LableValueModel) {
-    this.membershipPlanForm.controls['interval'].setValue(option.name);
+    this.membershipPlanForm.controls["interval"].setValue(option.name);
   }
 
   onSelectedStatusOption(option: LableValueModel) {
-    this.membershipPlanForm.controls['status'].setValue(option.name);
+    this.membershipPlanForm.controls["status"].setValue(option.name);
   }
-
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
+}
 
-
-
+function positiveNumberValidator(control: FormControl) {
+  const value = control.value;
+  if (value === null || value === "") {
+    return null;
+  }
+  if (isNaN(value) || value <= 0) {
+    return { positiveNumber: true };
+  }
+  return null;
 }

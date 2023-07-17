@@ -20,9 +20,12 @@ import { RichTextEditorComponent } from './rich-text-editor/rich-text-editor.com
 
 import { FormsRoutes } from './forms.routing';
 import { WizardComponent } from './wizard/wizard.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { FileUploadModule } from "ng2-file-upload"; 
 
 @NgModule({
   imports: [
+    FileUploadModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -40,6 +43,7 @@ import { WizardComponent } from './wizard/wizard.component';
     QuillModule.forRoot(),
     RouterModule.forChild(FormsRoutes),
   ],
-  declarations: [RichTextEditorComponent, WizardComponent, BasicFormComponent],
+  exports: [FileUploadComponent],
+  declarations: [RichTextEditorComponent, WizardComponent, BasicFormComponent, FileUploadComponent],
 })
 export class AppFormsModule {}
