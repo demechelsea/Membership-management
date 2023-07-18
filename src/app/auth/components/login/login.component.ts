@@ -113,26 +113,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
               if (this.userModel.mappedAssociation?.length > 1) {
                 this.navigateToAssociationSelection();
               } else {
-                this.userModel.association = {
-                  encryptedId: "qbEIlSnfW6ibZ+fLxhxnyg==",
-                  id: null,
-                  name : "Velama",
-                  place : "Hyd",
-                  setting: null,
-                  shortName:  null,
-                  soceityRaxUrl :  "ven134512",
-                  status:  "Unverified",
-                  website:  null,
-                  availableActions:["string[]"],
-                  performAction:"string",    
-                  exception: false, 
-                  businessErrors: false,
-                  validationErrors: false,
-                  successMessages: true,
-                  messages: null,
-                  societyRaxId:"Rt09iu",
-                isSuccess:null};
-                console.log(this.userModel)
+                this.userModel.association = this.userModel.mappedAssociation[0];
                 this.navigateToDashboard();
               }
             }
@@ -166,6 +147,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   private navigateToDashboard() {
+    
     this.loginService.setAuthenticationToken(this.userModel);
     BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
 

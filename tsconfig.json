@@ -17,7 +17,7 @@
       "dom"
     ],
     "paths": {
-      "home/*":[ "app/home/*"     ]
+      "home/*":[ "app/home/*" ]
     },
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true
