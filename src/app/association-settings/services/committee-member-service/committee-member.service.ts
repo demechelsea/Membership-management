@@ -32,12 +32,17 @@ export class CommitteeMemberService extends HttpAppDataService {
 
 
 
-  createCommitteeMember(plan: CommitteeMemberDTO): Observable<any> {
+  createCommitteeMember(plan: FormData): Observable<any> {
+    console.log("servive", plan);
+    
     return this.postData(Urls.REGISTER_COMMITTEE_MEMBER, plan);
   }
 
-  updateCommitteeMember(id: number, plan: CommitteeMemberDTO): Observable<any> {
+  updateCommitteeMember(plan: FormData): Observable<any> {
     return this.postData(Urls.UPDATE_COMMITTEE_MEMBER, plan);
   }
 
+  downloadImage(attachmentModel: CommitteeMemberDTO): Observable<any>{
+    return this.postData(Urls.GET_COMMITTEE_MEMBER_PHOTO_BY_LINK, attachmentModel, 'blob');
+  }
 }

@@ -33,9 +33,7 @@ export class EmailTemplateService extends HttpAppDataService {
     return this.postData(Urls.EMAIL_TEMPLATE_REGISTER, emailTemplateModel);
   }
 
-  updateEmailTemplates(id: number): Observable<any> {
-    let emailTemplateModel = new EmailTemplateDTO();
-    emailTemplateModel.id = id;
+  updateEmailTemplates(emailTemplateModel: EmailTemplateDTO): Observable<any> {
     return this.postData(Urls.EMAIL_TEMPLATE_UPDATE, emailTemplateModel);
   }
 

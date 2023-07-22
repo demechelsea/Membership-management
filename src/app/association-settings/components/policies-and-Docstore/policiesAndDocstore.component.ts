@@ -84,6 +84,19 @@ export class PoliciesAndDocstoreComponent
     }
   }
 
+  handleViewAttachment(row: any) {
+    this.assocationAttachmentService.downloadImage(row).subscribe((response: any) => {
+      const url = window.URL.createObjectURL(
+        new Blob([response], { type: "application/pdf" })
+      );
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${row.docName}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
   convertToNumber(str: string): number {
     return str == "Y" ? 1 : 0;
   }
@@ -145,9 +158,7 @@ export class PoliciesAndDocstoreComponent
   }
 
   onShowToPublicToggleChange(row: any) {
-    let displayToPublicFlgBool = this.convertToBoolean(row.displayToPublicFlg);
-    displayToPublicFlgBool = !displayToPublicFlgBool;
-    let displayToPublicFlgStr = this.convertToString(displayToPublicFlgBool);
+    let displayToPublicFlgStr = this.convertToString(row.displayToPublicFlg);
     this.assocationAttachmentService
       .updateAssocationAttachment({
         ...row,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
@@ -332,7 +332,7 @@ export class SmsComponent extends BaseComponent implements OnInit {
       },
       {
         name: "Enable Auto SMS",
-        dataKey: "duration",
+        dataKey: "enableAutoFlg",
         position: "left",
         isSortable: true,
       },

@@ -1,11 +1,13 @@
-import CommitteeDTO from "./committeeDTO";
 
-export class CommitteeMemberAttachmentDTO {
+export class CommitteeDocstoreDTO {
     id:number;
-    committee: CommitteeDTO;
+    committeeId: number;
     docType: String;
     docName: String;
     docLink: String;
     displayToPublicFlg: string;
     modifiedTimestamp: Date;
+    file:File;
+    files:File[];
+    status: string;
 }

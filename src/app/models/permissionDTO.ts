@@ -6,4 +6,5 @@ export default class PermissionDTO extends MessageWrapModel {
     groupName:string;
     permissionName:string;
     isSelected: boolean;
+    checked: boolean;
 }

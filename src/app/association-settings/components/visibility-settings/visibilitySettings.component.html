@@ -16,6 +16,32 @@
       >
       </sorax-autocomplete>
     </div>
+
+    <h2 *ngIf="role" class="flex justify-center m-16">Roles</h2>
+    <div class="flex flex-row justify-center flex-wrap">
+      <div *ngFor="let role of allRoles">
+        <mat-checkbox
+          #superAdminCheckbox
+          *ngIf="role.isSuperAdmin"
+          (change)="onSuperAdminChange()"
+          [aria-label]="role.name"
+          [(ngModel)]="role.checked"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          {{ role.name }}
+        </mat-checkbox>
+
+        <mat-checkbox
+          *ngIf="!role.isSuperAdmin"
+          (change)="onRoleChange(role)"
+          [aria-label]="role.name"
+          [(ngModel)]="role.checked"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          {{ role.name }}
+        </mat-checkbox>
+      </div>
+    </div>
   </form>
   <div class="m-8">
     <button
@@ -28,21 +54,16 @@
   </div>
 </div>
 
-<div class="flex flex-row justify-around flex-wrap">
-  <div>
-    <mat-checkbox (change)="onSuperAdminChange()">Super Admin</mat-checkbox>
-  </div>
-  <div *ngFor="let role of allRoles">
-    <mat-checkbox (change)="onRoleChange(role)" [aria-label]="role.name">{{
-      role.name
-    }}</mat-checkbox>
-  </div>
-</div>
-
 <h2 *ngIf="permission" class="flex justify-center m-16">Permissions</h2>
 <div class="flex flex-row justify-around flex-wrap m-16">
   <div *ngFor="let permission of allPermissions" class="flex flex-col">
     <h3>{{ permission.groupName }}</h3>
-    <mat-checkbox [(ngModel)]="permission.isSelected" [aria-label]="permission.permissionName">{{ permission.permissionName }}</mat-checkbox>
+    <mat-checkbox
+      [(ngModel)]="permission.checked"
+      [aria-label]="permission.permissionName"
+      [ngModelOptions]="{ standalone: true }"
+    >
+      {{ permission.permissionName }}
+    </mat-checkbox>
   </div>
 </div>

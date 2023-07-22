@@ -33,7 +33,7 @@
       </sorax-form-field>
 
       <sorax-form-field
-        label="Email subject"
+        label="SMS subject"
         [soraxFormControl]="sendersProfileForm.get('subject')"
       >
         <input
@@ -42,12 +42,26 @@
           formControlName="subject"
           type="text"
           name="subject"
-          placeholder="Enter email subject"
+          placeholder="Enter SMS subject"
         />
       </sorax-form-field>
 
       <sorax-form-field
-        label="Email content"
+      label="Place holders"
+      [soraxFormControl]="sendersProfileForm.get('placeHolders')"
+    >
+      <input
+        #soraxInput
+        matInput
+        formControlName="placeHolders"
+        type="text"
+        name="placeHolders"
+        placeholder="Enter placeholder"
+      />
+    </sorax-form-field>
+
+      <sorax-form-field
+        label="SMS content"
         [soraxFormControl]="sendersProfileForm.get('content')"
       >
         <input
@@ -56,7 +70,7 @@
           formControlName="content"
           type="text"
           name="content"
-          placeholder="Email content"
+          placeholder="SMS content"
         />
       </sorax-form-field>
     </form>
@@ -75,11 +89,11 @@
     <button
       mat-raised-button
       class="mat-primary text-right"
-      aria-label="Update SMTP Email setting"
+      aria-label="Update SMTP SMS setting"
       [textContent]="buttonText"
       (click)="submit(sendersProfileForm.value)"
     >
-      Update SMTP Email setting
+      Update SMTP SMS setting
     </button>
   </div>
 </div>

@@ -10,4 +10,5 @@ export class MessageTemplateDTO extends MessageWrapModel {
       primary:string;
       association:AssociationDTO;
       page:PageModel;
+      enableAutoFlg:string;
 }

@@ -26,16 +26,18 @@ export class HttpAppDataService extends BaseService {
       );
   }
 
-  postData(postUrl: string, inputParams: any): Observable<any> {
-    return this.insertData(postUrl, inputParams);
+  postData(postUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {
+    return this.insertData(postUrl, inputParams, responseType);
   }
-
-  insertData(createUrl: string, inputParams: any): Observable<any> {
-    return this.httpClient.post<any>(createUrl, inputParams, { headers: this.prepareCustomHeaders(), responseType: "json" })
+  
+  insertData(createUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {
+    return this.httpClient.post<any>(createUrl, inputParams, { headers: this.prepareCustomHeaders(), responseType: responseType as any })
       .pipe(
         catchError(this.handleError)
       );
   }
+  
+  
 
   postDataIntoHeaderData(createUrl: string, keyValueMap: LableValueModel[]): Observable<any> {
     let httpHeaders = this.prepareCustomHeaders(keyValueMap);

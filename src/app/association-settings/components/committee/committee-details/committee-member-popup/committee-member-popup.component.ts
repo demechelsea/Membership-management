@@ -16,8 +16,8 @@ import * as moment from "moment";
 import { CommitteeMemberService } from "app/association-settings/services/committee-member-service/committee-member.service";
 import { CommitteeMemberDTO } from "app/models/committeeMemberDTO";
 import { CommitteePositionDTO } from "app/models/committeePositionDTO";
-import CommitteeDTO from "app/models/committeeDTO";
 import { NotificationService } from "app/common/services/notification.service";
+
 
 @Component({
   selector: "committee-member-popup",
@@ -48,6 +48,8 @@ export class CommitteeMemberPopupComponent
   startDate: string;
   endDate: string;
 
+  selectedFile: any;
+
   buttonText = "Create a committee member";
   minEndDate: string;
 
@@ -70,6 +72,8 @@ export class CommitteeMemberPopupComponent
     this.associationMemberId = data.associationMemberId;
     this.positionId = data.positionId;
     this.selectedCommitteeMemberId = data.selectedCommitteeMember;
+    this.imageURL = data.photoLink;
+    alert(this.imageURL);
   }
 
   ngOnInit() {
@@ -83,10 +87,10 @@ export class CommitteeMemberPopupComponent
           this.committeeMemberForm.get("endDate").setValue(null);
         }
       });
+      this.handleViewAttachment();
   }
 
   onAddPosition() {
-    // this.dialogRef.close();
     this.addPosition.emit();
   }
 
@@ -139,6 +143,17 @@ export class CommitteeMemberPopupComponent
     }
   }
 
+  handleViewAttachment() {
+    let committeeMemberModel = new CommitteeMemberDTO();
+    committeeMemberModel.photoLink = this.imageURL;
+    this.committeeMemberService.downloadImage(committeeMemberModel).subscribe((response: any) => {
+      const blob = new Blob([response], { type: "image/jpeg" });
+      const url = window.URL.createObjectURL(blob);
+      this.imageURL = url;
+    });
+  }
+  
+
   convertToNumber(str: string): number {
     return str == "Y" ? 1 : 0;
   }
@@ -153,19 +168,33 @@ export class CommitteeMemberPopupComponent
 
   submit(committeeMember: CommitteeMemberDTO) {
     if (this.committeeMemberForm.valid) {
-      const formData = this.committeeMemberForm.value;
-      formData.id = this.selectedCommitteeMemberId;
-      formData.committee = new CommitteeDTO();
-      formData.committee = this.committeeId;
-      formData.associationMember = this.associationMemberId;
-      formData.committeePosition = this.positionId;
 
-      const planData = this.mapFormDataToPlanData(formData);
-      if (this.data.isNew) {
+      committeeMember.startDate = new Date(committeeMember.startDate);
+      committeeMember.endDate = new Date(committeeMember.endDate);
+      const formData = new FormData();
+      formData.append('committeeId',  this.committeeId.toString());
+      formData.append('associationMemberId', this.associationMemberId.toString());
+      formData.append('committeePositionId', this.positionId.toString());
+      formData.append('preferredNameDisplay', committeeMember.preferredNameDisplay);
+      formData.append('photoLink', committeeMember.photoLink);
+      formData.append('status', committeeMember.status);
+      formData.append('phoneVisibilityFlg', committeeMember.phoneVisibilityFlg ? "Y" : "N");
+      formData.append('emailVisibilityFlg', committeeMember.emailVisibilityFlg ? "Y" : "N");
+      formData.append('startDate', committeeMember.startDate.toString());
+      formData.append('endDate', committeeMember.endDate.toString());
+
+      console.log(JSON.stringify(committeeMember))
+      
+       if (this.data.isNew) {
+
+         if (this.selectedFile) {
+          formData.append("photo", this.selectedFile);
+        }
+
         this.committeeMemberService
-          .createCommitteeMember(planData)
+          .createCommitteeMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe((response) => {
+          .subscribe((response) => {            
             if (response.success) {
               this.notificationService.showSuccess(
                 response.messages[0].message
@@ -176,8 +205,13 @@ export class CommitteeMemberPopupComponent
             }
           });
       } else {
+        if (this.selectedFile) {
+          formData.append("photo", this.selectedFile);
+        }
+        formData.append("id", committeeMember.id.toString());
+
         this.committeeMemberService
-          .updateCommitteeMember(committeeMember.id, planData)
+          .updateCommitteeMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -197,14 +231,6 @@ export class CommitteeMemberPopupComponent
     }
   }
 
-  mapFormDataToPlanData(formData: any): CommitteeMemberDTO {
-    return {
-      ...formData,
-      phoneVisibilityFlg: formData.phoneVisibilityFlg ? "Y" : "N",
-      emailVisibilityFlg: formData.emailVisibilityFlg ? "Y" : "N",
-    };
-  }
-
   onSelectedStatusOption(option: LableValueModel) {
     this.committeeMemberForm.controls["status"].setValue(option.name);
   }
@@ -217,7 +243,6 @@ export class CommitteeMemberPopupComponent
   }
 
   onSelectedMemberOption(option: any) {
-    // Set the value of the member control
     this.committeeMemberForm.controls["member"].setValue(
       `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`
     );
@@ -255,7 +280,7 @@ export class CommitteeMemberPopupComponent
   onFileSelected(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = (e) => (this.imageURL = reader.result as string);
 

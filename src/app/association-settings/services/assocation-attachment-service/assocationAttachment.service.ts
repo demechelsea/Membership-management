@@ -34,4 +34,8 @@ export class AssocationAttachmentService extends HttpAppDataService {
   deleteAssocationAttachment( attachmentModel: AssociationDocstoreDTO): Observable<any> {
     return this.postData(Urls.DELETE_ASSOC_DOCSTORE, attachmentModel);
   }
+
+  downloadImage(attachmentModel: AssociationDocstoreDTO): Observable<any>{
+    return this.postData(Urls.GET_COMMITTEE_DOCSTORE_BY_LINK, attachmentModel, 'blob');
+  }
 }

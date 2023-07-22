@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
-  Input,
   OnInit,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -11,9 +10,8 @@ import { BaseComponent } from "app/core/components/base/base.component";
 import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { NotificationService } from "app/common/services/notification.service";
-import { EmailTemplateDTO } from "app/models/emailTemplateDTO";
-import { EmailTemplateService } from "app/association-settings/services/emailTemplate/emailTemplate.service";
 import { MessageTemplateDTO } from "app/models/messageTemplateDTO";
+import { SmsTemplateService } from "app/association-settings/services/smsTemplate/smsTemplate.service";
 
 @Component({
   selector: "app-component-popup",
@@ -33,7 +31,7 @@ export class SMSTemplatePopupComponent extends BaseComponent implements OnInit {
     public dialogRef: MatDialogRef<SMSTemplatePopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    public emailTemplateService: EmailTemplateService,
+    public smsTemplateService: SmsTemplateService,
     private notificationService: NotificationService
   ) {
     super();
@@ -45,20 +43,29 @@ export class SMSTemplatePopupComponent extends BaseComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
-  buildSMTPForm(EmailSettingDTO: MessageTemplateDTO) {
+  buildSMTPForm(SMSSettingDTO: MessageTemplateDTO) {
     this.sendersProfileForm = this.formBuilder.group({
-      id: [EmailSettingDTO.id, Validators.required],
-      name: [EmailSettingDTO.name, Validators.required],
-      subject: [EmailSettingDTO.subject, Validators.required],
-      content: [EmailSettingDTO.content, Validators.required],
-      placeHolders: [EmailSettingDTO.placeHolders, Validators.required],
+      id: [SMSSettingDTO.id, Validators.required],
+      name: [SMSSettingDTO.name, Validators.required],
+      subject: [SMSSettingDTO.subject, Validators.required],
+      content: [SMSSettingDTO.content, Validators.required],
+      placeHolders: [SMSSettingDTO.placeHolders, Validators.required],
+      enableAutoFlg: [
+        this.convertToNumber(SMSSettingDTO.enableAutoFlg) || false,
+        Validators.required,
+      ],
     });
   }
 
-  submit(plan: EmailTemplateDTO) {
+  convertToNumber(str: string): number {
+    return str == "Y" ? 1 : 0;
+  }
+
+  submit(plan: MessageTemplateDTO) {
+    plan.enableAutoFlg = plan.enableAutoFlg ? "Y" : "N"
     if (this.sendersProfileForm.valid) {
-      this.emailTemplateService
-        .updateEmailTemplates(plan.id)
+      this.smsTemplateService
+        .updateSmsTemplates(plan)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((response) => {
           if (response.success) {

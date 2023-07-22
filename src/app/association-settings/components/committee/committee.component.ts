@@ -113,7 +113,7 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
   getPageResults() {
     this.loader.open();
     this.committeeService
-      .getItems(this.page)
+      .getItems()
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         Object.assign(this.resultViewModel, response);
@@ -286,7 +286,7 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
       },
       {
         name: "Committee lead by",
-        dataKey: "leader",
+        dataKey: "leaderName",
         position: "left",
         isSortable: true,
       },

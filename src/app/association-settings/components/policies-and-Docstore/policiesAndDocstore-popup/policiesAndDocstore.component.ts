@@ -2,11 +2,9 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AssocationAttachmentService } from "app/association-settings/services/assocation-attachment-service/assocationAttachment.service";
-import { AttachmentService } from "app/association-settings/services/attachment-service/attachment.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { AssociationDocstoreDTO } from "app/models/assocationAttachmmentDTO";
-import { CommitteeMemberAttachmentDTO } from "app/models/committeeMemberAttachmmentDTO";
 import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 
@@ -80,7 +78,7 @@ export class PoliciesAndDocstorePopupComponent
       formData.append(
         "displayToPublicFlg",
         assocationAttachment.displayToPublicFlg.valueOf() ? "Y" : "N"
-      );
+      );      
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append("file", this.selectedFile);
@@ -88,7 +86,6 @@ export class PoliciesAndDocstorePopupComponent
             .createAsscocationAttachment(formData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((response) => {
-              console.log(response);
               if (response.success) {
                 this.notificationService.showSuccess(
                   response.messages[0].message
