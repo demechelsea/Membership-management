@@ -1,0 +1,55 @@
+<div
+  class="m-8"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+  style="text-align: right"
+>
+ <button mat-raised-button color="primary" (click)="openDialog(dialogTemplate)">
+    Create new Website
+  </button>
+
+</div>
+<mat-card
+  class="p-0"
+  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+>
+  <mat-card-content class="p-0">
+    <sorax-table-view
+      [tableData]="websiteDetailsData"
+      [tableColumns]="siteListColumns"
+      [isFilterable]="false"
+      [isPageable]="false"
+      (rowAction)="executeRowActions($event)"
+      >
+    </sorax-table-view>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #dialogTemplate>
+  <div class="event-dialog-wrapper">
+    <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+      <span class="mat-headline-4">Choose Theme</span>
+      <button mat-icon mat-dialog-close aria-label="Close dialog" class="float-right" >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+    
+    <div mat-dialog-content class="padround18 text-center">
+      <div class="flex flex-wrap">
+        <div class="image-item">
+          <img   src="assets/images/bluetheme.png" alt="Blue Theme" (click)="selectTheme('blue')">
+          <div class="caption">Blue Theme</div>
+        </div>
+        <span class="flex-grow"></span>
+        <div class="image-item">
+          <img   src="assets/images/yellowtheme.png" alt="Yellow Theme" (click)="selectTheme('yellow')" >
+          <div class="caption">Yellow Theme</div>
+        </div>
+      </div>
+    </div>
+  
+    <div mat-dialog-actions class="m-0 p-16  flex float-right">
+      <button mat-raised-button color="accent"   mat-dialog-close>Close</button>
+    </div>
+  </div>
+</ng-template>
+
