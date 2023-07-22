@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebsiteThemeService } from './website.theme.service.';
-import { YummyThemeServiceImpl } from './yummy.theme.service.impl';
+import { YellowThemeServiceImpl } from './yellow.theme.service.impl';
+import { BlueThemeServiceImpl } from './blue.theme.service.impl';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class WebsiteThemeFactory {
 
   getWebsiteBuilderTheme(name: string): WebsiteThemeService {
     switch (name) {
-      case 'yummy':
-        return new YummyThemeServiceImpl();
+      case 'yellow':
+        return new YellowThemeServiceImpl();
+      case 'blue':
+        return new BlueThemeServiceImpl();
       default:
         throw new Error('Undefined Theme');
     }

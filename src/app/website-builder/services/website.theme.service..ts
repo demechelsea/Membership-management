@@ -12,5 +12,5 @@ export interface WebsiteThemeService {
   addDonorsBlock(editor: any): void;
   addContactUsBlock(editor: any): void;
   addFooterBlock(editor: any): void;
-
+  getHtmlContent();
 }

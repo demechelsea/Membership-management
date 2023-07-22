@@ -93,7 +93,7 @@ export class NavigationService {
       type: 'link',
       tooltip: 'Website Builder',
       icon: 'chat',
-      state: 'builder/websiteBuilder'
+      state: 'builder/viewWebSites'
     },
     
   ];

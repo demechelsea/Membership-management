@@ -446,10 +446,24 @@ export class GrapesConfigService extends HttpAppDataService {
         },
         {
           id: "select",
-          className: "fa fa-dashcube ",
+          className: "fa fa-square-o",
           command: "sw-visibility",
           context: "core:component-select",
           attributes: { title: "Select element" },
+        },
+        {
+          id: "export-template",
+          className: "fa fa-code",
+          command: "export-template",
+          context: "export-template",
+          attributes: { title: "View code" },
+        },
+        {
+          id: "fullscreen",
+          className: "fa fa-arrows-alt",
+          command: "fullscreen",
+          context: "fullscreen",
+          attributes: { title: "Fullscreen" },
         },
         {
           id: "undo",
@@ -464,31 +478,29 @@ export class GrapesConfigService extends HttpAppDataService {
           attributes: { title: "Redo (CTRL/CMD + SHIFT + Z)" },
         },
         {
-          id: "images",
-          className: "fa fa-picture-o",
-          command: "open-assset-manager",
-          attributes: { title: "Add Images" },
-        },
-        {
           id: 'show-blocks',
           active: true,
           className: 'fa fa-th-large',
           command: 'show-blocks',
-          // Once activated disable the possibility to turn it off
           togglable: true,
+           attributes: {
+              title: 'Open Blocks'
+            }
         }, {
           id: 'show-layers',
           active: true,
           className: 'fa fa-bars',
           command: 'show-layers',
-          // Once activated disable the possibility to turn it off
           togglable: true,
+          attributes: {
+            title: 'Open Layer Manager'
+          }
         }, {
           id: 'show-style',
           active: true,
           className: 'fa fa-paint-brush',
           command: 'show-style',
-          togglable: true,
+          togglable: 0,
           attributes: { title: "Open Style Manager" },
         },
         {
@@ -496,7 +508,10 @@ export class GrapesConfigService extends HttpAppDataService {
           active: true,
           className: 'fa fa-cog',
           command: 'show-traits',
-          togglable: true,
+          togglable: 0,
+          attributes: {
+            title: 'Open Traits:  ids, href, src'
+          }
         }
       ],
     });

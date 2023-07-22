@@ -110,6 +110,11 @@ export class Urls {
      public static GET_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/getUserRolesAndPermissions";
      public static UPDATE_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserRolesAndPermissions";
 
+     public static WEBSITE_INFO_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/listWebSites";
+     public static SAVE_UPDATE_WEBSITE_INFO: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/saveUPdateWebsiteInfo";
+     public static UPDATE_WEBSITE_INFO_STATUS: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/updateWebsiteInfoStatus";
+     public static WEBSITE_INFO_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/retrieveWebsiteInfo";
+
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 

@@ -2,15 +2,16 @@
     <div class="panel__basic-actions">
     </div>
     <div class="panel__devices"></div>
-    <div class="panel__custom_buttons" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between center">
-        <button mat-raised-button class="mat-primary" >Save</button>
-        <button mat-raised-button class="mat-primary" >Live preview</button>
+    <div class="panel__custom_buttons">
+      <button mat-raised-button class="mat-accent mr-8" (click)="listWebsites()">Close</button>
+        <button mat-raised-button class="mat-primary mr-8" >Save  </button>
+        <button mat-raised-button class="mat-primary " >Live preview</button>
     </div>
     <div class="panel__switcher"></div>
 </div>
 <div class="editor-row">
     <div class="editor-canvas">
-      <div id="gjs"> 
+      <div id="gjs">{{htmlContentForCanvas}}
       </div>
     </div>
     <div class="panel__right">
