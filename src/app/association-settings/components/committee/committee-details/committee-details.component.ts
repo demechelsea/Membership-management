@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  ViewChild,
-  OnInit,
-  AfterViewInit,
-  Output,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
@@ -18,15 +10,16 @@ import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { ResultViewModel } from "app/models/result-view-model";
-import { Subject, Subscription, takeUntil } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { CommitteeMemberPopupComponent } from "./committee-member-popup/committee-member-popup.component";
 import { AttachmentPopupComponent } from "./attachment-popup/attachment-popup.component";
 import { CommitteeMemberDTO } from "app/models/committeeMemberDTO";
 import { AttachmentService } from "app/association-settings/services/attachment-service/attachment.service";
-import { CommitteeMemberAttachmentDTO } from "app/models/committeeMemberAttachmmentDTO";
+import { CommitteeDocstoreDTO } from "app/models/committeeDocstoreDTO";
 import * as moment from "moment";
 import { opencommitteeMemberPopupService } from "app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service";
 import { MatTabChangeEvent } from "@angular/material/tabs";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "committee-member-details",
@@ -45,7 +38,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
 
   @Output() viewCommittee: EventEmitter<void> = new EventEmitter<void>();
 
-  public listAttachments: CommitteeMemberAttachmentDTO[];
+  public listAttachments: CommitteeDocstoreDTO[];
   public listCommitteeMembers: CommitteeMemberDTO[];
 
   private ngUnsubscribe$ = new Subject<void>();
@@ -62,6 +55,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     private attachmentService: AttachmentService,
     private loader: AppLoaderService,
     private confirmService: AppConfirmService,
+    private http: HttpClient,
     private opencommitteeMemberPopupService: opencommitteeMemberPopupService
   ) {
     super();
@@ -96,7 +90,6 @@ export class DetailsComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         console.log(response.result);
-
         Object.assign(this.committeMemberResultViewModel, response);
         Object.assign(this.page, this.committeMemberResultViewModel.page);
         this.listCommitteeMembers = this.committeMemberResultViewModel.result;
@@ -108,7 +101,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
             return {
               ...committeeMember,
               fullName: `${committeeMember.associationMember.userDetail.firstName} ${committeeMember.associationMember.userDetail.givenName}  ${committeeMember.associationMember.userDetail.parentName}`,
-              //position: `${committeeMember.committeePosition.positionName}`,
+              position: `${committeeMember.committeePosition.positionName}`,
               duration: `${durationInMonths} months`,
             };
           }
@@ -164,6 +157,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
           associationMemberId: data?.associationMember?.id,
           positionId: data?.committeePosition?.id,
           selectedCommitteeMember: data.id,
+          photoLink: data.photoLink
         },
       }
     );
@@ -223,6 +217,19 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     } else {
       console.log("Delete action performed");
     }
+  }
+
+  handleViewAttachment(row: any) {
+    this.attachmentService.downloadImage(row).subscribe((response: any) => {
+      const url = window.URL.createObjectURL(
+        new Blob([response], { type: "application/pdf" })
+      );
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${row.docName}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   committeeSortData(sortParameters: Sort) {

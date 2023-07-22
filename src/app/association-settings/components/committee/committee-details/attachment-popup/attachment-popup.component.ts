@@ -4,8 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AttachmentService } from "app/association-settings/services/attachment-service/attachment.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
-import CommitteeDTO from "app/models/committeeDTO";
-import { CommitteeMemberAttachmentDTO } from "app/models/committeeMemberAttachmmentDTO";
+import { CommitteeDocstoreDTO } from "app/models/committeeDocstoreDTO";
 import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 
@@ -42,9 +41,8 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
-  buildAttachmentForm(attachmentData: CommitteeMemberAttachmentDTO) {
-    attachmentData.committee = new CommitteeDTO();
-    attachmentData.committee.id = this.id;
+  buildAttachmentForm(attachmentData: CommitteeDocstoreDTO) {
+    attachmentData.committeeId = this.id;
     this.attachmentForm = this.formBuilder.group({
       docType: [attachmentData.docType || "", Validators.required],
       docName: [attachmentData.docName || "", Validators.required],
@@ -52,7 +50,7 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
         attachmentData.displayToPublicFlg || "",
         Validators.required,
       ],
-      committee: [attachmentData.committee || ""],
+      committeeId: [attachmentData.committeeId || ""],
     });
   }
 
@@ -66,13 +64,13 @@ export class AttachmentPopupComponent extends BaseComponent implements OnInit {
     }
   }
 
-  submit(attachment: CommitteeMemberAttachmentDTO) {
+  submit(attachment: CommitteeDocstoreDTO) {
     if (true) {
       const formData = new FormData();
       formData.append("docType", attachment.docType.valueOf());
       formData.append("docName", attachment.docName.valueOf());
       formData.append("displayToPublicFlg", attachment.displayToPublicFlg);
-      formData.append("committeeId", attachment.committee.id.toString());
+      formData.append("committeeId", attachment.committeeId.toString());
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append("file", this.selectedFile);

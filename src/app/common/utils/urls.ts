@@ -26,7 +26,7 @@ export class Urls {
 
      public static COMMITTEE_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommittees";
      public static RETRIEVE_COMMITTEE_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeById";
-     public static RETRIEVE_COMMITTEE_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeByAssoc";
+     public static RETRIEVE_COMMITTEE_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAssociationCommittee";
 
 
      public static COMMITTEE_CREATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createCommittee";
@@ -40,7 +40,7 @@ export class Urls {
      public static DELETE_COMMITTEE_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteCommitteeMember";
      public static COMMITTEE_MEMBER_LIST_BY_COMMITTEE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommitteeMemberCommittee";
      public static RETRIEVE_COMMITTEE_MEMBER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeMemberById";
-
+     public static GET_COMMITTEE_MEMBER_PHOTO_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/getCommitteeMemberPhoto";
 
      public static POSITION_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommitteePositionsByAssoc";
      public static POSITION_VIEW: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/viewPosition";
@@ -54,6 +54,7 @@ export class Urls {
      public static REGISTER_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createCommitteeDocstore";
      public static UPDATE_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateCommitteeDocstore";
      public static DELETE_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteCommitteeDocstore";
+     public static GET_COMMITTEE_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeDocByLink";
 
      public static EMAIL_SETTINGS_REGISTER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emailSettingRegister";
      public static EMAIL_SETTINGS_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmailSettingByAssoc";

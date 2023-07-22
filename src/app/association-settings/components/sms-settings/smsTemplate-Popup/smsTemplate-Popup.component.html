@@ -47,6 +47,20 @@
       </sorax-form-field>
 
       <sorax-form-field
+        label="Place holders"
+        [soraxFormControl]="sendersProfileForm.get('')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="placeHolders"
+          type="text"
+          name="placeHolders"
+          placeholder="Enter placeholder"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
         label="Email content"
         [soraxFormControl]="sendersProfileForm.get('content')"
       >
@@ -59,6 +73,12 @@
           placeholder="Email content"
         />
       </sorax-form-field>
+
+      <mat-slide-toggle
+          class="padround8"
+          [formControl]="sendersProfileForm.controls['enableAutoFlg']"
+          >Enable auto SMS</mat-slide-toggle
+        >
     </form>
   </div>
 

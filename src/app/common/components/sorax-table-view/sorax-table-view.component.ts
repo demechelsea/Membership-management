@@ -120,7 +120,11 @@ export class SoraxTableViewComponent implements OnInit {
   emitRowAction(row: any, selectedAction: String) {
     row.performAction = selectedAction;
     if (selectedAction === 'view') {
-      this.viewEvent.emit(row);
+      if (this.tableType === 'attachment' || this.tableType === 'assocationAttachment') {
+        window.open(row.docLink, '_blank');
+      } else {
+        this.viewEvent.emit(row);
+      }
     }
     if (selectedAction === 'edit') {
       this.editEvent.emit(row);
@@ -128,9 +132,10 @@ export class SoraxTableViewComponent implements OnInit {
     if (selectedAction === 'delete') {
       this.deleteEvent.emit(row);
     }
-
+  
     this.rowAction.emit(row);
   }
+  
 
 
   getTooltipText(row: any): string {

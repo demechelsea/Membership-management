@@ -29,8 +29,8 @@ export class SmsTemplateService extends HttpAppDataService {
     return this.postData(Urls.MSG_TEMPLATE_BY_ASSOC, requestData);
   }
 
-  updateSmsTemplates(emailTemplateModel: MessageTemplateDTO): Observable<MessageTemplateDTO> {
-    return this.postData(Urls.MSG_TEMPLATE_UPDATE, emailTemplateModel);
+  updateSmsTemplates(smsTemplateModel: MessageTemplateDTO): Observable<any> {
+    return this.postData(Urls.MSG_TEMPLATE_UPDATE, smsTemplateModel);
   }
 
   deleteSmsTemplates(emailTemplateModel: MessageTemplateDTO): Observable<MessageTemplateDTO> {

@@ -110,24 +110,29 @@
             </sorax-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 pr8">
-            <sorax-autocomplete
-              [lookupName]="positionoptionsKey"
-              placeholder="Position"
-              [autoCompleteFieldLabel]="
-                committeeMemberForm.controls['committeePosition']
-              "
-              (selectedOptionEmitter)="onSelectedPositionOption($event)"
-              [id]="committeeId"
-              [displayFn]="positionDisplayFn"
-            >
-            </sorax-autocomplete>
-          </div>
-
-          <div class="w-full md:w-1/2 pr8">
-            <button mat-raised-button color="primary" (click)="onAddPosition()">
-              Add Position
-            </button>
+          <div class="flex justify-between">
+            <div class="w-full md:w-1/2" style="width: 55%">
+              <sorax-autocomplete
+                [lookupName]="positionoptionsKey"
+                placeholder="Position"
+                [autoCompleteFieldLabel]="
+                  committeeMemberForm.controls['committeePosition']
+                "
+                (selectedOptionEmitter)="onSelectedPositionOption($event)"
+                [id]="committeeId"
+                [displayFn]="positionDisplayFn"
+              >
+              </sorax-autocomplete>
+            </div>
+            <div class="w-full md:w-1/2" style="width: 30%">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="onAddPosition()"
+              >
+                Add Position
+              </button>
+            </div>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
@@ -171,19 +176,25 @@
             />
           </sorax-form-field>
 
-          <div class="w-full md:w-1/1 pr8">
-            <mat-slide-toggle
-              class="padround8"
-              [formControl]="committeeMemberForm.controls['phoneVisibilityFlg']"
-              >Show phone to public</mat-slide-toggle
-            >
-          </div>
-          <div class="w-full md:w-1/1 pr8">
-            <mat-slide-toggle
-              class="padround8"
-              [formControl]="committeeMemberForm.controls['emailVisibilityFlg']"
-              >Show email to public</mat-slide-toggle
-            >
+          <div class="flex justify-between">
+            <div class="w-full md:w-1/1 pr8" style="width: 60%">
+              <mat-slide-toggle
+                class="padround8"
+                [formControl]="
+                  committeeMemberForm.controls['phoneVisibilityFlg']
+                "
+                >Show phone to public</mat-slide-toggle
+              >
+            </div>
+            <div class="w-full md:w-1/1 pr8" style="width: 60%">
+              <mat-slide-toggle
+                class="padround8"
+                [formControl]="
+                  committeeMemberForm.controls['emailVisibilityFlg']
+                "
+                >Show email to public</mat-slide-toggle
+              >
+            </div>
           </div>
         </div>
 
@@ -203,7 +214,7 @@
             <img
               *ngIf="imageURL; else noImage"
               [src]="imageURL"
-              alt="Photo to display to public"
+              alt="Photo to display to p"
             />
             <ng-template #noImage>
               <p>Photo to display to public</p>

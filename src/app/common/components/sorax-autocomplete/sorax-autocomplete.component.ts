@@ -123,7 +123,8 @@ export class SoraxAutocompleteComponent implements OnInit {
     //   this.autoCompleteFieldLabel.setValue(option.positionName);
     // }
     // if (option.userDetail) {
-    //   this.autoCompleteFieldLabel.setValue(option.userDetail);
+    //   this.autoCompleteFieldLabel.setValue(`${option.userDetail.firstName} ${option.userDetail.givenName} 
+    //   ${option.userDetail.parentName}`);
     // }
   }
 

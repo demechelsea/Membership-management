@@ -60,7 +60,7 @@ export class EmailTemplatePopupComponent
   submit(plan: EmailTemplateDTO) {
     if (this.sendersProfileForm.valid) {
       this.emailTemplateService
-        .updateEmailTemplates(plan.id)
+        .updateEmailTemplates(plan)
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((response) => {
           if (response.success) {
