@@ -19,17 +19,23 @@ export class WebsiteService extends HttpAppDataService {
     return this.postData(Urls.WEBSITE_INFO_LIST, {});
   }
 
-  retrieveWebsiteById(encryptedId:string): Observable<ResultViewModel> {
-   let websiteInfo:WebsiteInfoModel = new WebsiteInfoModel();
-   websiteInfo.encryptedId = encryptedId;
-    return this.postData(Urls.WEBSITE_INFO_LIST, websiteInfo);
+  retrieveWebsiteById(encryptedId: string): Observable<ResultViewModel> {
+    let websiteInfo: WebsiteInfoModel = new WebsiteInfoModel();
+    websiteInfo.encryptedId = encryptedId;
+    return this.postData(Urls.WEBSITE_INFO_BY_ID, websiteInfo);
+  }
+
+  retrieveWebsiteByIdPromise(encryptedId: string): Promise<ResultViewModel> {
+    let websiteInfo: WebsiteInfoModel = new WebsiteInfoModel();
+    websiteInfo.encryptedId = encryptedId;
+    return this.postPromise(Urls.WEBSITE_INFO_BY_ID, websiteInfo);
   }
 
   saveWebSite(websiteInfoModel: WebsiteInfoModel): Observable<any> {
     return this.postData(Urls.SAVE_UPDATE_WEBSITE_INFO, websiteInfoModel);
   }
 
-  updateStatus(id: number, websiteInfoModel: WebsiteInfoModel): Observable<any> {
+  updateStatus(websiteInfoModel: WebsiteInfoModel): Observable<any> {
     return this.postData(Urls.UPDATE_WEBSITE_INFO_STATUS, websiteInfoModel);
   }
 

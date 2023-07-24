@@ -64,7 +64,7 @@ export class NavigationService {
     {
       name: 'Account Settings',
       type: 'dropDown',
-      icon: 'settings',
+      icon: 'perm_data_setting',
       sub: [
         {name: 'Association Profile', state: 'underdev'},
         {name: 'Roles', state: 'underdev'},
@@ -83,7 +83,6 @@ export class NavigationService {
         {name: 'Email Settings', state: 'associationSettings/emailSetting'},
         {name: 'SMS Settings', state: 'associationSettings/smsSetting'},
         {name: 'Policies & Doc store', state: 'associationSettings/PoliciesAndDocstore'},
-        {name: 'Finance Settings', state: 'underdev'},
         {name: 'Digital Id Card Settings', state: 'associationSettings/digitalIdCardSettings'}, 
         {name: 'Visibility Settings', state: 'associationSettings/visibilitySettings'}, 
       ]
@@ -92,7 +91,7 @@ export class NavigationService {
       name: 'Website Builder',
       type: 'link',
       tooltip: 'Website Builder',
-      icon: 'chat',
+      icon: 'build',
       state: 'builder/viewWebSites'
     },
     

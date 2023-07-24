@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { WebsiteThemeService } from './website.theme.service.';
+import { AssociationModel } from 'app/models/association-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class YellowThemeServiceImpl implements WebsiteThemeService {
   
+  constructor(private assoicjation: AssociationModel) {
 
+  }
+
+  
   getStyles(): string[] {
     return [
       'http://localhost/actta/assets/vendor/bootstrap/css/bootstrap.min.css',
@@ -29,6 +34,19 @@ export class YellowThemeServiceImpl implements WebsiteThemeService {
       'http://localhost/actta/assets/js/main.js'
     ];
   }
+  
+  addPrebuitBlocks(editor: any): void {
+    this.addNavbarBlock(editor);
+    this.addHomePageBlock(editor);
+    this.addAboutUsBlock(editor);
+    this.addMembershipBlock(editor);
+    this.addEventsBlock(editor);
+    this.addCommitteeBlock(editor);
+    this.addDonorsBlock(editor);
+    this.addContactUsBlock(editor);
+    this.addFooterBlock(editor);
+  }
+
   addNavbarBlock(editor: any): void {
     const navbarHtmlContent =
       ` <header id="header" class="header fixed-top d-flex align-items-center">
@@ -155,4 +173,7 @@ export class YellowThemeServiceImpl implements WebsiteThemeService {
  </header>`;
    }
 
+   canLoadJavaScripts(): boolean {
+    return true;
+  }
 }

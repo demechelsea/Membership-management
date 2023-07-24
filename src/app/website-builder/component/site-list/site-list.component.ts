@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { SoraxColumnDefinition } from 'app/common/components/sorax-table-view/sorax-column-definition';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { NotificationService } from 'app/common/services/notification.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResultViewModel } from 'app/models/result-view-model';
 import WebsiteInfoModel from 'app/models/website-info-model';
@@ -22,17 +23,18 @@ export class SiteListComponent extends BaseComponent implements OnInit {
   public websiteDetailsData: any;
   public siteListColumns: SoraxColumnDefinition[];
 
-
   private ngUnsubscribe$ = new Subject<void>();
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   siteList: WebsiteInfoModel[];
 
   constructor(
-    private router:Router,
+    private router: Router,
     private loader: AppLoaderService,
     private websiteService: WebsiteService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private notificationService: NotificationService
+
   ) {
     super();
   }
@@ -41,6 +43,7 @@ export class SiteListComponent extends BaseComponent implements OnInit {
     this.initializeColumns();
     this.getPageResults();
   }
+
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
@@ -58,51 +61,46 @@ export class SiteListComponent extends BaseComponent implements OnInit {
         Object.assign(this.resultViewModel, response);
         this.siteList = this.resultViewModel.result;
         this.websiteDetailsData = this.siteList;
-        Object.assign(this.messages, response);
         this.loader.close();
       });
-  }
-
-
-  openPopUp(data: WebsiteInfoModel, isNew?: boolean) {
-    let title = isNew ? "Add Membership Plan" : "Update Membership Plan";
-    // let dialogRef: MatDialogRef<any> = this.dialog.open(
-    //   MembershipPlanPopupComponent,
-    //   {
-    //     width: "720px",
-    //     disableClose: true,
-    //     data: { title: title, payload: data, isNew: isNew },
-    //   }
-    // );
-    // dialogRef.afterClosed().subscribe((res) => {
-    //   if (!res) {
-    //     return;
-    //   }
-    //   this.getPageResults();
-    // });
   }
 
   openDialog(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, { disableClose: true });
   }
 
-
   executeRowActions(rowData: WebsiteInfoModel) {
-    if (rowData.performAction == "edit") {
-      //TODO: Load html contnet and navigate to WebsiteBuilder
-    } else {
-      console.log("Delete action performed");
+    if (rowData.performAction == "View") {
+      this.loadTheme(rowData.encryptedId);
+    } else if(rowData.performAction == "Delete") {
+      this.deleteWebSiteInfo(rowData.encryptedId);
     }
   }
 
-  selectTheme(themeName:string){
+  selectTheme(themeName: string) {
     this.dialogRef.close();
     this.router.navigate(['/builder/websiteBuilder'], { state: { selectedTheme: themeName } });
   }
 
-  loadTheme(websiteInfoId:string){
-    this.dialogRef.close();
+  loadTheme(websiteInfoId: string) {
     this.router.navigate(['/builder/websiteBuilder'], { state: { referenceId: websiteInfoId } });
+  }
+
+  deleteWebSiteInfo(websiteInfoEncryptId: string) {
+    this.loader.open();
+    let websiteInfo = new WebsiteInfoModel();
+    websiteInfo.encryptedId = websiteInfoEncryptId;
+    websiteInfo.status ='Deleted';
+    this.websiteService
+      .updateStatus(websiteInfo).pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((response) => {
+        this.loader.close();
+        Object.assign(this.resultViewModel, response);
+        websiteInfo = this.resultViewModel.result;
+        Object.assign(this.messages, response);
+        this.notificationService.showMessages(this.messages);
+        this.getPageResults();
+      });
   }
 
   initializeColumns(): void {
@@ -132,6 +130,12 @@ export class SiteListComponent extends BaseComponent implements OnInit {
         dataKey: "modifiedUser",
         position: "left",
         isSortable: true,
+      },
+      {
+        name: "Action",
+        dataKey: "action",
+        position: "left",
+        isSortable: false,
       },
     ];
   }

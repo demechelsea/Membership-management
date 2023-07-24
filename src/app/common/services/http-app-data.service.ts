@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import LableValueModel from 'app/models/lable-value-model';
-import { Observable, throwError } from 'rxjs';
+import { Observable, from, lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Urls } from '../utils/urls';
@@ -28,6 +28,10 @@ export class HttpAppDataService extends BaseService {
 
   postData(postUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {
     return this.insertData(postUrl, inputParams, responseType);
+  }
+
+   async postPromise(postUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Promise<any> {
+    return await lastValueFrom(from(this.postData(postUrl, inputParams)));
   }
   
   insertData(createUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {

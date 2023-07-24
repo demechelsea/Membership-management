@@ -19,6 +19,7 @@
       [isFilterable]="false"
       [isPageable]="false"
       (rowAction)="executeRowActions($event)"
+      [tableType]="'WebSiteBuilderInfo'"
       >
     </sorax-table-view>
   </mat-card-content>
@@ -36,13 +37,17 @@
     <div mat-dialog-content class="padround18 text-center">
       <div class="flex flex-wrap">
         <div class="image-item">
-          <img   src="assets/images/bluetheme.png" alt="Blue Theme" (click)="selectTheme('blue')">
+          <img   src="assets/images/bluetheme.png" alt="Blue Theme" (click)="selectTheme('Blue Theme')">
           <div class="caption">Blue Theme</div>
         </div>
         <span class="flex-grow"></span>
         <div class="image-item">
-          <img   src="assets/images/yellowtheme.png" alt="Yellow Theme" (click)="selectTheme('yellow')" >
+          <img   src="assets/images/yellowtheme.png" alt="Yellow Theme" (click)="selectTheme('Yellow Theme')" >
           <div class="caption">Yellow Theme</div>
+        </div>
+        <div class="image-item">
+          <img   src="assets/images/plaintheme.jpg" alt="Plain Theme" (click)="selectTheme('Plain Theme')" >
+          <div class="caption">Plain Theme</div>
         </div>
       </div>
     </div>

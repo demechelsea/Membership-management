@@ -1,13 +1,16 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
+import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { NotificationService } from 'app/common/services/notification.service';
+import { notNull } from 'app/common/utils/string-utils';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResultViewModel } from 'app/models/result-view-model';
 import WebsiteInfoModel from 'app/models/website-info-model';
 import { GrapesConfigService } from 'app/website-builder/services/grapes.config.service';
 import { WebsiteService } from 'app/website-builder/services/website.service';
 import { WebsiteThemeFactory } from 'app/website-builder/services/website.theme.factory';
-import { WebsiteThemeService } from 'app/website-builder/services/website.theme.service.';
-import { Console } from 'console';
+import { WebsiteThemeService as websiteThemeService } from 'app/website-builder/services/website.theme.service.';
 import grapesjs from 'grapesjs';
 import BasicBlocksPlugin from 'grapesjs-blocks-basic';
 import FlexyBlocksPlugin from 'grapesjs-blocks-flexbox';
@@ -18,74 +21,87 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-builder',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: SoraxAnimations,
 })
 export class BuilderComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('gjs') gjsContainer: ElementRef;
 
   private ngUnsubscribe$ = new Subject<void>();
-  public htmlContentForCanvas:string ='<h1> This is testing</h1>';
-  
+  public htmlContentForCanvas: string = '';
+
   public editor: any = null
-  public websiteThemeService: WebsiteThemeService;
+  public websiteThemeService: websiteThemeService;
+
   resultViewModel: ResultViewModel = new ResultViewModel();
   websiteInfo: WebsiteInfoModel;
 
   constructor(private configService: GrapesConfigService,
     private websiteThemeFactory: WebsiteThemeFactory,
-     private router:Router, 
-     private activatedRoute: ActivatedRoute,
-     private websiteService: WebsiteService) {
-      super();
+    private loader: AppLoaderService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private websiteService: WebsiteService) {
+    super();
   }
 
 
   ngOnInit(): void {
-    let themeName = window.history.state?.selectedTheme;
-    let referenceId = window.history.state?.referenceId;
-    
+    this.loader.open();
+    this.websiteInfo = new WebsiteInfoModel();
+    this.websiteInfo.themeName = window.history.state?.selectedTheme;
+    this.websiteInfo.encryptedId = window.history.state?.referenceId;
 
-    if(themeName){
-     this.websiteThemeService = this.websiteThemeFactory.getWebsiteBuilderTheme(themeName);
-    }else if(referenceId){
-      this.websiteService
-      .retrieveWebsiteById(referenceId)
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((response) => {
+    if (notNull(this.websiteInfo.themeName)) {
+      this.websiteThemeService = this.websiteThemeFactory
+        .getWebsiteBuilderTheme(this.websiteInfo.themeName);
+      this.initializeGrapesJs();
+    } else if (notNull(this.websiteInfo.encryptedId)) {
+      this.retrieveWebsiteInformation(this.websiteInfo.encryptedId);
+    }
+  }
+
+  retrieveWebsiteInformation(encryptedId: string) {
+    this.websiteService
+      .retrieveWebsiteByIdPromise(encryptedId).then((response) => {
         Object.assign(this.resultViewModel, response);
         this.websiteInfo = this.resultViewModel.result;
         Object.assign(this.messages, response);
+        this.websiteThemeService = this.websiteThemeFactory
+          .getWebsiteBuilderTheme(this.websiteInfo.themeName);
+        this.initializeGrapesJs();
       });
-    }
-  
-    this.initializeGrapesJs();
   }
 
-  ngAfterViewInit(): void { 
-    
+  ngAfterViewInit(): void {
+
   }
-  ngOnDestroy() { 
+
+
+  ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
 
   private initializeGrapesJs() {
+    console.log('Inside grapes js');
     this.editor = grapesjs.init({
       container: '#gjs',
       fromElement: true,
       height: '700px',
       width: 'auto',
       storageManager: false,
-      selectorManager: { 
+      selectorManager: {
         appendTo: ".classes-container",
-        componentFirst: true ,
+        componentFirst: true,
       },
       panels: { defaults: [] },
       traitManager: this.configService.getTraitManager(),
-      blockManager: this.configService.getBlockManager(),    
+      blockManager: this.configService.getBlockManager(),
       styleManager: this.configService.getStyleSelectors(),
       layerManager: this.configService.getLayerManager(),
-      assetManager :this.configService.getAssetManager(),
+      assetManager: this.configService.getAssetManager(),
       colorPicker: { appendTo: 'parent', offset: { top: 26, left: -166, } },
       plugins: [BasicBlocksPlugin, FlexyBlocksPlugin],
       pluginsOpts: {
@@ -93,42 +109,111 @@ export class BuilderComponent extends BaseComponent implements OnInit, OnDestroy
         FlexyBlocksPlugin: {},
       },
       canvas: {
-        styles: this.websiteThemeService.getStyles() ,
-        scripts: this.websiteThemeService.getScripts() ,
+        styles: this.websiteThemeService.getStyles(),
+        scripts: this.websiteThemeService.getScripts(),
       },
     });
 
-    this.configService.assetManagerEvents(this.editor);
-    this.websiteThemeService.addNavbarBlock(this.editor);
-    this.websiteThemeService.addHomePageBlock(this.editor);
-    
-    this.configService.addDeviceToPanel(this.editor);
-    this.configService.addRightSidePanel(this.editor);
-    this.configService.addButtonsToRightPanel(this.editor);
-    this.editor.on('load', () => {
-      const canvasWindow = this.editor.Canvas.getWindow();
-      setTimeout(() => {
-        if (canvasWindow.document.readyState === 'complete') {
-          canvasWindow.loadFromGrapesJS();
-        }
-      }, 1000);
-    });
+    this.websiteThemeService.addPrebuitBlocks(this.editor);
+    this.configService.addEventsAndPanels(this.editor);
 
-    
-    this.editor.setComponents(this.websiteThemeService.getHtmlContent());
-    // this.editor.on('component:selected', () => {
-    //   const selectedComponent = this.editor.getSelected();;
-    //   if (selectedComponent && selectedComponent.get('tagName') === 'a') {
-    //     this.editor.runCommand('show-traits');
-    //   }
-    // })
+    this.loadJavaScripts();
 
+    this.loadHtmlContent();
+
+    this.loader.close();
   }
 
+  private loadJavaScripts() {
+    if (this.websiteThemeService.canLoadJavaScripts()) {
+      this.editor.on('load', () => {
+        const canvasWindow = this.editor.Canvas.getWindow();
+        setTimeout(() => {
+          if (canvasWindow.document.readyState === 'complete') {
+            canvasWindow.loadFromGrapesJS();
+          }
+        }, 1000);
+      });
+    }
+  }
 
-  listWebsites(){
+  private loadHtmlContent() {
+    if (notNull(this.websiteInfo.encryptedId)) {
+      this.editor.setComponents(this.extractBodyContent(this.websiteInfo.htmlContent));
+    } else {
+      this.editor.setComponents(this.websiteThemeService.getHtmlContent());
+    }
+  }
+
+  showWebSites() {
     this.router.navigate(['/builder/viewWebSites']);
   }
-  
 
+  saveChanges() {
+    this.websiteInfo.status = 'Draft';
+    this.websiteInfo.htmlContent = this.getFullHtml(this.editor);
+    this.saveWebSiteInfo(this.websiteInfo, false);
+  }
+
+  saveAndPublish() {
+    this.websiteInfo.status = 'Active';
+    this.websiteInfo.htmlContent = this.getFullHtml(this.editor);
+    this.saveWebSiteInfo(this.websiteInfo, true);
+  }
+
+  saveWebSiteInfo(websiteInfoModel: WebsiteInfoModel, navigate: boolean) {
+    this.websiteService
+      .saveWebSite(websiteInfoModel)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((response) => {
+        Object.assign(this.resultViewModel, response);
+        this.websiteInfo = this.resultViewModel.result;
+        Object.assign(this.messages, response);
+
+        this.notificationService.showMessages(this.messages);
+        if (navigate) {
+          this.router.navigate(['/builder/viewWebSites']);
+        }
+      });
+  }
+
+
+  getFullHtml(editor: any): string {
+    const cssContent = editor.getCss();
+    const htmlContent = editor.getHtml();
+    const externalStyles = this.prepareExternalStyles();
+    const externalScripts = this.prepareExternalScripts();
+
+    const fullHtmlContent = `<!DOCTYPE html>
+                                    <head>
+                                        ${externalStyles}
+                                      <style> ${cssContent}</style>
+                                        ${externalScripts}
+                                    </head> 
+                                    <body>${htmlContent}</body></html>`;
+    return fullHtmlContent;
+  }
+
+
+  prepareExternalStyles(): string {
+    let externalStyles = '';
+    this.websiteThemeService.getStyles().forEach((styleItem: string) => {
+      externalStyles = externalStyles + `<link href="${styleItem}" rel="stylesheet">`;
+    });
+    return externalStyles;
+  }
+
+  prepareExternalScripts(): string {
+    let externalScripts = '';
+    this.websiteThemeService.getScripts().forEach((scriptItem: string) => {
+      externalScripts = externalScripts + `<script src="${scriptItem}"></script>`;
+    });
+    return externalScripts;
+  }
+
+  extractBodyContent(htmlFullContent: string): string {
+    const doc = new DOMParser().parseFromString(htmlFullContent, 'text/html');
+    return doc.body.innerHTML;
+  }
+  
 }
