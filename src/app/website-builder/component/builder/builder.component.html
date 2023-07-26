@@ -1,16 +1,17 @@
-<div class="panel__top">
+<div class="panel__top" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
     <div class="panel__basic-actions">
     </div>
     <div class="panel__devices"></div>
-    <div class="panel__custom_buttons" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between center">
-        <button mat-raised-button class="mat-primary" >Save</button>
-        <button mat-raised-button class="mat-primary" >Live preview</button>
+    <div class="panel__custom_buttons">
+        <button mat-raised-button class="mat-accent mr-8" (click)="showWebSites()">Close</button>
+        <button mat-raised-button class="mat-primary mr-8" (click)="saveChanges()" >Save as Draft</button>
+        <button mat-raised-button class="mat-primary mr-8" (click)="saveAndPublish()" >Save & Publish</button>
     </div>
     <div class="panel__switcher"></div>
 </div>
 <div class="editor-row">
-    <div class="editor-canvas">
-      <div id="gjs"> 
+    <div class="editor-canvas" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <div id="gjs">
       </div>
     </div>
     <div class="panel__right">

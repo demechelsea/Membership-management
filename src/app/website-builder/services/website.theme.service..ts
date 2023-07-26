@@ -1,7 +1,9 @@
 export interface WebsiteThemeService {
-
+  
+  canLoadJavaScripts():boolean;
   getStyles(): string[];
   getScripts(): string[];
+  addPrebuitBlocks(editor:any):void
   addNavbarBlock(editor: any): void;
   addHomePageBlock(editor: any): void;
   addAboutUsBlock(editor: any): void;
@@ -12,5 +14,5 @@ export interface WebsiteThemeService {
   addDonorsBlock(editor: any): void;
   addContactUsBlock(editor: any): void;
   addFooterBlock(editor: any): void;
-
+  getHtmlContent():string;
 }

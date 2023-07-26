@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { WebsiteThemeService } from './website.theme.service.';
+import { AssociationModel } from 'app/models/association-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class YummyThemeServiceImpl implements WebsiteThemeService {
+export class YellowThemeServiceImpl implements WebsiteThemeService {
+  
+  constructor(private assoicjation: AssociationModel) {
 
+  }
+
+  
   getStyles(): string[] {
     return [
       'http://localhost/actta/assets/vendor/bootstrap/css/bootstrap.min.css',
@@ -28,6 +34,19 @@ export class YummyThemeServiceImpl implements WebsiteThemeService {
       'http://localhost/actta/assets/js/main.js'
     ];
   }
+  
+  addPrebuitBlocks(editor: any): void {
+    this.addNavbarBlock(editor);
+    this.addHomePageBlock(editor);
+    this.addAboutUsBlock(editor);
+    this.addMembershipBlock(editor);
+    this.addEventsBlock(editor);
+    this.addCommitteeBlock(editor);
+    this.addDonorsBlock(editor);
+    this.addContactUsBlock(editor);
+    this.addFooterBlock(editor);
+  }
+
   addNavbarBlock(editor: any): void {
     const navbarHtmlContent =
       ` <header id="header" class="header fixed-top d-flex align-items-center">
@@ -126,4 +145,35 @@ export class YummyThemeServiceImpl implements WebsiteThemeService {
     throw new Error('Method not implemented.');
   }
 
+  getHtmlContent():string{
+    return ` <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+ 
+    <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+      <h1>ACTTA<span>.</span></h1>
+    </a>
+ 
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a href="https://wwww.google.com">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#committee">Committee</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#sponsors">Sponsors</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+ 
+  <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+  <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+ 
+ </div>
+ </header>`;
+   }
+
+   canLoadJavaScripts(): boolean {
+    return true;
+  }
 }

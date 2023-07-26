@@ -119,20 +119,6 @@ export class SoraxTableViewComponent implements OnInit {
 
   emitRowAction(row: any, selectedAction: String) {
     row.performAction = selectedAction;
-    if (selectedAction === 'view') {
-      if (this.tableType === 'attachment' || this.tableType === 'assocationAttachment') {
-        window.open(row.docLink, '_blank');
-      } else {
-        this.viewEvent.emit(row);
-      }
-    }
-    if (selectedAction === 'edit') {
-      this.editEvent.emit(row);
-    }
-    if (selectedAction === 'delete') {
-      this.deleteEvent.emit(row);
-    }
-  
     this.rowAction.emit(row);
   }
   

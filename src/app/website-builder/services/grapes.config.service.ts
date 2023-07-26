@@ -9,12 +9,21 @@ import { Subject, takeUntil } from 'rxjs';
   providedIn: 'root'
 })
 export class GrapesConfigService extends HttpAppDataService {
+ 
   
+
   private ngUnsubscribe$ = new Subject<void>();
 
 
-  constructor(httpClient: HttpClient) { 
+  constructor(httpClient: HttpClient) {
     super(httpClient);
+  }
+
+  addEventsAndPanels(editor: any) {
+    this.assetManagerEvents(editor);
+    this.addDeviceToPanel(editor);
+    this.addRightSidePanel(editor);
+    this.addButtonsToRightPanel(editor);
   }
 
   addDeviceToPanel(editor: any) {
@@ -24,7 +33,7 @@ export class GrapesConfigService extends HttpAppDataService {
     deviceManager.add('Mobile', '375px');
 
     editor.Panels.addPanel({
-      id: 'panel-devices', 
+      id: 'panel-devices',
       el: '.panel__devices',
       buttons: [{
         id: 'deviceDeskTop',
@@ -84,34 +93,35 @@ export class GrapesConfigService extends HttpAppDataService {
     };
   }
 
-  getLayerManager():any{
+  getLayerManager(): any {
     return {
       appendTo: '.layers-container'
     };
   }
 
-  getTraitManager():any{
+  getTraitManager(): any {
     return {
       appendTo: '.traits-container',
     };
   }
 
-  getAssetManager():any{
+  getAssetManager(): any {
     return {
-      assets :this.fetchAllImages(),
-      uploadFile: (evnt) => { 
+      assets: this.fetchAllImages(),
+      uploadFile: (evnt) => {
         this.startUploadInBatches(evnt);
       }
     };
   }
+
   fetchAllImages() {
     this.postData(Urls.WEBSITE_IMAGE_LIST, {}).pipe(takeUntil(this.ngUnsubscribe$))
-    .subscribe(
-      (response) => {
-        
+      .subscribe(
+        (response) => {
 
-      });
-    
+
+        });
+
 
     return [
       'http://localhost/actta/assets/img/hero-img.jpg',
@@ -120,43 +130,44 @@ export class GrapesConfigService extends HttpAppDataService {
       'http://localhost/actta/assets/img/gallery/1.jpg'
     ];
   }
+
   startUploadInBatches(e: any) {
     let files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    let batchOfFiles =  splitArrayIntoGroups(files, 2);
+    let batchOfFiles = splitArrayIntoGroups(files, 2);
     for (let i = 0; i < batchOfFiles.length; i++) {
-        this.uploadImages(batchOfFiles[i]);
+      this.uploadImages(batchOfFiles[i]);
     }
   }
 
 
-  uploadImages(files: any){
+  uploadImages(files: any) {
     const formData: FormData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i], files[i].name);
-      
+
     }
     this.postData(Urls.WEBSITE_IMAGE_UPLOAD, formData).pipe(takeUntil(this.ngUnsubscribe$))
-    .subscribe(
-      (response) => {
-        console.log("Good come here, uploaded images");
-      });
+      .subscribe(
+        (response) => {
+          console.log("Good come here, uploaded images");
+        });
   }
 
-  assetManagerEvents(editor:any){
+  assetManagerEvents(editor: any) {
     const assetManager = editor.AssetManager;
 
     editor.on('asset:upload:start', () => {
       console.log('Upload started...');
     });
-    
+
     editor.on('asset:upload:end', () => {
       console.log('Upload end...');
     });
-    
+
     editor.on('asset:upload:error', (err) => {
       console.log('Upload error...');
     });
-    
+
     editor.on('asset:upload:response', (response) => {
       console.log('Upload response...');
     });
@@ -166,7 +177,7 @@ export class GrapesConfigService extends HttpAppDataService {
     return {
       appendTo: ".styles-container",
       sectors: [
-       {
+        {
           name: "Basic",
           open: false,
           buildProps: [
@@ -185,248 +196,248 @@ export class GrapesConfigService extends HttpAppDataService {
             "border-color",
             "border-style",
             "border-width",
-            'margin', 
-            'padding', 
-          ],
-        },{
-        name: 'General',
-        properties: [
-          {
-            extend: 'float',
-            type: 'radio',
-            default: 'none',
-            options: [
-              { value: 'none', className: 'fa fa-times' },
-              { value: 'left', className: 'fa fa-align-left' },
-              { value: 'right', className: 'fa fa-align-right' }
-            ],
-          },
-          'display',
-          { extend: 'position', type: 'select' },
-          'top',
-          'right',
-          'left',
-          'bottom',
-        ],
-      }, {
-        name: 'Dimension',
-        open: false,
-        properties: [
-          'width',
-          {
-            id: 'flex-width',
-            type: 'integer',
-            name: 'Width',
-            units: ['px', '%'],
-            property: 'flex-basis',
-            toRequire: 1,
-          },
-          'height',
-          'max-width',
-          'min-height',
-          'margin',
-          'padding'
-        ],
-      }, {
-        name: 'Typography',
-        open: false,
-        properties: [
-          'font-family',
-          'font-size',
-          'font-weight',
-          'letter-spacing',
-          'color',
-          'line-height',
-          {
-            extend: 'text-align',
-            options: [
-              { id: 'left', label: 'Left', className: 'fa fa-align-left' },
-              { id: 'center', label: 'Center', className: 'fa fa-align-center' },
-              { id: 'right', label: 'Right', className: 'fa fa-align-right' },
-              { id: 'justify', label: 'Justify', className: 'fa fa-align-justify' }
-            ],
-          },
-          {
-            property: 'text-decoration',
-            type: 'radio',
-            default: 'none',
-            options: [
-              { id: 'none', label: 'None', className: 'fa fa-times' },
-              { id: 'underline', label: 'underline', className: 'fa fa-underline' },
-              { id: 'line-through', label: 'Line-through', className: 'fa fa-strikethrough' }
-            ],
-          },
-          'text-shadow'
-        ],
-      }, {
-        name: 'Decorations',
-        open: false,
-        properties: [
-          'opacity',
-          'border-radius',
-          'border',
-          'box-shadow',
-          'background', // { id: 'background-bg', property: 'background', type: 'bg' }
-        ],
-      }, {
-        name: 'Extra',
-        open: false,
-        buildProps: [
-          'transition',
-          'perspective',
-          'transform'
-        ],
-      }, {
-        name: 'Flex',
-        open: false,
-        properties: [{
-          name: 'Flex Container',
-          property: 'display',
-          type: 'select',
-          defaults: 'block',
-          list: [
-            { value: 'block', name: 'Disable' },
-            { value: 'flex', name: 'Enable' }
+            'margin',
+            'padding',
           ],
         }, {
-          name: 'Flex Parent',
-          property: 'label-parent-flex',
-          type: 'integer',
+          name: 'General',
+          properties: [
+            {
+              extend: 'float',
+              type: 'radio',
+              default: 'none',
+              options: [
+                { value: 'none', className: 'fa fa-times' },
+                { value: 'left', className: 'fa fa-align-left' },
+                { value: 'right', className: 'fa fa-align-right' }
+              ],
+            },
+            'display',
+            { extend: 'position', type: 'select' },
+            'top',
+            'right',
+            'left',
+            'bottom',
+          ],
         }, {
-          name: 'Direction',
-          property: 'flex-direction',
-          type: 'radio',
-          defaults: 'row',
-          list: [{
-            value: 'row',
-            name: 'Row',
-            className: 'icons-flex icon-dir-row',
-            title: 'Row',
-          }, {
-            value: 'row-reverse',
-            name: 'Row reverse',
-            className: 'icons-flex icon-dir-row-rev',
-            title: 'Row reverse',
-          }, {
-            value: 'column',
-            name: 'Column',
-            title: 'Column',
-            className: 'icons-flex icon-dir-col',
-          }, {
-            value: 'column-reverse',
-            name: 'Column reverse',
-            title: 'Column reverse',
-            className: 'icons-flex icon-dir-col-rev',
-          }],
+          name: 'Dimension',
+          open: false,
+          properties: [
+            'width',
+            {
+              id: 'flex-width',
+              type: 'integer',
+              name: 'Width',
+              units: ['px', '%'],
+              property: 'flex-basis',
+              toRequire: 1,
+            },
+            'height',
+            'max-width',
+            'min-height',
+            'margin',
+            'padding'
+          ],
         }, {
-          name: 'Justify',
-          property: 'justify-content',
-          type: 'radio',
-          defaults: 'flex-start',
-          list: [{
-            value: 'flex-start',
-            className: 'icons-flex icon-just-start',
-            title: 'Start',
-          }, {
-            value: 'flex-end',
-            title: 'End',
-            className: 'icons-flex icon-just-end',
-          }, {
-            value: 'space-between',
-            title: 'Space between',
-            className: 'icons-flex icon-just-sp-bet',
-          }, {
-            value: 'space-around',
-            title: 'Space around',
-            className: 'icons-flex icon-just-sp-ar',
-          }, {
-            value: 'center',
-            title: 'Center',
-            className: 'icons-flex icon-just-sp-cent',
-          }],
+          name: 'Typography',
+          open: false,
+          properties: [
+            'font-family',
+            'font-size',
+            'font-weight',
+            'letter-spacing',
+            'color',
+            'line-height',
+            {
+              extend: 'text-align',
+              options: [
+                { id: 'left', label: 'Left', className: 'fa fa-align-left' },
+                { id: 'center', label: 'Center', className: 'fa fa-align-center' },
+                { id: 'right', label: 'Right', className: 'fa fa-align-right' },
+                { id: 'justify', label: 'Justify', className: 'fa fa-align-justify' }
+              ],
+            },
+            {
+              property: 'text-decoration',
+              type: 'radio',
+              default: 'none',
+              options: [
+                { id: 'none', label: 'None', className: 'fa fa-times' },
+                { id: 'underline', label: 'underline', className: 'fa fa-underline' },
+                { id: 'line-through', label: 'Line-through', className: 'fa fa-strikethrough' }
+              ],
+            },
+            'text-shadow'
+          ],
         }, {
-          name: 'Align',
-          property: 'align-items',
-          type: 'radio',
-          defaults: 'center',
-          list: [{
-            value: 'flex-start',
-            title: 'Start',
-            className: 'icons-flex icon-al-start',
-          }, {
-            value: 'flex-end',
-            title: 'End',
-            className: 'icons-flex icon-al-end',
-          }, {
-            value: 'stretch',
-            title: 'Stretch',
-            className: 'icons-flex icon-al-str',
-          }, {
-            value: 'center',
-            title: 'Center',
-            className: 'icons-flex icon-al-center',
-          }],
+          name: 'Decorations',
+          open: false,
+          properties: [
+            'opacity',
+            'border-radius',
+            'border',
+            'box-shadow',
+            'background', // { id: 'background-bg', property: 'background', type: 'bg' }
+          ],
         }, {
-          name: 'Flex Children',
-          property: 'label-parent-flex',
-          type: 'integer',
-        }, {
-          name: 'Order',
-          property: 'order',
-          type: 'integer',
-          defaults: 0,
-          min: 0
+          name: 'Extra',
+          open: false,
+          buildProps: [
+            'transition',
+            'perspective',
+            'transform'
+          ],
         }, {
           name: 'Flex',
-          property: 'flex',
-          type: 'composite',
+          open: false,
           properties: [{
-            name: 'Grow',
-            property: 'flex-grow',
+            name: 'Flex Container',
+            property: 'display',
+            type: 'select',
+            defaults: 'block',
+            list: [
+              { value: 'block', name: 'Disable' },
+              { value: 'flex', name: 'Enable' }
+            ],
+          }, {
+            name: 'Flex Parent',
+            property: 'label-parent-flex',
+            type: 'integer',
+          }, {
+            name: 'Direction',
+            property: 'flex-direction',
+            type: 'radio',
+            defaults: 'row',
+            list: [{
+              value: 'row',
+              name: 'Row',
+              className: 'icons-flex icon-dir-row',
+              title: 'Row',
+            }, {
+              value: 'row-reverse',
+              name: 'Row reverse',
+              className: 'icons-flex icon-dir-row-rev',
+              title: 'Row reverse',
+            }, {
+              value: 'column',
+              name: 'Column',
+              title: 'Column',
+              className: 'icons-flex icon-dir-col',
+            }, {
+              value: 'column-reverse',
+              name: 'Column reverse',
+              title: 'Column reverse',
+              className: 'icons-flex icon-dir-col-rev',
+            }],
+          }, {
+            name: 'Justify',
+            property: 'justify-content',
+            type: 'radio',
+            defaults: 'flex-start',
+            list: [{
+              value: 'flex-start',
+              className: 'icons-flex icon-just-start',
+              title: 'Start',
+            }, {
+              value: 'flex-end',
+              title: 'End',
+              className: 'icons-flex icon-just-end',
+            }, {
+              value: 'space-between',
+              title: 'Space between',
+              className: 'icons-flex icon-just-sp-bet',
+            }, {
+              value: 'space-around',
+              title: 'Space around',
+              className: 'icons-flex icon-just-sp-ar',
+            }, {
+              value: 'center',
+              title: 'Center',
+              className: 'icons-flex icon-just-sp-cent',
+            }],
+          }, {
+            name: 'Align',
+            property: 'align-items',
+            type: 'radio',
+            defaults: 'center',
+            list: [{
+              value: 'flex-start',
+              title: 'Start',
+              className: 'icons-flex icon-al-start',
+            }, {
+              value: 'flex-end',
+              title: 'End',
+              className: 'icons-flex icon-al-end',
+            }, {
+              value: 'stretch',
+              title: 'Stretch',
+              className: 'icons-flex icon-al-str',
+            }, {
+              value: 'center',
+              title: 'Center',
+              className: 'icons-flex icon-al-center',
+            }],
+          }, {
+            name: 'Flex Children',
+            property: 'label-parent-flex',
+            type: 'integer',
+          }, {
+            name: 'Order',
+            property: 'order',
             type: 'integer',
             defaults: 0,
             min: 0
           }, {
-            name: 'Shrink',
-            property: 'flex-shrink',
-            type: 'integer',
-            defaults: 0,
-            min: 0
+            name: 'Flex',
+            property: 'flex',
+            type: 'composite',
+            properties: [{
+              name: 'Grow',
+              property: 'flex-grow',
+              type: 'integer',
+              defaults: 0,
+              min: 0
+            }, {
+              name: 'Shrink',
+              property: 'flex-shrink',
+              type: 'integer',
+              defaults: 0,
+              min: 0
+            }, {
+              name: 'Basis',
+              property: 'flex-basis',
+              type: 'integer',
+              units: ['px', '%', ''],
+              unit: '',
+              defaults: 'auto',
+            }],
           }, {
-            name: 'Basis',
-            property: 'flex-basis',
-            type: 'integer',
-            units: ['px', '%', ''],
-            unit: '',
+            name: 'Align',
+            property: 'align-self',
+            type: 'radio',
             defaults: 'auto',
-          }],
-        }, {
-          name: 'Align',
-          property: 'align-self',
-          type: 'radio',
-          defaults: 'auto',
-          list: [{
-            value: 'auto',
-            name: 'Auto',
-          }, {
-            value: 'flex-start',
-            title: 'Start',
-            className: 'icons-flex icon-al-start',
-          }, {
-            value: 'flex-end',
-            title: 'End',
-            className: 'icons-flex icon-al-end',
-          }, {
-            value: 'stretch',
-            title: 'Stretch',
-            className: 'icons-flex icon-al-str',
-          }, {
-            value: 'center',
-            title: 'Center',
-            className: 'icons-flex icon-al-center',
-          }],
-        }]
-      }
+            list: [{
+              value: 'auto',
+              name: 'Auto',
+            }, {
+              value: 'flex-start',
+              title: 'Start',
+              className: 'icons-flex icon-al-start',
+            }, {
+              value: 'flex-end',
+              title: 'End',
+              className: 'icons-flex icon-al-end',
+            }, {
+              value: 'stretch',
+              title: 'Stretch',
+              className: 'icons-flex icon-al-str',
+            }, {
+              value: 'center',
+              title: 'Center',
+              className: 'icons-flex icon-al-center',
+            }],
+          }]
+        }
       ]
     };
   }
@@ -446,10 +457,24 @@ export class GrapesConfigService extends HttpAppDataService {
         },
         {
           id: "select",
-          className: "fa fa-dashcube ",
+          className: "fa fa-square-o",
           command: "sw-visibility",
           context: "core:component-select",
           attributes: { title: "Select element" },
+        },
+        {
+          id: "export-template",
+          className: "fa fa-code",
+          command: "export-template",
+          context: "export-template",
+          attributes: { title: "View code" },
+        },
+        {
+          id: "fullscreen",
+          className: "fa fa-arrows-alt",
+          command: "fullscreen",
+          context: "fullscreen",
+          attributes: { title: "Fullscreen" },
         },
         {
           id: "undo",
@@ -464,31 +489,29 @@ export class GrapesConfigService extends HttpAppDataService {
           attributes: { title: "Redo (CTRL/CMD + SHIFT + Z)" },
         },
         {
-          id: "images",
-          className: "fa fa-picture-o",
-          command: "open-assset-manager",
-          attributes: { title: "Add Images" },
-        },
-        {
           id: 'show-blocks',
           active: true,
           className: 'fa fa-th-large',
           command: 'show-blocks',
-          // Once activated disable the possibility to turn it off
           togglable: true,
+          attributes: {
+            title: 'Open Blocks'
+          }
         }, {
           id: 'show-layers',
           active: true,
           className: 'fa fa-bars',
           command: 'show-layers',
-          // Once activated disable the possibility to turn it off
           togglable: true,
+          attributes: {
+            title: 'Open Layer Manager'
+          }
         }, {
           id: 'show-style',
           active: true,
           className: 'fa fa-paint-brush',
           command: 'show-style',
-          togglable: true,
+          togglable: 0,
           attributes: { title: "Open Style Manager" },
         },
         {
@@ -496,7 +519,10 @@ export class GrapesConfigService extends HttpAppDataService {
           active: true,
           className: 'fa fa-cog',
           command: 'show-traits',
-          togglable: true,
+          togglable: 0,
+          attributes: {
+            title: 'Open Traits:  ids, href, src'
+          }
         }
       ],
     });
