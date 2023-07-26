@@ -20,6 +20,7 @@ import * as moment from "moment";
 import { opencommitteeMemberPopupService } from "app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { HttpClient } from "@angular/common/http";
+import { FileDTO } from "app/models/FileDTO";
 
 @Component({
   selector: "committee-member-details",
@@ -220,7 +221,10 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   }
 
   handleViewAttachment(row: any) {
-    this.attachmentService.downloadImage(row).subscribe((response: any) => {
+
+    let fileDTO= new FileDTO();
+    fileDTO.docLink = row.docLink;
+    this.attachmentService.downloadImage(fileDTO).subscribe((response: any) => {
       const url = window.URL.createObjectURL(
         new Blob([response], { type: "application/pdf" })
       );

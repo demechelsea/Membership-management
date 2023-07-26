@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
+import { FileDTO } from 'app/models/FileDTO';
 import { AssociationDocstoreDTO } from 'app/models/assocationAttachmmentDTO';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
@@ -35,7 +36,7 @@ export class AssocationAttachmentService extends HttpAppDataService {
     return this.postData(Urls.DELETE_ASSOC_DOCSTORE, attachmentModel);
   }
 
-  downloadImage(attachmentModel: AssociationDocstoreDTO): Observable<any>{
-    return this.postData(Urls.GET_COMMITTEE_DOCSTORE_BY_LINK, attachmentModel, 'blob');
+  downloadImage(fileDTO: FileDTO): Observable<any>{
+    return this.postData(Urls.GET_DOCSTORE_BY_LINK, fileDTO, 'blob');
   }
 }

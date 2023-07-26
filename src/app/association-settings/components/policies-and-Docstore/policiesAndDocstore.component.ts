@@ -14,6 +14,7 @@ import { PoliciesAndDocstorePopupComponent } from "./policiesAndDocstore-popup/p
 import { AssociationDocstoreDTO } from "app/models/assocationAttachmmentDTO";
 import { AssocationAttachmentService } from "app/association-settings/services/assocation-attachment-service/assocationAttachment.service";
 import { FormControl } from "@angular/forms";
+import { FileDTO } from "app/models/FileDTO";
 
 @Component({
   selector: "app-policiesAndDocstore",
@@ -85,7 +86,10 @@ export class PoliciesAndDocstoreComponent
   }
 
   handleViewAttachment(row: any) {
-    this.assocationAttachmentService.downloadImage(row).subscribe((response: any) => {
+
+    let fileDTO= new FileDTO();
+    fileDTO.docLink = row.docLink;
+    this.assocationAttachmentService.downloadImage(fileDTO).subscribe((response: any) => {
       const url = window.URL.createObjectURL(
         new Blob([response], { type: "application/pdf" })
       );

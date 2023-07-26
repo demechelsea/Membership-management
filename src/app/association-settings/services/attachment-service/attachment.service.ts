@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
+import { FileDTO } from 'app/models/FileDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
 import { CommitteeDocstoreDTO } from 'app/models/committeeDocstoreDTO';
 import { PageModel } from 'app/models/page-model';
@@ -38,8 +39,9 @@ export class AttachmentService extends HttpAppDataService {
     return this.postData(Urls.DELETE_COMMITTEE_DOCSTORE, attachmentModel);
   }
 
-  downloadImage(attachmentModel: CommitteeDocstoreDTO): Observable<any>{
-    return this.postData(Urls.GET_COMMITTEE_DOCSTORE_BY_LINK, attachmentModel, 'blob');
+  downloadImage(fileModel: FileDTO): Observable<any>{
+
+    return this.postData(Urls.GET_DOCSTORE_BY_LINK, fileModel, 'blob');
   }
   
 

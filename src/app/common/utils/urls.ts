@@ -54,7 +54,9 @@ export class Urls {
      public static REGISTER_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createCommitteeDocstore";
      public static UPDATE_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateCommitteeDocstore";
      public static DELETE_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteCommitteeDocstore";
-     public static GET_COMMITTEE_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCommitteeDocByLink";
+     public static GET_COMMITTEE_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/downloadFile";
+     public static GET_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/downloadFile";
+
 
      public static EMAIL_SETTINGS_REGISTER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emailSettingRegister";
      public static EMAIL_SETTINGS_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/retrieveEmailSettingByAssoc";
