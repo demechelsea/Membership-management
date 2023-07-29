@@ -69,7 +69,7 @@
     </ng-container>
     <ng-template #plainText>
       <ng-container *ngIf="columnDef.dataKey === 'displayToPublicFlg'; else otherText">
-        <mat-slide-toggle [checked]="convertToBoolean(row.displayToPublicFlg)" (change)="onShowToPublicToggleChange(row)">
+        <mat-slide-toggle [checked]="convertToBoolean(row.displayToPublicFlg)" (change)="onShowToPublicToggleChange($event, row)">
         </mat-slide-toggle>               
       </ng-container>
       <ng-template #otherText>

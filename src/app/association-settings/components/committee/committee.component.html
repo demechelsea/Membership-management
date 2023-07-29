@@ -36,9 +36,7 @@
           [isFilterable]="false"
           [isPageable]="true"
           [page]="page"
-          (rowAction)="emitRowAction($event)"
-          (viewEvent)="viewCommittee($event)"
-          (editEvent)="editCommittee($event)"
+          (rowAction)="executeRowActions($event)"
           [tableType]="'committee'"
         >
         </sorax-table-view>

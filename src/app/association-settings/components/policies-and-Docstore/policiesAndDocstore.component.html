@@ -30,10 +30,9 @@
   [page]="page"
   (pageEvent)="pageChangeEvent($event)"
   (sortEvent)="sortData($event)"
-  (deleteEvent)="deleteAssocationAttachments($event)"
   [tableType]="'assocationAttachment'"
+  (rowAction)="executeRowActions($event)"
   (showToPublicToggleChange)="onShowToPublicToggleChange($event)"
-  (viewEvent)="handleViewAttachment($event)"
 
 >
 </sorax-table-view>

@@ -140,15 +140,23 @@
               label="Position start date"
               [soraxFormControl]="committeeMemberForm.get('startDate')"
             >
+            <div class="flex flex-row">
               <input
                 #soraxInput
                 matInput
+                [matDatepicker]="startDatePicker"
                 formControlName="startDate"
                 name="startDate"
-                type="date"
                 placeholder="Enter committee start date"
               />
-            </sorax-form-field>
+              <mat-datepicker-toggle
+              matSuffix
+              [for]="startDatePicker"
+              class="h-10"
+            ></mat-datepicker-toggle>
+          </div>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </sorax-form-field>
           </div>
 
           <div *ngIf="!data.isNew" class="w-full md:w-1/1 pr8">
@@ -166,16 +174,23 @@
             [soraxFormControl]="committeeMemberForm.get('endDate')"
             *ngIf="committeeMemberForm.get('status').value === 'Inactive'"
           >
-            <input
-              #soraxInput
-              matInput
-              formControlName="endDate"
-              type="date"
-              placeholder="Enter committee end date"
-              [min]="minEndDate"
-            />
+            <div class="flex flex-row">
+              <input
+                #soraxInput
+                matInput
+                [matDatepicker]="endDatePicker"
+                formControlName="endDate"
+                placeholder="Enter committee end date"
+                [min]="minEndDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+                class="h-10"
+              ></mat-datepicker-toggle>
+            </div>
+            <mat-datepicker #endDatePicker></mat-datepicker>
           </sorax-form-field>
-
           <div class="flex justify-between">
             <div class="w-full md:w-1/1 pr8" style="width: 60%">
               <mat-slide-toggle

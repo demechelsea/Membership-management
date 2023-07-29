@@ -96,7 +96,7 @@
       [isFilterable]="false"
       [isPageable]="true"
       [page]="page"
-      (editEvent)="editSMSTemplate($event)"
+      (rowAction)="executeSystemTemplatesRowActions($event)"
       [tableType]="'SmsTemplate'"
     >
     </sorax-table-view>
@@ -152,7 +152,7 @@
       [page]="page"
       (pageEvent)="smsUnsubscriptionPageChangeEvent($event)"
       (sortEvent)="smsUnsubscriptionSortData($event)"
-      (deleteEvent)="deleteUnsubscribeSmsList($event)"
+      (rowAction)="executeSMSUnsubscriptionRowActions($event)"
       [tableType]="'smsUnsubscription'"
     >
     </sorax-table-view>
@@ -178,6 +178,7 @@
       [page]="page"
       (pageEvent)="smsmHistoryPageChangeEvent($event)"
       (sortEvent)="smsHistorySortData($event)"
+      (rowAction)="executeSMSHistoryRowActions($event)"
     >
     </sorax-table-view>
 

@@ -1,5 +1,6 @@
+import { MessageWrapModel } from "./messageWrapModel";
 
-export class AssociationDocstoreDTO {
+export class AssociationDocstoreDTO extends MessageWrapModel{
     assocId:number;
     docType: String;
     docName: String;

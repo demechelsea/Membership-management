@@ -56,6 +56,7 @@ export class Urls {
      public static DELETE_COMMITTEE_DOCSTORE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteCommitteeDocstore";
      public static GET_COMMITTEE_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/downloadFile";
      public static GET_DOCSTORE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/downloadFile";
+     public static GET_IMAGE_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/downloadImageFile";
 
 
      public static EMAIL_SETTINGS_REGISTER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/email/emailSettingRegister";

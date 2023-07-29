@@ -200,8 +200,22 @@ export class EmailComponent extends BaseComponent implements OnInit {
     }
   }
 
-  editEmailTemplate(row: any) {
-    this.openEmailTemplatePopUp(row, false);
+  executeSystemTemplatesRowActions(row: EmailTemplateDTO) {
+    if (row.performAction == "Edit") {
+      this.openEmailTemplatePopUp(row, false);
+    }
+  }
+
+  executeEmailUnsubscriptionRowActions(row: EmailSubscriptionDTO) {
+    if (row.performAction == "Delete") {
+      this.deleteUnsubscribeEmailList(row)
+    }
+  }
+
+  executeEmailHistoryRowActions(row: EmailHistoryDTO) {
+    if (row.performAction == "View") {
+      this.showEmailContent(row)
+    }
   }
 
   openEmailTemplatePopUp(data?: EmailTemplateDTO, isNew?: boolean) {

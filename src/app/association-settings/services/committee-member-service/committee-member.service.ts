@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
+import { FileDTO } from 'app/models/FileDTO';
 import CommitteeDTO from 'app/models/committeeDTO';
 import { CommitteeMemberDTO } from 'app/models/committeeMemberDTO';
 import { PageModel } from 'app/models/page-model';
@@ -30,11 +31,7 @@ export class CommitteeMemberService extends HttpAppDataService {
     return this.postData(Urls.COMMITTEE_MEMBER_LIST, requestData);
   }
 
-
-
   createCommitteeMember(plan: FormData): Observable<any> {
-    console.log("servive", plan);
-    
     return this.postData(Urls.REGISTER_COMMITTEE_MEMBER, plan);
   }
 
@@ -43,6 +40,8 @@ export class CommitteeMemberService extends HttpAppDataService {
   }
 
   downloadImage(attachmentModel: CommitteeMemberDTO): Observable<any>{
-    return this.postData(Urls.GET_COMMITTEE_MEMBER_PHOTO_BY_LINK, attachmentModel, 'blob');
+    let fileDto= new FileDTO();
+    fileDto.docLink = attachmentModel.photoLink
+    return this.postData(Urls.GET_DOCSTORE_BY_LINK, fileDto, 'blob');
   }
 }

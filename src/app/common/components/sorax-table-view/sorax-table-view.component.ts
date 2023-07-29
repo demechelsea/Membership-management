@@ -6,6 +6,7 @@ import { PageModel } from 'app/models/page-model';
 import { SoraxColumnDefinition } from './sorax-column-definition';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'sorax-table-view',
@@ -42,9 +43,6 @@ export class SoraxTableViewComponent implements OnInit {
   @Output() sortEvent: EventEmitter<Sort> = new EventEmitter();
   @Output() pageEvent: EventEmitter<PageEvent> = new EventEmitter();
   @Output() rowAction: EventEmitter<any> = new EventEmitter<any>();
-  @Output() viewEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() editEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() deleteEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() showToPublicToggleChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() set tableData(data: any[]) {
@@ -61,19 +59,23 @@ export class SoraxTableViewComponent implements OnInit {
     
   }
 
-  convertToBoolean(str: string): boolean {
-    return str === "Y" ? true : false;
-  }
+
   
 
   getCellClass(position: String) {
     return position == 'right' ? "header-align-right" : "header-align-left";
   }
 
-  onShowToPublicToggleChange(row: any) {
+  onShowToPublicToggleChange(display: MatSlideToggleChange, row: any) {
+    row.displayToPublicFlg = display.checked;
     this.showToPublicToggleChange.emit(row);
   }
-
+  
+  convertToBoolean(str: string): boolean {
+    const result = str === "Y" ? true : false;
+    return result;
+  }
+  
   formatedValue(rowData: any, columnDefs: SoraxColumnDefinition) {
     if (columnDefs.dataKey === 'endDate' && rowData.status === 'Active' && this.tableType === 'committee') {
       return '-';

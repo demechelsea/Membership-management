@@ -85,6 +85,14 @@ export class PoliciesAndDocstoreComponent
     }
   }
 
+  executeRowActions(row: AssociationDocstoreDTO) {
+    if (row.performAction == "View") {
+      this.handleViewAttachment(row)
+    } else if (row.performAction == "Delete") {
+      this.deleteAssocationAttachments(row)
+    }
+  }
+
   handleViewAttachment(row: any) {
 
     let fileDTO= new FileDTO();

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -15,6 +15,7 @@ import committeeDTO from "app/models/committeeDTO";
 import { CommitteeService } from "app/association-settings/services/committee-service/committee.service";
 import * as moment from "moment";
 import { NotificationService } from "app/common/services/notification.service";
+import { MatDatepicker } from "@angular/material/datepicker";
 
 @Component({
   selector: "committee-component-popup",
@@ -28,7 +29,9 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
   public intervals: LableValueModel[] = [];
   public isLoading: boolean;
   public noResults: boolean;
-  filteredIntervals$: Observable<LableValueModel[]>;
+  
+  @ViewChild('startDatePicker') startDatePicker: MatDatepicker<Date>;
+  @ViewChild('endDatePicker') endDatePicker: MatDatepicker<Date>;
 
   buttonText = "Create a committee";
   minEndDate: string;

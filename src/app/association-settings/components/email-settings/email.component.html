@@ -30,7 +30,7 @@
             <mat-label class="text-gray-600"
               >Password will be encrypted</mat-label
             >
-            <input matInput disabled class="p-2" />
+            <input type="password" matInput disabled class="p-2" />
           </mat-form-field>
           <mat-form-field class="w-full md:w-1/2 pr-8 mb-4">
             <mat-label class="text-gray-600">Reply to Email address</mat-label>
@@ -88,7 +88,7 @@
       [isFilterable]="false"
       [isPageable]="true"
       [page]="page"
-      (editEvent)="editEmailTemplate($event)"
+      (rowAction)="executeSystemTemplatesRowActions($event)"
       [tableType]="'EmailTemplate'"
     >
     </sorax-table-view>
@@ -146,7 +146,7 @@
       [page]="page"
       (pageEvent)="emailUnsubscriptionPageChangeEvent($event)"
       (sortEvent)="emailUnsubscriptionSortData($event)"
-      (deleteEvent)="deleteUnsubscribeEmailList($event)"
+      (rowAction)="executeEmailUnsubscriptionRowActions($event)"
       [tableType]="'emailUnsubscription'"
     >
     </sorax-table-view>
@@ -171,6 +171,7 @@
       [isFilterable]="false"
       [isPageable]="true"
       [page]="page"
+      (rowAction)="executeEmailHistoryRowActions($event)"
       (pageEvent)="emailHistoryPageChangeEvent($event)"
       (sortEvent)="emailHistorySortData($event)"
     >

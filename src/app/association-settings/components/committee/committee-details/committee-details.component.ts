@@ -47,6 +47,10 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   committeMemberResultViewModel: ResultViewModel = new ResultViewModel();
   attachmentResultViewModel: ResultViewModel = new ResultViewModel();
 
+  public committeeMembersPage: any;
+  public attachmentsPage: any;
+
+
   rowAction: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
@@ -90,7 +94,6 @@ export class DetailsComponent extends BaseComponent implements OnInit {
       .getCommitteeMembers(this.page, this.selectedRow.id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        console.log(response.result);
         Object.assign(this.committeMemberResultViewModel, response);
         Object.assign(this.page, this.committeMemberResultViewModel.page);
         this.listCommitteeMembers = this.committeMemberResultViewModel.result;
@@ -137,8 +140,18 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     return years * 12 + months;
   }
 
-  editCommitteeMember(row: any) {
-    this.openCommitteeMemberPopUp(row, false);
+  executeCommitteeMemberRowActions(row: CommitteeMemberDTO) {
+    if (row.performAction == "Edit") {
+      this.openCommitteeMemberPopUp(row, false);
+    }
+  }
+
+  executeAttachmentRowActions(row: CommitteeDocstoreDTO) {
+    if (row.performAction == "View") {
+      this.handleViewAttachment(row);
+    } else if (row.performAction == "Delete") {
+      this.deleteAttachments(row);
+    }
   }
 
   openCommitteeMemberPopUp(data?: CommitteeMemberDTO, isNew?: boolean) {
@@ -158,7 +171,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
           associationMemberId: data?.associationMember?.id,
           positionId: data?.committeePosition?.id,
           selectedCommitteeMember: data.id,
-          photoLink: data.photoLink
+          photoLink: data.photoLink,
         },
       }
     );
@@ -221,8 +234,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   }
 
   handleViewAttachment(row: any) {
-
-    let fileDTO= new FileDTO();
+    let fileDTO = new FileDTO();
     fileDTO.docLink = row.docLink;
     this.attachmentService.downloadImage(fileDTO).subscribe((response: any) => {
       const url = window.URL.createObjectURL(
@@ -250,7 +262,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     this.getAttachmentData();
   }
 
-  committeeMemeberPageChangeEvent(event: PageEvent) {
+  committeeMemberPageChangeEvent(event: PageEvent) {
     this.page.pageSize = event.pageSize;
     this.page.currentPage = event.pageIndex;
     this.getCommitteeMembersData();

@@ -23,30 +23,48 @@
             label="Committee start date"
             [soraxFormControl]="committeeForm.get('startDate')"
           >
-            <input
-              #soraxInput
-              matInput
-              formControlName="startDate"
-              type="date"
-              placeholder="Enter committee start date"
-            />
+            <div class="flex flex-row">
+              <input
+                #soraxInput
+                matInput
+                [matDatepicker]="startDatePicker"
+                formControlName="startDate"
+                placeholder="Enter committee start date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startDatePicker"
+                class="h-10"
+              ></mat-datepicker-toggle>
+            </div>
+            <mat-datepicker #startDatePicker></mat-datepicker>
           </sorax-form-field>
         </div>
+
         <div class="w-full md:w-1/2 pr-16">
           <sorax-form-field
             label="Committee end date"
             [soraxFormControl]="committeeForm.get('endDate')"
           >
-            <input
-              #soraxInput
-              matInput
-              formControlName="endDate"
-              type="date"
-              placeholder="Enter committee end date"
-              [min]="minEndDate"
-            />
+            <div class="flex flex-row">
+              <input
+                #soraxInput
+                matInput
+                [matDatepicker]="endDatePicker"
+                formControlName="endDate"
+                placeholder="Enter committee end date"
+                [min]="minEndDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="endDatePicker"
+                class="h-10"
+              ></mat-datepicker-toggle>
+            </div>
+            <mat-datepicker #endDatePicker></mat-datepicker>
           </sorax-form-field>
         </div>
+
         <div class="w-full md:w-1/1 pr-16">
           <sorax-form-field
             label="Number of committee members"

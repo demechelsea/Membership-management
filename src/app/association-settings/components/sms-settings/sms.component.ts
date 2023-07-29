@@ -135,8 +135,25 @@ export class SmsComponent extends BaseComponent implements OnInit {
       this.smsUnsubscribedListData = this.listSmsUnsubscribe;
     }
   }
+  executeSystemTemplatesRowActions(row: MessageTemplateDTO) {
+    if (row.performAction == "Edit") {
+      this.openSMSTemplatePopUp(row);
+    }
+  }
 
-  showEmailContent(data: MessageHistoryDTO) {
+  executeSMSUnsubscriptionRowActions(row: MessageSubscriptionDTO) {
+    if (row.performAction == "Delete") {
+      this.deleteUnsubscribeList(row)
+    }
+  }
+
+  executeSMSHistoryRowActions(row: MessageHistoryDTO) {
+    if (row.performAction == "View") {
+      this.showSMSContent(row)
+    }
+  }
+
+  showSMSContent(data: MessageHistoryDTO) {
     this.smsContent = true;
     this.buildSmsHistoryForm(data);
   }
@@ -390,7 +407,7 @@ export class SmsComponent extends BaseComponent implements OnInit {
           position: "left",
           isSortable: true,
           clickEvent: (data) => {
-            this.showEmailContent(data);
+            this.showSMSContent(data);
           },
         },
         {

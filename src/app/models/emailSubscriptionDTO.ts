@@ -1,5 +1,7 @@
 import { AssociationDTO } from "./AssociationDTO";
-export class EmailSubscriptionDTO  {
+import { MessageWrapModel } from "./messageWrapModel";
+
+export class EmailSubscriptionDTO extends MessageWrapModel {
     emailId: string;
     eventsFlag: string;
     promotionalFlag: string;

@@ -68,10 +68,9 @@
               [isFilterable]="false"
               [isPageable]="true"
               [page]="page"
-              (pageEvent)="committeeMemeberPageChangeEvent($event)"
+              (pageEvent)="committeeMemberPageChangeEvent($event)"
               (sortEvent)="committeeSortData($event)"
-              (editEvent)="editCommitteeMember($event)"
-              (rowAction)="emitRowAction($event)"
+              (rowAction)="executeCommitteeMemberRowActions($event)"
               [tableType]="'member'"
             >
             </sorax-table-view>
@@ -100,9 +99,7 @@
               [page]="page"
               (pageEvent)="attachmentPageChangeEvent($event)"
               (sortEvent)="attachmentSortData($event)"
-              (rowAction)="emitRowAction($event)"
-              (deleteEvent)="deleteAttachments($event)"
-              (viewEvent)="handleViewAttachment($event)"
+              (rowAction)="executeAttachmentRowActions($event)"
               [tableType]="'attachment'"
             >
             </sorax-table-view>
@@ -111,4 +108,5 @@
       </div>
     </div>
   </div>
+
 </div>

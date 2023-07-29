@@ -24,6 +24,7 @@ import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ViewChild } from "@angular/core";
 import { MatTabGroup } from "@angular/material/tabs";
 import { opencommitteeMemberPopupService } from "app/association-settings/services/opencommitteeMemberPopup-service/opencommitteeMemberPopup.service";
+import CommitteeDTO from "app/models/committeeDTO";
 
 @Component({
   selector: "app-committee",
@@ -89,13 +90,13 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     this.ngUnsubscribe$.complete();
   }
 
-  viewCommittee(row: any) {
-    this.selectedRow = row;
-    this.showDetails = true;
-  }
-
-  editCommittee(row: any) {
-    this.openCommitteePopUp(row, false);
+  executeRowActions(row: CommitteeDTO) {
+    if (row.performAction == "View") {
+      this.selectedRow = row;
+      this.showDetails = true;
+    } else if(row.performAction == "Edit") {
+      this.openCommitteePopUp(row, false);
+    }
   }
 
   onAddPosition() {
