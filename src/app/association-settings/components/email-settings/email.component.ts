@@ -1,14 +1,9 @@
-import {
-  Component,
-  OnInit
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
-import { AppConfirmService } from "app/common/services/app-confirm.service";
-import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { ResultViewModel } from "app/models/result-view-model";
@@ -50,6 +45,8 @@ export class EmailComponent extends BaseComponent implements OnInit {
   public emailUnsubscribedListsColumn: SoraxColumnDefinition[];
   public emailHistoryColumn: SoraxColumnDefinition[];
 
+  public SMTPForm: FormGroup;
+
   public listTemplateEmails: EmailTemplateDTO[];
   public listEmailUnsubscribed: EmailSubscriptionDTO[];
   public listEmailHistory: EmailHistoryDTO[];
@@ -73,9 +70,7 @@ export class EmailComponent extends BaseComponent implements OnInit {
     private emailTemplateService: EmailTemplateService,
     private emailUnsubscribeService: EmailUnsubscriptionService,
     private emailHistoryService: EmailHistoryService,
-    private loader: AppLoaderService,
-    private formBuilder: FormBuilder,
-    private confirmService: AppConfirmService
+    private formBuilder: FormBuilder
   ) {
     super();
   }
@@ -83,6 +78,20 @@ export class EmailComponent extends BaseComponent implements OnInit {
     this.initializeColumns();
     this.buildEmailUnsubscribeListForm(new EmailSubscriptionDTO());
     this.buildEmailHistoryForm(new EmailHistoryDTO());
+    this.buildSMTPForm(new EmailSettingDTO());
+
+    this.emailSettingService.getEmailSetting().subscribe(data => {
+      const emailSetting = data.result; // Replace "result" with the appropriate property name
+      this.SMTPForm.patchValue({
+        smtpHost: emailSetting.smtpHost,
+        port: emailSetting.port,
+        replyToEmail: emailSetting.replyToEmail,
+        emailId: emailSetting.emailId,
+        password: emailSetting.password,
+        signiture: emailSetting.signiture,
+      });
+    });
+    
   }
 
   ngOnDestroy() {
@@ -98,6 +107,25 @@ export class EmailComponent extends BaseComponent implements OnInit {
     } else if (event.index === 3) {
       this.getEmailHistoryData();
     }
+  }
+
+  buildSMTPForm(emailSettingdata: EmailSettingDTO) {
+    this.SMTPForm = this.formBuilder.group({
+      id: [emailSettingdata.id, Validators.required],
+      smtpHost: [emailSettingdata.smtpHost, Validators.required],
+      port: [emailSettingdata.port, Validators.required],
+      replyToEmail: [emailSettingdata.replyToEmail, Validators.required],
+      signiture: [emailSettingdata.signiture, Validators.required],
+      emailId: [emailSettingdata.emailId, Validators.required],
+      password: [emailSettingdata.password, Validators.required],
+    });
+
+    this.SMTPForm.get("smtpHost").disable();
+    this.SMTPForm.get("port").disable();
+    this.SMTPForm.get("replyToEmail").disable();
+    this.SMTPForm.get("emailId").disable();
+    this.SMTPForm.get("password").disable();
+    this.SMTPForm.get("signiture").disable();
   }
 
   buildEmailUnsubscribeListForm(emailSubscriptionData: EmailSubscriptionDTO) {
@@ -164,8 +192,10 @@ export class EmailComponent extends BaseComponent implements OnInit {
       .getEmailTemplates(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        this.listTemplateEmails = response.result;
-        this.emailTemplateData = this.listTemplateEmails;
+        if (response.result != null) {
+          this.listTemplateEmails = response.result;
+          this.emailTemplateData = this.listTemplateEmails;
+        }
       });
   }
 
@@ -174,10 +204,12 @@ export class EmailComponent extends BaseComponent implements OnInit {
       .getEmailHistoryList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        Object.assign(this.historyResultViewModel, response);
-        Object.assign(this.page, this.historyResultViewModel.page);
-        this.listEmailHistory = this.historyResultViewModel.result;
-        this.emailHistoryData = this.listEmailHistory;
+        if (response.result != null) {
+          Object.assign(this.historyResultViewModel, response);
+          Object.assign(this.page, this.historyResultViewModel.page);
+          this.listEmailHistory = this.historyResultViewModel.result;
+          this.emailHistoryData = this.listEmailHistory;
+        }
       });
   }
 
@@ -186,10 +218,13 @@ export class EmailComponent extends BaseComponent implements OnInit {
       .getEmailUnsubscribedList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        Object.assign(this.unsubscribeListResultViewModel, response);
-        Object.assign(this.page, this.unsubscribeListResultViewModel.page);
-        this.listEmailUnsubscribed = this.unsubscribeListResultViewModel.result;
-        this.emailUnsubscribedListstData = this.listEmailUnsubscribed;
+        if (response.result != null) {
+          Object.assign(this.unsubscribeListResultViewModel, response);
+          Object.assign(this.page, this.unsubscribeListResultViewModel.page);
+          this.listEmailUnsubscribed =
+            this.unsubscribeListResultViewModel.result;
+          this.emailUnsubscribedListstData = this.listEmailUnsubscribed;
+        }
       });
   }
   committeeExecuteRowActions(rowData: CommitteeMemberDTO) {
@@ -208,13 +243,13 @@ export class EmailComponent extends BaseComponent implements OnInit {
 
   executeEmailUnsubscriptionRowActions(row: EmailSubscriptionDTO) {
     if (row.performAction == "Delete") {
-      this.deleteUnsubscribeEmailList(row)
+      this.deleteUnsubscribeEmailList(row);
     }
   }
 
   executeEmailHistoryRowActions(row: EmailHistoryDTO) {
     if (row.performAction == "View") {
-      this.showEmailContent(row)
+      this.showEmailContent(row);
     }
   }
 
