@@ -1,0 +1,128 @@
+<mat-tab-group
+        #tabGroup
+        (selectedTabChange)="onTabChange($event)"
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+        color="primary"
+>
+  <mat-tab>
+    <ng-template mat-tab-label>Active Events</ng-template>
+    <div
+            class="m-12"
+            [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+            style="text-align: right"
+            *ngIf="!showDetails"
+    >
+      <button
+              mat-raised-button
+              class="mb-8"
+              color="primary"
+              align="right"
+              (click)="openEventPopUp({}, true)"
+      >
+        Create a New Event
+      </button>
+    </div>
+    <mat-card
+            class="p-0"
+            [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+    >
+      <mat-card-content class="p-0">
+        <app-event-card *ngFor="let event of eventList" [event]="event"></app-event-card>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>Past Events</ng-template>
+    <div
+            class="m-12"
+            [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+            style="text-align: right"
+    >
+      <button
+              mat-raised-button
+              class="mb-8"
+              color="primary"
+              align="right"
+              (click)="openPositionPopUp({}, true)"
+      >
+        Add a New Event
+      </button>
+    </div>
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-card
+              *ngFor="let position of positions"
+              cdkDrag
+              [ngStyle]="{ 'background-color': 'rgb(34,42,69)', width: '50%' }"
+      >
+        <div style="display: flex; align-items: center">
+          <div [ngStyle]="{ color: 'white' }" class="p-4">
+            {{ position.positionName }}
+          </div>
+          <div style="flex: 1"></div>
+          <button
+                  mat-icon-button
+                  (click)="openPositionPopUp(position, false)"
+                  [ngStyle]="{ color: 'white' }"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+                  mat-icon-button
+                  (click)="delete(position)"
+                  [ngStyle]="{ color: 'red' }"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>Coupons</ng-template>
+    <div
+            class="m-12"
+            [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+            style="text-align: right"
+    >
+      <button
+              mat-raised-button
+              class="mb-8"
+              color="primary"
+              align="right"
+              (click)="openEventPopUp({}, true)"
+      >
+        Create a New Event
+      </button>
+    </div>
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-card
+              *ngFor="let position of positions"
+              cdkDrag
+              [ngStyle]="{ 'background-color': 'rgb(34,42,69)', width: '50%' }"
+      >
+        <div style="display: flex; align-items: center">
+          <div [ngStyle]="{ color: 'white' }" class="p-4">
+            {{ position.positionName }}
+          </div>
+          <div style="flex: 1"></div>
+          <button
+                  mat-icon-button
+                  (click)="openPositionPopUp(position, false)"
+                  [ngStyle]="{ color: 'white' }"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+                  mat-icon-button
+                  (click)="delete(position)"
+                  [ngStyle]="{ color: 'red' }"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>

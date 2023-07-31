@@ -56,6 +56,17 @@ export const rootRouterConfig: Routes = [
     ]
   },
   {
+    path: '',
+    component: SoraxAdminLayoutComponent,
+    canActivate: [SoraxAuthGuard],
+    children: [
+      {
+        path: 'event-management',
+        loadChildren: () => import('app/event-management/event.management.module').then(m => m.EventManagementModule),
+      },
+    ]
+  },
+  {
     path: 'underdev',
     component: SoraxAdminLayoutComponent,
     canActivate: [SoraxAuthGuard],

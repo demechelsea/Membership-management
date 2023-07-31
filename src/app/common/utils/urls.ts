@@ -119,6 +119,8 @@ export class Urls {
      public static UPDATE_WEBSITE_INFO_STATUS: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/updateWebsiteInfoStatus";
      public static WEBSITE_INFO_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/retrieveWebsiteInfo";
 
+     public static ACTIVE_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/active";
+     public static EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events";
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 

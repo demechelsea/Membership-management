@@ -94,6 +94,13 @@ export class NavigationService {
       icon: 'build',
       state: 'builder/viewWebSites'
     },
+    {
+      name: 'Event Management',
+      type: 'link',
+      tooltip: 'Event Management',
+      icon: 'event',
+      state: 'event-management/viewEvents'
+    },
     
   ];
 

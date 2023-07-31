@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^16.0.5",
     "@angular/router": "^16.0.5",
     "@juggle/resize-observer": "^3.4.0",
+    "@kolkov/angular-editor": "^3.0.0-beta.0",
     "@ngrx/effects": "^16.0.1",
     "@ngrx/entity": "^16.0.1",
     "@ngrx/router-store": "^16.0.1",

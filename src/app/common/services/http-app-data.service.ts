@@ -66,7 +66,7 @@ export class HttpAppDataService extends BaseService {
         httpHeaders = httpHeaders.set(keyValueObj.id, keyValueObj.name);
       }
     }
-    //httpHeaders = httpHeaders.set("Content-Type", "application/json");
+    httpHeaders = httpHeaders.set("Content-Type", "application/json");
     return httpHeaders;
   }
 
