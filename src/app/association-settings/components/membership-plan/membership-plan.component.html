@@ -8,10 +8,9 @@
   </button>
 </div>
 <mat-card
-  class="p-0"
   [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
 >
-  <mat-card-content class="p-0">
+  <mat-card-content >
     <sorax-table-view
       [tableData]="membershipPlanData"
       [tableColumns]="membershipColumns"

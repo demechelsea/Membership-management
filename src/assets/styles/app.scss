@@ -157,40 +157,10 @@ html {
     pointer-events: none;
 }
 
-
 .mdc-floating-label--float-above {
     transform: translateY(-170%) scale(0.75) !important;
 }
 
-.pb18 {
-    padding-bottom: 18px !important;
-}
-
-.pb8{
-    padding-bottom: 8px !important;
-}
-.pb10{
-    padding-bottom: 10px !important;
-}
-
-.pt18 {
-    padding-top: 18px;
-}
-
-.pr0 {
-    padding-right: 0px !important;
-}
-.pr8 {
-    padding-right: 8px !important;
-}
-
-.padround18 {
-    padding: 18px;
-}
-
-.padround8 {
-    padding: 8px;
-}
 
 .mat-table .mat-mdc-table .mdc-data-table__table {
     width: 100%;
@@ -217,17 +187,36 @@ html {
     background-color: #eef0f7;
 }
 
-.egret-navy .mat-header-cell .mat-mdc-header-cell .mdc-data-table__header-cell {
+.egret-navy .mat-header-cell .mat-mdc-header-cell {
     border-left: 1px solid #eef0f7 !important;
-    background-color: #ccd2e5 !important;
-    color: #5a5f75 !important;
+    background-color: #ccd2e6 !important;
+    color: #2a3455 !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
     font-size: 13px !important;
 }
 
-.mat-cell .mat-mdc-cell .mdc-data-table__cell {
-    border-left: 1px solid #ccd2e5;
+.mdc-data-table__header-cell {
+    border-left: 1px solid #eef0f7 !important;
+    background-color: #ccd2e6 !important;
+    color: #2a3455 !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    font-size: 13px !important;
+}
+
+.mat-cell .mat-mdc-cell{
+    border-left: 1px solid #dde1ee;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    font-size: 13px;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+}
+
+.mdc-data-table__cell {
+    border-left: 1px solid #dde1ee;
     padding-left: 5px !important;
     padding-right: 5px !important;
     font-size: 13px;
@@ -259,23 +248,20 @@ html {
 }
 
 .mat-mdc-autocomplete-panel .mat-mdc-option:hover {
-    background-color: #ccd2e5 !important;
+    background-color: #dde1ee !important;
 }
 
 .mat-mdc-option.mat-mdc-active:not(.mat-mdc-option-disabled) {
-    background-color: #ccd2e5 !important;
+    background-color: #dde1ee !important;
 }
 
 .mat-mdc-list-item-content:hover {
-    background-color: #ccd2e5;
+    background-color: #dde1ee;
 }
 
+/**** Start Mat Tabs Styles *****/
 .mat-mdc-tab-group {
     width: 100%;
-}
-
-.mat-mdc-tab-header {
-    border-bottom: 1px solid #ccc;
 }
 
 .mat-mdc-tab-label {
@@ -285,8 +271,102 @@ html {
 .mat-tab-label-active {
     background-color: #ffffff; 
     color: #007bff;
-  }
+}
   
- .mat-mdc-tab.mdc-tab {
-    border-right: 1px solid #ccc !important;
+.mat-mdc-tab.mdc-tab {
+    border-right: 1px solid #ffffff !important;
+    border-left: 1px solid #ffffff !important;
+    border-top: 1px solid #ffffff !important;
+
+}
+
+
+.mdc-tab__content {
+    height: 35px !important;
+}
+
+.mat-mdc-tab-header{
+    background-color: #8796c4; 
+}
+
+.mat-mdc-tab-header{
+    border-bottom: 1px solid #ccc;
+    height: 35px !important;
+}
+
+.mdc-tab-indicator{
+    height: 34px !important;
+}
+
+.mdc-tab--active{
+    background-color: #323f67 !important;
+} 
+
+.mdc-tab--inactive{
+    background-color: #ff8a48 !important;
+} 
+
+.egret-navy .mat-mdc-tab-group, .egret-navy .mat-mdc-tab-nav-bar {
+    --mdc-tab-indicator-active-indicator-color: #ff8a48;
+    --mat-tab-header-disabled-ripple-color: #323f67;
+    --mat-tab-header-pagination-icon-color: #323f67;
+    --mat-tab-header-inactive-label-text-color: #000000;
+    --mat-tab-header-active-label-text-color: #ffffff;
+    --mat-tab-header-active-ripple-color: #323f67;
+    --mat-tab-header-inactive-ripple-color: #323f67;
+    --mat-tab-header-inactive-focus-label-text-color: #000000;
+    --mat-tab-header-inactive-hover-label-text-color: #000000;
+    --mat-tab-header-active-focus-label-text-color: #ffffff;
+    --mat-tab-header-active-hover-label-text-color: #ffffff;
+    --mat-tab-header-active-focus-indicator-color: #ff8a48;
+    --mat-tab-header-active-hover-indicator-color: #ff8a48;
+}
+
+/**** End Mat Tabs Styles *****/
+.mat-mdc-card-content{
+    padding: 3px !important;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 55px !important;
+    vertical-align: middle !important;
+}
+
+.mat-mdc-card-header{
+    padding: 0px !important;
+}
+
+.mat-mdc-card-title{
+    padding: 10px !important;
+}
+
+
+.pb18 {
+    padding-bottom: 18px !important;
+}
+
+.pb8{
+    padding-bottom: 8px !important;
+}
+.pb10{
+    padding-bottom: 10px !important;
+}
+
+.pt18 {
+    padding-top: 18px;
+}
+
+.pr0 {
+    padding-right: 0px !important;
+}
+.pr8 {
+    padding-right: 8px !important;
+}
+
+.padround18 {
+    padding: 18px;
+}
+
+.padround8 {
+    padding: 8px;
 }

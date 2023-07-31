@@ -3,7 +3,7 @@
   width: 45px;
   height: 12px;
   border-radius: 10px;
-  border: 1px solid #666;
+  border: 1px solid #ffffff;
   cursor: pointer;
   z-index: 999999;
   opacity: 1;
@@ -12,18 +12,22 @@
     position: absolute;
     left: 1px;
     top: 1px;
+    right: 1px;
     display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #666;
+    background: #ffffff;
     transition: all $sidebarTrnTime $transitionTiming;
   }
   &.active {
-    background: #444;
+    background: #ffffff;
+    border: 1px solid #ff8a48;
+    right: 1px;
     span {
       left: 34px;
-      background: #ffffff;
+      background: #ff8a48;
+      
     }
   }
 }
@@ -39,7 +43,7 @@
   top: 48px;
   left: 0;
   z-index: 999;
-  color: #444;
+  color: #323f67;
   background: #ffffff;
   transition: all $sidebarTrnTime $transitionTiming;
   overflow: hidden;

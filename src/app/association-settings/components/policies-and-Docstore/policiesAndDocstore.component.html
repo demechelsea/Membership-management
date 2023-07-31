@@ -1,38 +1,39 @@
-<div class="flex justify-start m-8">
-  <sorax-form-field [label]="'Filter By'" [soraxFormControl]="filterControl">
-    <input #soraxInput matInput [(ngModel)]="filterText" />
-  </sorax-form-field>
-  <button mat-raised-button color="primary" (click)="applyAttachmentFilter()">
-    Filter List
-  </button>
+<div [@animate]="{ value: '*', params: { y: '60px', delay: '300ms' } }" class="flex justify-between">
+	<div class="flex justify-start m-8">
+	  <sorax-form-field [label]="'Filter By'" class="pr-4" [soraxFormControl]="filterControl">
+		<input #soraxInput matInput [(ngModel)]="filterText" />
+	  </sorax-form-field>
+	  <button mat-raised-button color="primary" (click)="applyAttachmentFilter()">
+		Filter List
+	  </button>
+	</div>
+	<div class="m-8">
+		<div class="flex">
+				<button
+				mat-raised-button
+				color="primary"
+				(click)="openPoliciesAndDocstorePopUp({}, true)"
+			  >
+				Add Attachment
+			  </button>
+		</div>
+	</div>
 </div>
+<mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" >
+  <mat-card-content >
+	 <sorax-table-view
+		  [serverSidePagination]="true"
+		  [tableData]="policiesAndDocstoreData"
+		  [tableColumns]="policiesAndDocstoreColumns"
+		  [isFilterable]="false"
+		  [isPageable]="true"
+		  [page]="page"
+		  (pageEvent)="pageChangeEvent($event)"
+		  (sortEvent)="sortData($event)"
+		  [tableType]="'assocationAttachment'"
+		  (rowAction)="executeRowActions($event)"
+		  (showToPublicToggleChange)="onShowToPublicToggleChange($event)">
+		</sorax-table-view>
+  </mat-card-content>
+</mat-card>
 
-<div
-  class="m-8"
-  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-  style="text-align: right"
->
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="openPoliciesAndDocstorePopUp({}, true)"
-  >
-    Add Attachment
-  </button>
-</div>
-
-<sorax-table-view
-  [serverSidePagination]="true"
-  [tableData]="policiesAndDocstoreData"
-  [tableColumns]="policiesAndDocstoreColumns"
-  [isFilterable]="false"
-  [isPageable]="true"
-  [page]="page"
-  (pageEvent)="pageChangeEvent($event)"
-  (sortEvent)="sortData($event)"
-  [tableType]="'assocationAttachment'"
-  (rowAction)="executeRowActions($event)"
-  (showToPublicToggleChange)="onShowToPublicToggleChange($event)"
-
->
-</sorax-table-view>

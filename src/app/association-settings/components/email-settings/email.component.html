@@ -1,8 +1,9 @@
-<mat-tab-group (selectedTabChange)="onTabChanged($event)">
+<mat-tab-group (selectedTabChange)="onTabChanged($event)"  
+  mat-stretch-tabs="false" mat-align-tabs="start"   color="primary">
   <mat-tab label="Settings">
-    <mat-card class="custom-bg p-4">
+    <mat-card class="custom-bg">
       <mat-card-header
-        class="flex justify-between items-center pb-2 text-white"
+        class="flex justify-between items-center text-white"
       >
         <mat-card-title>SMTP Email Settings</mat-card-title>
         <button mat-icon-button (click)="openSMTPPopUp({})" class="text-white">
@@ -40,7 +41,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="custom-bg p-4">
+    <mat-card class="custom-bg">
       <mat-card-header
         class="flex justify-between items-center pb-2 text-white"
       >
@@ -82,79 +83,88 @@
     </mat-card>
   </mat-tab>
   <mat-tab label="System Templates">
-    <sorax-table-view
-      [tableData]="emailTemplateData"
-      [tableColumns]="emailTemplateColumns"
-      [isFilterable]="false"
-      [isPageable]="true"
-      [page]="page"
-      (rowAction)="executeSystemTemplatesRowActions($event)"
-      [tableType]="'EmailTemplate'"
-    >
-    </sorax-table-view>
+    <mat-card
+      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <mat-card-content >
+        <sorax-table-view
+          [tableData]="emailTemplateData"
+          [tableColumns]="emailTemplateColumns"
+          [isFilterable]="false"
+          [isPageable]="true"
+          [page]="page"
+          (rowAction)="executeSystemTemplatesRowActions($event)"
+          [tableType]="'EmailTemplate'"
+        >
+        </sorax-table-view>
+      </mat-card-content>
+    </mat-card>
   </mat-tab>
   <mat-tab label="Unsubscribed Lists">
-    <div
-      [@animate]="{ value: '*', params: { y: '60px', delay: '300ms' } }"
-      class="flex justify-between"
-    >
-      <div class="flex justify-start m-8">
-        <sorax-form-field
-          [label]="'Filter By'"
-          [soraxFormControl]="filterControl"
-        >
-          <input #soraxInput matInput [(ngModel)]="filterText" />
-        </sorax-form-field>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="applyUnsubscribedFilter()"
-        >
-          Filter List
-        </button>
+      <div
+        [@animate]="{ value: '*', params: { y: '60px', delay: '300ms' } }"
+        class="flex justify-between"
+      >
+        <div class="flex justify-start m-8">
+          <sorax-form-field
+            [label]="'Filter By'" class="pr-4"
+            [soraxFormControl]="filterControl"
+          >
+            <input #soraxInput matInput [(ngModel)]="filterText" />
+          </sorax-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="applyUnsubscribedFilter()"
+          >
+            Filter List
+          </button>
+        </div>
+        <div class="m-8">
+          <form [formGroup]="emailUnsubscribeListForm" (ngSubmit)="submit()">
+            <div class="flex">
+              <sorax-form-field
+                label="Email Address" class="pr-4"
+                [soraxFormControl]="emailUnsubscribeListForm.get('emailId')"
+              >
+                <input
+                  #soraxInput
+                  matInput
+                  formControlName="emailId"
+                  type="email"
+                  name="emailId"
+                  placeholder="Enter email address"
+                />
+              </sorax-form-field>
+              <button mat-raised-button color="primary" type="submit">
+                Add to Unsubscribed List
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="m-8">
-        <form [formGroup]="emailUnsubscribeListForm" (ngSubmit)="submit()">
-          <div class="flex">
-            <sorax-form-field
-              label="Email Address"
-              [soraxFormControl]="emailUnsubscribeListForm.get('emailId')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="emailId"
-                type="email"
-                name="emailId"
-                placeholder="Enter email address"
-              />
-            </sorax-form-field>
-            <button mat-raised-button color="primary" type="submit">
-              Add to Unsubscribed List
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <sorax-table-view
-      [serverSidePagination]="true"
-      [tableData]="emailUnsubscribedListstData"
-      [tableColumns]="emailUnsubscribedListsColumn"
-      [isFilterable]="false"
-      [isPageable]="true"
-      [page]="page"
-      (pageEvent)="emailUnsubscriptionPageChangeEvent($event)"
-      (sortEvent)="emailUnsubscriptionSortData($event)"
-      (rowAction)="executeEmailUnsubscriptionRowActions($event)"
-      [tableType]="'emailUnsubscription'"
-    >
-    </sorax-table-view>
+      <mat-card
+      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <mat-card-content >
+          <sorax-table-view
+          [serverSidePagination]="true"
+          [tableData]="emailUnsubscribedListstData"
+          [tableColumns]="emailUnsubscribedListsColumn"
+          [isFilterable]="false"
+          [isPageable]="true"
+          [page]="page"
+          (pageEvent)="emailUnsubscriptionPageChangeEvent($event)"
+          (sortEvent)="emailUnsubscriptionSortData($event)"
+          (rowAction)="executeEmailUnsubscriptionRowActions($event)"
+          [tableType]="'emailUnsubscription'"
+        >
+        </sorax-table-view>
+      </mat-card-content>
+    </mat-card>
   </mat-tab>
   <mat-tab label="History">
     <div class="flex justify-start m-8">
       <sorax-form-field
-        [label]="'Filter By'"
+        [label]="'Filter By'" class="pr-4"
         [soraxFormControl]="filterControl"
       >
         <input #soraxInput matInput [(ngModel)]="filterText" />
@@ -163,8 +173,10 @@
         Filter List
       </button>
     </div>
-
-    <sorax-table-view
+    <mat-card
+      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" >
+    <mat-card-content >
+      <sorax-table-view
       [serverSidePagination]="true"
       [tableData]="emailHistoryData"
       [tableColumns]="emailHistoryColumn"
@@ -176,6 +188,9 @@
       (sortEvent)="emailHistorySortData($event)"
     >
     </sorax-table-view>
+    </mat-card-content>
+  </mat-card>
+    
 
     <mat-card class="mx-auto custom-sm" *ngIf="emailContent">
       <mat-card-content class="flex flex-col">

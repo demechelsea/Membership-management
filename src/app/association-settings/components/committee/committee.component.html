@@ -3,22 +3,19 @@
   [selectedIndex]="activeLink"
   (selectedTabChange)="onTabChange($event)"
   mat-stretch-tabs="false"
-  mat-align-tabs="start"
-  color="primary"
->
+  mat-align-tabs="start"   color="primary"
+  >
   <mat-tab>
     <ng-template mat-tab-label>Committee summary</ng-template>
     <div
-      class="m-12"
       [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
       style="text-align: right"
       *ngIf="!showDetails"
-    >
+          >
       <button
         mat-raised-button
-        class="mb-8"
+        class="m-8"
         color="primary"
-        align="right"
         (click)="openCommitteePopUp({}, true)"
       >
         Create a New Committee
@@ -53,15 +50,12 @@
   <mat-tab>
     <ng-template mat-tab-label>Committee positions</ng-template>
     <div
-      class="m-12"
       [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-      style="text-align: right"
-    >
+      style="text-align: right" >
       <button
         mat-raised-button
-        class="mb-8"
+        class="m-8"
         color="primary"
-        align="right"
         (click)="openPositionPopUp({}, true)"
       >
         Create a New Position
@@ -70,11 +64,9 @@
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <mat-card
         *ngFor="let position of positions"
-        cdkDrag
-        [ngStyle]="{ 'background-color': 'rgb(34,42,69)', width: '50%' }"
-      >
+        cdkDrag class="position-item">
         <div style="display: flex; align-items: center">
-          <div [ngStyle]="{ color: 'white' }" class="p-4">
+          <div class="p-4">
             {{ position.positionName }}
           </div>
           <div style="flex: 1"></div>
