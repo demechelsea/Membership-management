@@ -143,13 +143,13 @@ export class SmsComponent extends BaseComponent implements OnInit {
 
   executeSMSUnsubscriptionRowActions(row: MessageSubscriptionDTO) {
     if (row.performAction == "Delete") {
-      this.deleteUnsubscribeList(row)
+      this.deleteUnsubscribeList(row);
     }
   }
 
   executeSMSHistoryRowActions(row: MessageHistoryDTO) {
     if (row.performAction == "View") {
-      this.showSMSContent(row)
+      this.showSMSContent(row);
     }
   }
 
@@ -167,9 +167,11 @@ export class SmsComponent extends BaseComponent implements OnInit {
       .getSmsTemplates(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        this.page.totalItems = response.page.totalItems;
-        this.listTemplateSms = response.result;
-        this.smsTemplateData = this.listTemplateSms;
+        if (response.result != null) {
+          this.page.totalItems = response.page.totalItems;
+          this.listTemplateSms = response.result;
+          this.smsTemplateData = this.listTemplateSms;
+        }
       });
   }
 
@@ -178,10 +180,12 @@ export class SmsComponent extends BaseComponent implements OnInit {
       .getSmsUnsubscribedList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        Object.assign(this.resultViewModel, response);
-        Object.assign(this.page, this.resultViewModel.page);
-        this.listSmsUnsubscribe = this.resultViewModel.result;
-        this.smsUnsubscribedListData = this.listSmsUnsubscribe;
+        if (response.result != null) {
+          Object.assign(this.resultViewModel, response);
+          Object.assign(this.page, this.resultViewModel.page);
+          this.listSmsUnsubscribe = this.resultViewModel.result;
+          this.smsUnsubscribedListData = this.listSmsUnsubscribe;
+        }
       });
   }
 
@@ -190,10 +194,12 @@ export class SmsComponent extends BaseComponent implements OnInit {
       .getSmsHistoryList(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        Object.assign(this.resultViewModel, response);
-        Object.assign(this.page, this.resultViewModel.page);
-        this.listSmsHistory = this.resultViewModel.result;
-        this.smsHistorytData = this.listSmsHistory;
+        if (response.result != null) {
+          Object.assign(this.resultViewModel, response);
+          Object.assign(this.page, this.resultViewModel.page);
+          this.listSmsHistory = this.resultViewModel.result;
+          this.smsHistorytData = this.listSmsHistory;
+        }
       });
   }
 

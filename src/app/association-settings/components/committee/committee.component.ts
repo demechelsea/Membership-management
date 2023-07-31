@@ -117,6 +117,7 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
       .getItems()
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
+        if(response.result !== null){
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
         this.committeePlanData = this.listPlans.map((committee) => {
@@ -126,7 +127,9 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
           return { ...committee, duration: `${durationInMonths} months` };
         });
         Object.assign(this.messages, response);
+      }
         this.loader.close();
+      
       });
   }
 
