@@ -30,7 +30,7 @@ import {
   openEventManagementPopupService
 } from "../../services/openEventManagementPopup-service/openEventManagementPopup.service";
 import {EventService} from "../../services/event-service/event.service";
-import EventDTO from "../../../models/eventDTO";
+import EventDTO from "../../../models/event/eventDTO";
 import {EventPopupComponent} from "../event-popup/event-popup.component";
 
 @Component({

@@ -5,7 +5,8 @@ import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { Subject, takeUntil } from "rxjs";
-import EventDTO from "../../../models/eventDTO";
+import EventDTO from "../../../models/event/eventDTO";
+import {Router} from "@angular/router";
 
 @Component({
   selector: "app-event-card",
@@ -21,12 +22,17 @@ export class EventCardComponent extends BaseComponent implements OnInit {
   constructor(
       private dialog: MatDialog,
       private notificationService: NotificationService,
-      private loader: AppLoaderService
+      private loader: AppLoaderService,
+      private router: Router,
   ) {
     super();
   }
   ngOnInit(): void {
     console.log(this.event);
+  }
+
+  openEvent(eventId) {
+    this.router.navigateByUrl("event-management/events/view/" + eventId);
   }
 
   ngOnDestroy() {

@@ -5,7 +5,8 @@ import { Urls } from 'app/common/utils/urls';
 import committeeDTO from 'app/models/committeeDTO';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Observable } from 'rxjs';
-import EventDTO from "../../../models/eventDTO";
+import EventDTO from "../../../models/event/eventDTO";
+import EventTicketDTO from "../../../models/event/eventTicketDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +28,20 @@ export class EventService extends HttpAppDataService {
     return this.postData(Urls.EVENTS, eventDto);
   }
 
-  // createCommittee(plan: committeeDTO): Observable<any> {
-  //   return this.postData(Urls.COMMITTEE_CREATE, plan);
-  // }
-  //
-  // updateCommittee(id: number, plan: committeeDTO): Observable<any> {
-  //   return this.postData(Urls.COMMITTEE_UPDATE, plan);
-  // }
+  getEventById(id: number): Observable<any> {
+    return this.fetchData(Urls.EVENTS + '/' + id);
+  }
+
+  getEventTicketsById(id: number): Observable<any> {
+    return this.fetchData(Urls.EVENTS + '/' + id + '/tickets');
+  }
+
+  addEventTicket(id: number, eventTicketDto: EventTicketDTO): Observable<any> {
+    return this.postData(Urls.EVENTS + '/' + id + '/tickets', eventTicketDto);
+  }
+
+  editEventTicket(eventId: number, ticketId: number, eventTicketDto: EventTicketDTO): Observable<any> {
+    return this.putData(Urls.EVENTS + '/' + eventId + '/tickets/' + ticketId, eventTicketDto);
+  }
 
 }

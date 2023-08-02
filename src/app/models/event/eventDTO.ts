@@ -1,4 +1,4 @@
-import { MessageWrapModel } from './messageWrapModel';
+import { MessageWrapModel } from '../messageWrapModel';
 
 export default class EventDTO extends MessageWrapModel {
     id:number;

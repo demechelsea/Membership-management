@@ -16,7 +16,7 @@ import CommitteeDTO from "app/models/committeeDTO";
 import { AppConfirmService } from "app/common/services/app-confirm.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { AssociationDTO } from "app/models/AssociationDTO";
-import EventDTO from "../../../models/eventDTO";
+import EventDTO from "../../../models/event/eventDTO";
 import {EventService} from "../../services/event-service/event.service";
 
 @Component({
