@@ -11,11 +11,17 @@ import {EventManagementRoutes} from "./event.management.routing";
 import {EventListComponent} from "./components/event-list/event-list.component";
 import {EventCardComponent} from "./components/event-card/event-card.component";
 import {EventPopupComponent} from "./components/event-popup/event-popup.component";
+import {EventViewComponent} from "./components/event-view/event-view.component";
+import {EventTicketListComponent} from "./components/event-ticket/event-ticket-list/event-ticket-list.component";
+import {EventTicketPopupComponent} from "./components/event-ticket/event-ticket-popup/event-ticket-popup.component";
 
 const declarationsList = [
   EventListComponent,
+  EventViewComponent,
+  EventTicketListComponent,
   EventCardComponent,
-  EventPopupComponent
+  EventPopupComponent,
+  EventTicketPopupComponent
 ];
 
 const importsList = [

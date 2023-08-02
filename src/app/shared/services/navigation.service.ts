@@ -99,7 +99,7 @@ export class NavigationService {
       type: 'link',
       tooltip: 'Event Management',
       icon: 'event',
-      state: 'event-management/viewEvents'
+      state: 'event-management/events'
     },
     
   ];

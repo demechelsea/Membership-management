@@ -39,6 +39,7 @@ export class SoraxTableViewComponent implements OnInit {
   @Input() tableColumns: SoraxColumnDefinition[];
   @Input() page: PageModel;
   @Input() tableType: string;
+  @Input() showToolTip = true;
 
   @Output() sortEvent: EventEmitter<Sort> = new EventEmitter();
   @Output() pageEvent: EventEmitter<PageEvent> = new EventEmitter();

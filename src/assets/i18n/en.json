@@ -78,5 +78,6 @@
   "PRODUCTS": "Products",
   "PRODUCT DETAILS": "Product Details",
   "CART": "Cart",
-  "CHECKOUT": "Checkout"
+  "CHECKOUT": "Checkout",
+  "EVENT_TICKET_NAME": "Ticket Name"
 }

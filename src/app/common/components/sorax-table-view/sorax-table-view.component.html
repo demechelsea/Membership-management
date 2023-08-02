@@ -50,7 +50,7 @@
             [ngClass]="getCellClass(tableColumn.position)">{{tableColumn.name}}</mat-header-cell>
           <mat-cell *matCellDef="let row" [ngClass]="getCellClass(tableColumn.position)">
             <ng-container *ngTemplateOutlet="itemText; context: {row: row, columnDef:tableColumn}"></ng-container>
-            <div *ngIf="tooltipText" class="tooltip" [ngStyle]="{top: tooltipTop + 'px', left: tooltipLeft + 'px'}"
+            <div *ngIf="showToolTip && tooltipText" class="tooltip" [ngStyle]="{top: tooltipTop + 'px', left: tooltipLeft + 'px'}"
               [innerHTML]="tooltipText" [class.show]="showTooltip" [@smoothFadeIn]></div>
           </mat-cell>
         </ng-template>

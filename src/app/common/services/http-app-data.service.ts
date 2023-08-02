@@ -30,6 +30,10 @@ export class HttpAppDataService extends BaseService {
     return this.insertData(postUrl, inputParams, responseType);
   }
 
+  putData(postUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {
+    return this.editData(postUrl, inputParams, responseType);
+  }
+
    async postPromise(postUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Promise<any> {
     return await lastValueFrom(from(this.postData(postUrl, inputParams)));
   }
@@ -39,6 +43,13 @@ export class HttpAppDataService extends BaseService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  editData(editUrl: string, inputParams: any, responseType: 'json' | 'blob' = 'json'): Observable<any> {
+    return this.httpClient.put<any>(editUrl, inputParams, { headers: this.prepareCustomHeaders(), responseType: responseType as any })
+        .pipe(
+            catchError(this.handleError)
+        );
   }
   
   
