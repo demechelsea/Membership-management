@@ -1,47 +1,60 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { HttpAppDataService } from 'app/common/services/http-app-data.service';
-import { Urls } from 'app/common/utils/urls';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpAppDataService} from 'app/common/services/http-app-data.service';
+import {Urls} from 'app/common/utils/urls';
 import committeeDTO from 'app/models/committeeDTO';
-import { ResultViewModel } from 'app/models/result-view-model';
-import { Observable } from 'rxjs';
+import {ResultViewModel} from 'app/models/result-view-model';
+import {Observable} from 'rxjs';
 import EventDTO from "../../../models/event/eventDTO";
 import EventTicketDTO from "../../../models/event/eventTicketDTO";
+import EventTicketIssuedDTO from "../../../models/event/eventTicketIssuedDTO";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EventService extends HttpAppDataService {
 
-  private http: HttpClient;
+    private http: HttpClient;
 
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
-    this.http = httpClient;
-  }
+    constructor(httpClient: HttpClient) {
+        super(httpClient);
+        this.http = httpClient;
+    }
 
-  getActiveEvents(): Observable<ResultViewModel> {
-    return this.fetchData(Urls.ACTIVE_EVENT_LIST);
-  }
+    getActiveEvents(): Observable<ResultViewModel> {
+        return this.fetchData(Urls.ACTIVE_EVENT_LIST);
+    }
 
-  addEvent(eventDto: EventDTO): Observable<any> {
-    return this.postData(Urls.EVENTS, eventDto);
-  }
+    addEvent(eventDto: EventDTO): Observable<any> {
+        return this.postData(Urls.EVENTS, eventDto);
+    }
 
-  getEventById(id: number): Observable<any> {
-    return this.fetchData(Urls.EVENTS + '/' + id);
-  }
+    getEventById(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id);
+    }
 
-  getEventTicketsById(id: number): Observable<any> {
-    return this.fetchData(Urls.EVENTS + '/' + id + '/tickets');
-  }
+    getEventTicketsById(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id + '/tickets');
+    }
 
-  addEventTicket(id: number, eventTicketDto: EventTicketDTO): Observable<any> {
-    return this.postData(Urls.EVENTS + '/' + id + '/tickets', eventTicketDto);
-  }
+    addEventTicket(id: number, eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.postData(Urls.EVENTS + '/' + id + '/tickets', eventTicketDto);
+    }
 
-  editEventTicket(eventId: number, ticketId: number, eventTicketDto: EventTicketDTO): Observable<any> {
-    return this.putData(Urls.EVENTS + '/' + eventId + '/tickets/' + ticketId, eventTicketDto);
-  }
+    editEventTicket(eventId: number, ticketId: number, eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.putData(Urls.EVENTS + '/' + eventId + '/tickets/' + ticketId, eventTicketDto);
+    }
+
+    getEventTicketsIssuedByEventId(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id + '/tickets-issues');
+    }
+
+    addEventTicketIssue(id: number, eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
+        return this.postData(Urls.EVENTS + '/' + id + '/tickets-issues', eventTicketIssueDto);
+    }
+
+    editEventTicketIssue(id: number, ticketIssueId:number, eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
+        return this.putData(Urls.EVENTS + '/' + id + '/tickets-issues/' + ticketIssueId, eventTicketIssueDto);
+    }
 
 }

@@ -15,7 +15,6 @@ import {EventService} from "../../../services/event-service/event.service";
 import {ResultViewModel} from "../../../../models/result-view-model";
 import EventDTO from "../../../../models/event/eventDTO";
 import EventTicketDTO from "../../../../models/event/eventTicketDTO";
-import EventTicketModel from "../../../../models/event/eventTicketModel";
 import {EventTicketPopupComponent} from "../event-ticket-popup/event-ticket-popup.component";
 
 @Component({
@@ -66,7 +65,7 @@ export class EventTicketListComponent extends BaseComponent implements OnInit {
     this.router.navigateByUrl("event-management/events/view/" + eventId);
   }
 
-  openPopUp(data: EventTicketModel, isNew?: boolean) {
+  openPopUp(data: EventTicketDTO, isNew?: boolean) {
     let title = isNew ? "Add a Ticket Type " : "Edit a Ticket Type";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
         EventTicketPopupComponent,
@@ -84,7 +83,7 @@ export class EventTicketListComponent extends BaseComponent implements OnInit {
     });
   }
 
-  executeRowActions(rowData: EventTicketModel) {
+  executeRowActions(rowData: EventTicketDTO) {
     if (rowData.performAction == "Edit") {
       this.openPopUp(rowData, false);
     }

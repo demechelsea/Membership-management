@@ -14,14 +14,22 @@ import {EventPopupComponent} from "./components/event-popup/event-popup.componen
 import {EventViewComponent} from "./components/event-view/event-view.component";
 import {EventTicketListComponent} from "./components/event-ticket/event-ticket-list/event-ticket-list.component";
 import {EventTicketPopupComponent} from "./components/event-ticket/event-ticket-popup/event-ticket-popup.component";
+import {
+  EventTicketIssuePopupComponent
+} from "./components/event-ticket-issue/event-ticket-issue-popup/event-ticket-issue-popup.component";
+import {
+  EventTicketIssueListComponent
+} from "./components/event-ticket-issue/event-ticket-issue-list/event-ticket-issue-list.component";
 
 const declarationsList = [
   EventListComponent,
   EventViewComponent,
-  EventTicketListComponent,
   EventCardComponent,
   EventPopupComponent,
-  EventTicketPopupComponent
+  EventTicketListComponent,
+  EventTicketPopupComponent,
+  EventTicketIssueListComponent,
+  EventTicketIssuePopupComponent
 ];
 
 const importsList = [

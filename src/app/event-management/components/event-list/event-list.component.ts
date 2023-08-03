@@ -190,15 +190,15 @@ export class EventListComponent extends BaseComponent implements OnInit {
   }
 
   onTabChange(event: MatTabChangeEvent) {
-    if (event.index === 1) {
-      this.positionService
-          .getCommitteePositions()
-          .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe((response) => {
-            this.positions = response.result;
-            this.positions.sort((a, b) => a.positionRank - b.positionRank);
-          });
-    }
+    // if (event.index === 1) {
+    //   this.positionService
+    //       .getCommitteePositions()
+    //       .pipe(takeUntil(this.ngUnsubscribe$))
+    //       .subscribe((response) => {
+    //         this.positions = response.result;
+    //         this.positions.sort((a, b) => a.positionRank - b.positionRank);
+    //       });
+    // }
   }
 
   calculateDurationInMonths(start: Date, end: Date): number {

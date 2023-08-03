@@ -1,0 +1,21 @@
+.event-details-card {
+    width: 800px;
+    height: 200px;
+    border: 5px solid #0081ff;
+
+    .left-section {
+        text-align: center;
+        width: 250px;
+        display: block;
+
+        img {
+            max-width: 250px;
+            max-height: 162px;
+            margin: auto;
+        }
+    }
+
+    .center-section {
+        max-width: 300px;
+    }
+}
