@@ -32,7 +32,9 @@
 
   <mat-tab>
     <ng-template mat-tab-label>Tickets Sold/Rsvp</ng-template>
-    <p>Under Development</p>
+    <div *ngIf="event">
+      <app-event-ticket-issue-list  [eventId]="event.id"></app-event-ticket-issue-list>
+    </div>
 
   </mat-tab>
   <mat-tab>
