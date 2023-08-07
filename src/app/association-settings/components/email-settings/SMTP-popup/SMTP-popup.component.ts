@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
-  Input,
   OnInit,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -33,7 +32,6 @@ export class SMTPPopupComponent extends BaseComponent implements OnInit {
     public dialogRef: MatDialogRef<SMTPPopupComponent>,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private confirmService: AppConfirmService,
     public emailSettingService: EmailSettingService,
     private notificationService: NotificationService
   ) {
@@ -55,6 +53,7 @@ export class SMTPPopupComponent extends BaseComponent implements OnInit {
       replyToEmail: [emailSettingdata.replyToEmail, Validators.required],
       emailId: [emailSettingdata.emailId, Validators.required],
       password: [emailSettingdata.password, Validators.required],
+      signiture: [emailSettingdata.signiture, Validators.required],
     });
   }
 

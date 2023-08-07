@@ -1,5 +1,5 @@
-<mat-tab-group (selectedTabChange)="onTabChanged($event)" 
-            mat-stretch-tabs="false" mat-align-tabs="start"   color="primary">
+<mat-tab-group (selectedTabChange)="onTabChanged($event)" mat-stretch-tabs="false" mat-align-tabs="start"
+  color="primary">
   <mat-tab label="Settings">
     <div class="flex flex-col md:flex-row justify-around">
       <mat-card class="custom-bg p-4 md:w-1/2">
@@ -8,9 +8,7 @@
         </mat-card-header>
         <mat-card-content class="content w-full pt-4">
           <div class="flex justify-between inner-content p-4">
-            <label class="flex flex-col justify-center font-bold text-gray-700"
-              >Available SMS: 1157</label
-            >
+            <label class="flex flex-col justify-center font-bold text-gray-700">Available SMS: 1157</label>
             <div class="flex flex-col justify-around text-gray-600">
               <label>Sent Today : 125</label>
               <label>Sent in Last 7 days : 258</label>
@@ -25,29 +23,25 @@
       </mat-card>
 
       <mat-card class="custom-bg p-4  md:w-1/2">
-        <mat-card-header 
-          class="pb-2 text-white"
-        >
-          <mat-card-title class="text-white">Senders Profile</mat-card-title>
-          <button
-            mat-icon-button
-            (click)="openSendersProfilePopUp({})"
-            class="text-white"
-          >
+        <mat-card-header class="flex justify-between items-center pb-2 text-white">
+          <mat-card-title>Senders Profile</mat-card-title>
+          <button mat-icon-button (click)="openSendersProfilePopUp({})">
             <mat-icon>edit</mat-icon>
           </button>
         </mat-card-header>
-        <mat-card-content class="content w-full pt-4">
-          <div class="flex flex-col justify-center">
-            <mat-form-field >
-              <mat-label class="text-gray-600">SMS Name</mat-label>
-              <input matInput disabled class="p-2 h-10" />
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label class="text-gray-600">SMS Identity</mat-label>
-              <input matInput disabled class="p-2 h-10" />
-            </mat-form-field>
-          </div>
+        <mat-card-content class="content w-full pt-4 inner-content">
+          <form [formGroup]="SMSsendersProfileForm" class="SMTPForm flex flex-col justify-center padround18">
+            <div class="flex flex-row justify-around">
+              <sorax-form-field label="SMS name" [soraxFormControl]="SMSsendersProfileForm.get('smsName')">
+                <input #soraxInput matInput formControlName="smsName" type="text" name="smsName"
+                  placeholder="Enter SMS name" />
+              </sorax-form-field>
+              <sorax-form-field label="SMS identity" [soraxFormControl]="SMSsendersProfileForm.get('smsIdentify')">
+                <input #soraxInput matInput formControlName="smsIdentify" type="text" name="smsIdentify"
+                  placeholder="Enter SMS identity" />
+              </sorax-form-field>
+            </div>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>
@@ -91,54 +85,32 @@
     </div>
   </mat-tab>
   <mat-tab label="System Templates">
-    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" >
-      <mat-card-content >
-        <sorax-table-view
-          [tableData]="smsTemplateData"
-          [tableColumns]="smsTemplateColumns"
-          [isFilterable]="false"
-          [isPageable]="true"
-          [page]="page"
-          (rowAction)="executeSystemTemplatesRowActions($event)"
-          [tableType]="'SmsTemplate'"
-        >
+    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <mat-card-content>
+        <sorax-table-view [tableData]="smsTemplateData" [tableColumns]="smsTemplateColumns" [isFilterable]="false"
+          [isPageable]="true" [page]="page" (rowAction)="executeSystemTemplatesRowActions($event)"
+          [tableType]="'SmsTemplate'">
         </sorax-table-view>
-       </mat-card-content>
+      </mat-card-content>
     </mat-card>
   </mat-tab>
   <mat-tab label="Unsubscribed Lists">
-    <div 
-      [@animate]="{ value: '*', params: { y: '60px', delay: '300ms' } }"
-      class="flex justify-between" >
+    <div [@animate]="{ value: '*', params: { y: '60px', delay: '300ms' } }" class="flex justify-between">
       <div class="flex justify-start m-8">
-        <sorax-form-field
-          [label]="'Filter By'" class="pr-4"
-          [soraxFormControl]="filterControl"
-        >
+        <sorax-form-field [label]="'Filter By'" class="pr-4" [soraxFormControl]="filterControl">
           <input #soraxInput matInput [(ngModel)]="filterText" />
         </sorax-form-field>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="applyUnsubscribedFilter()"
-        >
+        <button mat-raised-button color="primary" (click)="applyUnsubscribedFilter()">
           Filter List
         </button>
       </div>
       <div class="m-8">
         <form [formGroup]="smsUnsubscribeListForm" (ngSubmit)="submit()">
           <div class="flex">
-            <sorax-form-field
-              label="Phone number" class="pr-4"
-              [soraxFormControl]="smsUnsubscribeListForm.get('phoneNumber')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="phoneNumber"
-                name="phoneNumber"
-                placeholder="Add Phone Number"
-              />
+            <sorax-form-field label="Phone number" class="pr-4"
+              [soraxFormControl]="smsUnsubscribeListForm.get('phoneNumber')">
+              <input #soraxInput matInput formControlName="phoneNumber" name="phoneNumber"
+                placeholder="Add Phone Number" />
             </sorax-form-field>
             <button mat-raised-button color="primary" type="submit">
               Add to Unsubscribed List
@@ -148,49 +120,30 @@
       </div>
     </div>
 
-    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" >
-      <mat-card-content >
-       <sorax-table-view
-          [serverSidePagination]="true"
-          [tableData]="smsUnsubscribedListData"
-          [tableColumns]="smsUnsubscribedListsColumn"
-          [isFilterable]="false"
-          [isPageable]="true"
-          [page]="page"
-          (pageEvent)="smsUnsubscriptionPageChangeEvent($event)"
-          (sortEvent)="smsUnsubscriptionSortData($event)"
-          (rowAction)="executeSMSUnsubscriptionRowActions($event)"
-          [tableType]="'smsUnsubscription'"
-        >
+    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <mat-card-content>
+        <sorax-table-view [serverSidePagination]="true" [tableData]="smsUnsubscribedListData"
+          [tableColumns]="smsUnsubscribedListsColumn" [isFilterable]="false" [isPageable]="true" [page]="page"
+          (pageEvent)="smsUnsubscriptionPageChangeEvent($event)" (sortEvent)="smsUnsubscriptionSortData($event)"
+          (rowAction)="executeSMSUnsubscriptionRowActions($event)" [tableType]="'smsUnsubscription'">
         </sorax-table-view>
       </mat-card-content>
     </mat-card>
   </mat-tab>
   <mat-tab label="History">
     <div class="flex justify-start m-8">
-      <sorax-form-field
-        [label]="'Filter By'" class="pr-4"
-        [soraxFormControl]="filterControl"
-      >
+      <sorax-form-field [label]="'Filter By'" class="pr-4" [soraxFormControl]="filterControl">
         <input #soraxInput matInput [(ngModel)]="filterText" />
       </sorax-form-field>
       <button mat-raised-button color="primary" (click)="applyHistoryFilter()">
         Filter List
       </button>
     </div>
-    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" >
-      <mat-card-content >
-       <sorax-table-view
-          [serverSidePagination]="true"
-          [tableData]="smsHistorytData"
-          [tableColumns]="smsHistoryColumn"
-          [isFilterable]="false"
-          [isPageable]="true"
-          [page]="page"
-          (pageEvent)="smsmHistoryPageChangeEvent($event)"
-          (sortEvent)="smsHistorySortData($event)"
-          (rowAction)="executeSMSHistoryRowActions($event)"
-        >
+    <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <mat-card-content>
+        <sorax-table-view [serverSidePagination]="true" [tableData]="smsHistorytData" [tableColumns]="smsHistoryColumn"
+          [isFilterable]="false" [isPageable]="true" [page]="page" (pageEvent)="smsmHistoryPageChangeEvent($event)"
+          (sortEvent)="smsHistorySortData($event)" (rowAction)="executeSMSHistoryRowActions($event)">
         </sorax-table-view>
       </mat-card-content>
     </mat-card>
@@ -199,55 +152,22 @@
       <mat-card-content class="flex flex-col">
         <form [formGroup]="smsHistoryForm">
           <div class="flex justify-between">
-            <sorax-form-field
-              class="w-3/4 p-2"
-              label="Sent to"
-              [soraxFormControl]="smsHistoryForm.get('recipients')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="recipients"
-                name="recipients"
-              />
+            <sorax-form-field class="w-3/4 p-2" label="Sent to" [soraxFormControl]="smsHistoryForm.get('recipients')">
+              <input #soraxInput matInput formControlName="recipients" name="recipients" />
             </sorax-form-field>
-            <sorax-form-field
-              class="w-1/4 p-2"
-              label="Sent Date"
-              [soraxFormControl]="smsHistoryForm.get('modifiedTimestamp')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="modifiedTimestamp"
-                name="modifiedTimestamp"
-              />
+            <sorax-form-field class="w-1/4 p-2" label="Sent Date"
+              [soraxFormControl]="smsHistoryForm.get('modifiedTimestamp')">
+              <input #soraxInput matInput formControlName="modifiedTimestamp" name="modifiedTimestamp" />
             </sorax-form-field>
           </div>
           <div class="w-3/4 p-2">
-            <sorax-form-field
-              label="SMS subject"
-              [soraxFormControl]="smsHistoryForm.get('msgSubject')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="msgSubject"
-                name="msgSubject"
-              />
+            <sorax-form-field label="SMS subject" [soraxFormControl]="smsHistoryForm.get('msgSubject')">
+              <input #soraxInput matInput formControlName="msgSubject" name="msgSubject" />
             </sorax-form-field>
           </div>
           <div class="w-3/4 p-2 h-24">
-            <sorax-form-field
-              label="SMS heading body"
-              [soraxFormControl]="smsHistoryForm.get('msgContent')"
-            >
-              <input
-                #soraxInput
-                matInput
-                formControlName="msgContent"
-                name="msgContent"
-              />
+            <sorax-form-field label="SMS heading body" [soraxFormControl]="smsHistoryForm.get('msgContent')">
+              <input #soraxInput matInput formControlName="msgContent" name="msgContent" />
             </sorax-form-field>
           </div>
         </form>

@@ -354,6 +354,17 @@ export class EmailComponent extends BaseComponent implements OnInit {
           if (!res) {
             return;
           }
+          this.emailSettingService.getEmailSetting().subscribe(data => {
+            const emailSetting = data.result;
+            this.SMTPForm.patchValue({
+              smtpHost: emailSetting.smtpHost,
+              port: emailSetting.port,
+              replyToEmail: emailSetting.replyToEmail,
+              emailId: emailSetting.emailId,
+              password: emailSetting.password,
+              signiture: emailSetting.signiture,
+            });
+          });
         });
       });
   }
@@ -376,6 +387,17 @@ export class EmailComponent extends BaseComponent implements OnInit {
           if (!res) {
             return;
           }
+          this.emailSettingService.getEmailSetting().subscribe(data => {
+            const emailSetting = data.result;
+            this.SMTPForm.patchValue({
+              smtpHost: emailSetting.smtpHost,
+              port: emailSetting.port,
+              replyToEmail: emailSetting.replyToEmail,
+              emailId: emailSetting.emailId,
+              password: emailSetting.password,
+              signiture: emailSetting.signiture,
+            });
+          });
         });
       });
   }

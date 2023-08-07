@@ -15,7 +15,12 @@ import { MessageSettingDTO } from "app/models/messageSettingDTO";
 import { MessageTemplateDTO } from "app/models/messageTemplateDTO";
 import { SmsSettingService } from "app/association-settings/services/smsSettingService/smsSetting.service";
 import { SmsTemplateService } from "app/association-settings/services/smsTemplate/smsTemplate.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MessageSubscriptionDTO } from "app/models/MessageSubscriptionDTO";
 import { SMSUnsubscriptionService } from "app/association-settings/services/smsUnsubscriptionService/smsUnsubscription.service";
 import { SmsHistoryService } from "app/association-settings/services/smsHistoryService/smsHistory.service";
@@ -48,6 +53,7 @@ export class SmsComponent extends BaseComponent implements OnInit {
 
   public smsUnsubscribeListForm: FormGroup;
   public smsHistoryForm: FormGroup;
+  public SMSsendersProfileForm: FormGroup;
 
   smsContent: boolean = false;
 
@@ -62,15 +68,24 @@ export class SmsComponent extends BaseComponent implements OnInit {
     private smsTemplateService: SmsTemplateService,
     private smsUnsubscribeService: SMSUnsubscriptionService,
     private smsHistoryService: SmsHistoryService,
-    private loader: AppLoaderService,
-    private formBuilder: FormBuilder,
-    private confirmService: AppConfirmService
+    private formBuilder: FormBuilder
   ) {
     super();
   }
   ngOnInit(): void {
     this.initializeColumns();
     this.buildSmsUnsubscribeListForm(new MessageSubscriptionDTO());
+    this.buildSMTPForm(new MessageSettingDTO());
+    this.smsSettingService.getSmsSetting().subscribe((response) => {
+      console.log(response);
+      if (response.result != null) {
+        const smsSetting = response.result;
+        this.SMSsendersProfileForm.patchValue({
+          smsName: smsSetting.smsName,
+          smsIdentify: smsSetting.smsIdentify,
+        });
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -108,6 +123,16 @@ export class SmsComponent extends BaseComponent implements OnInit {
         },
       ],
     });
+  }
+
+  buildSMTPForm(SMSSettingDTO: MessageSettingDTO) {
+    this.SMSsendersProfileForm = this.formBuilder.group({
+      id: [SMSSettingDTO.id, Validators.required],
+      smsName: [SMSSettingDTO.smsName, Validators.required],
+      smsIdentify: [SMSSettingDTO.smsIdentify, Validators.required],
+    });
+    this.SMSsendersProfileForm.get("smsName").disable();
+    this.SMSsendersProfileForm.get("smsIdentify").disable();
   }
 
   filterControl = new FormControl();
@@ -335,6 +360,15 @@ export class SmsComponent extends BaseComponent implements OnInit {
           if (!res) {
             return;
           }
+          this.smsSettingService.getSmsSetting().subscribe((response) => {
+            if (response.result != null) {
+              const smsSetting = response.result;
+              this.SMSsendersProfileForm.patchValue({
+                smsName: smsSetting.smsName,
+                smsIdentify: smsSetting.smsIdentify,
+              });
+            }
+          });
         });
       });
   }
