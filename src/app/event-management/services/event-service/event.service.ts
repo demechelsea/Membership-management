@@ -9,6 +9,7 @@ import EventDTO from "../../../models/event/eventDTO";
 import EventTicketDTO from "../../../models/event/eventTicketDTO";
 import EventTicketIssuedDTO from "../../../models/event/eventTicketIssuedDTO";
 import EventSponsorDTO from "../../../models/event/eventSponsorDTO";
+import EventProgramDTO from "../../../models/event/eventProgramDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -68,6 +69,18 @@ export class EventService extends HttpAppDataService {
 
     editEventSponsor(id: number, ticketIssueId:number, eventSponsorDTO: EventSponsorDTO): Observable<any> {
         return this.putData(Urls.EVENTS + '/' + id + '/sponsors/' + ticketIssueId, eventSponsorDTO);
+    }
+
+    getEventProgramsByEventId(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id + '/programmes');
+    }
+
+    addEventProgram(id: number, eventProgramDto: EventProgramDTO): Observable<any> {
+        return this.postData(Urls.EVENTS + '/' + id + '/programmes', eventProgramDto);
+    }
+
+    editEventProgram(eventId: number, programId: number, eventProgramDto: EventProgramDTO): Observable<any> {
+        return this.putData(Urls.EVENTS + '/' + eventId + '/programmes/' + programId, eventProgramDto);
     }
 
 }

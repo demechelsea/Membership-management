@@ -45,7 +45,9 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>Programs Runsheet</ng-template>
-    <p>Under Development</p>
+      <div *ngIf="event">
+          <app-event-program-list [eventId]="event.id"></app-event-program-list>
+      </div>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>Payments</ng-template>

@@ -36,6 +36,12 @@ import {
 import {
     AddCompanyPopupComponent
 } from "./components/event-view/event-sponsors/event-sponsor-list/add-company-popup/add-company-popup.component";
+import {
+    EventProgramListComponent
+} from "./components/event-view/event-program/event-program-list/event-program-list.component";
+import {
+    EventProgramPopupComponent
+} from "./components/event-view/event-program/event-program-popup/event-program-popup.component";
 
 const declarationsList = [
     EventListComponent,
@@ -49,7 +55,9 @@ const declarationsList = [
     EventSponsorListComponent,
     EventSponsorPopupComponent,
     EventSponsorCardComponent,
-    AddCompanyPopupComponent
+    AddCompanyPopupComponent,
+    EventProgramListComponent,
+    EventProgramPopupComponent
 ];
 
 const importsList = [
