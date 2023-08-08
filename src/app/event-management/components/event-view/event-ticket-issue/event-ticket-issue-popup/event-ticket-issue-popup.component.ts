@@ -9,27 +9,28 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { LookupService } from "app/common/services/lookup.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import LableValueModel from "app/models/lable-value-model";
-import { Observable, Subject, takeUntil } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { LocalstorageService } from "app/common/services/localstorage.service";
 import { NotificationService } from "app/common/services/notification.service";
-import {EventService} from "../../../services/event-service/event.service";
-import EventTicketDTO from "../../../../models/event/eventTicketDTO";
+import {ResultViewModel} from "../../../../../models/result-view-model";
+import EventTicketDTO from "../../../../../models/event/eventTicketDTO";
+import {EventService} from "../../../../services/event-service/event.service";
+import EventTicketIssuedDTO from "../../../../../models/event/eventTicketIssuedDTO";
+
 
 @Component({
-  selector: "app-event-ticket-popup",
-  templateUrl: "./event-ticket-popup.component.html",
+  selector: "app-event-ticket-issue-popup",
+  templateUrl: "./event-ticket-issue-popup.component.html",
 })
-export class EventTicketPopupComponent extends BaseComponent implements OnInit {
-  intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
-  statusoptionsKey: string = LookupService.STATUS_OPTIONS;
+export class EventTicketIssuePopupComponent extends BaseComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject<void>();
-  public membershipPlanForm: FormGroup;
-  public eventTicketForm: FormGroup;
+  private resultViewModel: ResultViewModel = new ResultViewModel();
+  public issueTicketForm: FormGroup;
   public intervals: LableValueModel[] = [];
   public isLoading: boolean;
-  public noResults: boolean;
-  filteredIntervals$: Observable<LableValueModel[]>;
+
+  public availableTicketOptions: EventTicketDTO[];
 
   ticketTypes = [{
     name: "Free",
@@ -45,11 +46,11 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
     value: "GUESTS"
   }]
 
-  buttonText = "Create a ticket";
+  buttonText = "Issue a ticket";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<EventTicketPopupComponent>,
+    public dialogRef: MatDialogRef<EventTicketIssuePopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
@@ -62,35 +63,46 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getEventTickets(this.data.eventId);
     this.buildTicketTypeForm(this.data.payload);
     this.cdRef.detectChanges();
   }
 
-  buildTicketTypeForm(eventTicketDTO: EventTicketDTO) {
+  getEventTickets(eventId) {
+    this.eventService.getEventTicketsById(eventId)
+        .pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe((response) => {
+          Object.assign(this.resultViewModel, response);
+          this.availableTicketOptions = this.resultViewModel.result;
+        })
+  }
+
+  buildTicketTypeForm(eventTicketIssuedDTO: EventTicketIssuedDTO) {
     const isUpdate = !this.data.isNew;
-    this.eventTicketForm = this.formBuilder.group({
-      id: [isUpdate ? eventTicketDTO.id : null, isUpdate ? Validators.required : []],
-      name: [eventTicketDTO.name || "", [Validators.required, Validators.minLength(3)],],
-      description: [eventTicketDTO.description || ""],
-      ticketType: [eventTicketDTO.ticketType || "", Validators.required],
-      numberOfTickets: [eventTicketDTO.numberOfTickets || "", [Validators.required, positiveNumberValidator]],
-      peopleAllowedPerTicket: [eventTicketDTO.peopleAllowedPerTicket || "", [Validators.required, positiveNumberValidator]],
-      adminIssue: [this.convertToNumber(eventTicketDTO.adminIssue) || 0, Validators.required],
-      visibleToPublic: new FormControl(false),
-      isHidden: new FormControl(false),
+    this.issueTicketForm = this.formBuilder.group({
+      id: [isUpdate ? eventTicketIssuedDTO.id : null, isUpdate ? Validators.required : []],
+      name: [eventTicketIssuedDTO.name || "", [Validators.required, Validators.minLength(3)],],
+      phoneNumber: [eventTicketIssuedDTO.phoneNumber || ""],
+      emailId: [eventTicketIssuedDTO.emailId || "", Validators.required],
+      ticketPurchased: [eventTicketIssuedDTO.ticketPurchased || "", [Validators.required, positiveNumberValidator]],
+      smsTicket: new FormControl(false),
+      emailTicket: new FormControl(false),
+      ticketId: [eventTicketIssuedDTO.ticketId || "", [Validators.required, positiveNumberValidator]],
+      couponId: [eventTicketIssuedDTO.couponId || "", [Validators.required, positiveNumberValidator]]
     });
   }
 
-  submit(eventTicketDTO: EventTicketDTO) {
+  submit(eventTicketIssuedDTO: EventTicketIssuedDTO) {
 
-    console.log(eventTicketDTO)
+    console.log(eventTicketIssuedDTO)
 
-    eventTicketDTO.visibleToPublic = eventTicketDTO.visibleToPublic ? "Y" : "N";
+      eventTicketIssuedDTO.emailTicket = eventTicketIssuedDTO.emailTicket ? "Y" : "N";
+      eventTicketIssuedDTO.smsTicket = eventTicketIssuedDTO.smsTicket ? "Y" : "N";
 
-    if (this.eventTicketForm.valid) {
-      const ticketData = this.eventTicketForm.value;
+    if (this.issueTicketForm.valid) {
+      const issueTicketData = this.issueTicketForm.value;
       if (this.data.isNew){
-        this.eventService.addEventTicket(this.data.eventId, ticketData)
+        this.eventService.addEventTicketIssue(this.data.eventId, issueTicketData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((response) => {
               if (response.success){
@@ -105,7 +117,7 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
             })
       } else {
         this.eventService
-              .editEventTicket(this.data.eventId, eventTicketDTO.id, ticketData)
+              .editEventTicketIssue(this.data.eventId, eventTicketIssuedDTO.id, eventTicketIssuedDTO)
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((response) => {
                 if (response.success) {
@@ -123,14 +135,6 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
 
   convertToNumber(str: string): number {
     return str == "Y" ? 1 : 0;
-  }
-
-  onSelectedIntervalOption(option: LableValueModel) {
-    this.membershipPlanForm.controls["interval"].setValue(option.name);
-  }
-
-  onSelectedStatusOption(option: LableValueModel) {
-    this.membershipPlanForm.controls["status"].setValue(option.name);
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -6,16 +6,11 @@ import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { Subject, takeUntil } from "rxjs";
 import {Router} from "@angular/router";
-import MemershipPlanModel from "../../../../models/membershipPlanModel";
-import {
-  MembershipPlanPopupComponent
-} from "../../../../association-settings/components/membership-plan/membership-popup/membership-plan-popup.component";
-import {SoraxColumnDefinition} from "../../../../common/components/sorax-table-view/sorax-column-definition";
-import {EventService} from "../../../services/event-service/event.service";
-import {ResultViewModel} from "../../../../models/result-view-model";
-import EventDTO from "../../../../models/event/eventDTO";
-import EventTicketDTO from "../../../../models/event/eventTicketDTO";
 import {EventTicketPopupComponent} from "../event-ticket-popup/event-ticket-popup.component";
+import {ResultViewModel} from "../../../../../models/result-view-model";
+import EventTicketDTO from "../../../../../models/event/eventTicketDTO";
+import {SoraxColumnDefinition} from "../../../../../common/components/sorax-table-view/sorax-column-definition";
+import {EventService} from "../../../../services/event-service/event.service";
 
 @Component({
   selector: "app-event-ticket-list",

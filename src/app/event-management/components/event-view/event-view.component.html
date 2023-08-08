@@ -39,7 +39,9 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>Sponsors</ng-template>
-    <p>Under Development</p>
+      <div *ngIf="event">
+          <app-event-sponsor-list  [eventId]="event.id"></app-event-sponsor-list>
+      </div>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>Programs Runsheet</ng-template>
