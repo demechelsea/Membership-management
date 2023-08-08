@@ -122,6 +122,8 @@ export class Urls {
      public static ACTIVE_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/active";
      public static EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events";
 
+    public static COMPANIES: string = Urls.baseAPIUrl + Urls.contextPath + "/companies";
+
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 
      public static TITLES = [

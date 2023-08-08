@@ -12,24 +12,24 @@ import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { LocalstorageService } from "app/common/services/localstorage.service";
 import { NotificationService } from "app/common/services/notification.service";
-import {EventService} from "../../../services/event-service/event.service";
-import EventTicketDTO from "../../../../models/event/eventTicketDTO";
-import EventTicketIssuedDTO from "../../../../models/event/eventTicketIssuedDTO";
-import {ResultViewModel} from "../../../../models/result-view-model";
+import {EventService} from "../../../../services/event-service/event.service";
+import EventTicketDTO from "../../../../../models/event/eventTicketDTO";
 
 @Component({
-  selector: "app-event-ticket-issue-popup",
-  templateUrl: "./event-ticket-issue-popup.component.html",
+  selector: "app-event-ticket-popup",
+  templateUrl: "./event-ticket-popup.component.html",
 })
-export class EventTicketIssuePopupComponent extends BaseComponent implements OnInit {
+export class EventTicketPopupComponent extends BaseComponent implements OnInit {
+  intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
+  statusoptionsKey: string = LookupService.STATUS_OPTIONS;
 
   private ngUnsubscribe$ = new Subject<void>();
-  private resultViewModel: ResultViewModel = new ResultViewModel();
-  public issueTicketForm: FormGroup;
+  public membershipPlanForm: FormGroup;
+  public eventTicketForm: FormGroup;
   public intervals: LableValueModel[] = [];
   public isLoading: boolean;
-
-  public availableTicketOptions: EventTicketDTO[];
+  public noResults: boolean;
+  filteredIntervals$: Observable<LableValueModel[]>;
 
   ticketTypes = [{
     name: "Free",
@@ -45,11 +45,11 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
     value: "GUESTS"
   }]
 
-  buttonText = "Issue a ticket";
+  buttonText = "Create a ticket";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<EventTicketIssuePopupComponent>,
+    public dialogRef: MatDialogRef<EventTicketPopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
@@ -62,46 +62,35 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
   }
 
   ngOnInit() {
-    this.getEventTickets(this.data.eventId);
     this.buildTicketTypeForm(this.data.payload);
     this.cdRef.detectChanges();
   }
 
-  getEventTickets(eventId) {
-    this.eventService.getEventTicketsById(eventId)
-        .pipe(takeUntil(this.ngUnsubscribe$))
-        .subscribe((response) => {
-          Object.assign(this.resultViewModel, response);
-          this.availableTicketOptions = this.resultViewModel.result;
-        })
-  }
-
-  buildTicketTypeForm(eventTicketIssuedDTO: EventTicketIssuedDTO) {
+  buildTicketTypeForm(eventTicketDTO: EventTicketDTO) {
     const isUpdate = !this.data.isNew;
-    this.issueTicketForm = this.formBuilder.group({
-      id: [isUpdate ? eventTicketIssuedDTO.id : null, isUpdate ? Validators.required : []],
-      name: [eventTicketIssuedDTO.name || "", [Validators.required, Validators.minLength(3)],],
-      phoneNumber: [eventTicketIssuedDTO.phoneNumber || ""],
-      emailId: [eventTicketIssuedDTO.emailId || "", Validators.required],
-      ticketPurchased: [eventTicketIssuedDTO.ticketPurchased || "", [Validators.required, positiveNumberValidator]],
-      smsTicket: new FormControl(false),
-      emailTicket: new FormControl(false),
-      ticketId: [eventTicketIssuedDTO.ticketId || "", [Validators.required, positiveNumberValidator]],
-      couponId: [eventTicketIssuedDTO.couponId || "", [Validators.required, positiveNumberValidator]]
+    this.eventTicketForm = this.formBuilder.group({
+      id: [isUpdate ? eventTicketDTO.id : null, isUpdate ? Validators.required : []],
+      name: [eventTicketDTO.name || "", [Validators.required, Validators.minLength(3)],],
+      description: [eventTicketDTO.description || ""],
+      ticketType: [eventTicketDTO.ticketType || "", Validators.required],
+      numberOfTickets: [eventTicketDTO.numberOfTickets || "", [Validators.required, positiveNumberValidator]],
+      peopleAllowedPerTicket: [eventTicketDTO.peopleAllowedPerTicket || "", [Validators.required, positiveNumberValidator]],
+      adminIssue: [this.convertToNumber(eventTicketDTO.adminIssue) || 0, Validators.required],
+      visibleToPublic: new FormControl(false),
+      isHidden: new FormControl(false),
     });
   }
 
-  submit(eventTicketIssuedDTO: EventTicketIssuedDTO) {
+  submit(eventTicketDTO: EventTicketDTO) {
 
-    console.log(eventTicketIssuedDTO)
+    console.log(eventTicketDTO)
 
-      eventTicketIssuedDTO.emailTicket = eventTicketIssuedDTO.emailTicket ? "Y" : "N";
-      eventTicketIssuedDTO.smsTicket = eventTicketIssuedDTO.smsTicket ? "Y" : "N";
+    eventTicketDTO.visibleToPublic = eventTicketDTO.visibleToPublic ? "Y" : "N";
 
-    if (this.issueTicketForm.valid) {
-      const issueTicketData = this.issueTicketForm.value;
+    if (this.eventTicketForm.valid) {
+      const ticketData = this.eventTicketForm.value;
       if (this.data.isNew){
-        this.eventService.addEventTicketIssue(this.data.eventId, issueTicketData)
+        this.eventService.addEventTicket(this.data.eventId, ticketData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((response) => {
               if (response.success){
@@ -116,7 +105,7 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
             })
       } else {
         this.eventService
-              .editEventTicketIssue(this.data.eventId, eventTicketIssuedDTO.id, eventTicketIssuedDTO)
+              .editEventTicket(this.data.eventId, eventTicketDTO.id, ticketData)
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((response) => {
                 if (response.success) {
@@ -134,6 +123,14 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
 
   convertToNumber(str: string): number {
     return str == "Y" ? 1 : 0;
+  }
+
+  onSelectedIntervalOption(option: LableValueModel) {
+    this.membershipPlanForm.controls["interval"].setValue(option.name);
+  }
+
+  onSelectedStatusOption(option: LableValueModel) {
+    this.membershipPlanForm.controls["status"].setValue(option.name);
   }
 
   ngOnDestroy() {

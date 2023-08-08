@@ -6,11 +6,11 @@ import {NotificationService} from "app/common/services/notification.service";
 import {BaseComponent} from "app/core/components/base/base.component";
 import {Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
-import {SoraxColumnDefinition} from "../../../../common/components/sorax-table-view/sorax-column-definition";
-import {EventService} from "../../../services/event-service/event.service";
-import {ResultViewModel} from "../../../../models/result-view-model";
 import {EventTicketIssuePopupComponent} from "../event-ticket-issue-popup/event-ticket-issue-popup.component";
-import EventTicketIssuedDTO from "../../../../models/event/eventTicketIssuedDTO";
+import {ResultViewModel} from "../../../../../models/result-view-model";
+import EventTicketIssuedDTO from "../../../../../models/event/eventTicketIssuedDTO";
+import {SoraxColumnDefinition} from "../../../../../common/components/sorax-table-view/sorax-column-definition";
+import {EventService} from "../../../../services/event-service/event.service";
 
 @Component({
   selector: "app-event-ticket-issue-list",

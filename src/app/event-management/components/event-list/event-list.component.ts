@@ -129,35 +129,9 @@ export class EventListComponent extends BaseComponent implements OnInit {
           Object.assign(this.resultViewModel, response);
           console.log(this.resultViewModel);
           this.eventList = this.resultViewModel.result;
-          // this.committeePlanData = this.listPlans.map((committee) => {
-          //   const start = new Date(committee.startDate);
-          //   const end = new Date(committee.endDate);
-          //   // const durationInMonths = this.calculateDurationInMonths(start, end);
-          //   return { ...committee, duration: `${durationInMonths} months` };
-          // });
-          // Object.assign(this.messages, response);
           this.loader.close();
         })
   }
-
-  // getPageResults() {
-  //   this.loader.open();
-  //   this.committeeService
-  //       .getItems()
-  //       .pipe(takeUntil(this.ngUnsubscribe$))
-  //       .subscribe((response) => {
-  //         Object.assign(this.resultViewModel, response);
-  //         this.listPlans = this.resultViewModel.result;
-  //         this.committeePlanData = this.listPlans.map((committee) => {
-  //           const start = new Date(committee.startDate);
-  //           const end = new Date(committee.endDate);
-  //           const durationInMonths = this.calculateDurationInMonths(start, end);
-  //           return { ...committee, duration: `${durationInMonths} months` };
-  //         });
-  //         Object.assign(this.messages, response);
-  //         this.loader.close();
-  //       });
-  // }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.positions, event.previousIndex, event.currentIndex);

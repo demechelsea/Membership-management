@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import EventDTO from "../../../models/event/eventDTO";
 import EventTicketDTO from "../../../models/event/eventTicketDTO";
 import EventTicketIssuedDTO from "../../../models/event/eventTicketIssuedDTO";
+import EventSponsorDTO from "../../../models/event/eventSponsorDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +56,18 @@ export class EventService extends HttpAppDataService {
 
     editEventTicketIssue(id: number, ticketIssueId:number, eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
         return this.putData(Urls.EVENTS + '/' + id + '/tickets-issues/' + ticketIssueId, eventTicketIssueDto);
+    }
+
+    getEventSponsorsByEventId(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id + '/sponsors');
+    }
+
+    addEventSponsor(id: number, eventSponsorDTO: EventSponsorDTO): Observable<any> {
+        return this.postData(Urls.EVENTS + '/' + id + '/sponsors', eventSponsorDTO);
+    }
+
+    editEventSponsor(id: number, ticketIssueId:number, eventSponsorDTO: EventSponsorDTO): Observable<any> {
+        return this.putData(Urls.EVENTS + '/' + id + '/sponsors/' + ticketIssueId, eventSponsorDTO);
     }
 
 }
