@@ -42,6 +42,13 @@ import {
 import {
     EventProgramPopupComponent
 } from "./components/event-view/event-program/event-program-popup/event-program-popup.component";
+import {
+    EventGalleryListComponent
+} from "./components/event-view/event-gallery/event-gallery-list/event-gallery-list.component";
+import {
+    EventGalleryPopupComponent
+} from "./components/event-view/event-gallery/event-gallery-popup/event-gallery-popup.component";
+import {QuillModule} from "ngx-quill";
 
 const declarationsList = [
     EventListComponent,
@@ -57,7 +64,9 @@ const declarationsList = [
     EventSponsorCardComponent,
     AddCompanyPopupComponent,
     EventProgramListComponent,
-    EventProgramPopupComponent
+    EventProgramPopupComponent,
+    EventGalleryListComponent,
+    EventGalleryPopupComponent
 ];
 
 const importsList = [
@@ -73,7 +82,10 @@ const providerList = [
 ];
 
 @NgModule({
-    imports: importsList,
+    imports: [
+        importsList,
+        QuillModule
+    ],
     providers: providerList,
     declarations: declarationsList
 })

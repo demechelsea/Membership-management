@@ -20,6 +20,7 @@ export class LookupService extends HttpAppDataService {
   public static POSITION_OPTIONS: string = "positionOptions";
   public static MEMBER_OPTIONS: string = "memberOptions";
   public static COUNTRIES: string = "countries";
+  public static TIMEZONES: string = "timezones";
   committeePositions: CommitteePositionDTO[] = [];
   assocationMembers: AssociationDTO[] = [];
   private ngUnsubscribe$ = new Subject<void>();
