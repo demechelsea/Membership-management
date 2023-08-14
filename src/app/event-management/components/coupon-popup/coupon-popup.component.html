@@ -33,7 +33,7 @@
                 </div>
                 <div class="w-full md:w-1/2 pr-8">
                     <mat-slide-toggle class="padround8"
-                          [formControl]="couponForm.controls['autoGenerateCoupon']">Auto Generate Coupon Code?</mat-slide-toggle>
+                          [formControl]="couponForm.controls['autoGenerateCoupon']" (change)="generateRandomCode()">Auto Generate Coupon Code?</mat-slide-toggle>
                 </div>
             </div>
 
@@ -59,7 +59,12 @@
             <div class="flex flex-wrap flex-col md:flex-row">
                 <div class="w-full md:w-1/1 pr-8">
                     <sorax-form-field label="Expiry Date" [soraxFormControl]="couponForm.get('expiryDate')">
-                        <input #soraxInput matInput formControlName="expiryDate" type="date" placeholder="Expiry Date"/>
+                        <div class="flex flex-row">
+                            <input #soraxInput matInput [matDatepicker]="expiryDatePicker" formControlName="expiryDate"
+                                placeholder="Expiry Date"/>
+                            <mat-datepicker-toggle matSuffix [for]="expiryDatePicker" class="h-10"></mat-datepicker-toggle>
+                        </div>
+                        <mat-datepicker #expiryDatePicker></mat-datepicker>
                     </sorax-form-field>
                 </div>
             </div>

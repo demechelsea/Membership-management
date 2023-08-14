@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, Inject, OnInit, ViewChild} from "@angular/core";
 import {
     FormBuilder,
     FormControl,
@@ -14,17 +14,18 @@ import {LocalstorageService} from "app/common/services/localstorage.service";
 import {NotificationService} from "app/common/services/notification.service";
 import CouponDTO from "../../../models/CouponDTO";
 import {CouponService} from "../../services/event-service/coupon.service";
+import {MatDatepicker} from "@angular/material/datepicker";
+import * as moment from "moment";
 
 @Component({
     selector: "app-coupon-popup",
     templateUrl: "./coupon-popup.component.html",
 })
 export class CouponPopupComponent extends BaseComponent implements OnInit {
-    intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
-    statusoptionsKey: string = LookupService.STATUS_OPTIONS;
+
+    @ViewChild('expiryDatePicker') expiryDatePicker: MatDatepicker<Date>;
 
     private ngUnsubscribe$ = new Subject<void>();
-    public membershipPlanForm: FormGroup;
     public couponForm: FormGroup;
     public intervals: LableValueModel[] = [];
     public isLoading: boolean;
@@ -78,7 +79,10 @@ export class CouponPopupComponent extends BaseComponent implements OnInit {
             code: [couponDTO.code || "", [Validators.required]],
             discount: [couponDTO.discount || "", [Validators.required]],
             discountType: [couponDTO.discountType || "", [Validators.required]],
-            expiryDate: [couponDTO.expiryDate || "", [Validators.required]],
+            expiryDate: [
+                isUpdate ? moment(couponDTO.expiryDate).format("YYYY-MM-DD") : "",
+                Validators.required,
+            ],
             maxRedemption: [couponDTO.maxRedemption || "", [Validators.required]],
             status: [couponDTO.status || "", Validators.required],
             autoGenerateCoupon: [couponDTO.autoGenerateCoupon || false, Validators.required]
@@ -123,12 +127,25 @@ export class CouponPopupComponent extends BaseComponent implements OnInit {
         return str == "Y" ? 1 : 0;
     }
 
-    onSelectedIntervalOption(option: LableValueModel) {
-        this.membershipPlanForm.controls["interval"].setValue(option.name);
-    }
+    generateRandomCode() {
 
-    onSelectedStatusOption(option: LableValueModel) {
-        this.membershipPlanForm.controls["status"].setValue(option.name);
+        let isAutoGenerateCodeChecked = this.couponForm.controls['autoGenerateCoupon'].value || false;
+
+        if (!isAutoGenerateCodeChecked){
+            this.couponForm.controls['code'].setValue(null);
+            return;
+        }
+
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+
+        const length = 6
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            code += charset.charAt(randomIndex);
+        }
+
+        this.couponForm.controls['code'].setValue(code.toUpperCase());
     }
 
     ngOnDestroy() {

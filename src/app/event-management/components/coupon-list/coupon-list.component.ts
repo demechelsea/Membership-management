@@ -96,6 +96,7 @@ export class CouponListComponent extends BaseComponent implements OnInit {
                 name: "End Date",
                 dataKey: "expiryDate",
                 position: "left",
+                dataType: "Date",
                 isSortable: true
             },
             {
