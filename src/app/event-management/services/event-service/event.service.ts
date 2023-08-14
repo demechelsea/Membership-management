@@ -27,6 +27,10 @@ export class EventService extends HttpAppDataService {
         return this.fetchData(Urls.ACTIVE_EVENT_LIST);
     }
 
+    getPastEvents(): Observable<ResultViewModel> {
+        return this.fetchData(Urls.PAST_EVENT_LIST);
+    }
+
     addEvent(eventDto: EventDTO): Observable<any> {
         return this.postData(Urls.EVENTS, eventDto);
     }

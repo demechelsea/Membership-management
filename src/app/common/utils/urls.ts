@@ -120,6 +120,7 @@ export class Urls {
      public static WEBSITE_INFO_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/retrieveWebsiteInfo";
 
      public static ACTIVE_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/active";
+     public static PAST_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/past";
      public static EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events";
 
     public static COMPANIES: string = Urls.baseAPIUrl + Urls.contextPath + "/companies";
