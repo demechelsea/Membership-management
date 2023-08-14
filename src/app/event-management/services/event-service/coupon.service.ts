@@ -9,12 +9,13 @@ import EventDTO from "../../../models/event/eventDTO";
 import EventTicketDTO from "../../../models/event/eventTicketDTO";
 import EventTicketIssuedDTO from "../../../models/event/eventTicketIssuedDTO";
 import EventSponsorDTO from "../../../models/event/eventSponsorDTO";
-import CompanyDTO from "../../../models/CompanyDTO";
+import EventProgramDTO from "../../../models/event/eventProgramDTO";
+import CouponDTO from "../../../models/CouponDTO";
 
 @Injectable({
     providedIn: 'root'
 })
-export class CompanyService extends HttpAppDataService {
+export class CouponService extends HttpAppDataService {
 
     private http: HttpClient;
 
@@ -23,12 +24,15 @@ export class CompanyService extends HttpAppDataService {
         this.http = httpClient;
     }
 
-    getCompanies(): Observable<ResultViewModel> {
-        return this.fetchData(Urls.COMPANIES);
+    getCoupons(): Observable<ResultViewModel> {
+        return this.fetchData(Urls.COUPONS);
     }
 
-    addCompany(companyDto: CompanyDTO): Observable<any> {
-        return this.postData(Urls.COMPANIES, companyDto);
+    addCoupon(couponDTO: CouponDTO): Observable<any> {
+        return this.postData(Urls.COUPONS, couponDTO);
     }
 
+    editCoupon(couponId: number, couponDTO: CouponDTO): Observable<any> {
+        return this.postData(Urls.COUPONS + '/' + couponId, couponDTO);
+    }
 }

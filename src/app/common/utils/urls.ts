@@ -123,6 +123,7 @@ export class Urls {
      public static EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events";
 
     public static COMPANIES: string = Urls.baseAPIUrl + Urls.contextPath + "/companies";
+    public static COUPONS: string = Urls.baseAPIUrl + Urls.contextPath + "/coupons";
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 
