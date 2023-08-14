@@ -11,7 +11,7 @@ import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { LocalstorageService } from "app/common/services/localstorage.service";
 import { NotificationService } from "app/common/services/notification.service";
-import CompanyDTO from "../../../../../../models/event/CompanyDTO";
+import CompanyDTO from "../../../../../../models/CompanyDTO";
 import {CompanyService} from "../../../../../services/event-service/company.service";
 
 @Component({

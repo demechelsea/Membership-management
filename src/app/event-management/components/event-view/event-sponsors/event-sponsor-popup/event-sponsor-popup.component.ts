@@ -23,7 +23,7 @@ import {
 } from "../../../../../association-settings/components/committee/position-popup/position-popup.component";
 import {AddCompanyPopupComponent} from "../event-sponsor-list/add-company-popup/add-company-popup.component";
 import {CompanyService} from "../../../../services/event-service/company.service";
-import CompanyDTO from "../../../../../models/event/CompanyDTO";
+import CompanyDTO from "../../../../../models/CompanyDTO";
 
 
 @Component({
