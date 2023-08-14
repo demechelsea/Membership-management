@@ -33,6 +33,6 @@ export class CouponService extends HttpAppDataService {
     }
 
     editCoupon(couponId: number, couponDTO: CouponDTO): Observable<any> {
-        return this.postData(Urls.COUPONS + '/' + couponId, couponDTO);
+        return this.putData(Urls.COUPONS + '/' + couponId, couponDTO);
     }
 }
