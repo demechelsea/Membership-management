@@ -1,0 +1,13 @@
+<mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <mat-card-content >
+        <sorax-table-view
+                [tableData]="eventList"
+                [tableColumns]="pastEventsColumns"
+                [isFilterable]="false"
+                [isPageable]="true"
+                [page]="page"
+                [showToolTip] = "false"
+                (rowAction)="executeRowActions($event)">
+        </sorax-table-view>
+    </mat-card-content>
+</mat-card>

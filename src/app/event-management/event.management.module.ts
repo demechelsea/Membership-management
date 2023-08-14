@@ -51,6 +51,7 @@ import {
 import {QuillModule} from "ngx-quill";
 import {CouponListComponent} from "./components/coupon-list/coupon-list.component";
 import {CouponPopupComponent} from "./components/coupon-popup/coupon-popup.component";
+import {PastEventListComponent} from "./components/past-event-list/past-event-list.component";
 
 const declarationsList = [
     EventListComponent,
@@ -69,6 +70,7 @@ const declarationsList = [
     EventProgramPopupComponent,
     EventGalleryListComponent,
     EventGalleryPopupComponent,
+    PastEventListComponent,
 
     CouponListComponent,
     CouponPopupComponent
