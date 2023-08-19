@@ -12,6 +12,9 @@ import {SoraxColumnDefinition} from "../../../../../common/components/sorax-tabl
 import {EventService} from "../../../../services/event-service/event.service";
 import EventProgramDTO from "../../../../../models/event/eventProgramDTO";
 import {EventGalleryPopupComponent} from "../event-gallery-popup/event-gallery-popup.component";
+import EventGalleryDTO from "../../../../../models/event/eventGalleryDTO";
+import {Urls} from "../../../../../common/utils/urls";
+import {EventProgramPopupComponent} from "../../event-program/event-program-popup/event-program-popup.component";
 
 @Component({
     selector: "app-event-gallery-list",
@@ -20,35 +23,72 @@ import {EventGalleryPopupComponent} from "../event-gallery-popup/event-gallery-p
     animations: SoraxAnimations,
 })
 export class EventGalleryListComponent extends BaseComponent implements OnInit {
-    photos = [{
-        name: 'Photo 1',
-        url: 'assets/images/sq-10.jpg'
-    }, {
-        name: 'Photo 2',
-        url: 'assets/images/sq-16.jpg'
-    }, {
-        name: 'Photo 3',
-        url: 'assets/images/sq-15.jpg'
-    }, {
-        name: 'Photo 4',
-        url: 'assets/images/sq-17.jpg'
-    }, {
-        name: 'Photo 5',
-        url: 'assets/images/sq-13.jpg'
-    }, {
-        name: 'Photo 6',
-        url: 'assets/images/sq-12.jpg'
-    }, {
-        name: 'Photo 7',
-        url: 'assets/images/sq-11.jpg'
-    }, {
-        name: 'Photo 8',
-        url: 'assets/images/sq-10.jpg'
-    }]
-    constructor() {
+
+    @Input("eventId") eventId: number;
+    private ngUnsubscribe$ = new Subject<void>();
+
+    resultViewModel: ResultViewModel = new ResultViewModel();
+
+    gallery: EventGalleryDTO[] = [];
+
+    constructor(
+        private eventService: EventService,
+        private notificationService: NotificationService,
+        private dialog: MatDialog,
+    ) {
         super();
     }
 
     ngOnInit() {
+
+        if (this.eventId) {
+            this.getGalleryByEventId(this.eventId);
+        }
+
+
+    }
+
+    getGalleryByEventId(eventId) {
+        this.eventService.getGalleryByEventId(eventId)
+            .pipe(takeUntil(this.ngUnsubscribe$))
+            .subscribe((response) => {
+                Object.assign(this.resultViewModel, response);
+                this.gallery = this.resultViewModel.result;
+                this.gallery.forEach(g => {
+                    g.imageVideoLink = Urls.baseAPIUrl + "/" + g.imageVideoLink;
+                })
+                console.log(this.gallery);
+            })
+    }
+
+    deleteGallery(galleryId) {
+        this.eventService.deleteGalleryByEventId(this.eventId, galleryId)
+            .pipe(takeUntil(this.ngUnsubscribe$))
+            .subscribe((response) => {
+                if (response.success) {
+                    this.notificationService.showSuccess(
+                        response.messages[0].message
+                    )
+                } else {
+                    this.notificationService.showError(response.messages[0].message);
+                }
+            })
+    }
+
+    openPopUp() {
+        let title = "Upload Photos";
+        let dialogRef: MatDialogRef<any> = this.dialog.open(
+            EventGalleryPopupComponent,
+            {
+                width: "720px",
+                disableClose: true,
+                data: {title: title, payload: {}, isNew: true, eventId: this.eventId},
+            }
+        );
+        dialogRef.afterClosed().subscribe((res) => {
+            if (!res) {
+                return;
+            }
+        });
     }
 }

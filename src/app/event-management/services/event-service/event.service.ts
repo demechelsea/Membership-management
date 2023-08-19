@@ -10,6 +10,7 @@ import EventTicketDTO from "../../../models/event/eventTicketDTO";
 import EventTicketIssuedDTO from "../../../models/event/eventTicketIssuedDTO";
 import EventSponsorDTO from "../../../models/event/eventSponsorDTO";
 import EventProgramDTO from "../../../models/event/eventProgramDTO";
+import EventGalleryDTO from "../../../models/event/eventGalleryDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -85,6 +86,18 @@ export class EventService extends HttpAppDataService {
 
     editEventProgram(eventId: number, programId: number, eventProgramDto: EventProgramDTO): Observable<any> {
         return this.putData(Urls.EVENTS + '/' + eventId + '/programmes/' + programId, eventProgramDto);
+    }
+
+    getGalleryByEventId(id: number): Observable<any> {
+        return this.fetchData(Urls.EVENTS + '/' + id + '/gallery');
+    }
+
+    addEventGallery(id: number, eventGalleryDto: FormData): Observable<any> {
+        return this.postData(Urls.EVENTS + '/' + id + '/gallery', eventGalleryDto);
+    }
+
+    deleteGalleryByEventId(id: number, galleryId: number): Observable<any> {
+        return this.deleteData(Urls.EVENTS + '/' + id + '/gallery/' + galleryId);
     }
 
 }
