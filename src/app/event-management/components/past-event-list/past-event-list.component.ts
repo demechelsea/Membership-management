@@ -73,8 +73,9 @@ export class PastEventListComponent extends BaseComponent implements OnInit {
         this.pastEventsColumns = [
             {
                 name: "Event Date",
-                dataKey: "code",
+                dataKey: "startDate",
                 position: "left",
+                dataType: "Date",
                 isSortable: true,
 
             },
@@ -90,15 +91,14 @@ export class PastEventListComponent extends BaseComponent implements OnInit {
             },
             {
                 name: "#People Attended",
-                dataKey: "discountLabel",
+                dataKey: "peopleAllowedPerTicket",
                 position: "left",
                 isSortable: true,
             },
             {
                 name: "Shown to public",
-                dataKey: "expiryDate",
+                dataKey: "availableToPublic",
                 position: "left",
-                dataType: "Date",
                 isSortable: true
             },
             {

@@ -8,6 +8,7 @@ export default class EventTicketDTO extends MessageWrapModel {
     ticketType: string;
     ticketTypes: string[]
     numberOfTickets: number;
+    ticketPrice: number;
     peopleAllowedPerTicket: number;
     adminIssue: string;
     visibleToPublic: string;

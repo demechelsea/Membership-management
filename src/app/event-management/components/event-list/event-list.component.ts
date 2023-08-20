@@ -32,6 +32,7 @@ import {
 import {EventService} from "../../services/event-service/event.service";
 import EventDTO from "../../../models/event/eventDTO";
 import {EventPopupComponent} from "../event-popup/event-popup.component";
+import * as moment from "moment";
 
 @Component({
   selector: 'sorax-event-list',
@@ -129,6 +130,12 @@ export class EventListComponent extends BaseComponent implements OnInit {
           Object.assign(this.resultViewModel, response);
           console.log(this.resultViewModel);
           this.eventList = this.resultViewModel.result;
+          this.eventList.forEach(e => {
+              e.startTimeLabel = moment(e.startDate).format("MMMM Do YYYY, h:mm:ss a")
+              e.endTimeLabel = moment(e.endDate).format("MMMM Do YYYY, h:mm:ss a")
+          })
+
+
           this.loader.close();
         })
   }

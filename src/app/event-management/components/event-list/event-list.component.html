@@ -7,19 +7,9 @@
 >
     <mat-tab>
         <ng-template mat-tab-label>Active Events</ng-template>
-        <div
-                class="m-12"
-                [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-                style="text-align: right"
-                *ngIf="!showDetails"
-        >
-            <button
-                    mat-raised-button
-                    class="mb-8"
-                    color="primary"
-                    align="right"
-                    (click)="openEventPopUp({}, true)"
-            >
+        <div class="m-5" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right"
+                *ngIf="!showDetails">
+            <button mat-raised-button color="primary" align="right" (click)="openEventPopUp({}, true)">
                 Create a New Event
             </button>
         </div>
