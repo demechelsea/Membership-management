@@ -2,6 +2,7 @@ import { MessageWrapModel } from '../messageWrapModel';
 
 export default class EventDTO extends MessageWrapModel {
     id:number;
+    encryptedId:string;
     startDate:Date;
     startTime: Date;
     endDate:Date;
