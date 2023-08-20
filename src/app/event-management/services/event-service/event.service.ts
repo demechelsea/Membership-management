@@ -36,7 +36,7 @@ export class EventService extends HttpAppDataService {
         return this.postData(Urls.EVENTS, eventDto);
     }
 
-    getEventById(id: number): Observable<any> {
+    getEventById(id: string): Observable<any> {
         return this.fetchData(Urls.EVENTS + '/' + id);
     }
 
