@@ -33,6 +33,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@swimlane/ngx-datatable": "^20.1.0",
+    "@types/googlemaps": "^3.43.3",
     "angular-calendar": "^0.31.0",
     "angular-in-memory-web-api": "^0.16.0",
     "angular-star-rating": "^6.0.0",

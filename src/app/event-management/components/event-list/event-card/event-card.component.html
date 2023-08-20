@@ -4,16 +4,16 @@
   >
     <div class="flex justify-between">
       <div class="left-section">
-        <img src="assets/images/backgrounds/card-coffee-cup.jpg" alt="">
+        <img src="../../../../../assets/images/backgrounds/card-coffee-cup.jpg" alt="">
       </div>
       <div class="center-section mx-4">
-        <h3 class="text-2xl text-red">{{event.name}}</h3>
-        <p><strong>Starts:</strong> Wednesday March 1, 2023 11:30am</p>
-        <p><strong>Ends:</strong> Wednesday March 1, 2023 04:30pm</p>
+        <h3 class="text-2xl text-red" (click)="openEvent(event.id)">{{event.name}}</h3>
+        <p><strong>Starts:</strong> {{event.startTimeLabel}}</p>
+        <p><strong>Ends:</strong> {{event.endTimeLabel}}</p>
         <p><strong>Venue:</strong> {{event.location}}</p>
       </div>
       <div>
-        <p><strong>Status:</strong> Active</p>
+        <p><strong>Status:</strong> {{event.status}}</p>
         <p><strong>Total Collected:</strong> $3500</p>
         <p><strong>Tickets Issued:</strong> 200</p>
         <p><strong>Tickets Available: </strong> 2000</p>

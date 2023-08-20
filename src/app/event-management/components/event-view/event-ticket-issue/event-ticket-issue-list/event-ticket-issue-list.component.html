@@ -1,0 +1,21 @@
+<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right">
+  <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+    Add Tickets
+  </button>
+</div>
+<mat-card
+        [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+>
+  <mat-card-content >
+    <sorax-table-view
+            [tableData]="ticketIssuedDTOS"
+            [tableColumns]="ticketIssuedColumns"
+            [isFilterable]="false"
+            [isPageable]="true"
+            [page]="page"
+            [showToolTip] = "false"
+            (rowAction)="executeRowActions($event)"
+    >
+    </sorax-table-view>
+  </mat-card-content>
+</mat-card>

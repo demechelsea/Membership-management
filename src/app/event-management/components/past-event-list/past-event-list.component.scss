@@ -1,0 +1,21 @@
+.image-item {
+    width: 250px; 
+    margin: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease; 
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+}
+
+.caption {
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.image-item:hover {
+    transform: scale(1.15); 
+}

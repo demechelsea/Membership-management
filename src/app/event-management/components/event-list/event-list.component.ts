@@ -30,8 +30,9 @@ import {
   openEventManagementPopupService
 } from "../../services/openEventManagementPopup-service/openEventManagementPopup.service";
 import {EventService} from "../../services/event-service/event.service";
-import EventDTO from "../../../models/eventDTO";
+import EventDTO from "../../../models/event/eventDTO";
 import {EventPopupComponent} from "../event-popup/event-popup.component";
+import * as moment from "moment";
 
 @Component({
   selector: 'sorax-event-list',
@@ -129,35 +130,15 @@ export class EventListComponent extends BaseComponent implements OnInit {
           Object.assign(this.resultViewModel, response);
           console.log(this.resultViewModel);
           this.eventList = this.resultViewModel.result;
-          // this.committeePlanData = this.listPlans.map((committee) => {
-          //   const start = new Date(committee.startDate);
-          //   const end = new Date(committee.endDate);
-          //   // const durationInMonths = this.calculateDurationInMonths(start, end);
-          //   return { ...committee, duration: `${durationInMonths} months` };
-          // });
-          // Object.assign(this.messages, response);
+          this.eventList.forEach(e => {
+              e.startTimeLabel = moment(e.startDate).format("MMMM Do YYYY, h:mm:ss a")
+              e.endTimeLabel = moment(e.endDate).format("MMMM Do YYYY, h:mm:ss a")
+          })
+
+
           this.loader.close();
         })
   }
-
-  // getPageResults() {
-  //   this.loader.open();
-  //   this.committeeService
-  //       .getItems()
-  //       .pipe(takeUntil(this.ngUnsubscribe$))
-  //       .subscribe((response) => {
-  //         Object.assign(this.resultViewModel, response);
-  //         this.listPlans = this.resultViewModel.result;
-  //         this.committeePlanData = this.listPlans.map((committee) => {
-  //           const start = new Date(committee.startDate);
-  //           const end = new Date(committee.endDate);
-  //           const durationInMonths = this.calculateDurationInMonths(start, end);
-  //           return { ...committee, duration: `${durationInMonths} months` };
-  //         });
-  //         Object.assign(this.messages, response);
-  //         this.loader.close();
-  //       });
-  // }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.positions, event.previousIndex, event.currentIndex);
@@ -190,15 +171,15 @@ export class EventListComponent extends BaseComponent implements OnInit {
   }
 
   onTabChange(event: MatTabChangeEvent) {
-    if (event.index === 1) {
-      this.positionService
-          .getCommitteePositions()
-          .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe((response) => {
-            this.positions = response.result;
-            this.positions.sort((a, b) => a.positionRank - b.positionRank);
-          });
-    }
+    // if (event.index === 1) {
+    //   this.positionService
+    //       .getCommitteePositions()
+    //       .pipe(takeUntil(this.ngUnsubscribe$))
+    //       .subscribe((response) => {
+    //         this.positions = response.result;
+    //         this.positions.sort((a, b) => a.positionRank - b.positionRank);
+    //       });
+    // }
   }
 
   calculateDurationInMonths(start: Date, end: Date): number {

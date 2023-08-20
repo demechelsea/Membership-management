@@ -1,0 +1,12 @@
+<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right">
+  <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+    Add Sponsor
+  </button>
+</div>
+<mat-card
+        [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+>
+  <mat-card-content >
+      <app-event-sponsor-card *ngFor="let sponsor of eventSponsorDTOS" [sponsor]="sponsor"></app-event-sponsor-card>
+  </mat-card-content>
+</mat-card>
