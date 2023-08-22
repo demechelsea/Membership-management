@@ -67,6 +67,15 @@ export const rootRouterConfig: Routes = [
     ]
   },
   {
+    path:'profile',
+    component: SoraxAdminLayoutComponent,
+    canActivate:[SoraxAuthGuard],
+    children:[{
+      path: 'profile',
+      loadChildren:() => import('app/views/profile/profile.module').then(m => m.ProfileModule)
+    }]
+  },
+  {
     path: 'underdev',
     component: SoraxAdminLayoutComponent,
     canActivate: [SoraxAuthGuard],

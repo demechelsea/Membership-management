@@ -28,6 +28,11 @@ export class AppErrorHandler extends ErrorHandler {
       }else{
         errorMessage=error.message
       }
+
+      if(error.error){
+        errorMessage =  errorMessage + error.error.message;
+      }
+      
       this.getNotificationService().showError(errorMessage, "Error",{onActivateTick:true, positionClass: 'toast-top-full-width'});
     
       //TODO: Logging this error should be done for tracking purpose
