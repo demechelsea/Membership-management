@@ -99,7 +99,7 @@ export class HttpAppDataService extends BaseService {
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
+    if (error.error) {
       // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {

@@ -20,7 +20,7 @@ export class AppLoaderService {
     this.dialogRef = this.dialog.open(AppLoaderComponent,
       {
         disableClose: true,
-        backdropClass: 'light-backdropc',
+        backdropClass: 'dark-backdrop-custom',
         panelClass: 'loader-modalbox'
       });
     this.dialogRef.updateSize(config.width);

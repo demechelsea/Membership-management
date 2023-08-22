@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
   templateUrl: "./profile.component.html",
 })
 export class ProfileComponent implements OnInit {
+  progress = 75;
+
   activeView: string = "overview";
   user: Observable<User>;
   // Doughnut
