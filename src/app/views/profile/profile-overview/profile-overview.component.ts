@@ -53,31 +53,31 @@ export class ProfileOverviewComponent implements OnInit {
   tickets = [{
     img: 'assets/images/face-1.jpg',
     name: 'Mike Dake',
-    text: 'Excerpt pipe is used.',
+    text: 'Spouse.',
     date: new Date('07/12/2017'),
     isOpen: true
   }, {
     img: 'assets/images/face-5.jpg',
     name: 'Jhone Doe',
-    text: 'My dashboard is not working.',
+    text: 'Daughter',
     date: new Date('07/7/2017'),
     isOpen: false
   }, {
     img: 'assets/images/face-3.jpg',
     name: 'Jhonson lee',
-    text: 'Fix stock issue',
+    text: 'Son',
     date: new Date('04/10/2017'),
     isOpen: false
   }, {
     img: 'assets/images/face-4.jpg',
     name: 'Mikie Jyni',
-    text: 'Renew my subscription.',
+    text: 'Daughter.',
     date: new Date('07/7/2017'),
     isOpen: false
   }, {
     img: 'assets/images/face-5.jpg',
     name: 'Jhone Dake',
-    text: 'Payment confirmation.',
+    text: 'Mother in law.',
     date: new Date('04/10/2017'),
     isOpen: false
   }]

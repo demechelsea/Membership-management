@@ -3,13 +3,15 @@ import { ActivatedRoute } from "@angular/router";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { User } from '../../shared/models/user.model';
 import { Observable } from 'rxjs';
+import { ThemePalette } from "@angular/material/core";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
 })
 export class ProfileComponent implements OnInit {
-  progress = 75;
+  progress = 26;
+  progressColor: ThemePalette = 'warn';
 
   activeView: string = "overview";
   user: Observable<User>;
@@ -47,9 +49,20 @@ export class ProfileComponent implements OnInit {
     },
   };
 
-  constructor(private router: ActivatedRoute, public jwtAuth: JwtAuthService) {}
+  constructor(private router: ActivatedRoute, public jwtAuth: JwtAuthService) { }
+
+  setProgressColor() {
+    if (this.progress <= 25) {
+      this.progressColor = 'warn';
+    } else if (this.progress <= 90) {
+      this.progressColor = 'accent';
+    } else {
+      this.progressColor = 'primary';
+    }
+  }
 
   ngOnInit() {
+    this.setProgressColor();
     this.activeView = this.router.snapshot.params["view"];
     this.user = this.jwtAuth.user$;
   }

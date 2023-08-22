@@ -1,6 +1,12 @@
 <div class="flex flex-wrap"  >
   <div class="w-full xl:w-[270px] md:w-1/2"  >
     <mat-card class="profile-sidebar mat-card-border " >
+      <mat-progress-bar 
+      [color]="progressColor"
+      mode="determinate" [value]="progress" class="custom-thickness float-top" >
+      </mat-progress-bar>
+      <span  class="text-right text-{{progressColor}}"><strong>Completed {{progress}}%</strong></span>
+
       <div class="propic flex justify-center">
         <img src="assets/images/sq-face-220.jpg" alt="">
       </div>
@@ -25,10 +31,9 @@
         <button mat-icon-button mat-sm-button color="accent" matTooltip="Payment details">
           <mat-icon>payment</mat-icon>
         </button>
-        
-
       </div>
-      <div class="profile-nav">
+      <mat-divider></mat-divider>
+      <div class="profile-nav pt-4">
         <div class="px-3 py-1 flex items-center cursor-pointer hover:bg-slate-50" >
           <mat-icon class="mr-2 rtl:ml-2 text-muted">public</mat-icon>
             <div>www.mhrafi.com</div>
@@ -46,8 +51,9 @@
           <mat-icon class="mr-2 rtl:ml-2 text-muted">add_location</mat-icon>
           <div>Sbidbazar, Sylhet, BD</div>
         </div>
-        
-        <div class="px-3 py-2 flex items-center cursor-pointer hover:bg-slate-50" >
+        <mat-divider></mat-divider>
+
+        <div class="pt-4 px-3 py-2 flex items-center cursor-pointer hover:bg-slate-50" >
           <mat-slide-toggle class="mr-2 rtl:ml-2" >Receive Email Notification</mat-slide-toggle> 
         </div>
 
@@ -62,11 +68,10 @@
         <div class="px-3 py-2 flex items-center cursor-pointer hover:bg-slate-50" >
           <mat-slide-toggle class="mr-2 rtl:ml-2" >Contacts visible to members</mat-slide-toggle> 
         </div>
-
-
-
-        <mat-progress-bar mode="determinate" [value]="progress" class="custom-thickness float-bottom" >
-        </mat-progress-bar>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="profile-nav pt-4">
+        <button mat-raised-button class="mat-primary full-width mt-4 mb-8">Back to Members list</button>
       </div>
   </mat-card>
 </div>
