@@ -21,7 +21,7 @@ import {EventService} from "../../../../services/event-service/event.service";
 export class EventTicketIssueListComponent extends BaseComponent implements OnInit {
     private ngUnsubscribe$ = new Subject<void>();
 
-    @Input("eventId") eventId: number;
+    @Input("eventId") eventId: string;
     resultViewModel: ResultViewModel = new ResultViewModel();
     ticketIssuedDTOS: EventTicketIssuedDTO[]
 

@@ -81,6 +81,7 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
     const isUpdate = !this.data.isNew;
     this.issueTicketForm = this.formBuilder.group({
       id: [isUpdate ? eventTicketIssuedDTO.id : null, isUpdate ? Validators.required : []],
+      encryptedId: [isUpdate ? eventTicketIssuedDTO.encryptedId : null, isUpdate ? Validators.required : []],
       name: [eventTicketIssuedDTO.name || "", [Validators.required, Validators.minLength(3)],],
       phoneNumber: [eventTicketIssuedDTO.phoneNumber || ""],
       emailId: [eventTicketIssuedDTO.emailId || "", Validators.required],
@@ -101,8 +102,9 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
 
     if (this.issueTicketForm.valid) {
       const issueTicketData = this.issueTicketForm.value;
+        eventTicketIssuedDTO.encryptedEventId = this.data.eventId
       if (this.data.isNew){
-        this.eventService.addEventTicketIssue(this.data.eventId, issueTicketData)
+        this.eventService.addEventTicketIssue(issueTicketData)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((response) => {
               if (response.success){
@@ -117,7 +119,7 @@ export class EventTicketIssuePopupComponent extends BaseComponent implements OnI
             })
       } else {
         this.eventService
-              .editEventTicketIssue(this.data.eventId, eventTicketIssuedDTO.id, eventTicketIssuedDTO)
+              .editEventTicketIssue(eventTicketIssuedDTO)
               .pipe(takeUntil(this.ngUnsubscribe$))
               .subscribe((response) => {
                 if (response.success) {

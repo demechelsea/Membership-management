@@ -76,7 +76,7 @@ export class EventViewComponent extends BaseComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       this.getEventById(id);
-      });
+    });
   }
 
   ngOnDestroy() {
@@ -86,7 +86,7 @@ export class EventViewComponent extends BaseComponent implements OnInit {
 
   getEventById(id){
     this.loader.open();
-    this.eventService.getEventById(id)
+    this.eventService.getEventById(encodeURIComponent(id))
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe((response) => {
           Object.assign(this.resultViewModel, response);

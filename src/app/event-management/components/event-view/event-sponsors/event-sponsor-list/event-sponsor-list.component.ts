@@ -22,7 +22,7 @@ import EventSponsorDTO from "../../../../../models/event/eventSponsorDTO";
 export class EventSponsorListComponent extends BaseComponent implements OnInit {
     private ngUnsubscribe$ = new Subject<void>();
 
-    @Input("eventId") eventId: number;
+    @Input("eventId") eventId: string;
     resultViewModel: ResultViewModel = new ResultViewModel();
     eventSponsorDTOS: EventSponsorDTO[]
 

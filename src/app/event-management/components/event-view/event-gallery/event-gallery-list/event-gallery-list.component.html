@@ -24,7 +24,7 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #photoMenu="matMenu">
-                            <button mat-menu-item (click)="deleteGallery(photo.id)"><mat-icon>delete</mat-icon>Delete</button>
+                            <button mat-menu-item (click)="deleteGallery(photo.encryptedId)"><mat-icon>delete</mat-icon>Delete</button>
                         </mat-menu>
                     </div>
                 </div>
