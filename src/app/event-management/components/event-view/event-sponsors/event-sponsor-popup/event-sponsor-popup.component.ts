@@ -86,6 +86,7 @@ export class EventSponsorPopupComponent extends BaseComponent implements OnInit 
         const isUpdate = !this.data.isNew;
         this.sponsorForm = this.formBuilder.group({
             id: [isUpdate ? eventSponsorDTO.id : null, isUpdate ? Validators.required : []],
+            encryptedId: [isUpdate ? eventSponsorDTO.encryptedId : null, isUpdate ? Validators.required : []],
             name: [eventSponsorDTO.name || "", [Validators.required, Validators.minLength(3)]],
             sponsorshipType: [eventSponsorDTO.sponsorshipType || "", [Validators.required, Validators.minLength(3)]],
             description: [eventSponsorDTO.description || ""],
@@ -99,11 +100,11 @@ export class EventSponsorPopupComponent extends BaseComponent implements OnInit 
     }
 
     submit() {
-        console.log(this.sponsorForm.valid);
         if (this.sponsorForm.valid) {
             const sponsorData = this.sponsorForm.value;
+            sponsorData.encryptedEventId = this.data.eventId;
             if (this.data.isNew) {
-                this.eventService.addEventSponsor(this.data.eventId, sponsorData)
+                this.eventService.addEventSponsor(sponsorData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {
@@ -117,7 +118,7 @@ export class EventSponsorPopupComponent extends BaseComponent implements OnInit 
                     })
             } else {
                 this.eventService
-                    .editEventSponsor(this.data.eventId, sponsorData.id, sponsorData)
+                    .editEventSponsor(sponsorData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {
