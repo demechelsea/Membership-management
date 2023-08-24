@@ -69,11 +69,11 @@ export class EventGalleryPopupComponent extends BaseComponent implements OnInit 
         formData.append("type", eventGalleryDTO.type.valueOf());
         formData.append("name", eventGalleryDTO.name.valueOf());
         formData.append("showToPublic", showToPublic);
+        formData.append("encryptedEventId", this.data.eventId);
         if (this.selectedFile) {
             formData.append("file", this.selectedFile);
-            console.log(formData);
             this.eventService
-                .addEventGallery(this.data.eventId, formData)
+                .addEventGallery(formData)
                 .pipe(takeUntil(this.ngUnsubscribe$))
                 .subscribe((response) => {
                     if (response.success) {
