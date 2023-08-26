@@ -126,8 +126,8 @@ export class Urls {
     public static GET_EVENT_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/events/retrieveEventById";
 
     public static GET_EVENT_TICKETS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/retrieveTickets";
-    public static ADD_EVENT_TICKETS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/createTickets";
-    public static EDIT_EVENT_TICKETS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/updateTickets";
+    public static ADD_EVENT_TICKETS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/createTicket";
+    public static EDIT_EVENT_TICKETS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/updateTicket";
 
     public static GET_EVENT_TICKET_ISSUED: string = Urls.baseAPIUrl + Urls.contextPath + "/events/retrieveIssuedTickets";
     public static ADD_EVENT_TICKET_ISSUED: string = Urls.baseAPIUrl + Urls.contextPath + "/events/createIssuedTicket";
