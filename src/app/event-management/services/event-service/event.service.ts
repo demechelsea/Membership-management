@@ -48,12 +48,12 @@ export class EventService extends HttpAppDataService {
         return this.postData(Urls.GET_EVENT_TICKETS, eventTicketDto);
     }
 
-    addEventTicket(id: number, eventTicketDto: EventTicketDTO): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/tickets', eventTicketDto);
+    addEventTicket(eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_TICKETS, eventTicketDto);
     }
 
-    editEventTicket(eventId: number, ticketId: number, eventTicketDto: EventTicketDTO): Observable<any> {
-        return this.putData(Urls.EVENTS + '/' + eventId + '/tickets/' + ticketId, eventTicketDto);
+    editEventTicket(eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT_TICKETS, eventTicketDto);
     }
 
     getEventTicketsIssuedByEventId(id: string): Observable<any> {

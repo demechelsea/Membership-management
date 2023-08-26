@@ -68,6 +68,7 @@ export class EventProgramPopupComponent extends BaseComponent implements OnInit 
         const isUpdate = !this.data.isNew;
         this.eventProgramForm = this.formBuilder.group({
             id: [isUpdate ? eventProgramDTO.id : null, isUpdate ? Validators.required : []],
+            encryptedId: [isUpdate ? eventProgramDTO.encryptedId : null, isUpdate ? Validators.required : []],
             startTime: [eventProgramDTO.startTime || "", [Validators.required]],
             endTime: [eventProgramDTO.endTime || "", [Validators.required]],
             duration: [eventProgramDTO.duration || "", [Validators.required]],
