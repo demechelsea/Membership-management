@@ -94,6 +94,13 @@ export class NavigationService {
       icon: 'build',
       state: 'builder/viewWebSites'
     },
+    {
+      name: 'Membership Management',
+      type: 'link',
+      tooltip: 'Membership Management',
+      icon: 'manage_accounts',
+      state: 'membershipManagement/membershipManagement'
+    },
     
   ];
 

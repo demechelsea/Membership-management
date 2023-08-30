@@ -20,7 +20,6 @@ import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { ToastrModule } from 'ngx-toastr';
 import { SoraxCommonModule } from './common/sorax-common.module';
 import { StoreModule } from '@ngrx/store';
@@ -29,10 +28,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { AppErrorHandler } from './common/errors/app-error-handler';
 import { SoraxHttpInterceptorService } from './core/guards/sorax-http-interceptor.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-// AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }

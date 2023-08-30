@@ -1,0 +1,65 @@
+<mat-card class="custom-bg">
+  <mat-card-header class="flex justify-between items-center pb-2 text-white">
+    <mat-card-title>SMTP Email Settings</mat-card-title>
+    <button mat-icon-button class="text-white">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content class="content w-full pt-4">
+    <form [formGroup]="SMTPForm" class="SMTPForm flex flex-col justify-around padround18">
+      <div class="flex flex-row justify-between w-full">
+        <div class="flex flex-row justify-between w-2/3">
+          <sorax-form-field label="SMTP Email host" [soraxFormControl]="SMTPForm.get('smtpHost')">
+            <input #soraxInput matInput formControlName="smtpHost" type="text" name="smtpHost"
+              placeholder="Enter SMTP Email host" disabled />
+          </sorax-form-field>
+
+          <sorax-form-field label="PORT" [soraxFormControl]="SMTPForm.get('port')">
+            <input #soraxInput matInput formControlName="port" type="text" name="port" placeholder="Enter a port"
+              disabled />
+          </sorax-form-field>
+        </div>
+        <div>
+          <sorax-form-field label="Reply to Email address" [soraxFormControl]="SMTPForm.get('replyToEmail')">
+            <input #soraxInput matInput formControlName="replyToEmail" type="text" name="replyToEmail"
+              placeholder="Enter a port" />
+          </sorax-form-field>
+        </div>
+      </div>
+      <div class="flex flex-row justify-between w-2/3">
+        <sorax-form-field label="Email Id" [soraxFormControl]="SMTPForm.get('emailId')">
+          <input #soraxInput matInput formControlName="emailId" type="text" name="emailId"
+            placeholder="Enter a emailId" />
+        </sorax-form-field>
+
+        <sorax-form-field label="Password" [soraxFormControl]="SMTPForm.get('password')">
+          <input #soraxInput matInput formControlName="password" type="password" name="password"
+            placeholder="Enter a password" />
+        </sorax-form-field>
+      </div>
+      <div class="flex flex-row justify-between w-full">
+        <sorax-form-field class="w-2/3" label="Email Id" [soraxFormControl]="SMTPForm.get('emailId')">
+          <input #soraxInput matInput formControlName="emailId" type="text" name="emailId"
+            placeholder="Enter a emailId" />
+        </sorax-form-field>
+        <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+          Search
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right">
+  <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+    Add new member
+  </button>
+</div>
+<mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+  <mat-card-content>
+    <sorax-table-view [tableData]="membershipPlanData" [tableColumns]="membershipColumns" [isFilterable]="false"
+      [isPageable]="true" [page]="page" (rowAction)="executeRowActions($event)">
+    </sorax-table-view>
+  </mat-card-content>
+</mat-card>
