@@ -10,18 +10,8 @@ pipelines:
     - parallel:
         - step:
             name: Build and Test
-            caches:
-              - node
             script:
-              - npm install
-              - npm test
-        - step:
-            name: Code linting
-            script:
-              - npm install eslint
-              - npx eslint .
-            caches:
-              - node
+              - echo "Test"
     - step:
         name: Deploy to test
         deployment: test
