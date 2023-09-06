@@ -16,5 +16,6 @@ pipelines:
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
           - echo "Deploying to test environment"
+          - npm install
           - npm run build
     
