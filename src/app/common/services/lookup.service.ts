@@ -22,6 +22,11 @@ export class LookupService extends HttpAppDataService {
   public static POSITION_OPTIONS: string = "positionOptions";
   public static MEMBER_OPTIONS: string = "memberOptions";
   public static MEMBERSHIP_PLAN_OPTIONS: string = "membershipPlanOptions";
+  public static GENDER_OPTIONS: string = "genderOptionsLOCAL";
+  public static MARITAL_STATUS_OPTIONS: string = "maritalStatusOptionsLOCAL";
+  public static HIGHER_EDUCATION_OPTIONS: string = "higherEducationOptionsLOCAL";
+  public static TITLE_OPTIONS: string = "titleOptionsLOCAL";
+
   public static COUNTRIES: string = "countries";
   committeePositions: CommitteePositionDTO[] = [];
   assocationMembers: AssociationDTO[] = [];
@@ -82,6 +87,18 @@ export class LookupService extends HttpAppDataService {
         break;
       case LookupService.STATUS_OPTIONS:
         resultViewModelObj.result = this.getStatusOptions();
+        break;
+      case LookupService.GENDER_OPTIONS:
+        resultViewModelObj.result = this.getGenderOptions();
+        break;
+      case LookupService.MARITAL_STATUS_OPTIONS:
+        resultViewModelObj.result = this.getMaritalStatusOptions();
+        break;
+      case LookupService.HIGHER_EDUCATION_OPTIONS:
+        resultViewModelObj.result = this.getHigherEducationOptions();
+        break;
+      case LookupService.TITLE_OPTIONS:
+        resultViewModelObj.result = this.getTitleOptions();
         break;
     }
 
@@ -168,4 +185,198 @@ export class LookupService extends HttpAppDataService {
     ];
     return statusOptions;
   }
+
+  private getGenderOptions(): LableValueModel[] {
+    let statusOptions: LableValueModel[] = [
+      {
+        id: "maleID",
+        name: "Male",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "femaleID",
+        name: "Female",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "otherID",
+        name: "Other",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+    ];
+    return statusOptions;
+  }
+
+  private getMaritalStatusOptions(): LableValueModel[] {
+    let statusOptions: LableValueModel[] = [
+      {
+        id: "singleID",
+        name: "Single",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "marriedID",
+        name: "Married",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "widowedOrWidowerID",
+        name: "Closed",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "divorcedID",
+        name: "Divorced",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "separatedID",
+        name: "Closed",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "otherID",
+        name: "Other",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "preferNotToSayID",
+        name: "Prefer not to say",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+    ];
+    return statusOptions;
+  }
+
+  private getHigherEducationOptions(): LableValueModel[] {
+    let statusOptions: LableValueModel[] = [
+      {
+        id: "noFormalEducationID",
+        name: "No formal education",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "primaryEducationID",
+        name: "Primary education",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "secondaryEducationID",
+        name: "Secondary education or high school",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "associateDegreeID",
+        name: "Associate's degree",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "bachelorDegreeID",
+        name: "Bachelor's degree",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "masterDegreeID",
+        name: "Master's degree",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "doctorateOrHigherID",
+        name: "Doctorate or higher",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      }
+    ];
+    return statusOptions;
+  }
+
+  private getTitleOptions(): LableValueModel[] {
+    let titleOptions: LableValueModel[] = [
+      {
+        id: "mrID",
+        name: "Mr.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "mrsID",
+        name: "Mrs.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "msID",
+        name: "Ms.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "missID",
+        name: "Miss",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "mxID",
+        name: "Mx.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "drID",
+        name: "Dr.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "profID",
+        name: "Prof.",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      }
+    ];
+    return titleOptions;
+  }
+
+
 }

@@ -28,6 +28,10 @@ export class AssociationMemberPopupComponent
 
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
   membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
+  genderOptionsKey: string = LookupService.GENDER_OPTIONS;
+  maritalStatusOptionsKey: string = LookupService.MARITAL_STATUS_OPTIONS;
+  higherEducationOptionsKey: string = LookupService.HIGHER_EDUCATION_OPTIONS;
+  titleOptionsKey: string = LookupService.TITLE_OPTIONS;
 
   private ngUnsubscribe$ = new Subject<void>();
   public committeeMemberForm: FormGroup;
@@ -188,7 +192,7 @@ export class AssociationMemberPopupComponent
     return `${option.planName}`;
   }
 
-  onSelectedStatusOption(option: LableValueModel) {
+  onSelectedOption(option: LableValueModel) {
     this.associationMemeberForm.controls["status"].setValue(option.name);
   }
 
