@@ -3,133 +3,100 @@ import {
   Component,
   Inject,
   OnInit,
-  Output,
-  EventEmitter,
 } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { LookupService } from "app/common/services/lookup.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
-import * as moment from "moment";
-import { CommitteeMemberService } from "app/association-settings/services/committee-member-service/committee-member.service";
-import { CommitteeMemberDTO } from "app/models/committeeMemberDTO";
-import { CommitteePositionDTO } from "app/models/committeePositionDTO";
+import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { NotificationService } from "app/common/services/notification.service";
+import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
+import moment from "moment";
+import { UserDetailDTO } from "app/models/UserDetailDTO";
 
 @Component({
-  selector: "committee-member-popup",
+  selector: "association-member-popup",
   templateUrl: "./membership-management-popup.component.html",
+  styleUrls: ["./membership-management-popup.component.scss"],
+
 })
-export class CommitteeMemberPopupComponent
+export class AssociationMemberPopupComponent
   extends BaseComponent
-  implements OnInit
-{
-  @Output() addPosition: EventEmitter<void> = new EventEmitter<void>();
+  implements OnInit {
 
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
-  positionoptionsKey: string = LookupService.POSITION_OPTIONS;
-  memberoptionsKey: string = LookupService.MEMBER_OPTIONS;
+  membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
 
   private ngUnsubscribe$ = new Subject<void>();
   public committeeMemberForm: FormGroup;
-  public intervals: LableValueModel[] = [];
-  public committeePositions: CommitteePositionDTO[] = [];
   public isLoading: boolean;
-  public noResults: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
-  committeeId: number;
-  associationMemberId: number;
-  positionId: number;
-  selectedCommitteeMemberId: number;
+  selectedAssociationMemberId: number;
+  membershipPlanId: number;
   startDate: string;
-  endDate: string;
 
   selectedFile: any;
+  public associationMemeberForm: FormGroup;
 
-  buttonText = "Create a committee member";
+  buttonText = "Create a association member";
   minEndDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CommitteeMemberPopupComponent>,
+    public dialogRef: MatDialogRef<AssociationMemberPopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private committeeMemberService: CommitteeMemberService,
+    private associationMemberService: AssociationMembersService,
     private notificationService: NotificationService
+
   ) {
     super();
     this.buttonText = data.isNew
-      ? "Create a committee member"
-      : "Update committee member";
+      ? "Create a association member"
+      : "Update a association member";
+    this.selectedAssociationMemberId = data.selectedAssociationMember;
   }
 
   ngOnInit() {
-    this.buildCommitteeMemberForm(this.data.payload);
+    this.buildAssociationMemberForm(this.data.payload);
     this.cdRef.detectChanges();
+    this.handleViewAttachment();
   }
 
-  onAddPosition() {
-    this.addPosition.emit();
-  }
 
-  buildCommitteeMemberForm(committeeMemberData: CommitteeMemberDTO) {
+  buildAssociationMemberForm(associationMemberdata: AssociationMemberDTO) {
     const isUpdate = !this.data.isNew;
-    this.committeeMemberForm = this.formBuilder.group({
-      id: [isUpdate ? this.selectedCommitteeMemberId : null],
-      member: [committeeMemberData.associationMember],
-      firstName: [
-        committeeMemberData?.associationMember?.userDetail?.firstName || "",
-      ],
-      givenName: [
-        committeeMemberData?.associationMember?.userDetail?.givenName || "",
-      ],
-      primaryPhone: [
-        committeeMemberData?.associationMember?.userDetail?.primaryPhone || "",
-      ],
-      primaryEmail: [
-        committeeMemberData?.associationMember?.userDetail?.primaryEmail || "",
-      ],
-      committeePosition: [
-        isUpdate ? committeeMemberData.committeePosition.positionName : "",
-      ],
-      preferredNameDisplay: [committeeMemberData.preferredNameDisplay || ""],
-      phoneVisibilityFlg: [
-        this.convertToNumber(committeeMemberData.phoneVisibilityFlg) || 0,
-      ],
-      emailVisibilityFlg: [
-        this.convertToNumber(committeeMemberData.emailVisibilityFlg) || 0,
-      ],
-      startDate: [
-        isUpdate
-          ? moment(committeeMemberData.startDate).format("YYYY-MM-DD")
-          : moment(this.startDate).format("YYYY-MM-DD"),
-      ],
-      photoLink: [committeeMemberData.photoLink || ""],
-      status: [isUpdate ? committeeMemberData.status : "Active"],
-      endDate: [
-        isUpdate
-          ? moment(committeeMemberData.endDate).format("YYYY-MM-DD")
-          : moment(this.endDate).format("YYYY-MM-DD"),
-      ],
+    this.associationMemeberForm = this.formBuilder.group({
+      id: [isUpdate ? this.selectedAssociationMemberId : null],
+      association: [associationMemberdata.association || ""],
+      title: [associationMemberdata?.userDetail?.title || ""],
+      firstName: [associationMemberdata?.userDetail?.firstName || ""],
+      surName: [associationMemberdata?.userDetail?.surName || ""],
+      displayName: [associationMemberdata?.userDetail?.displayName || ""],
+      primaryPhone: [associationMemberdata?.userDetail?.primaryPhone || ""],
+      primaryEmail: [associationMemberdata?.userDetail?.primaryEmail || ""],
+      gender: [associationMemberdata?.userDetail?.gender || ""],
+      maritalStatus: [associationMemberdata?.userDetail?.maritalStatus || ""],
+      dob: [isUpdate ? moment(associationMemberdata?.userDetail?.dob).format("YYYY-MM-DD") : ""],
+      membershipPlan: [associationMemberdata?.membershipPlan?.planName || ""],
+      approvedDate: [isUpdate ? moment(associationMemberdata?.approvedDate).format("YYYY-MM-DD") : ""],
+      introducerUser: [associationMemberdata?.introducerUser || ""],
+      status: [associationMemberdata?.status || "Active"],
+      highestEducation: [associationMemberdata?.highestEducation || ""],
+      onlineAccessFlg: [this.convertToNumber(associationMemberdata.onlineAccessFlg) || 0,],
+      photoLink: [associationMemberdata.photoLink || ""],
     });
-
-    if (isUpdate) {
-      this.committeeMemberForm.controls["firstName"].disable();
-      this.committeeMemberForm.controls["givenName"].disable();
-      this.committeeMemberForm.controls["primaryPhone"].disable();
-      this.committeeMemberForm.controls["primaryEmail"].disable();
-    }
   }
 
   handleViewAttachment() {
     if (this.imageURL != null) {
-      let committeeMemberModel = new CommitteeMemberDTO();
-      committeeMemberModel.photoLink = this.imageURL;
-      this.committeeMemberService
-        .downloadImage(committeeMemberModel)
+      let associationMemberModel = new AssociationMemberDTO();
+      associationMemberModel.photoLink = this.imageURL;
+      this.associationMemberService
+        .downloadImage(associationMemberModel)
         .subscribe((response: any) => {
           const blob = new Blob([response], { type: "image/jpeg" });
           const url = window.URL.createObjectURL(blob);
@@ -142,48 +109,42 @@ export class CommitteeMemberPopupComponent
     return str == "Y" ? 1 : 0;
   }
 
-  memberDisplayFn(option: any): string {
-    return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`;
-  }
+  submit(associationMember: AssociationMemberDTO) {
+    console.log(associationMember);
+    if (this.associationMemeberForm.valid) {
 
-  positionDisplayFn(option: any): string {
-    return `${option.positionName}`;
-  }
+      let userDetail = new UserDetailDTO();
+      userDetail.title = this.associationMemeberForm.get('title').value;
+      userDetail.firstName = this.associationMemeberForm.get('firstName').value;
+      userDetail.surName = this.associationMemeberForm.get('surName').value;
+      userDetail.displayName = this.associationMemeberForm.get('displayName').value;
+      userDetail.primaryEmail = this.associationMemeberForm.get('primaryEmail').value;
+      userDetail.primaryPhone = this.associationMemeberForm.get('primaryPhone').value;
+      userDetail.gender = this.associationMemeberForm.get('gender').value;
+      userDetail.dob = new Date(this.associationMemeberForm.get('dob').value).toISOString().split('T')[0];
+      associationMember.userDetail = userDetail;
 
-  submit(committeeMember: CommitteeMemberDTO) {
-    if (this.committeeMemberForm.valid) {
-      committeeMember.startDate = new Date(committeeMember.startDate);
-      committeeMember.endDate = new Date(committeeMember.endDate);
       const formData = new FormData();
-      formData.append("committeeId", this.committeeId.toString());
-      formData.append(
-        "associationMemberId",
-        this.associationMemberId.toString()
-      );
-      formData.append("committeePositionId", this.positionId.toString());
-      formData.append(
-        "preferredNameDisplay",
-        committeeMember.preferredNameDisplay
-      );
-      formData.append("photoLink", committeeMember.photoLink);
-      formData.append("status", committeeMember.status);
-      formData.append(
-        "phoneVisibilityFlg",
-        committeeMember.phoneVisibilityFlg ? "Y" : "N"
-      );
-      formData.append(
-        "emailVisibilityFlg",
-        committeeMember.emailVisibilityFlg ? "Y" : "N"
-      );
-      formData.append("startDate", committeeMember.startDate.toString());
-      formData.append("endDate", committeeMember.endDate.toString());
+      formData.append("id", associationMember?.id?.toString());
+      formData.append("userDetail", JSON.stringify(associationMember.userDetail));
+      formData.append("membershipPlanId", this.membershipPlanId.toString());
+      formData.append("status", associationMember?.status);
+      formData.append("photoLink", associationMember?.photoLink);
+      formData.append("membershipPlan", associationMember?.membershipPlan?.planName);
+      formData.append("approvedDate", new Date(associationMember?.approvedDate).toISOString().split('T')[0]);
+      formData.append("highestEducation", associationMember?.highestEducation.toString());
+      formData.append("onlineAccessFlg", associationMember?.onlineAccessFlg ? "Y" : "N");
+
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append("photo", this.selectedFile);
         }
-
-        this.committeeMemberService
-          .createCommitteeMember(formData)
+        this.associationMemberService
+          .createAssociationMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -199,10 +160,9 @@ export class CommitteeMemberPopupComponent
         if (this.selectedFile) {
           formData.append("photo", this.selectedFile);
         }
-        formData.append("id", committeeMember.id.toString());
 
-        this.committeeMemberService
-          .updateCommitteeMember(formData)
+        this.associationMemberService
+          .updateAssociationMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -221,43 +181,22 @@ export class CommitteeMemberPopupComponent
       );
     }
   }
+
+
+
+  membershipPlanDisplayFn(option: any): string {
+    return `${option.planName}`;
+  }
+
   onSelectedStatusOption(option: LableValueModel) {
-    this.committeeMemberForm.controls["status"].setValue(option.name);
+    this.associationMemeberForm.controls["status"].setValue(option.name);
   }
 
-  onSelectedPositionOption(option: any) {
-    this.committeeMemberForm.controls["committeePosition"].setValue(
-      option.positionName
+  onSelectedMembershipPlanOption(option: any) {
+    this.associationMemeberForm.controls["membershipPlan"].setValue(
+      option.planName
     );
-    this.positionId = option.id;
-  }
-
-  onSelectedMemberOption(option: any) {
-    this.committeeMemberForm.controls["member"].setValue(
-      `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`
-    );
-    this.committeeMemberForm.controls["firstName"].setValue(
-      option.userDetail.firstName
-    );
-    this.committeeMemberForm.controls["givenName"].setValue(
-      option.userDetail.givenName
-    );
-    this.committeeMemberForm.controls["primaryPhone"].setValue(
-      option.userDetail.primaryPhone
-    );
-    this.committeeMemberForm.controls["primaryEmail"].setValue(
-      option.userDetail.primaryEmail
-    );
-    this.committeeMemberForm.controls["preferredNameDisplay"].setValue(
-      option.userDetail.firstName
-    );
-
-    this.committeeMemberForm.controls["firstName"].disable();
-    this.committeeMemberForm.controls["givenName"].disable();
-    this.committeeMemberForm.controls["primaryPhone"].disable();
-    this.committeeMemberForm.controls["primaryEmail"].disable();
-
-    this.associationMemberId = option.id;
+    this.membershipPlanId = option.id;
   }
 
   ngOnDestroy() {

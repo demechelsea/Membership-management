@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import LableValueModel from "app/models/lable-value-model";
 import { ResultViewModel } from "app/models/result-view-model";
-import { Observable, Subject, map, takeUntil, tap } from "rxjs";
+import { Observable, Subject, map, takeUntil } from "rxjs";
 
 import { Urls } from "../utils/urls";
 import { HttpAppDataService } from "./http-app-data.service";
@@ -10,6 +10,8 @@ import { CommitteePositionDTO } from "app/models/committeePositionDTO";
 import { PositionService } from "app/association-settings/services/position-service/position.service";
 import { AssocationMemberService } from "app/association-settings/services/assocation-member-service/assocation-member.service";
 import { AssociationDTO } from "app/models/AssociationDTO";
+import MembershipPlanDTO from "app/models/membershipPlanDTO";
+import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 
 @Injectable({
   providedIn: "root",
@@ -19,15 +21,18 @@ export class LookupService extends HttpAppDataService {
   public static STATUS_OPTIONS: string = "statusOptionsLOCAL";
   public static POSITION_OPTIONS: string = "positionOptions";
   public static MEMBER_OPTIONS: string = "memberOptions";
+  public static MEMBERSHIP_PLAN_OPTIONS: string = "membershipPlanOptions";
   public static COUNTRIES: string = "countries";
   committeePositions: CommitteePositionDTO[] = [];
   assocationMembers: AssociationDTO[] = [];
+  membershipPlan: MembershipPlanDTO[] = [];
   private ngUnsubscribe$ = new Subject<void>();
 
   constructor(
     httpClient: HttpClient,
     private positionService: PositionService,
-    private assocationMemberService: AssocationMemberService
+    private assocationMemberService: AssocationMemberService,
+    private memebershipPlanService: MembershipPlanService
   ) {
     super(httpClient);
   }
@@ -38,15 +43,25 @@ export class LookupService extends HttpAppDataService {
   ): Observable<ResultViewModel> {
     if (lookupName.includes("LOCAL")) {
       return this.getLocalData(lookupName);
-    } else if (lookupName.includes("position")) {
+    }
+    else if (lookupName.includes("position")) {
       return this.positionService.getCommitteePositions().pipe(
         takeUntil(this.ngUnsubscribe$),
         map((response: ResultViewModel) => {
           return response;
         })
       );
-    } else if (lookupName.includes("member")) {
+    }
+    else if (lookupName.includes("memberOptions")) {
       return this.assocationMemberService.getAssocationMembers(null).pipe(
+        takeUntil(this.ngUnsubscribe$),
+        map((response: ResultViewModel) => {
+          return response;
+        })
+      );
+    }
+    else if (lookupName.includes("membershipPlanOptions")) {
+      return this.memebershipPlanService.getItems(null).pipe(
         takeUntil(this.ngUnsubscribe$),
         map((response: ResultViewModel) => {
           return response;

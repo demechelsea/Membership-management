@@ -81,6 +81,9 @@ export class SoraxValidators {
         else if (option.positionName) {
           return option.positionName === value;
         }
+        else if (option.planName) {
+          return option.planName === value;
+        }
         else if (option.userDetail) {
           return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}` === value;
         }

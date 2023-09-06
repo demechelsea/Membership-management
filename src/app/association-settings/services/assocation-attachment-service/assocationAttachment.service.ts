@@ -25,12 +25,10 @@ export class AssocationAttachmentService extends HttpAppDataService {
   }
 
   createAsscocationAttachment(plan: FormData): Observable<any> {
-
     return this.postData(Urls.REGISTER_ASSOC_DOCSTORE, plan);
   }
 
   updateAssocationAttachment( attachmentModel: AssociationDocstoreDTO): Observable<any> {
-
     return this.postData(Urls.UPDATE_ASSOC_DOCSTORE, attachmentModel);
   }
 

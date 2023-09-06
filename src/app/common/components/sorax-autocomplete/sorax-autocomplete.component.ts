@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
@@ -83,6 +83,9 @@ export class SoraxAutocompleteComponent implements OnInit {
       else if (option.positionName) {
         return option.positionName.toLowerCase().includes(filterValue);
       }
+      else if (option.planName) {
+        return option.planName.toLowerCase().includes(filterValue);
+      }
       else if (option.userDetail) {
         return (`${option.userDetail.firstName} ${option.userDetail.givenName} 
         ${option.userDetail.parentName} ${option.userDetail.primaryEmail}
@@ -110,22 +113,25 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   private setAutoControlIdLabel(option: any) {
-    // if (option == null) {
-    //   return null;
-    // }
-    // if (option) {
-    //   if (this.autoCompleteFieldId) {
-    //     this.autoCompleteFieldId.setValue(option.id);
-    //   }
-    //   this.autoCompleteFieldLabel.setValue(option.name);
-    // }
-    // if (option.positionName) {
-    //   this.autoCompleteFieldLabel.setValue(option.positionName);
-    // }
-    // if (option.userDetail) {
-    //   this.autoCompleteFieldLabel.setValue(`${option.userDetail.firstName} ${option.userDetail.givenName} 
-    //   ${option.userDetail.parentName}`);
-    // }
+    if (option == null) {
+      return null;
+    }
+    if (option) {
+      if (this.autoCompleteFieldId) {
+        this.autoCompleteFieldId.setValue(option.id);
+      }
+      this.autoCompleteFieldLabel.setValue(option.name);
+    }
+    if (option.positionName) {
+      this.autoCompleteFieldLabel.setValue(option.positionName);
+    }
+    if (option.planName) {
+      this.autoCompleteFieldLabel.setValue(option.planName);
+    }
+    if (option.userDetail) {
+      this.autoCompleteFieldLabel.setValue(`${option.userDetail.firstName} ${option.userDetail.givenName} 
+      ${option.userDetail.parentName}`);
+    }
   }
 
   private addValidationRule() {

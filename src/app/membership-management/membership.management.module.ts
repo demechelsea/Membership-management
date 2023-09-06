@@ -7,14 +7,14 @@ import { SoraxCommonModule } from 'app/common/sorax-common.module';
 import { AppFormsModule } from 'app/views/forms/forms.module';
 import { MembershipManagementRoutes } from './membership.management.routing';
 import { DatePipe } from '@angular/common';
-import { MembershipManagementComponent } from './component/membership-plan/membership-plan.component';
+import { MembershipManagementComponent } from './component/membership-plan/membership-management.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommitteeMemberPopupComponent } from './component/membership-plan/membership-popup/membership-management-popup.component';
+import { AssociationMemberPopupComponent } from './component/membership-plan/membership-popup/membership-management-popup.component';
 
 
 const declarationsList = [
   MembershipManagementComponent,
-  CommitteeMemberPopupComponent
+  AssociationMemberPopupComponent
 ];
 
 const importsList = [

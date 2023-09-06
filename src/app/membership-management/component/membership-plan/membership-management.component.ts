@@ -14,12 +14,13 @@ import { Subject, takeUntil } from "rxjs";
 
 import { EmailSettingDTO } from "app/models/emailSettingDTO";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CommitteeMemberPopupComponent } from "./membership-popup/membership-management-popup.component";
+import { AssociationMemberPopupComponent } from "./membership-popup/membership-management-popup.component";
+import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 
 @Component({
   selector: "app-membership-plan",
-  templateUrl: "./membership-plan.component.html",
-  styleUrls: ["./membership-plan.component.scss"],
+  templateUrl: "./membership-management.component.html",
+  styleUrls: ["./membership-management.component.scss"],
   animations: SoraxAnimations,
 })
 export class MembershipManagementComponent
@@ -81,14 +82,14 @@ export class MembershipManagementComponent
       });
   }
 
-  openPopUp(data: MemershipPlanModel, isNew?: boolean) {
-    let title = isNew ? "Add Membership Plan" : "Update Membership Plan";
+  openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
+    let title = isNew ? "Add Assocition Member" : "Update Assocition Member";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
-      CommitteeMemberPopupComponent,
+      AssociationMemberPopupComponent,
       {
         width: "720px",
         disableClose: true,
-        data: { title: title, payload: data, isNew: isNew },
+        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id},
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
@@ -100,11 +101,11 @@ export class MembershipManagementComponent
   }
 
   executeRowActions(rowData: MemershipPlanModel) {
-    if (rowData.performAction == "edit") {
-      this.openPopUp(rowData, false);
-    } else {
-      console.log("Delete action performed");
-    }
+    // if (rowData.performAction == "edit") {
+    //   this.openPopUp(rowData, false);
+    // } else {
+    //   console.log("Delete action performed");
+    // }
   }
 
   sortData(sortParameters: Sort) {

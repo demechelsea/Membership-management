@@ -119,6 +119,11 @@ export class Urls {
      public static UPDATE_WEBSITE_INFO_STATUS: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/updateWebsiteInfoStatus";
      public static WEBSITE_INFO_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/retrieveWebsiteInfo";
 
+     public static RETRIEVE_MEMBERS_BY_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/retrieveMembersByAssociation";
+     public static REGISTER_ASSOCIATION_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/registerAssocMember";
+     public static UPDATE_ASSOCIATION_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/updateAssocMember";
+     public static RETRIEVE_ASSOCIATION_MEMBER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/retrieveMembersById";
+     public static GET_ASSOCIATION_MEMBER_PHOTO_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/getAssocMemberPhoto";
 
      public static APPLICATIONS = [{ name: "SOCIETYRAX_APP" }];
 

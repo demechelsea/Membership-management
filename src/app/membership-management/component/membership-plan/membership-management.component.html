@@ -1,6 +1,6 @@
 <mat-card class="custom-bg">
   <mat-card-header class="flex justify-between items-center pb-2 text-white">
-    <mat-card-title>SMTP Email Settings</mat-card-title>
+    <mat-card-title>Association member</mat-card-title>
     <button mat-icon-button class="text-white">
       <mat-icon>edit</mat-icon>
     </button>
@@ -12,12 +12,11 @@
         <div class="flex flex-row justify-between w-2/3">
           <sorax-form-field label="SMTP Email host" [soraxFormControl]="SMTPForm.get('smtpHost')">
             <input #soraxInput matInput formControlName="smtpHost" type="text" name="smtpHost"
-              placeholder="Enter SMTP Email host" disabled />
+              placeholder="Enter SMTP Email host" />
           </sorax-form-field>
 
           <sorax-form-field label="PORT" [soraxFormControl]="SMTPForm.get('port')">
-            <input #soraxInput matInput formControlName="port" type="text" name="port" placeholder="Enter a port"
-              disabled />
+            <input #soraxInput matInput formControlName="port" type="text" name="port" placeholder="Enter a port" />
           </sorax-form-field>
         </div>
         <div>
@@ -43,7 +42,7 @@
           <input #soraxInput matInput formControlName="emailId" type="text" name="emailId"
             placeholder="Enter a emailId" />
         </sorax-form-field>
-        <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+        <button mat-raised-button color="primary">
           Search
         </button>
       </div>

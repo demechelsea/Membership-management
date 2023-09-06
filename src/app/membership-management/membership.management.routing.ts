@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MembershipManagementComponent } from './component/membership-plan/membership-plan.component';
+import { MembershipManagementComponent } from './component/membership-plan/membership-management.component';
 
 
 
