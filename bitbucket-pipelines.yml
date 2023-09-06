@@ -18,4 +18,5 @@ pipelines:
           - echo "Deploying to test environment"
           - npm install
           - npm run build
+          - sudo cp -R dist/* /opt/naresh/ui/
     
