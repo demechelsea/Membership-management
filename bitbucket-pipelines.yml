@@ -7,13 +7,11 @@ image: node:16
 
 pipelines:
   default:
-    - parallel:
-        - step:
-            name: Build and Test
-            script:
-              - echo "Test"
     - step:
         name: Deploy to test
+        runs-on: 
+          - 'self.hosted'
+          - 'linux.shell'
         deployment: test
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
