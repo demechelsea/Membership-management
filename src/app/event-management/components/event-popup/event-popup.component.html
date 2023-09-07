@@ -23,9 +23,7 @@
       </div>
       <div class="flex flex-wrap flex-col md:flex-row">
         <div class="w-full md:w-2/3 pr-16">
-          <sorax-form-field label="Event Location" [soraxFormControl]="eventForm.get('location')">
-            <input #soraxInput matInput formControlName="location" type="text" name="location" placeholder="Event Location"/>
-          </sorax-form-field>
+            <app-autocomplete-place (setAddress)="getAddress($event)" #location></app-autocomplete-place>
         </div>
         <div class="w-full md:w-1/3 pr-16">
             <sorax-autocomplete

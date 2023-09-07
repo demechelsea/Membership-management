@@ -3,7 +3,7 @@ import {
     Component,
     Inject,
     Input,
-    OnInit,
+    OnInit, ViewChild,
 } from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -19,6 +19,7 @@ import {AssociationDTO} from "app/models/AssociationDTO";
 import EventDTO from "../../../models/event/eventDTO";
 import {EventService} from "../../services/event-service/event.service";
 import {LookupService} from "../../../common/services/lookup.service";
+import {AutocompletePlaceComponent} from "../../../shared/components/autocomplete-place/autocomplete-place.component";
 
 @Component({
     selector: "app-component-popup",
@@ -33,6 +34,8 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
 
     buttonText = "Add a New Event";
     timezoneOptionsKey: string = LookupService.TIMEZONES;
+
+    @ViewChild("location") location: AutocompletePlaceComponent;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -134,5 +137,14 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
 
     onSelectedTimezoneOption(option: LableValueModel) {
         this.eventForm.controls["locationTimezone"].setValue(option.name);
+    }
+
+    getAddress(place: object) {
+        if (place){
+            this.eventForm.controls["location"].setValue(place['formatted_address']);
+        } else {
+            this.eventForm.controls['location'].setValue(this.location.autocompleteInput);
+        }
+
     }
 }
