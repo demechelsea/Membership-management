@@ -8,7 +8,7 @@ image: node:16
 pipelines:
   default:
     - step:
-        name: Deploy to test
+        name: Build only
         runs-on: 
           - 'self.hosted'
           - 'linux.shell'
@@ -22,10 +22,13 @@ pipelines:
   branches:
     master:
       - step:
-          name: Deploy to test
+          name: Build and Deploy for master branch
           runs-on: 
             - 'self.hosted'
             - 'linux.shell'
           script:
+            - echo "Deploying to test master branch"
+            - npm install
+            - npm run build
             - sudo cp -R dist/* /opt/naresh/ui/
           
