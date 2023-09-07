@@ -18,5 +18,14 @@ pipelines:
           - echo "Deploying to test environment"
           - npm install
           - npm run build
-          - sudo cp -R dist/* /opt/naresh/ui/
-    
+          #- sudo cp -R dist/* /opt/naresh/ui/
+  branches:
+    master:
+      - step:
+          name: Deploy to test
+          runs-on: 
+            - 'self.hosted'
+            - 'linux.shell'
+          script:
+            - sudo cp -R dist/* /opt/naresh/ui/
+          
