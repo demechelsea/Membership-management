@@ -25,8 +25,7 @@ import { NotificationService } from "app/common/services/notification.service";
 })
 export class CommitteeMemberPopupComponent
   extends BaseComponent
-  implements OnInit
-{
+  implements OnInit {
   @Output() addPosition: EventEmitter<void> = new EventEmitter<void>();
 
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
