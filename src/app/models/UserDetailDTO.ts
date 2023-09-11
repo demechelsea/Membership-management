@@ -4,16 +4,16 @@ import { MessageWrapModel } from "./messageWrapModel";
 
 export class UserDetailDTO extends MessageWrapModel {
     id: number;
-    firstName: String;
-    givenName: String;
-    parentName: String;
+    firstName: string;
+    givenName: string;
+    parentName: string;
     displayName: string;
-    dob: String;
-    gender: String;
-    maritalStatus: String;
-    occupation: String;
-    primaryEmail: String;
-    primaryPhone: String;
+    dob: string;
+    gender: string;
+    maritalStatus: string;
+    occupation: string;
+    primaryEmail: string;
+    primaryPhone: string;
     associationId: number;
     title: string;
     surName: string;

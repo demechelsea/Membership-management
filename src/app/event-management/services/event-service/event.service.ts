@@ -33,71 +33,88 @@ export class EventService extends HttpAppDataService {
     }
 
     addEvent(eventDto: EventDTO): Observable<any> {
-        return this.postData(Urls.EVENTS, eventDto);
+        return this.postData(Urls.ADD_EVENTS, eventDto);
     }
 
-    getEventById(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id);
+    getEventById(id: string): Observable<any> {
+        const eventDto: EventDTO = new EventDTO();
+        eventDto.encryptedId = id;
+        return this.postData(Urls.GET_EVENT_BY_ID, eventDto);
     }
 
-    getEventTicketsById(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id + '/tickets');
+    getEventTicketsById(id: string): Observable<any> {
+        const eventTicketDto: EventTicketDTO = new EventTicketDTO();
+        eventTicketDto.encryptedEventId = id;
+        return this.postData(Urls.GET_EVENT_TICKETS, eventTicketDto);
     }
 
-    addEventTicket(id: number, eventTicketDto: EventTicketDTO): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/tickets', eventTicketDto);
+    addEventTicket(eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_TICKETS, eventTicketDto);
     }
 
-    editEventTicket(eventId: number, ticketId: number, eventTicketDto: EventTicketDTO): Observable<any> {
-        return this.putData(Urls.EVENTS + '/' + eventId + '/tickets/' + ticketId, eventTicketDto);
+    editEventTicket(eventTicketDto: EventTicketDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT_TICKETS, eventTicketDto);
     }
 
-    getEventTicketsIssuedByEventId(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id + '/tickets-issues');
+    getEventTicketsIssuedByEventId(id: string): Observable<any> {
+        const eventTicketIssueDto: EventTicketIssuedDTO = new EventTicketIssuedDTO();
+        eventTicketIssueDto.encryptedEventId = id;
+        return this.postData(Urls.GET_EVENT_TICKET_ISSUED, eventTicketIssueDto);
     }
 
-    addEventTicketIssue(id: number, eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/tickets-issues', eventTicketIssueDto);
+    addEventTicketIssue(eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_TICKET_ISSUED, eventTicketIssueDto);
     }
 
-    editEventTicketIssue(id: number, ticketIssueId:number, eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
-        return this.putData(Urls.EVENTS + '/' + id + '/tickets-issues/' + ticketIssueId, eventTicketIssueDto);
+    editEventTicketIssue(eventTicketIssueDto: EventTicketIssuedDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT_TICKET_ISSUED, eventTicketIssueDto);
     }
 
-    getEventSponsorsByEventId(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id + '/sponsors');
+    getEventSponsorsByEventId(id: string): Observable<any> {
+        const eventSponsorDTO: EventSponsorDTO = new EventSponsorDTO();
+        eventSponsorDTO.encryptedEventId = id;
+        return this.postData(Urls.GET_EVENT_SPONSORS, eventSponsorDTO);
     }
 
-    addEventSponsor(id: number, eventSponsorDTO: EventSponsorDTO): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/sponsors', eventSponsorDTO);
+    addEventSponsor(eventSponsorDTO: EventSponsorDTO): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_SPONSOR, eventSponsorDTO);
     }
 
-    editEventSponsor(id: number, ticketIssueId:number, eventSponsorDTO: EventSponsorDTO): Observable<any> {
-        return this.putData(Urls.EVENTS + '/' + id + '/sponsors/' + ticketIssueId, eventSponsorDTO);
+    editEventSponsor(eventSponsorDTO: EventSponsorDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT_SPONSOR, eventSponsorDTO);
     }
 
-    getEventProgramsByEventId(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id + '/programmes');
+    getEventProgramsByEventId(id: string): Observable<any> {
+
+        const eventProgrammeDTO: EventProgramDTO = new EventProgramDTO();
+        eventProgrammeDTO.encryptedEventId = id;
+        return this.postData(Urls.GET_EVENT_PROGRAMMES, eventProgrammeDTO );
     }
 
-    addEventProgram(id: number, eventProgramDto: EventProgramDTO): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/programmes', eventProgramDto);
+    addEventProgram(eventProgramDto: EventProgramDTO): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_PROGRAMME, eventProgramDto);
     }
 
-    editEventProgram(eventId: number, programId: number, eventProgramDto: EventProgramDTO): Observable<any> {
-        return this.putData(Urls.EVENTS + '/' + eventId + '/programmes/' + programId, eventProgramDto);
+    editEventProgram(eventProgramDto: EventProgramDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT_PROGRAMME, eventProgramDto);
     }
 
-    getGalleryByEventId(id: number): Observable<any> {
-        return this.fetchData(Urls.EVENTS + '/' + id + '/gallery');
+    getGalleryByEventId(id: string): Observable<any> {
+
+        const eventGalleryDTO: EventGalleryDTO = new EventGalleryDTO();
+        eventGalleryDTO.encryptedEventId = id;
+        return this.postData(Urls.GET_EVENT_GALLERY, eventGalleryDTO);
     }
 
-    addEventGallery(id: number, eventGalleryDto: FormData): Observable<any> {
-        return this.postData(Urls.EVENTS + '/' + id + '/gallery', eventGalleryDto);
+    addEventGallery(eventGalleryDto: FormData): Observable<any> {
+        return this.postData(Urls.ADD_EVENT_GALLERY, eventGalleryDto);
     }
 
-    deleteGalleryByEventId(id: number, galleryId: number): Observable<any> {
-        return this.deleteData(Urls.EVENTS + '/' + id + '/gallery/' + galleryId);
+    deleteGalleryByEventId(id: string, galleryId: string): Observable<any> {
+        const eventGalleryDTO: EventGalleryDTO = new EventGalleryDTO();
+        eventGalleryDTO.encryptedEventId = id;
+        eventGalleryDTO.encryptedId = galleryId;
+        return this.postData(Urls.DELETE_EVENT_GALLERY, eventGalleryDTO);
     }
 
 }

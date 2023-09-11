@@ -32,6 +32,7 @@ import { EgretExampleViewerComponent } from './example-viewer/example-viewer.com
 import { EgretExampleViewerTemplateComponent } from './example-viewer-template/example-viewer-template.component';
 import { EgretNotifications2Component } from './egret-notifications2/egret-notifications2.component';
 import { AppLoaderComponent } from 'app/common/components/app-loader/app-loader.component';
+import {AutocompletePlaceComponent} from "./autocomplete-place/autocomplete-place.component";
 
 
 const components = [
@@ -52,7 +53,8 @@ const components = [
   EgretSidebarTogglerDirective,
   BottomSheetShareComponent,
   EgretExampleViewerComponent,
-  EgretExampleViewerTemplateComponent
+  EgretExampleViewerTemplateComponent,
+    AutocompletePlaceComponent
 ]
 
 @NgModule({

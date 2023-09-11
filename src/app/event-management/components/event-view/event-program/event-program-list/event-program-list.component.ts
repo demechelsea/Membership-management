@@ -22,11 +22,10 @@ import EventProgramDTO from "../../../../../models/event/eventProgramDTO";
 export class EventProgramListComponent extends BaseComponent implements OnInit {
     private ngUnsubscribe$ = new Subject<void>();
 
-    @Input("eventId") eventId: number;
+    @Input("eventId") eventId: string;
     resultViewModel: ResultViewModel = new ResultViewModel();
     programList: EventProgramDTO[]
 
-    public membershipPlanData: any;
     public eventProgramColumns: SoraxColumnDefinition[];
 
     constructor(

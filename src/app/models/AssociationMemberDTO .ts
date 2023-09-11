@@ -9,8 +9,13 @@ export class AssociationMemberDTO  extends MessageWrapModel {
     userDetail: UserDetailDTO;
     membershipPlan: MembershipPlanDTO;
     introducerUser: BigInteger;
-    status: String;
+    status: string;
     approvedDate: Date;
+    membershipPlanId: number;
     onlineAccessFlg: string;
+    highestEducation: string;
+    photoLink: string;
     page: PageModel;
+    photo: string;
 }
+

@@ -67,9 +67,11 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
     }
 
     buildTicketTypeForm(eventTicketDTO: EventTicketDTO) {
+        console.log(eventTicketDTO);
         const isUpdate = !this.data.isNew;
         this.eventTicketForm = this.formBuilder.group({
             id: [isUpdate ? eventTicketDTO.id : null, isUpdate ? Validators.required : []],
+            encryptedId: [isUpdate ? eventTicketDTO.encryptedId : null, isUpdate ? Validators.required : []],
             name: [eventTicketDTO.name || "", [Validators.required, Validators.minLength(3)],],
             description: [eventTicketDTO.description || ""],
             ticketType: [eventTicketDTO.ticketType || "", Validators.required],
@@ -90,8 +92,9 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
 
         if (this.eventTicketForm.valid) {
             const ticketData = this.eventTicketForm.value;
+            ticketData.encryptedEventId = this.data.eventId;
             if (this.data.isNew) {
-                this.eventService.addEventTicket(this.data.eventId, ticketData)
+                this.eventService.addEventTicket(ticketData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {
@@ -104,8 +107,9 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
                         }
                     })
             } else {
+                console.log(ticketData);
                 this.eventService
-                    .editEventTicket(this.data.eventId, eventTicketDTO.id, ticketData)
+                    .editEventTicket(ticketData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {

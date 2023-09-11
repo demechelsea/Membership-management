@@ -1,7 +1,7 @@
 export const config = {
 
-  apiUrl: "http://localhost:4599",
-  cdnUrl: "http://localhost",
+  apiUrl: "https://api.societyrax.com/api",
+  cdnUrl: "https://cdn.societyrax.com",
   authRoles: {
     sa: ["SA"], // Only Super Admin has access
     admin: ["SA", "Admin"], // Only SA & Admin has access

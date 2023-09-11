@@ -24,7 +24,7 @@ import {EventProgramPopupComponent} from "../../event-program/event-program-popu
 })
 export class EventGalleryListComponent extends BaseComponent implements OnInit {
 
-    @Input("eventId") eventId: number;
+    @Input("eventId") eventId: string;
     private ngUnsubscribe$ = new Subject<void>();
 
     resultViewModel: ResultViewModel = new ResultViewModel();

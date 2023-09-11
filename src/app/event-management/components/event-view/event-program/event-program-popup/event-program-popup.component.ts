@@ -68,6 +68,7 @@ export class EventProgramPopupComponent extends BaseComponent implements OnInit 
         const isUpdate = !this.data.isNew;
         this.eventProgramForm = this.formBuilder.group({
             id: [isUpdate ? eventProgramDTO.id : null, isUpdate ? Validators.required : []],
+            encryptedId: [isUpdate ? eventProgramDTO.encryptedId : null, isUpdate ? Validators.required : []],
             startTime: [eventProgramDTO.startTime || "", [Validators.required]],
             endTime: [eventProgramDTO.endTime || "", [Validators.required]],
             duration: [eventProgramDTO.duration || "", [Validators.required]],
@@ -86,8 +87,9 @@ export class EventProgramPopupComponent extends BaseComponent implements OnInit 
 
         if (this.eventProgramForm.valid) {
             const programData = this.eventProgramForm.value;
+            programData.encryptedEventId = this.data.eventId;
             if (this.data.isNew) {
-                this.eventService.addEventProgram(this.data.eventId, programData)
+                this.eventService.addEventProgram(programData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {
@@ -100,8 +102,9 @@ export class EventProgramPopupComponent extends BaseComponent implements OnInit 
                         }
                     })
             } else {
+                programData.encryptedId = eventProgramDTO.encryptedId;
                 this.eventService
-                    .editEventProgram(this.data.eventId, eventProgramDTO.id, programData)
+                    .editEventProgram(programData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {

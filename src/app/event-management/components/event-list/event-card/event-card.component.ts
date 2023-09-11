@@ -32,7 +32,8 @@ export class EventCardComponent extends BaseComponent implements OnInit {
   }
 
   openEvent(eventId) {
-    this.router.navigateByUrl("event-management/events/view/" + eventId);
+    const encodedId = encodeURIComponent(eventId);
+    this.router.navigateByUrl("event-management/events/view/" + encodedId);
   }
 
   ngOnDestroy() {

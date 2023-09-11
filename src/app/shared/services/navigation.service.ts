@@ -95,6 +95,13 @@ export class NavigationService {
       state: 'builder/viewWebSites'
     },
     {
+      name: 'Membership Management',
+      type: 'link',
+      tooltip: 'Membership Management',
+      icon: 'manage_accounts',
+      state: 'membershipManagement/membershipManagement'
+    },
+    {
       name: 'Event Management',
       type: 'link',
       tooltip: 'Event Management',

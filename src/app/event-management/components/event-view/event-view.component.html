@@ -27,27 +27,27 @@
     <mat-tab>
         <ng-template mat-tab-label>Tickets</ng-template>
         <div *ngIf="event">
-            <app-event-ticket-list [eventId]="event.id"></app-event-ticket-list>
+            <app-event-ticket-list [eventId]="event.encryptedId"></app-event-ticket-list>
         </div>
     </mat-tab>
 
     <mat-tab>
         <ng-template mat-tab-label>Tickets Sold/Rsvp</ng-template>
         <div *ngIf="event">
-            <app-event-ticket-issue-list [eventId]="event.id"></app-event-ticket-issue-list>
+            <app-event-ticket-issue-list [eventId]="event.encryptedId"></app-event-ticket-issue-list>
         </div>
 
     </mat-tab>
     <mat-tab>
         <ng-template mat-tab-label>Sponsors</ng-template>
         <div *ngIf="event">
-            <app-event-sponsor-list [eventId]="event.id"></app-event-sponsor-list>
+            <app-event-sponsor-list [eventId]="event.encryptedId"></app-event-sponsor-list>
         </div>
     </mat-tab>
     <mat-tab>
         <ng-template mat-tab-label>Programs Runsheet</ng-template>
         <div *ngIf="event">
-            <app-event-program-list [eventId]="event.id"></app-event-program-list>
+            <app-event-program-list [eventId]="event.encryptedId"></app-event-program-list>
         </div>
     </mat-tab>
     <mat-tab>
@@ -56,7 +56,7 @@
     <mat-tab>
         <ng-template mat-tab-label>Gallery</ng-template>
         <div *ngIf="event">
-            <app-event-gallery-list [eventId]="event.id"></app-event-gallery-list>
+            <app-event-gallery-list [eventId]="event.encryptedId"></app-event-gallery-list>
         </div>
     </mat-tab>
 </mat-tab-group>

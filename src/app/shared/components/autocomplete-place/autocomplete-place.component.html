@@ -1,0 +1,5 @@
+<mat-form-field #materialFormField  autocomplete="off" class="full-width sorax-form-field pb10" appearance="outline">
+    <mat-label>Location</mat-label>
+    <input #soraxInput matInput class="input" type="text"
+           [(ngModel)]="autocompleteInput" (change)="onInputChanged()" #addresstext>
+</mat-form-field>

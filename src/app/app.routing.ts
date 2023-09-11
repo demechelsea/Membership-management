@@ -76,6 +76,18 @@ export const rootRouterConfig: Routes = [
     }]
   },
   {
+    path: '',
+    component: SoraxAdminLayoutComponent,
+    canActivate: [SoraxAuthGuard],
+    children: [
+      {
+        path: 'membershipManagement',
+        loadChildren: () => import('app/membership-management/membership.management.module').then(m => m.MembershipManagementModule),
+      },
+    
+    ]
+  },
+  {
     path: 'underdev',
     component: SoraxAdminLayoutComponent,
     canActivate: [SoraxAuthGuard],
