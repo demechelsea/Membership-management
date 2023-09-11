@@ -5,6 +5,8 @@
 @include mat.core();
 
 // @debug $font-family-base;
+$shadow-primary: 0px 5px 10px rgba(0, 0, 0, 0.4);
+
 
 $egret-typography: mat.define-typography-config($font-family: $font-family-base,
     $headline-1: mat.define-typography-level(1.875rem, 2.25rem, 800, $font-family-base),
