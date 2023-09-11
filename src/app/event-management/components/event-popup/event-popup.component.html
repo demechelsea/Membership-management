@@ -95,12 +95,21 @@
         </div>
 
         <div class="w-full md:w-1/2">
-          <div class="file-container">
-            <div class="form-group">
-              <label>Browse file:</label><br>
-              <input type="file" class="form-control" id="file" name="file" (change)="onFileSelected($event.target)">
+            <div class="image-upload-container">
+                <div class="image-upload-box" *ngIf="!this.previewImage.url">
+                    <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" />
+                    <label for="fileInput" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Click or Drag & Drop Image Here</span>
+                    </label>
+                </div>
+                <div *ngIf="this.previewImage.url">
+                    <img [src]="this.previewImage.url" alt="Uploaded Image" id="previewImage" class="image-preview" />
+                    <button mat-icon-button (click)="deleteImage()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
             </div>
-          </div>
         </div>
       </div>
 
