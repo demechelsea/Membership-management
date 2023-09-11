@@ -15,6 +15,9 @@ export default class EventDTO extends MessageWrapModel {
     ticketCost: number;
     saleEndDate: Date;
     ticketsAvailable: number;
+    rsvpCount: number;
+    ticketsIssued: number;
+    totalTicketsCollected: number;
     availableToPublic: boolean;
     description: string;
 

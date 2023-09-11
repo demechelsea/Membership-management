@@ -24,18 +24,25 @@ import {AutocompletePlaceComponent} from "../../../shared/components/autocomplet
 @Component({
     selector: "app-component-popup",
     templateUrl: "./event-popup.component.html",
+    styleUrls: ['./event-popup.component.scss'],
 })
 export class EventPopupComponent extends BaseComponent implements OnInit {
     private ngUnsubscribe$ = new Subject<void>();
     public eventForm: FormGroup;
     public isLoading: boolean;
     public noResults: boolean;
+
     filteredIntervals$: Observable<LableValueModel[]>;
 
     buttonText = "Add a New Event";
     timezoneOptionsKey: string = LookupService.TIMEZONES;
 
     @ViewChild("location") location: AutocompletePlaceComponent;
+
+    previewImage = {
+        url: null,
+        message: null
+    }
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -113,26 +120,34 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
     }
 
     onFileSelected(event: any) {
+        console.log(event)
+        if(!event.target.files[0] || event.target.files[0].length == 0) {
+          this.previewImage.message = 'You must select an image';
+            console.log(this.previewImage.message);
+          return;
+        }
 
-        // if(!event.target.files[0] || event.target.files[0].length == 0) {
-        //   this.msg = 'You must select an image';
-        //   return;
-        // }
-        //
-        // const mimeType = event.target.files[0].type;
-        //
-        // if (mimeType.match(/image\/*/) == null) {
-        //   this.msg = "Only images are supported";
-        //   return;
-        // }
-        //
-        // const reader = new FileReader();
-        // reader.readAsDataURL(event.target.files[0]);
-        //
-        // reader.onload = (_event) => {
-        //   this.msg = "";
-        //   this.url = reader.result;
-        // }
+        const mimeType = event.target.files[0].type;
+
+        if (mimeType.match(/image\/*/) == null) {
+          this.previewImage.message = "Only images are supported";
+            console.log(this.previewImage.message);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = (_event) => {
+          this.previewImage.message = "";
+          this.previewImage.url = reader.result;
+        }
+    }
+
+    deleteImage(){
+        this.previewImage.url = null;
+        this.previewImage.message = null;
+        (<HTMLInputElement>document.getElementById('fileInput')).value = "";
     }
 
     onSelectedTimezoneOption(option: LableValueModel) {
@@ -145,6 +160,5 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
         } else {
             this.eventForm.controls['location'].setValue(this.location.autocompleteInput);
         }
-
     }
 }

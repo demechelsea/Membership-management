@@ -14,10 +14,10 @@
       </div>
       <div>
         <p><strong>Status:</strong> {{event.status}}</p>
-        <p><strong>Total Collected:</strong> $3500</p>
-        <p><strong>Tickets Issued:</strong> 200</p>
-        <p><strong>Tickets Available: </strong> 2000</p>
-        <p><strong>RSVP count:</strong> 500</p>
+        <p><strong>Total Collected:</strong> ${{event.totalTicketsCollected}}</p>
+        <p><strong>Tickets Issued:</strong> {{event.ticketsIssued}}</p>
+        <p><strong>Tickets Available: </strong> {{event.ticketsAvailable}}</p>
+        <p><strong>RSVP count:</strong> {{event.rsvpCount}}</p>
       </div>
     </div>
   </mat-card>
