@@ -8,11 +8,13 @@ import { LoginService } from 'app/auth/service/login.service';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 @Component({
   selector: 'sorax-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
+  animations: SoraxAnimations,
 })
 export class SignupComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;

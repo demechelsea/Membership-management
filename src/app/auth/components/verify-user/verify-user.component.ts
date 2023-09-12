@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'app/auth/service/login.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { BaseService } from 'app/common/services/base.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
@@ -13,7 +14,8 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'sorax-verify-user',
   templateUrl: './verify-user.component.html',
-  styleUrls: ['./verify-user.component.scss']
+  styleUrls: ['./verify-user.component.scss'],
+  animations: SoraxAnimations,
 })
 export class VerifyUserComponent extends BaseComponent implements OnInit, OnDestroy {
   private ngUnsubscribe$ = new Subject<void>();

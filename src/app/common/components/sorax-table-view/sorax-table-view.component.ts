@@ -7,21 +7,13 @@ import { SoraxColumnDefinition } from './sorax-column-definition';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 @Component({
   selector: 'sorax-table-view',
   templateUrl: './sorax-table-view.component.html',
   styleUrls: ['./sorax-table-view.component.scss'],
-  animations: [
-    trigger('smoothFadeIn', [
-      state('void', style({
-        opacity: 0
-      })),
-      transition('void => *', [
-        animate('1s ease-in')
-      ])
-    ])
-  ]
+  animations: SoraxAnimations,
 })
 export class SoraxTableViewComponent implements OnInit {
 

@@ -14,13 +14,15 @@ import { UserViewModel } from 'app/models/user-view-model';
 import { Subject, takeUntil } from 'rxjs';
 
 import { LoginService } from '../../service/login.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 
 
 @Component({
   selector: 'sorax-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: SoraxAnimations,
 })
 export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;

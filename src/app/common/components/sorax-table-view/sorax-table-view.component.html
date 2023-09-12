@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8" @animate>
   <mat-paginator *ngIf="isPageable" [length]="page.totalItems" [pageIndex]="page?.currentPage"
     [pageSize]="page?.pageSize" [pageSizeOptions]="page?.pageSizeOptions" (page)="emitPageEvent($event)"
     aria-label="Select page" showFirstLastButtons>

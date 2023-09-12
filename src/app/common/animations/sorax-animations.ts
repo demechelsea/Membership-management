@@ -13,6 +13,7 @@ import {
   stagger,
 } from '@angular/animations';
 
+
 const reusable = animation(
   [
     style({
@@ -23,36 +24,47 @@ const reusable = animation(
   ],
   {
     params: {
-      duration: '200ms',
-      delay: '0ms',
+      duration: '500ms',
+      delay: '100ms',
       opacity: '0',
       scale: '1',
       x: '0',
-      y: '0',
+      y: '100px',
       z: '0',
     },
   }
 );
 
+
+const fadeInAnimation = animation(
+  [animate('{{ duration }} {{ easing }}')],
+  {
+    params: {
+      duration: '500ms',
+      easing: 'ease-out'
+    }
+  }
+);
+
+const fadeOutAnimation = animation(
+  [animate('{{ duration }} {{ easing }}')],
+  {
+    params: {
+      duration: '500ms',
+      easing: 'ease-in'
+    }
+  }
+);
+
+
+
+
 export const SoraxAnimations = [
   trigger('animate', [transition('void => *', [useAnimation(reusable)])]),
-
-  trigger('fadeInOut', [
-    state(
-      '0',
-      style({
-        opacity: 0,
-        display: 'none',
-      })
-    ),
-    state(
-      '1',
-      style({
-        opacity: 1,
-        display: 'block',
-      })
-    ),
-    transition('0 => 1', animate('300ms')),
-    transition('1 => 0', animate('300ms')),
+  
+  trigger('fade', [
+    state('void', style({ opacity: 0 })),
+    transition('void => *', useAnimation(fadeInAnimation)),
+    transition('* => void', useAnimation(fadeOutAnimation)),
   ]),
 ];

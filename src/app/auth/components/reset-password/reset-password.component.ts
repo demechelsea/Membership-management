@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'app/auth/service/login.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { LocalstorageService } from 'app/common/services/localstorage.service';
 import { NotificationService } from 'app/common/services/notification.service';
@@ -16,7 +17,8 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  styleUrls: ['./reset-password.component.scss'],
+  animations: SoraxAnimations,
 })
 export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
