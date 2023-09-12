@@ -92,6 +92,8 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
             formData.endDate = formData.endDate + 'T' + formData.endTime;
             delete formData.endTime;
 
+            formData.imageData = this.previewImage.url;
+
             if (this.data.isNew) {
                 this.eventService.addEvent(formData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
@@ -141,6 +143,7 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
         reader.onload = (_event) => {
           this.previewImage.message = "";
           this.previewImage.url = reader.result;
+          console.log(this.previewImage.url);
         }
     }
 

@@ -10,6 +10,7 @@ export default class EventDTO extends MessageWrapModel {
     name: string;
     status:string;
     imageUrl: string;
+    eventImageLink: string;
     location: string;
     locationTimezone: string;
     ticketCost: number;
