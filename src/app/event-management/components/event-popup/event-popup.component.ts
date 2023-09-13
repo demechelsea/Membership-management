@@ -20,6 +20,7 @@ import EventDTO from "../../../models/event/eventDTO";
 import {EventService} from "../../services/event-service/event.service";
 import {LookupService} from "../../../common/services/lookup.service";
 import {AutocompletePlaceComponent} from "../../../shared/components/autocomplete-place/autocomplete-place.component";
+import * as moment from "moment/moment";
 
 @Component({
     selector: "app-component-popup",
@@ -60,20 +61,25 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         console.log(this.data.payload);
         this.buildEventForm(this.data.payload)
-        // this.cdRef.detectChanges();
     }
 
     buildEventForm(eventData: EventDTO) {
+
+        console.log(eventData.location);
+
+
+
         this.eventForm = this.formBuilder.group({
+            encryptedId: [this.data.isNew ? null : eventData.encryptedId, this.data.isNew ? [] : Validators.required],
             name: [eventData.name || "", Validators.required],
             location: [eventData.location || "", Validators.required],
             locationTimezone: [eventData.locationTimezone || "", Validators.required],
-            startDate: [eventData.startDate || "", Validators.required],
-            startTime: [eventData.startTime || "", Validators.required],
-            endDate: [eventData.endDate || "", Validators.required],
-            endTime: [eventData.endTime || "", Validators.required],
+            startDate: [moment(eventData.startDate).format("YYYY-MM-DD") || "", Validators.required],
+            startTime: [moment(eventData.startDate).format("HH:mm") || "", Validators.required],
+            endDate: [moment(eventData.endDate).format("YYYY-MM-DD") || "", Validators.required],
+            endTime: [moment(eventData.endDate).format("HH:mm") || "", Validators.required],
             ticketCost: [eventData.ticketCost || 0, Validators.required],
-            saleEndDate: [eventData.saleEndDate || "", Validators.required],
+            saleEndDate: [moment(eventData.saleEndDate).format("YYYY-MM-DD") || "", Validators.required],
             ticketsAvailable: [eventData.ticketsAvailable || 0, Validators.required],
             availableToPublic: [eventData.availableToPublic || 'N', Validators.required],
             description: [eventData.description || '', Validators.required],
@@ -96,6 +102,21 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
 
             if (this.data.isNew) {
                 this.eventService.addEvent(formData)
+                    .pipe(takeUntil(this.ngUnsubscribe$))
+                    .subscribe((response) => {
+                        if (response.success) {
+                            this.notificationService.showSuccess(
+                                response.messages[0].message
+                            )
+                            this.dialogRef.close(response);
+                        } else {
+                            this.notificationService.showError(response.messages[0].message);
+                        }
+                    })
+
+            } else {
+
+                this.eventService.editEvent(formData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {

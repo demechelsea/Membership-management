@@ -19,3 +19,18 @@
 .image-item:hover {
     transform: scale(1.15); 
 }
+
+.event-details-card {
+
+  .right-section {
+    float: right;
+    display: grid;
+  }
+
+  .event-image img{
+    max-width: 250px;
+    max-height: 162px;
+    margin: auto;
+  }
+
+}

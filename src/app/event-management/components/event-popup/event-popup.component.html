@@ -23,7 +23,7 @@
       </div>
       <div class="flex flex-wrap flex-col md:flex-row">
         <div class="w-full md:w-2/3 pr-16">
-            <app-autocomplete-place (setAddress)="getAddress($event)" #location></app-autocomplete-place>
+            <app-autocomplete-place location="{{eventForm.controls['location'].value}}" (setAddress)="getAddress($event)" #location></app-autocomplete-place>
         </div>
         <div class="w-full md:w-1/3 pr-16">
             <sorax-autocomplete
