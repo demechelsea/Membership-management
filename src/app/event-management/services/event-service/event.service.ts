@@ -36,6 +36,10 @@ export class EventService extends HttpAppDataService {
         return this.postData(Urls.ADD_EVENTS, eventDto);
     }
 
+    editEvent(eventDto: EventDTO): Observable<any> {
+        return this.putData(Urls.EDIT_EVENT, eventDto);
+    }
+
     getEventById(id: string): Observable<any> {
         const eventDto: EventDTO = new EventDTO();
         eventDto.encryptedId = id;
