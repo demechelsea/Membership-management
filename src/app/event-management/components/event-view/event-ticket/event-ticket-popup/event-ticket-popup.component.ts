@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output} from "@angular/core";
 import {
     FormBuilder,
     FormControl,
@@ -20,8 +20,6 @@ import EventTicketDTO from "../../../../../models/event/eventTicketDTO";
     templateUrl: "./event-ticket-popup.component.html",
 })
 export class EventTicketPopupComponent extends BaseComponent implements OnInit {
-    intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
-    statusoptionsKey: string = LookupService.STATUS_OPTIONS;
 
     private ngUnsubscribe$ = new Subject<void>();
     public membershipPlanForm: FormGroup;
@@ -67,7 +65,6 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
     }
 
     buildTicketTypeForm(eventTicketDTO: EventTicketDTO) {
-        console.log(eventTicketDTO);
         const isUpdate = !this.data.isNew;
         this.eventTicketForm = this.formBuilder.group({
             id: [isUpdate ? eventTicketDTO.id : null, isUpdate ? Validators.required : []],
@@ -85,9 +82,6 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
     }
 
     submit(eventTicketDTO: EventTicketDTO) {
-
-        console.log(eventTicketDTO)
-
         eventTicketDTO.visibleToPublic = eventTicketDTO.visibleToPublic ? "Y" : "N";
 
         if (this.eventTicketForm.valid) {
@@ -101,13 +95,17 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
                             this.notificationService.showSuccess(
                                 response.messages[0].message
                             )
-                            this.dialogRef.close(response);
+                            console.log(response)
+
+                            this.dialogRef.close({
+                                data: response.result,
+                                isNew: true
+                            });
                         } else {
                             this.notificationService.showError(response.messages[0].message);
                         }
                     })
             } else {
-                console.log(ticketData);
                 this.eventService
                     .editEventTicket(ticketData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
@@ -116,7 +114,11 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
                             this.notificationService.showSuccess(
                                 response.messages[0].message
                             );
-                            this.dialogRef.close(response);
+
+                            this.dialogRef.close({
+                                data: response.result,
+                                isNew: false
+                            });
                         } else {
                             this.notificationService.showError(response.messages[0].message);
                         }
@@ -127,14 +129,6 @@ export class EventTicketPopupComponent extends BaseComponent implements OnInit {
 
     convertToNumber(str: string): number {
         return str == "Y" ? 1 : 0;
-    }
-
-    onSelectedIntervalOption(option: LableValueModel) {
-        this.membershipPlanForm.controls["interval"].setValue(option.name);
-    }
-
-    onSelectedStatusOption(option: LableValueModel) {
-        this.membershipPlanForm.controls["status"].setValue(option.name);
     }
 
     ngOnDestroy() {

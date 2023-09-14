@@ -22,7 +22,7 @@
 
                 <div class="w-full md:w-1/1 pr-8">
                     <mat-form-field class="full-width">
-                        <mat-select placeholder="Country" [formControl]="issueTicketForm.controls['ticketId']">
+                        <mat-select placeholder="Ticket" [formControl]="issueTicketForm.controls['ticketId']">
                             <mat-option *ngFor="let t of availableTicketOptions" [value]="t.id">
                                 {{ t.name }}
                             </mat-option>
