@@ -1,26 +1,66 @@
-<div class="event-dialog-wrapper">
-  <div class="mat-toolbar matDialogTitle mat-primary pr0 flex flex-wrap">
-    <span class="mat-headline-4">Profile</span>
-  </div>
-
+<div class="event-dialog-wrapper w-full md:w-1/5 m-4 border border-gray-300 rounded">
   <div mat-dialog-content class="padround18">
-    <div class="flex flex-col md:flex-row justify-between">
+    <!-- Progress Bar -->
+    <div class="w-full py-1 mb-4 relative flex-col">
+      <div class="h-2 mb-4" style="width: 100%; background: linear-gradient(to right, green 26%, black 0%);"></div>
+      <div class="absolute bottom-0 right-0 text-sm text-black py-1 px-1 w-28 h-2 flex items-center justify-end">
+        Completed: 26%</div>
+    </div>
+
+    <div class="flex flex-col justify-between items-start">
       <!-- Profile Picture -->
-      <div class="w-full md:w-1/3 mb-8 md:mb-0">
-        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full w-full h-auto">
+      <div class="w-full mb-8">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full w-70 h-70 mx-auto">
       </div>
       <!-- Profile Details -->
-      <div class="w-full md:w-2/3 pl-0 md:pl-8">
+      <div class="w-full pl-0 text-center">
         <!-- Name -->
         <h2 class="text-2xl font-bold mb-2">John F. Kenady</h2>
         <!-- Title -->
         <p class="text-lg text-gray-600 mb-4">Big Data Expert</p>
-        <!-- Progress Bar -->
-        <div class="w-full bg-gray-300 rounded-full mb-4">
-          <div class="bg-green-500 rounded-full py-1" style="width: 26%;"></div>
-        </div>
         <!-- Other Details -->
-        <!-- Add other details here -->
+        <div class="flex flex-col mb-4">
+          <div class="flex items-center mb-8 pb-8 justify-center border-b border-gray-300">
+            <mat-icon class="mr-6">home</mat-icon>
+            <mat-icon>edit</mat-icon>
+          </div>
+          <div class="flex-col mb-8 pb-8 justify-center border-b border-gray-300">
+            <div class="flex items-center py-2">
+              <mat-icon>web</mat-icon>
+              <span class="ml-2">www.example.com</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>mail</mat-icon>
+              <span class="ml-2">john@example.com</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>phone</mat-icon>
+              <span class="ml-2">123-456-7890</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>location_on</mat-icon>
+              <span class="ml-2">City, State</span>
+            </div>
+          </div>
+          <div class="flex-col">
+            <div class="flex items-center py-2">
+              <mat-icon>web</mat-icon>
+              <span class="ml-2">www.example.com</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>mail</mat-icon>
+              <span class="ml-2">john@example.com</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>phone</mat-icon>
+              <span class="ml-2">123-456-7890</span>
+            </div>
+            <div class="flex items-center py-2">
+              <mat-icon>location_on</mat-icon>
+              <span class="ml-2">City, State</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Back to Members List Button -->

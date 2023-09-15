@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
+import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -13,6 +14,7 @@ import { Subject, takeUntil } from "rxjs";
 
 import { EmailSettingDTO } from "app/models/emailSettingDTO";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AssociationMemberPopupComponent } from "./membership-popup/membership-management-popup.component";
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import { Router } from "@angular/router";
@@ -75,7 +77,6 @@ export class MembershipManagementComponent
       .getAssociationMembers(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        console.log(response);
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
         this.associationMemberData = this.listPlans.map(
@@ -95,9 +96,27 @@ export class MembershipManagementComponent
   }
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
-    this.router.navigate(['./membershipManagement/profileHighlight']);
+    let title = isNew ? "Add Assocition Member" : "Update Assocition Member";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      AssociationMemberPopupComponent,
+      {
+        width: "800px",
+        disableClose: true,
+        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id},
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      this.getPageResults();
+    });
   }
 
+  openProfileDetail(id: number){
+    this.router.navigate(['./membershipManagement/profileHighlight']);
+
+  }
   executeRowActions(rowData: MemershipPlanModel) {
     // if (rowData.performAction == "edit") {
     //   this.openPopUp(rowData, false);
@@ -128,7 +147,7 @@ export class MembershipManagementComponent
         isSortable: true,
         link: true,
         clickEvent: (data) => {
-          this.openPopUp(data, false);
+          this.openProfileDetail(1);
         },
       },
       {
