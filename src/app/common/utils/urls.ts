@@ -93,6 +93,11 @@ export class Urls {
     public static MSG_UNSUBSCRIBED_ALL: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/retrieveMsgUnsubscribed";
     public static MSG_SUBSCRIPTION_UPDATE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/sms/msgSubscriptionUpdate";
 
+    public static RETRIEVE_USERS_BY_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveUsersByAssociation";
+    public static RETRIEVE_ASSOCIATION_USER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveUsersById";
+    public static GET_USER_PHOTO_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/getUserPhoto";
+
+
      public static RETRIEVE_MEMBERS_BY_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/retrieveMembersByAssociation";
      public static REGISTER_ASSOCIATION_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/registerAssocMember";
      public static UPDATE_ASSOCIATION_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/updateAssocMember";

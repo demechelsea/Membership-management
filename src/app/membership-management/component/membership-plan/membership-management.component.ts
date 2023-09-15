@@ -87,7 +87,7 @@ export class MembershipManagementComponent
     let dialogRef: MatDialogRef<any> = this.dialog.open(
       AssociationMemberPopupComponent,
       {
-        width: "720px",
+        width: "800px",
         disableClose: true,
         data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id},
       }

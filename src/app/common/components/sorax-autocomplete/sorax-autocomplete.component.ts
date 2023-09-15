@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
-import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
-import { map, Observable, startWith, Subject, Subscription, takeUntil, tap } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -136,8 +135,8 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private addValidationRule() {
     if (this.options) {
-      this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
-      this.autoCompleteFieldLabel.updateValueAndValidity();
+      // this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      // this.autoCompleteFieldLabel.updateValueAndValidity();
     }
   }
 
