@@ -25,7 +25,8 @@ import { NotificationService } from "app/common/services/notification.service";
 })
 export class CommitteeMemberPopupComponent
   extends BaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Output() addPosition: EventEmitter<void> = new EventEmitter<void>();
 
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
@@ -193,6 +194,11 @@ export class CommitteeMemberPopupComponent
       );
       formData.append("startDate", committeeMember.startDate.toString());
       formData.append("endDate", committeeMember.endDate.toString());
+
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append("photo", this.selectedFile);
