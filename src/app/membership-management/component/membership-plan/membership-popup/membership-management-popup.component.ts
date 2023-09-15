@@ -1,10 +1,10 @@
+import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import {
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnInit,
-} from "@angular/core";
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { LookupService } from "app/common/services/lookup.service";
 import { BaseComponent } from "app/core/components/base/base.component";
@@ -20,12 +20,11 @@ import { UserDetailDTO } from "app/models/UserDetailDTO";
   selector: "association-member-popup",
   templateUrl: "./membership-management-popup.component.html",
   styleUrls: ["./membership-management-popup.component.scss"],
-
 })
 export class AssociationMemberPopupComponent
   extends BaseComponent
-  implements OnInit {
-
+  implements OnInit
+{
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
   membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
   genderOptionsKey: string = LookupService.GENDER_OPTIONS;
@@ -55,7 +54,6 @@ export class AssociationMemberPopupComponent
     private cdRef: ChangeDetectorRef,
     private associationMemberService: AssociationMembersService,
     private notificationService: NotificationService
-
   ) {
     super();
     this.buttonText = data.isNew
@@ -70,27 +68,34 @@ export class AssociationMemberPopupComponent
     this.handleViewAttachment();
   }
 
-
   buildAssociationMemberForm(associationMemberdata: AssociationMemberDTO) {
     const isUpdate = !this.data.isNew;
     this.associationMemeberForm = this.formBuilder.group({
       id: [isUpdate ? this.selectedAssociationMemberId : null],
       association: [associationMemberdata.association || ""],
-      title: [associationMemberdata?.userDetail?.title || ""],
-      firstName: [associationMemberdata?.userDetail?.firstName || ""],
-      surName: [associationMemberdata?.userDetail?.surName || ""],
-      displayName: [associationMemberdata?.userDetail?.displayName || ""],
-      primaryPhone: [associationMemberdata?.userDetail?.primaryPhone || ""],
-      primaryEmail: [associationMemberdata?.userDetail?.primaryEmail || ""],
-      gender: [associationMemberdata?.userDetail?.gender || ""],
-      maritalStatus: [associationMemberdata?.userDetail?.maritalStatus || ""],
-      dob: [isUpdate ? moment(associationMemberdata?.userDetail?.dob).format("YYYY-MM-DD") : ""],
+      title: [associationMemberdata?.title || ""],
+      firstName: [associationMemberdata?.firstName || ""],
+      parentName: [associationMemberdata?.parentName || ""],
+      displayName: [associationMemberdata?.displayName || ""],
+      primaryPhone: [associationMemberdata?.primaryPhone || ""],
+      primaryEmail: [associationMemberdata?.primaryEmail || ""],
+      gender: [associationMemberdata?.gender || ""],
+      maritalStatus: [associationMemberdata?.maritalStatus || ""],
+      dob: [
+        isUpdate ? moment(associationMemberdata?.dob).format("YYYY-MM-DD") : "",
+      ],
       membershipPlan: [associationMemberdata?.membershipPlan?.planName || ""],
-      approvedDate: [isUpdate ? moment(associationMemberdata?.approvedDate).format("YYYY-MM-DD") : ""],
+      approvedDate: [
+        isUpdate
+          ? moment(associationMemberdata?.approvedDate).format("YYYY-MM-DD")
+          : "",
+      ],
       introducerUser: [associationMemberdata?.introducerUser || ""],
       status: [associationMemberdata?.status || "Active"],
       highestEducation: [associationMemberdata?.highestEducation || ""],
-      onlineAccessFlg: [this.convertToNumber(associationMemberdata.onlineAccessFlg) || 0,],
+      onlineAccessFlg: [
+        this.convertToNumber(associationMemberdata.onlineAccessFlg) || 0,
+      ],
       photoLink: [associationMemberdata.photoLink || ""],
     });
   }
@@ -114,33 +119,30 @@ export class AssociationMemberPopupComponent
   }
 
   submit(associationMember: AssociationMemberDTO) {
-    console.log(associationMember);
     if (this.associationMemeberForm.valid) {
-
-      let userDetail = new UserDetailDTO();
-      userDetail.title = this.associationMemeberForm.get('title').value;
-      userDetail.firstName = this.associationMemeberForm.get('firstName').value;
-      userDetail.surName = this.associationMemeberForm.get('surName').value;
-      userDetail.displayName = this.associationMemeberForm.get('displayName').value;
-      userDetail.primaryEmail = this.associationMemeberForm.get('primaryEmail').value;
-      userDetail.primaryPhone = this.associationMemeberForm.get('primaryPhone').value;
-      userDetail.gender = this.associationMemeberForm.get('gender').value;
-      userDetail.dob = new Date(this.associationMemeberForm.get('dob').value).toString();
-      associationMember.userDetail = userDetail;
-
       const formData = new FormData();
-      //formData.append("userDetail", JSON.stringify(associationMember.userDetail));
+      formData.append("title", associationMember?.title);
+      formData.append("firstName", associationMember?.firstName);
+      formData.append("parentName", associationMember?.parentName);
+      formData.append("displayName", associationMember?.displayName);
+      formData.append("primaryEmail", associationMember?.primaryEmail);
+      formData.append("primaryPhone", associationMember?.primaryPhone);
+      formData.append("gender", associationMember?.gender);
+      formData.append("maritalStatus", associationMember?.maritalStatus);
+      formData.append("dob", associationMember?.dob);
       formData.append("membershipPlanId", this.membershipPlanId.toString());
+      formData.append("approvedDate",new Date(associationMember?.approvedDate).toString());
+      formData.append("highestEducation",associationMember?.highestEducation.toString());
+      formData.append("onlineAccessFlg",associationMember?.onlineAccessFlg ? "Y" : "N");
       formData.append("status", associationMember?.status);
+
       formData.append("photoLink", associationMember?.photoLink);
-      //formData.append("membershipPlan", associationMember?.membershipPlan?.planName);
-      formData.append("approvedDate", new Date(associationMember?.approvedDate).toString());
-      formData.append("highestEducation", associationMember?.highestEducation.toString());
-      formData.append("onlineAccessFlg", associationMember?.onlineAccessFlg ? "Y" : "N");
+      
+     
       formData.append("introducerUser", "1");
 
       for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        console.log(pair[0] + ", " + pair[1]);
       }
 
       if (this.data.isNew) {
@@ -151,8 +153,6 @@ export class AssociationMemberPopupComponent
           .createAssociationMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
-            console.log("res", response);
-            
             if (response.success) {
               this.notificationService.showSuccess(
                 response.messages[0].message
@@ -187,8 +187,6 @@ export class AssociationMemberPopupComponent
       );
     }
   }
-
-
 
   membershipPlanDisplayFn(option: any): string {
     return `${option.planName}`;

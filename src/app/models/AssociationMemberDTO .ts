@@ -7,15 +7,23 @@ export class AssociationMemberDTO  extends MessageWrapModel {
     id:number;
     association: AssociationDTO ;
     userDetail: UserDetailDTO;
+    title: string;
+    firstName: string;
+    parentName: string;
+    displayName: string;
+    dob: string;
+    gender: string;
     membershipPlan: MembershipPlanDTO;
-    introducerUser: BigInteger;
+    maritalStatus: string;
+    primaryEmail: string;
+    primaryPhone: string;
+    membershipPlanId: number;
+    introducerUser: number;
     status: string;
     approvedDate: Date;
-    membershipPlanId: number;
     onlineAccessFlg: string;
     highestEducation: string;
     photoLink: string;
     page: PageModel;
     photo: string;
 }
-

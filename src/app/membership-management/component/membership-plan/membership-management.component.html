@@ -57,7 +57,7 @@
 </div>
 <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
   <mat-card-content>
-    <sorax-table-view [tableData]="membershipPlanData" [tableColumns]="membershipColumns" [isFilterable]="false"
+    <sorax-table-view [tableData]="associationMemberData" [tableColumns]="membershipColumns" [isFilterable]="false"
       [isPageable]="true" [page]="page" (rowAction)="executeRowActions($event)">
     </sorax-table-view>
   </mat-card-content>

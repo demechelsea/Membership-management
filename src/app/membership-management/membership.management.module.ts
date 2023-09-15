@@ -10,11 +10,13 @@ import { DatePipe } from '@angular/common';
 import { MembershipManagementComponent } from './component/membership-plan/membership-management.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AssociationMemberPopupComponent } from './component/membership-plan/membership-popup/membership-management-popup.component';
+import { ProfileHighlightComponent } from './component/profile-highlight/profile-highlight.component';
 
 
 const declarationsList = [
   MembershipManagementComponent,
-  AssociationMemberPopupComponent
+  AssociationMemberPopupComponent,
+  ProfileHighlightComponent
 ];
 
 const importsList = [

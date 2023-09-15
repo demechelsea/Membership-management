@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
-import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -14,8 +13,9 @@ import { Subject, takeUntil } from "rxjs";
 
 import { EmailSettingDTO } from "app/models/emailSettingDTO";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AssociationMemberPopupComponent } from "./membership-popup/membership-management-popup.component";
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
+import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-membership-plan",
@@ -27,19 +27,20 @@ export class MembershipManagementComponent
   extends BaseComponent
   implements OnInit
 {
-  public membershipPlanData: any;
+  public associationMemberData: any;
   public membershipColumns: SoraxColumnDefinition[];
 
   private ngUnsubscribe$ = new Subject<void>();
 
   resultViewModel: ResultViewModel = new ResultViewModel();
-  listPlans: MemershipPlanModel[];
+  listPlans: AssociationMemberDTO[];
 
   public SMTPForm: FormGroup;
 
   constructor(
     private dialog: MatDialog,
-    private membershipPlanService: MembershipPlanService,
+    private router: Router,
+    private associationMemberService: AssociationMembersService,
     private loader: AppLoaderService,
     private formBuilder: FormBuilder
   ) {
@@ -70,34 +71,31 @@ export class MembershipManagementComponent
 
   getPageResults() {
     this.loader.open();
-    this.membershipPlanService
-      .getItems(this.page)
+    this.associationMemberService
+      .getAssociationMembers(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
+        console.log(response);
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
-        this.membershipPlanData = this.listPlans;
+        this.associationMemberData = this.listPlans.map(
+          (associationMember) => {
+            return {
+              ...associationMember,
+              email: `${associationMember?.userDetail?.primaryEmail}`,
+              title: `${associationMember.userDetail.title}`,
+              membershipPlan: `${associationMember.membershipPlan.planName}`,
+              membershipPlanId: `${associationMember.membershipPlanId}`,
+            };
+          }
+        );
         Object.assign(this.messages, response);
         this.loader.close();
       });
   }
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
-    let title = isNew ? "Add Assocition Member" : "Update Assocition Member";
-    let dialogRef: MatDialogRef<any> = this.dialog.open(
-      AssociationMemberPopupComponent,
-      {
-        width: "800px",
-        disableClose: true,
-        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id},
-      }
-    );
-    dialogRef.afterClosed().subscribe((res) => {
-      if (!res) {
-        return;
-      }
-      this.getPageResults();
-    });
+    this.router.navigate(['./membershipManagement/profileHighlight']);
   }
 
   executeRowActions(rowData: MemershipPlanModel) {
@@ -124,8 +122,8 @@ export class MembershipManagementComponent
   initializeColumns(): void {
     this.membershipColumns = [
       {
-        name: "Membership Plan name",
-        dataKey: "planName",
+        name: "Name",
+        dataKey: "title",
         position: "left",
         isSortable: true,
         link: true,
@@ -134,20 +132,20 @@ export class MembershipManagementComponent
         },
       },
       {
-        name: "Description",
-        dataKey: "description",
+        name: "Membership plan",
+        dataKey: "membershipPlan",
         position: "left",
         isSortable: true,
       },
       {
-        name: "Membership Fee",
-        dataKey: "fee",
+        name: "Membership Id",
+        dataKey: "membershipPlanId",
         position: "left",
         isSortable: true,
       },
       {
-        name: "Renewal Interval",
-        dataKey: "interval",
+        name: "Email",
+        dataKey: "email",
         position: "left",
         isSortable: true,
       },
@@ -158,20 +156,20 @@ export class MembershipManagementComponent
         isSortable: true,
       },
       {
-        name: "Active Subscriptions",
+        name: "Channel",
         dataKey: "activeSubscriptions",
         position: "left",
         isSortable: false,
       },
       {
-        name: "Updated On",
+        name: "Expire Date",
         dataKey: "modifiedTimestamp",
         position: "left",
         isSortable: true,
         dataType: "Date",
       },
       {
-        name: "Updated By",
+        name: "Member for",
         dataKey: "modifiedUser",
         position: "left",
         isSortable: true,
