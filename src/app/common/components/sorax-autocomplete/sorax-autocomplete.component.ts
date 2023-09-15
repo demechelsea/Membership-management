@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
+import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
+import { log } from 'console';
 import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
 
@@ -85,13 +87,15 @@ export class SoraxAutocompleteComponent implements OnInit {
       else if (option.planName) {
         return option.planName.toLowerCase().includes(filterValue);
       }
-      else if (option.userDetail) {
-        return (`${option.userDetail.firstName} ${option.userDetail.givenName} 
-        ${option.userDetail.parentName} ${option.userDetail.primaryEmail}
-        ${option.userDetail.primaryPhone} ${option.userDetail.parentName}`).toLowerCase().includes(filterValue);
+      else if (option) {
+        return (`${option?.firstName} ${option?.givenName} 
+        ${option?.parentName} ${option?.primaryEmail}
+        ${option?.primaryPhone} ${option?.parentName}`).toLowerCase().includes(filterValue);
       }
 
     });
+    console.log("aaaa", filteredOptions);
+    
     return filteredOptions;
   }
   private resetInputControlValue() {
@@ -112,31 +116,31 @@ export class SoraxAutocompleteComponent implements OnInit {
   }
 
   private setAutoControlIdLabel(option: any) {
-    if (option == null) {
-      return null;
-    }
-    if (option) {
-      if (this.autoCompleteFieldId) {
-        this.autoCompleteFieldId.setValue(option.id);
-      }
-      this.autoCompleteFieldLabel.setValue(option.name);
-    }
-    if (option.positionName) {
-      this.autoCompleteFieldLabel.setValue(option.positionName);
-    }
-    if (option.planName) {
-      this.autoCompleteFieldLabel.setValue(option.planName);
-    }
-    if (option.userDetail) {
-      this.autoCompleteFieldLabel.setValue(`${option.userDetail.firstName} ${option.userDetail.givenName} 
-      ${option.userDetail.parentName}`);
-    }
+    // if (option == null) {
+    //   return null;
+    // }
+    // if (option) {
+    //   if (this.autoCompleteFieldId) {
+    //     this.autoCompleteFieldId.setValue(option.id);
+    //   }
+    //   this.autoCompleteFieldLabel.setValue(option.name);
+    // }
+    // if (option.positionName) {
+    //   this.autoCompleteFieldLabel.setValue(option.positionName);
+    // }
+    // if (option.planName) {
+    //   this.autoCompleteFieldLabel.setValue(option.planName);
+    // }
+    // if (option) {
+    //   this.autoCompleteFieldLabel.setValue(`${option?.firstName} ${option?.givenName} 
+    //   ${option.parentName}`);
+    // }
   }
 
   private addValidationRule() {
     if (this.options) {
-      // this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
-      // this.autoCompleteFieldLabel.updateValueAndValidity();
+      this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      this.autoCompleteFieldLabel.updateValueAndValidity();
     }
   }
 

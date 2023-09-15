@@ -59,9 +59,11 @@ export class LookupService extends HttpAppDataService {
       );
     }
     else if (lookupName.includes("memberOptions")) {
-      return this.assocationMemberService.getAssocationMembers(null).pipe(
+      return this.assocationMemberService.getAssocationMembers().pipe(
         takeUntil(this.ngUnsubscribe$),
         map((response: ResultViewModel) => {
+          console.log(response);
+          
           return response;
         })
       );

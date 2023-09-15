@@ -160,7 +160,7 @@ export class CommitteeMemberPopupComponent
   }
 
   memberDisplayFn(option: any): string {
-    return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`;
+    return `${option?.firstName} ${option?.givenName} ${option?.parentName}`;
   }
 
   positionDisplayFn(option: any): string {
@@ -256,22 +256,22 @@ export class CommitteeMemberPopupComponent
 
   onSelectedMemberOption(option: any) {
     this.committeeMemberForm.controls["member"].setValue(
-      `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}`
+      `${option.firstName} ${option.givenName} ${option.parentName}`
     );
     this.committeeMemberForm.controls["firstName"].setValue(
-      option.userDetail.firstName
+      option.firstName
     );
     this.committeeMemberForm.controls["givenName"].setValue(
-      option.userDetail.givenName
+      option.givenName
     );
     this.committeeMemberForm.controls["primaryPhone"].setValue(
-      option.userDetail.primaryPhone
+      option.primaryPhone
     );
     this.committeeMemberForm.controls["primaryEmail"].setValue(
-      option.userDetail.primaryEmail
+      option.primaryEmail
     );
     this.committeeMemberForm.controls["preferredNameDisplay"].setValue(
-      option.userDetail.firstName
+      option.firstName
     );
 
     this.committeeMemberForm.controls["firstName"].disable();
