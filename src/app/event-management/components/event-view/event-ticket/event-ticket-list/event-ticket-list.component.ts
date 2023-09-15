@@ -2,10 +2,8 @@ import {Component, Input, OnInit} from "@angular/core";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SoraxAnimations} from "app/common/animations/sorax-animations";
 import {AppLoaderService} from "app/common/services/app-loader.service";
-import {NotificationService} from "app/common/services/notification.service";
 import {BaseComponent} from "app/core/components/base/base.component";
 import {Subject, takeUntil} from "rxjs";
-import {Router} from "@angular/router";
 import {EventTicketPopupComponent} from "../event-ticket-popup/event-ticket-popup.component";
 import {ResultViewModel} from "../../../../../models/result-view-model";
 import EventTicketDTO from "../../../../../models/event/eventTicketDTO";
@@ -25,14 +23,11 @@ export class EventTicketListComponent extends BaseComponent implements OnInit {
     resultViewModel: ResultViewModel = new ResultViewModel();
     ticketList: EventTicketDTO[]
 
-    public membershipPlanData: any;
     public eventTicketColumns: SoraxColumnDefinition[];
 
     constructor(
         private dialog: MatDialog,
-        private notificationService: NotificationService,
         private loader: AppLoaderService,
-        private router: Router,
         private eventService: EventService
     ) {
         super();
@@ -45,21 +40,16 @@ export class EventTicketListComponent extends BaseComponent implements OnInit {
         }
     }
 
-    getTicketsByEventId(eventId) {
+    getTicketsByEventId(eventId: string) {
         this.loader.open();
 
         this.eventService.getEventTicketsById(eventId)
             .pipe(takeUntil(this.ngUnsubscribe$))
             .subscribe((response) => {
                 Object.assign(this.resultViewModel, response);
-                console.log(this.resultViewModel);
                 this.ticketList = this.resultViewModel.result;
                 this.loader.close();
             })
-    }
-
-    openEvent(eventId) {
-        this.router.navigateByUrl("event-management/events/view/" + eventId);
     }
 
     openPopUp(data: EventTicketDTO, isNew?: boolean) {
@@ -73,10 +63,18 @@ export class EventTicketListComponent extends BaseComponent implements OnInit {
             }
         );
         dialogRef.afterClosed().subscribe((res) => {
-            if (!res) {
-                return;
+
+            if (!res) return;
+
+            if (!this.ticketList) this.ticketList = [];
+
+            if (res.isNew){
+                this.ticketList = [...this.ticketList, res.data];
+            } else {
+                const index = this.ticketList.findIndex((t => t.id == res.data.id));
+                this.ticketList[index] = res.data;
+                this.ticketList = Object.assign([], this.ticketList);
             }
-            // this.getPageResults();
         });
     }
 

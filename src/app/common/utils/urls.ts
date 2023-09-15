@@ -131,7 +131,7 @@ export class Urls {
 
     public static ACTIVE_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/active";
     public static PAST_EVENT_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/events/past";
-    public static EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events";
+    public static EDIT_EVENT: string = Urls.baseAPIUrl + Urls.contextPath + "/events/updateEvent";
     public static ADD_EVENTS: string = Urls.baseAPIUrl + Urls.contextPath + "/events/createEvent";
     public static GET_EVENT_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/events/retrieveEventById";
 

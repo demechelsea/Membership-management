@@ -20,22 +20,30 @@ import EventDTO from "../../../models/event/eventDTO";
 import {EventService} from "../../services/event-service/event.service";
 import {LookupService} from "../../../common/services/lookup.service";
 import {AutocompletePlaceComponent} from "../../../shared/components/autocomplete-place/autocomplete-place.component";
+import * as moment from "moment/moment";
 
 @Component({
     selector: "app-component-popup",
     templateUrl: "./event-popup.component.html",
+    styleUrls: ['./event-popup.component.scss'],
 })
 export class EventPopupComponent extends BaseComponent implements OnInit {
     private ngUnsubscribe$ = new Subject<void>();
     public eventForm: FormGroup;
     public isLoading: boolean;
     public noResults: boolean;
+
     filteredIntervals$: Observable<LableValueModel[]>;
 
     buttonText = "Add a New Event";
     timezoneOptionsKey: string = LookupService.TIMEZONES;
 
     @ViewChild("location") location: AutocompletePlaceComponent;
+
+    previewImage = {
+        url: null,
+        message: null
+    }
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -53,20 +61,25 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         console.log(this.data.payload);
         this.buildEventForm(this.data.payload)
-        // this.cdRef.detectChanges();
     }
 
     buildEventForm(eventData: EventDTO) {
+
+        console.log(eventData.location);
+
+
+
         this.eventForm = this.formBuilder.group({
+            encryptedId: [this.data.isNew ? null : eventData.encryptedId, this.data.isNew ? [] : Validators.required],
             name: [eventData.name || "", Validators.required],
             location: [eventData.location || "", Validators.required],
             locationTimezone: [eventData.locationTimezone || "", Validators.required],
-            startDate: [eventData.startDate || "", Validators.required],
-            startTime: [eventData.startTime || "", Validators.required],
-            endDate: [eventData.endDate || "", Validators.required],
-            endTime: [eventData.endTime || "", Validators.required],
+            startDate: [moment(eventData.startDate).format("YYYY-MM-DD") || "", Validators.required],
+            startTime: [moment(eventData.startDate).format("HH:mm") || "", Validators.required],
+            endDate: [moment(eventData.endDate).format("YYYY-MM-DD") || "", Validators.required],
+            endTime: [moment(eventData.endDate).format("HH:mm") || "", Validators.required],
             ticketCost: [eventData.ticketCost || 0, Validators.required],
-            saleEndDate: [eventData.saleEndDate || "", Validators.required],
+            saleEndDate: [moment(eventData.saleEndDate).format("YYYY-MM-DD") || "", Validators.required],
             ticketsAvailable: [eventData.ticketsAvailable || 0, Validators.required],
             availableToPublic: [eventData.availableToPublic || 'N', Validators.required],
             description: [eventData.description || '', Validators.required],
@@ -85,8 +98,25 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
             formData.endDate = formData.endDate + 'T' + formData.endTime;
             delete formData.endTime;
 
+            formData.imageData = this.previewImage.url;
+
             if (this.data.isNew) {
                 this.eventService.addEvent(formData)
+                    .pipe(takeUntil(this.ngUnsubscribe$))
+                    .subscribe((response) => {
+                        if (response.success) {
+                            this.notificationService.showSuccess(
+                                response.messages[0].message
+                            )
+                            this.dialogRef.close(response);
+                        } else {
+                            this.notificationService.showError(response.messages[0].message);
+                        }
+                    })
+
+            } else {
+
+                this.eventService.editEvent(formData)
                     .pipe(takeUntil(this.ngUnsubscribe$))
                     .subscribe((response) => {
                         if (response.success) {
@@ -113,26 +143,35 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
     }
 
     onFileSelected(event: any) {
+        console.log(event)
+        if(!event.target.files[0] || event.target.files[0].length == 0) {
+          this.previewImage.message = 'You must select an image';
+            console.log(this.previewImage.message);
+          return;
+        }
 
-        // if(!event.target.files[0] || event.target.files[0].length == 0) {
-        //   this.msg = 'You must select an image';
-        //   return;
-        // }
-        //
-        // const mimeType = event.target.files[0].type;
-        //
-        // if (mimeType.match(/image\/*/) == null) {
-        //   this.msg = "Only images are supported";
-        //   return;
-        // }
-        //
-        // const reader = new FileReader();
-        // reader.readAsDataURL(event.target.files[0]);
-        //
-        // reader.onload = (_event) => {
-        //   this.msg = "";
-        //   this.url = reader.result;
-        // }
+        const mimeType = event.target.files[0].type;
+
+        if (mimeType.match(/image\/*/) == null) {
+          this.previewImage.message = "Only images are supported";
+            console.log(this.previewImage.message);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = (_event) => {
+          this.previewImage.message = "";
+          this.previewImage.url = reader.result;
+          console.log(this.previewImage.url);
+        }
+    }
+
+    deleteImage(){
+        this.previewImage.url = null;
+        this.previewImage.message = null;
+        (<HTMLInputElement>document.getElementById('fileInput')).value = "";
     }
 
     onSelectedTimezoneOption(option: LableValueModel) {
@@ -145,6 +184,5 @@ export class EventPopupComponent extends BaseComponent implements OnInit {
         } else {
             this.eventForm.controls['location'].setValue(this.location.autocompleteInput);
         }
-
     }
 }

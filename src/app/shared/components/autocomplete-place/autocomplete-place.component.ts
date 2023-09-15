@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete-place',
@@ -7,6 +7,7 @@ import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angula
 })
 export class AutocompletePlaceComponent  implements AfterViewInit{
     @Output() setAddress: EventEmitter<any> = new EventEmitter();
+    @Input() location: any;
     @ViewChild('addresstext') addresstext: any;
 
     autocompleteInput: string;
@@ -14,8 +15,14 @@ export class AutocompletePlaceComponent  implements AfterViewInit{
     constructor() {
     }
 
+    ngOnInit() {
+        if (this.location != null){
+            this.autocompleteInput = this.location;
+        }
+    }
 
     ngAfterViewInit() {
+
         this.getPlaceAutocomplete();
     }
 

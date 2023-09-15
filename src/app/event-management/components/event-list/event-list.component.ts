@@ -33,6 +33,7 @@ import {EventService} from "../../services/event-service/event.service";
 import EventDTO from "../../../models/event/eventDTO";
 import {EventPopupComponent} from "../event-popup/event-popup.component";
 import * as moment from "moment";
+import {Urls} from "../../../common/utils/urls";
 
 @Component({
   selector: 'sorax-event-list',
@@ -49,7 +50,6 @@ export class EventListComponent extends BaseComponent implements OnInit {
   @ViewChild("tabGroup") tabGroup: MatTabGroup;
 
   links = ["Active Events", "Past Events", "Coupons"];
-  activeLink = this.links[0];
   background: ThemePalette = undefined;
 
   public committeePlanData: any;
@@ -86,39 +86,12 @@ export class EventListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.initializeColumns();
-    // this.getPageResults();
     this.getActiveEvents();
   }
 
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    //  this.dataSource.sort = this.sort;
-  }
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
-  }
-
-  viewCommittee(row: any) {
-    this.selectedRow = row;
-    this.showDetails = true;
-  }
-
-  editCommittee(row: any) {
-    this.openCommitteePopUp(row, false);
-  }
-
-  onAddPosition() {
-    this.tabGroup.selectedIndex = 1;
-    this.returnToCommitteeMemberPopup = true;
-
-    let positionModel = new CommitteePositionDTO();
-    this.openPositionPopUp(positionModel, true);
-  }
-
-  onViewCommittees() {
-    this.showDetails = false;
   }
 
   getActiveEvents(){
@@ -131,8 +104,9 @@ export class EventListComponent extends BaseComponent implements OnInit {
           console.log(this.resultViewModel);
           this.eventList = this.resultViewModel.result;
           this.eventList.forEach(e => {
-              e.startTimeLabel = moment(e.startDate).format("MMMM Do YYYY, h:mm:ss a")
-              e.endTimeLabel = moment(e.endDate).format("MMMM Do YYYY, h:mm:ss a")
+              e.startTimeLabel = moment(e.startDate).format("MMMM Do YYYY, h:mm:ss a");
+              e.endTimeLabel = moment(e.endDate).format("MMMM Do YYYY, h:mm:ss a");
+              e.imageUrl = Urls.baseAPIUrl + "/" + e.eventImageLink;
           })
 
 
@@ -231,15 +205,6 @@ export class EventListComponent extends BaseComponent implements OnInit {
         console.log("creating res", res);
         this.eventList.push(res);
       }
-
-      // this.eventList.sort((a, b) => a.startDate - b.startDate);
-      // this.getCommitteePosition();
-      //
-      // if (this.returnToCommitteeMemberPopup) {
-      //   this.returnToCommitteeMemberPopup = false;
-      //   this.tabGroup.selectedIndex = 0;
-      //   this.openEventManagementPopupService.openEventManagementPopup();
-      // }
     });
 
   }
