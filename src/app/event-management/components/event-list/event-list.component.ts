@@ -205,15 +205,6 @@ export class EventListComponent extends BaseComponent implements OnInit {
         console.log("creating res", res);
         this.eventList.push(res);
       }
-
-      // this.eventList.sort((a, b) => a.startDate - b.startDate);
-      // this.getCommitteePosition();
-      //
-      // if (this.returnToCommitteeMemberPopup) {
-      //   this.returnToCommitteeMemberPopup = false;
-      //   this.tabGroup.selectedIndex = 0;
-      //   this.openEventManagementPopupService.openEventManagementPopup();
-      // }
     });
 
   }

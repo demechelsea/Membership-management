@@ -125,19 +125,19 @@ export class AssociationMemberPopupComponent
       userDetail.primaryEmail = this.associationMemeberForm.get('primaryEmail').value;
       userDetail.primaryPhone = this.associationMemeberForm.get('primaryPhone').value;
       userDetail.gender = this.associationMemeberForm.get('gender').value;
-      userDetail.dob = new Date(this.associationMemeberForm.get('dob').value).toISOString().split('T')[0];
+      userDetail.dob = new Date(this.associationMemeberForm.get('dob').value).toString();
       associationMember.userDetail = userDetail;
 
       const formData = new FormData();
-      formData.append("id", associationMember?.id?.toString());
-      formData.append("userDetail", JSON.stringify(associationMember.userDetail));
+      //formData.append("userDetail", JSON.stringify(associationMember.userDetail));
       formData.append("membershipPlanId", this.membershipPlanId.toString());
       formData.append("status", associationMember?.status);
       formData.append("photoLink", associationMember?.photoLink);
-      formData.append("membershipPlan", associationMember?.membershipPlan?.planName);
-      formData.append("approvedDate", new Date(associationMember?.approvedDate).toISOString().split('T')[0]);
+      //formData.append("membershipPlan", associationMember?.membershipPlan?.planName);
+      formData.append("approvedDate", new Date(associationMember?.approvedDate).toString());
       formData.append("highestEducation", associationMember?.highestEducation.toString());
       formData.append("onlineAccessFlg", associationMember?.onlineAccessFlg ? "Y" : "N");
+      formData.append("introducerUser", "1");
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]);
@@ -151,6 +151,8 @@ export class AssociationMemberPopupComponent
           .createAssociationMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
+            console.log("res", response);
+            
             if (response.success) {
               this.notificationService.showSuccess(
                 response.messages[0].message

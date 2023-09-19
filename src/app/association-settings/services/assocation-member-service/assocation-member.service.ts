@@ -25,7 +25,7 @@ export class AssocationMemberService extends HttpAppDataService {
     if (page != null) {
       assocationMemberModel.page = page;
     }
-    return this.postData(Urls.RETRIEVE_MEMBER_BY_ASSOC, assocationMemberModel);
+    return this.postData(Urls.RETRIEVE_USERS_BY_ASSOCIATION , assocationMemberModel);
   }
 
 }

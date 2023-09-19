@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {SoraxAnimations} from 'app/common/animations/sorax-animations';
 import {SoraxColumnDefinition} from 'app/common/components/sorax-table-view/sorax-column-definition';
@@ -18,6 +18,9 @@ import {
 } from "../../services/openEventManagementPopup-service/openEventManagementPopup.service";
 import {EventService} from "../../services/event-service/event.service";
 import EventDTO from "../../../models/event/eventDTO";
+import {Urls} from "../../../common/utils/urls";
+import * as moment from "moment/moment";
+import {EventPopupComponent} from "../event-popup/event-popup.component";
 
 @Component({
   selector: 'sorax-event-view',
@@ -92,6 +95,11 @@ export class EventViewComponent extends BaseComponent implements OnInit {
           Object.assign(this.resultViewModel, response);
           console.log(this.resultViewModel);
           this.event = this.resultViewModel.result;
+          if (this.event.eventImageLink){
+              this.event.imageUrl = Urls.baseAPIUrl + "/" + this.event.eventImageLink;
+          }
+          this.event.startTimeLabel = moment(this.event.startDate).format("MMMM Do YYYY, h:mm:ss a");
+          this.event.endTimeLabel = moment(this.event.endDate).format("MMMM Do YYYY, h:mm:ss a");
           console.log(this.event);
           this.loader.close();
         })
@@ -109,5 +117,33 @@ export class EventViewComponent extends BaseComponent implements OnInit {
           });
     }
   }
+
+    openEventPopUp(data: EventDTO, isNew?: boolean) {
+        let title = isNew ? "New Event" : "Edit Event";
+        let dialogRef: MatDialogRef<any> = this.dialog.open(
+            EventPopupComponent,
+            {
+                width: "720px",
+                disableClose: true,
+                data: { title: title, payload: data, isNew: isNew },
+            }
+        );
+
+        dialogRef.afterClosed().subscribe((res) => {
+            if (!res) {
+                console.log("no res", res);
+                return;
+            }
+
+            if (!isNew) {
+                console.log("editing res", res);
+                data.name = res.name;
+            } else {
+                console.log("creating res", res);
+                this.eventList.push(res);
+            }
+        });
+
+    }
 
 }

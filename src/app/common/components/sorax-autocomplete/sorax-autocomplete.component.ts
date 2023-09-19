@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SORAX_VALIDATION_MESSAGES_KEY, SoraxValidators, VALIDATION_MESSAGES } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
-import { map, Observable, startWith, Subject, Subscription, takeUntil, tap } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
 
 @Component({
