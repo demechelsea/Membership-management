@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
-import { SoraxValidators } from 'app/common/utils/sorax-validators';
+import { SORAX_VALIDATION_MESSAGES_KEY, SoraxValidators, VALIDATION_MESSAGES } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
 import { map, Observable, startWith, Subject, Subscription, takeUntil, tap } from 'rxjs';
 
@@ -12,15 +12,27 @@ import { map, Observable, startWith, Subject, Subscription, takeUntil, tap } fro
   templateUrl: './sorax-autocomplete.component.html',
   styleUrls: ['./sorax-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: SORAX_VALIDATION_MESSAGES_KEY,
+      useValue: { VALIDATION_MESSAGES }
+    },
+
+  ]
 })
 export class SoraxAutocompleteComponent implements OnInit {
 
   @Input() id: number;
 
+  @Input("prefix") public prefix: string;
+  @Input("suffix") public suffix: string;
+  @Input("exClass") public exClass: string;
+  @Input("requiredFlag") public requiredFlag: string = 'yes';
   @Input() lookupName: string;
   @Input() placeholder: string;
-  @Input() autoCompleteFieldId: FormControl;
-  @Input() autoCompleteFieldLabel: FormControl;
+  @Input() formGroupName: string;
+  @Input() autoCompleteFieldId: UntypedFormControl;
+  @Input() autoCompleteFieldLabel: UntypedFormControl;
   @Output() selectedOptionEmitter: EventEmitter<LableValueModel> = new EventEmitter<LableValueModel>();
   @Input() displayFn: (option: any) => string;
 
@@ -62,7 +74,7 @@ export class SoraxAutocompleteComponent implements OnInit {
           .pipe(startWith(''),
             map(value => {
               this.resetInputControlValue();
-              return this.filterOptionsByValue(value);
+              return this.filterOptionsByValue(''+value);
             })
           );
         this.prepolulateAutoComplete();
@@ -72,21 +84,24 @@ export class SoraxAutocompleteComponent implements OnInit {
 
 
   private filterOptionsByValue(value: string): LableValueModel[] {
-    const filterValue = value;
+    const filterValue:string = value.toLowerCase();
     if (this.options == null) {
       return null;
     }
     const filteredOptions = this.options.filter(option => {
       if (option.name) {
+
         return option.name.toLowerCase().includes(filterValue);
-      }
-      else if (option.positionName) {
+
+      } else if (option.positionName) {
+
         return option.positionName.toLowerCase().includes(filterValue);
-      }
-      else if (option.planName) {
+
+      } else if (option.planName) {
+
         return option.planName.toLowerCase().includes(filterValue);
-      }
-      else if (option.userDetail) {
+
+      } else if (option.userDetail) {
         return (`${option.userDetail.firstName} ${option.userDetail.givenName} 
         ${option.userDetail.parentName} ${option.userDetail.primaryEmail}
         ${option.userDetail.primaryPhone} ${option.userDetail.parentName}`).toLowerCase().includes(filterValue);
@@ -121,7 +136,7 @@ export class SoraxAutocompleteComponent implements OnInit {
         this.autoCompleteFieldId.setValue(option.id);
       }
       this.autoCompleteFieldLabel.setValue(option.name);
-    }
+      }
     if (option.positionName) {
       this.autoCompleteFieldLabel.setValue(option.positionName);
     }
@@ -136,7 +151,11 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private addValidationRule() {
     if (this.options) {
-      this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      if(this.requiredFlag =='yes'){
+        this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      }else{
+        this.autoCompleteFieldLabel.setValidators([SoraxValidators.isValidOption(this.options)]);
+      }
       this.autoCompleteFieldLabel.updateValueAndValidity();
     }
   }

@@ -46,10 +46,6 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
             firstName: this.formBuilder.control("", Validators.required),
             surName: this.formBuilder.control("", Validators.required)
           }),
-          association: this.formBuilder.group({
-            name: this.formBuilder.control("", Validators.required),
-            place: this.formBuilder.control("", Validators.required)
-          }),
           emailId: this.formBuilder.control("", [Validators.required, Validators.email]),
           phone: this.formBuilder.control("", Validators.required),
           password: password,

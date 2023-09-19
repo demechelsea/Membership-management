@@ -37,13 +37,23 @@
   </button>
 
   <mat-menu #accountMenu="matMenu">
-    <button mat-menu-item [routerLink]="['/profile/overview']">
+    <button mat-menu-item [routerLink]="['/profile/profile/overview']">
       <mat-icon>account_box</mat-icon>
       <span>Profile</span>
     </button>
-    <button mat-menu-item [routerLink]="['/profile/settings']">
-      <mat-icon>settings</mat-icon>
-      <span>Profile Settings</span>
+    <button mat-menu-item [routerLink]="['/auth/selectMappedAssociation']">
+      <mat-icon>insert_link</mat-icon>
+      <span>Linked Associations</span>
+    </button>
+
+    <button mat-menu-item [routerLink]="['/manageAssociations']">
+      <mat-icon>transfer_within_a_station</mat-icon>
+      <span>Switch Association</span>
+    </button>
+    
+    <button mat-menu-item [routerLink]="['/manageAssociations/create']">
+      <mat-icon>group_add</mat-icon>
+      <span>Create a New Association</span>
     </button>
     <button mat-menu-item>
       <mat-icon>notifications_off</mat-icon>

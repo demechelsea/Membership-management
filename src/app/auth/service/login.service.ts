@@ -63,10 +63,6 @@ export class LoginService extends HttpAppDataService {
 
 
   public signupNewUser(userViewModel: UserViewModel): Observable<UserViewModel> {
-    if (!userViewModel.encryptedAssociationId) {
-      return this.postData(Urls.REGISTER_ASSOCIATION, userViewModel);
-    }
-
     return this.postData(Urls.REGISTER_USER, userViewModel);
   }
 
@@ -76,6 +72,12 @@ export class LoginService extends HttpAppDataService {
     for (let i = 0; i < this.loginLogoutObservers.length; i++) {
       this.loginLogoutObservers[i].next("login");
     }
+  }
+
+  setLogInAssoication(association: AssociationModel) {
+    this.loggedInUser = this.localStorageService.getLoggedInUser();
+    this.loggedInUser.association = association;
+    this.localStorageService.setAuthenticationToken(this.loggedInUser);
   }
 
   isLoggedIn(): boolean {

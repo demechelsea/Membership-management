@@ -22,9 +22,20 @@
   max-width: 400px;
   margin: 0 auto;
 }
+
 .session-form-hold > .mat-card {
   margin: 0;    
 }
+
+.session-form-hold-bg {
+  width: 100%;
+  max-width: 60%;
+  margin: 0 auto;
+}
+.session-form-hold-bg > .mat-card {
+  margin: 0;    
+}
+
 .session-lockscreen {
   max-width: 320px;
 }

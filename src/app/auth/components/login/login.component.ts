@@ -17,7 +17,6 @@ import { LoginService } from '../../service/login.service';
 import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 
-
 @Component({
   selector: 'sorax-login',
   templateUrl: './login.component.html',
@@ -114,9 +113,11 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
             } else {
               if (this.userModel.mappedAssociation?.length > 1) {
                 this.navigateToAssociationSelection();
-              } else {
+              } else if (this.userModel.mappedAssociation?.length == 1){
                 this.userModel.association = this.userModel.mappedAssociation[0];
                 this.navigateToDashboard();
+              }else {
+                //Navigate to Manage Assoication or request membership
               }
             }
           } else if (this.userModel.encryptedRefId != null) {
@@ -144,12 +145,12 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
   private navigateToAssociationSelection() {
     const userModelJson = JSON.stringify(this.userModel);
-    this.router.navigate(['/auth/selectMappedAssociation', this.userModel.encryptedId],
-      { queryParams: { "data": userModelJson } });
+    this.loginService.setAuthenticationToken(this.userModel);
+    this.router.navigate(['/auth/selectMappedAssociation']);
   }
 
   private navigateToDashboard() {
-    
+
     this.loginService.setAuthenticationToken(this.userModel);
     BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
 

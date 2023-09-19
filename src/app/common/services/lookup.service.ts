@@ -26,9 +26,13 @@ export class LookupService extends HttpAppDataService {
   public static MARITAL_STATUS_OPTIONS: string = "maritalStatusOptionsLOCAL";
   public static HIGHER_EDUCATION_OPTIONS: string = "higherEducationOptionsLOCAL";
   public static TITLE_OPTIONS: string = "titleOptionsLOCAL";
+  public static DATE_FORMATS: string = "dateFormatOptionsLOCAL";
 
   public static COUNTRIES: string = "countries";
+  public static CURRENCIES: string = "currencies";
+  public static LANGUAGES: string = "languages";
   public static TIMEZONES: string = "timezones";
+  
   committeePositions: CommitteePositionDTO[] = [];
   assocationMembers: AssociationDTO[] = [];
   membershipPlan: MembershipPlanDTO[] = [];
@@ -100,6 +104,9 @@ export class LookupService extends HttpAppDataService {
         break;
       case LookupService.TITLE_OPTIONS:
         resultViewModelObj.result = this.getTitleOptions();
+        break;
+     case LookupService.DATE_FORMATS:
+        resultViewModelObj.result = this.getDateFormats();
         break;
     }
 
@@ -377,6 +384,61 @@ export class LookupService extends HttpAppDataService {
       }
     ];
     return titleOptions;
+  }
+
+  private getDateFormats(): LableValueModel[] {
+    let dateFormats: LableValueModel[] = [
+      {
+        id: "dd/MM/yyyy",
+        name: "dd/MM/yyyy",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "MM/dd/yyyy",
+        name: "MM/dd/yyyy",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "dd-MM-yyyy",
+        name: "dd-MM-yyyy",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "MM-dd-yyyy",
+        name: "MM-dd-yyyy",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "dd-MM-yyyy hh:mm:ss",
+        name: "dd-MM-yyyy hh:mm:ss",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "dd MMMM yyyy",
+        name: "dd MMMM yyyy",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      },
+      {
+        id: "E, dd MMM yyyy HH:mm:ss z",
+        name: "E, dd MMM yyyy HH:mm:ss z",
+        localName: "",
+        postCode: "",
+        symbol: "",
+      }
+    ];
+    return dateFormats;
   }
 
 

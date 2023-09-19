@@ -31,6 +31,8 @@ export class SoraxFormFieldComponent implements OnInit, AfterViewInit {
   @Input("label") public label: string;
   @Input("prefix") public prefix: string;
   @Input("suffix") public suffix: string;
+  @Input("prefixText") public prefixText: string;
+  @Input("suffixText") public suffixText: string;
   @Input("exClass") public exClass: string;
   @Input("soraxFormControl") public soraxFormControl: FormControl;
   @ContentChild('soraxInput', { static: false }) myInput: ElementRef;

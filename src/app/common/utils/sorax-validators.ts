@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import LableValueModel from 'app/models/lable-value-model';
+import { isNotEmpty } from './string-utils';
 
 export const VALIDATION_MESSAGES = {
   required: '{{fieldName}} is required.',
@@ -11,6 +11,9 @@ export const VALIDATION_MESSAGES = {
   otpValidator: "{{fieldName}} must be a  6 digit number",
   number: "{{fieldName}} must be a number.",
   invalidOption: "Please select validation option",
+  subdomainAlreadyTaken: "This subdomain is currently in use. Please select a different one.",
+  invalidWebsiteUrl: "Invalid website format. Please enter a valid URL.",
+  associationNamePlaceUnique:"Association name already in taken in this place, Please select different name",
 };
 
 export const SORAX_VALIDATION_MESSAGES_KEY = 'VALIDATION_MESSAGES_INJECTION_KEY';
@@ -74,24 +77,47 @@ export class SoraxValidators {
   static isValidOption(validOptions: any[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
-      const selectedOption = validOptions.find(option => {
-        if (option.name) {
-          return option.name === value;
-        }
-        else if (option.positionName) {
-          return option.positionName === value;
-        }
-        else if (option.planName) {
-          return option.planName === value;
-        }
-        else if (option.userDetail) {
-          return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}` === value;
-        }
-      });
-      return selectedOption ? null : { 'invalidOption': true };
+      if (isNotEmpty(value)) {
+        const selectedOption = validOptions.find(option => {
+          if (option.name) {
+            return option.name === value;
+          }
+          else if (option.positionName) {
+            return option.positionName === value;
+          }
+          else if (option.planName) {
+            return option.planName === value;
+          }
+          else if (option.userDetail) {
+            return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}` === value;
+          }
+        });
+
+        return selectedOption ? null : { 'invalidOption': true };
+      }
+      return null;
     };
   }
+
+  static isValidWebSite(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
   
+      if (!value) {
+        return null; 
+      }
+      
+      // Regular expression for a basic URL validation
+      const urlRegex = /^(https?:\/\/|www.)([\w\-]+(\.[\w\-]+)+([?#\/].*|))$/;
+  
+      if (!urlRegex.test(value)) {
+        return { invalidWebsiteUrl: true }; 
+      }
+  
+      return null; 
+  }
+  
+
+
 }
 
 export const isEmptyOrWhiteSpace = (value: any) => {
@@ -111,3 +137,4 @@ export const requiredIf = (predicate: (ctrl: AbstractControl) => boolean, indepe
     return null;
   }
 }
+

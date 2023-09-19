@@ -72,11 +72,13 @@ export class VerifyUserComponent extends BaseComponent implements OnInit, OnDest
               const userModelJson  = JSON.stringify(this.userViewModel);
               this.router.navigate(['/auth/selectMappedAssociation', this.userViewModel.encryptedId], 
                               {queryParams: {"data":userModelJson}});
-            } else {
+            } else if (this.userViewModel.mappedAssociation?.length == 1) {
               this.userViewModel.association = this.userViewModel.mappedAssociation[0];
               this.loginService.setAuthenticationToken(this.userViewModel);
               BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
               this.router.navigate(['/dashboard']);
+            }else{
+              
             }
           }
       });

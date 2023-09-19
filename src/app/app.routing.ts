@@ -37,6 +37,18 @@ export const rootRouterConfig: Routes = [
     canActivate: [SoraxAuthGuard],
     children: [
       {
+        path: 'manageAssociations',
+        loadChildren: () => import('app/manage-association/manage.association.module').then(m => m.ManageAssociationModule),
+      },
+    
+    ]
+  },
+  {
+    path: '',
+    component: SoraxAdminLayoutComponent,
+    canActivate: [SoraxAuthGuard],
+    children: [
+      {
         path: 'associationSettings',
         loadChildren: () => import('app/association-settings/association.settings.module').then(m => m.AssociationSettingsModule),
       },

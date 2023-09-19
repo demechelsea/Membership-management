@@ -1,29 +1,63 @@
 <div class="page-wrap h-full slate">
-    <div class="session-form-hold"  @animate>
-      <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-      <mat-card class="!m-0">
-        <mat-card-content>
-          <div class="flex flex-col items-center !py-4">
-            <img width="60px" src="assets/images/illustrations/done_2.svg" alt="" />
-            <p class="font-weight-bold">Choose your association</p>
-          </div>
-          <div class="flex flex-wrap">
-            <div soraxdir-alert-message [errorMessage]="messages | json"></div>
-            <mat-nav-list class="notification-list" role="list">
-              <mat-list-item *ngFor="let association of userViewModel.mappedAssociation" 
-                                      role="listitem" routerLinkActive="open">
-                <a (click)="selectAssociation(association)">
-                  <div class="mat-list-text" >
-                    <h4 class="message">{{association.name}}</h4>
-                    <small class="text-muted">{{association.place}}-{{association.soceityRaxUrl}}</small>
-                  </div>
-                </a>
-              </mat-list-item>
-            </mat-nav-list>
-          </div>
-          <button mat-raised-button class="mat-primary full-width mt-4 mb-8" [routerLink]="'/auth/login'">Back to Sigin</button>
+  <div class="session-form-hold-bg" @animateFromRight >
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+      
+    <mat-card class="!m-0">
+      <mat-card-content>
+      <div class="shop-wrap flex flex-wrap">
+          <div class="full-width">
+              <div class="shop-top-toolbar flex flex-col md:flex-row items-center">
+                <div class="hidden md:block mr-1">
+                  <h3>Choose Login Association</h3>
+                </div>
+                <span class="flex-grow"></span>
+                <div class="product-search-wrap mb-3 md:mb-0">
+                  <input type="text" name="searchProduct" placeholder="Filter Association" class="product-search default-bg full-width" >
+                </div>
+                <button mat-icon-button color="primary" *ngIf="isAssociationMapped" [routerLink]="'/dashboard'">
+                  <mat-icon>home</mat-icon>
+                </button>
+				        <button mat-icon-button color="primary" [routerLink]="'/auth/login'" *ngIf="!isAssociationMapped">
+                   <mat-icon>exit_to_app</mat-icon>
+                </button>
 
-        </mat-card-content>
-      </mat-card>
-    </div>
- </div>
+              </div>
+
+              <div class="product-container">
+                <div  class="product-wrap" *ngFor="let association of mappedAssociations" >
+                  <div class="product-inner default-bg">
+                    <div class="product-badge mat-elevation-z5" [ngStyle]="{background: 'red'}">
+                        <span>Linked</span>
+                    </div>
+                    <div class="featured-img" >
+                      <img src="assets/images/no-logo.png"  *ngIf="!association.setting?.logoLink">
+                      <img [src]="association.setting?.logoLink"  *ngIf="!association.setting?.logoLink">
+                    </div>
+                    <div class="info-wrap p-2">
+                      <div class="main-info">
+                        <h3 class="title text-primary" ><a href="https://{{association.soceityRaxUrl}}.mythriapp.com/" target="_blank">
+                          {{association.name}}</a></h3>
+                        <p class="text-accent  p-line">{{association.shortName}}-{{association.societyRaxId}}</p>
+                        <p class="text-accent"> <strong>Place:</strong>{{association.place}}</p>
+                        <p class="text-muted p-line" *ngIf="association.website" >{{association.website}}</p>
+                        <p class="text-muted p-line">
+                          <strong>Address:</strong>
+                          <span> TODO: Displayaddress</span>
+                        </p>
+                      </div>
+                      <div class="actions">
+                          <span class="flex-grow"></span>
+                          <button mat-raised-button color="accent" (click)="selectAssociation(association)">
+                            Login
+                         </button>
+                        </div>
+                    </div>
+                   </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+</div>
