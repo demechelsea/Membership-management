@@ -1,8 +1,4 @@
-<div class="page-wrap h-full slate">
-  <div class="session-form-hold-bg" @animateFromRight >
-    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-      
-    <mat-card class="!m-0">
+<mat-card class="!m-0">
       <mat-card-content>
       <div class="shop-wrap flex flex-wrap">
           <div class="full-width">
@@ -14,16 +10,10 @@
                 <div class="product-search-wrap mb-3 md:mb-0">
                   <input type="text" name="searchProduct" placeholder="Filter Association" class="product-search default-bg full-width" >
                 </div>
-                <button mat-icon-button color="primary" *ngIf="isAssociationMapped" [routerLink]="'/dashboard'">
-                  <mat-icon>home</mat-icon>
-                </button>
-				        <button mat-icon-button color="primary" [routerLink]="'/auth/login'" *ngIf="!isAssociationMapped">
-                   <mat-icon>exit_to_app</mat-icon>
-                </button>
-
+                
               </div>
 
-              <div class="product-container">
+              <div class="product-container list-view">
                 <div  class="product-wrap" *ngFor="let association of mappedAssociations" >
                   <div class="product-inner default-bg">
                     <div class="product-badge mat-elevation-z5" [ngStyle]="{background: 'red'}">
@@ -58,6 +48,4 @@
           </div>
       </div>
     </mat-card-content>
-  </mat-card>
-</div>
-</div>
+</mat-card>

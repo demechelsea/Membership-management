@@ -3,11 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 @Component({
-  selector: 'sorax-auth-layout',
-  templateUrl: './sorax-auth-layout.component.html',
-  animations: SoraxAnimations,
+  selector: 'sorax-plain-layout',
+  templateUrl: './sorax-plain-layout.component.html'
 })
-export class SoraxAuthLayoutComponent implements OnInit {
+export class SoraxPlainLayoutComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,

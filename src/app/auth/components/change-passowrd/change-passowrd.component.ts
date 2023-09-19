@@ -6,19 +6,16 @@ import { NotificationService } from 'app/common/services/notification.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
-import { LoginService } from '../../service/login.service';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { SoraxAnimations } from 'app/common/animations/sorax-animations';
+import { LoginService } from '../../service/login.service';
 
 @Component({
   selector: 'sorax-change-passowrd',
   templateUrl: './change-passowrd.component.html',
-  styleUrls: ['./change-passowrd.component.scss'],
-  animations: SoraxAnimations,
-
+  styleUrls: ['./change-passowrd.component.scss']
 })
 export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;

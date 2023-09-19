@@ -21,7 +21,6 @@ import { SoraxAnimations } from 'app/common/animations/sorax-animations';
   selector: 'sorax-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  animations: SoraxAnimations,
 })
 export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
@@ -146,7 +145,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   private navigateToAssociationSelection() {
     const userModelJson = JSON.stringify(this.userModel);
     this.loginService.setAuthenticationToken(this.userModel);
-    this.router.navigate(['/auth/selectMappedAssociation']);
+    this.router.navigate(['/manageAssociations/selectMappedAssociation']);
   }
 
   private navigateToDashboard() {

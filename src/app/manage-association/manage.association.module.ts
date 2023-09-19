@@ -6,6 +6,7 @@ import { SoraxCommonModule } from 'app/common/sorax-common.module';
 import { ManageAssociationRoutes } from './manage.association.routing';
 import { SearchAssociationComponent } from './components/search-association/search-association.component';
 import { CreateAssociationComponent } from './components/create-association/create-association.component';
+import { SelectAssociationComponent } from './components/select-association/select-association.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { CreateAssociationComponent } from './components/create-association/crea
   declarations: [
     SearchAssociationComponent,
     CreateAssociationComponent,
+    SelectAssociationComponent
   ], 
   exports: []
 })

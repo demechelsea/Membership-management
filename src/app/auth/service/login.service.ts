@@ -84,6 +84,10 @@ export class LoginService extends HttpAppDataService {
     return this.localStorageService.isLoggedIn();
   }
 
+  isPartialLoggedIn(): boolean {
+    return this.localStorageService.isPartialLoggedIn();
+  }
+
   
   logout() {
     this.localStorageService.logout();

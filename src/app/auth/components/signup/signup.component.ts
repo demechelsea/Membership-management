@@ -1,20 +1,18 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { BaseComponent } from 'app/core/components/base/base.component';
-import { UserViewModel } from 'app/models/user-view-model';
-import { LoginService } from 'app/auth/service/login.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'app/auth/service/login.service';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
-import { SoraxAnimations } from 'app/common/animations/sorax-animations';
+import { BaseComponent } from 'app/core/components/base/base.component';
+import { UserViewModel } from 'app/models/user-view-model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'sorax-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
-  animations: SoraxAnimations,
 })
 export class SignupComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;

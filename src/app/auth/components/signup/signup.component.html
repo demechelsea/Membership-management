@@ -1,60 +1,57 @@
-<div class="page-wrap h-full slate">
-  <div class="session-form-hold"  @animate>
-    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
-    <mat-card class="!m-0">
-      <mat-card-content>
-        <div class="flex flex-col items-center !py-4">
-          <img width="60px" src="assets/images/illustrations/posting_photo.svg" alt="" />
-          <p class="font-weight-bold">Lets get started!</p>
-          <p class="text-muted m-0">Thank you for your interest!</p>
-        </div>
+<mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+<mat-card class="!m-0">
+  <mat-card-content>
+    <div class="flex flex-col items-center !py-4">
+      <img width="60px" src="assets/images/illustrations/posting_photo.svg" alt="" />
+      <p class="font-weight-bold">Lets get started!</p>
+      <p class="text-muted m-0">Thank you for your interest!</p>
+    </div>
 
-        <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+    <div soraxdir-alert-message [errorMessage]="messages | json"></div>
 
-        <form autocomplete="off"  [formGroup]="signUpForm" class="signup-form flex flex-col" fxLayoutAlign="start"
-          (ngSubmit)="submitForRegistration()">
-          <div formGroupName="user">
-            <sorax-form-field label="First name"  formGroupName="userDetail"
-              [soraxFormControl]="signUpForm.get('user.userDetail.firstName')">
-              <input #soraxInput  formControlName="firstName" matInput type="text" name="first_name" placeholder="First name" />
-            </sorax-form-field>
+    <form autocomplete="off"  [formGroup]="signUpForm" class="signup-form flex flex-col" fxLayoutAlign="start"
+      (ngSubmit)="submitForRegistration()">
+      <div formGroupName="user">
+        <sorax-form-field label="First name"  formGroupName="userDetail"
+          [soraxFormControl]="signUpForm.get('user.userDetail.firstName')">
+          <input #soraxInput  formControlName="firstName" matInput type="text" name="first_name" placeholder="First name" />
+        </sorax-form-field>
 
-            <sorax-form-field label="Family name"  formGroupName="userDetail"
-              [soraxFormControl]="signUpForm.get('user.userDetail.surName')">
-              <input #soraxInput  formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
-            </sorax-form-field>
-            
-          </div>
-          <div class="">
-            <sorax-form-field label="Email"  formGroupName="user" 
-              [soraxFormControl]="signUpForm.get('user.emailId')">
-              <input #soraxInput  formControlName="emailId" matInput type="email" name="email" placeholder="Email"  />
-            </sorax-form-field>
+        <sorax-form-field label="Family name"  formGroupName="userDetail"
+          [soraxFormControl]="signUpForm.get('user.userDetail.surName')">
+          <input #soraxInput  formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
+        </sorax-form-field>
+        
+      </div>
+      <div class="">
+        <sorax-form-field label="Email"  formGroupName="user" 
+          [soraxFormControl]="signUpForm.get('user.emailId')">
+          <input #soraxInput  formControlName="emailId" matInput type="email" name="email" placeholder="Email"  />
+        </sorax-form-field>
 
-            <sorax-form-field label="Phone" formGroupName="user"
-              [soraxFormControl]="signUpForm.get('user.phone')">
-              <input #soraxInput  formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
-            </sorax-form-field>
+        <sorax-form-field label="Phone" formGroupName="user"
+          [soraxFormControl]="signUpForm.get('user.phone')">
+          <input #soraxInput  formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
+        </sorax-form-field>
 
-            <sorax-form-field label="Password"  formGroupName="user"
-              [soraxFormControl]="signUpForm.get('user.password')">
-              <input #soraxInput  formControlName="password" matInput type="password" name="password" placeholder="********" />
-            </sorax-form-field>
+        <sorax-form-field label="Password"  formGroupName="user"
+          [soraxFormControl]="signUpForm.get('user.password')">
+          <input #soraxInput  formControlName="password" matInput type="password" name="password" placeholder="********" />
+        </sorax-form-field>
 
-            <sorax-form-field label="Confirm password" formGroupName="user"
-              [soraxFormControl]="signUpForm.get('user.confirmPassword')">
-              <input #soraxInput  formControlName="confirmPassword" matInput type="password" name="confirm_password"
-                placeholder="Confirm password" />
-            </sorax-form-field>
-          </div>
-          <mat-checkbox  formControlName="agreed">I agree with terms and condtions</mat-checkbox>
-          <button mat-raised-button class="mat-primary full-width mt-4 mb-8"  [disabled]="signUpForm.invalid">Signup</button>
-          <div class="text-center ">
-            <a [routerLink]="'/auth/login'" class="mat-color-primary text-center full-width">Sign in with an existing
-              account</a>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+        <sorax-form-field label="Confirm password" formGroupName="user"
+          [soraxFormControl]="signUpForm.get('user.confirmPassword')">
+          <input #soraxInput  formControlName="confirmPassword" matInput type="password" name="confirm_password"
+            placeholder="Confirm password" />
+        </sorax-form-field>
+      </div>
+      <mat-checkbox  formControlName="agreed">I agree with terms and condtions</mat-checkbox>
+      <button mat-raised-button class="mat-primary full-width mt-4 mb-8"  [disabled]="signUpForm.invalid">Signup</button>
+      <div class="text-center ">
+        <a [routerLink]="'/auth/login'" class="mat-color-primary text-center full-width">Sign in with an existing
+          account</a>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+ 
