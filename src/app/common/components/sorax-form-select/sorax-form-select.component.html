@@ -1,0 +1,30 @@
+
+<mat-form-field #materialFormField  autocomplete="off"
+        class="full-width sorax-form-field pb10" 
+        [class]="exClass" 
+        appearance="outline">
+
+    <mat-icon *ngIf="prefix" matPrefix>{{prefix}}</mat-icon>
+    <mat-label>{{placeholder}}</mat-label>
+  <mat-select [formControl]="selectFormControl"  >
+    <mat-option  *ngIf="emptyOption" value=""></mat-option>
+    <mat-option *ngFor="let option of optionsList" [value]="option.id" >
+      {{ displayFn ? displayFn(option) : option.name }}
+    </mat-option>
+  </mat-select>
+  <mat-icon *ngIf="suffix" matSuffix>{{suffix}}</mat-icon>
+    
+  <mat-error>
+    <span sorax-validation-display-dir
+            [soraxValidationFormControl]="selectFormControl" 
+            [fieldName]="placeholder" >
+      <span 
+        *ngIf="selectFormControl!.errors && 
+             selectFormControl!.hasError('required')"
+             >{{placeholder}} {{ "IS_REQUIRED" |translate}}.</span>
+    </span>
+  </mat-error>
+</mat-form-field>
+
+
+

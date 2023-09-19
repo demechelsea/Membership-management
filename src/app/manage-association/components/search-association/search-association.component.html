@@ -1,0 +1,42 @@
+<div>
+    <mat-sidenav-container>
+        <mat-sidenav EgretSideNavToggle class="shop-sidebar default-light-bg">
+            <div class="shop-filters-wrap">
+                <mat-accordion multi="true" displayMode="flat">
+                    <mat-expansion-panel expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Filter by
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="product-categories">
+                            <li>Country</li>
+                            <li>State</li>
+                            <li>City</li>
+                            <li>Location</li>
+                            <li>Association name</li>
+                        </ul>
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+
+            </div>
+        </mat-sidenav>
+        <div class="shop-wrap flex flex-wrap">
+            <div class="full-width">
+                <div class="shop-top-toolbar flex flex-col md:flex-row items-center">
+                    <button mat-icon-button class="mr-4 rtl:ml-4" (click)="toggleSideNav()"><mat-icon>short_text</mat-icon> </button>
+                    <div class="product-search-wrap mb-3 md:mb-0">
+                        <input type="text" name="searchProduct" placeholder="Search Associations" class="product-search default-bg full-width">
+                    </div>
+                    <!-- View change buttons and cart -->
+                    <span class="flex-grow"></span>
+                    
+                    <button mat-raised-button color="primary" routerLink="/shop/cart">
+                        <mat-icon>group_add</mat-icon> Create a New Association
+                      </button>
+                  </div>
+            </div>
+        </div>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,82 @@
+<mat-card class="w-4/5 p-0">
+    <form [formGroup]="createAssociationForm" class="padround18" (ngSubmit)="submitForm()" >
+    <mat-card-title >
+        <h5 class="card-title-text pl-4 rtl:pr-4 py-3">Create a New Association</h5>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content class="!pt-4 ">
+        
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-2/3 md:pr-6">
+                    <sorax-form-field label="Association Name"
+                        [soraxFormControl]="createAssociationForm.get('name')">
+                        <input #soraxInput matInput formControlName="name" type="text" name="name"
+                            placeholder="Association Name" maxlength="256" [soraxAllowedInput]="constants.NAME_TEXT"/>
+                    </sorax-form-field>
+
+                    <sorax-form-field label="Short Name" [soraxFormControl]="createAssociationForm.get('shortName')">
+                        <input #soraxInput matInput formControlName="shortName" type="text" name="shortName" 
+                                [soraxAllowedInput]="constants.NAME_TEXT" maxlength="50"
+                            placeholder="Short Name" />
+                    </sorax-form-field>
+
+                    <sorax-form-field label="Place" [soraxFormControl]="createAssociationForm.get('place')">
+                        <input #soraxInput matInput formControlName="place" type="text" name="place" maxlength="50"
+                            placeholder="Place" [soraxAllowedInput]="constants.NAME_TEXT" />
+                    </sorax-form-field>
+
+                    <sorax-form-field label="Website Address" [soraxFormControl]="createAssociationForm.get('website')">
+                        <input #soraxInput matInput formControlName="website" type="text" name="website" maxlength="25"
+                            placeholder="Website Address" />
+                    </sorax-form-field>
+
+                    <sorax-form-field label="Mythriapp URL" prefixText="https://" suffixText=".mythriapp.com"
+                        [soraxFormControl]="createAssociationForm.get('soceityRaxUrl')">
+                        <input #soraxInput matInput formControlName="soceityRaxUrl" type="text" name="soceityRaxUrl" maxlength="25"
+                            [soraxAllowedInput]="constants.ALPHA_NUMERIC"
+                            placeholder="Mythriapp URL" />
+                    </sorax-form-field>
+                    
+                    <sorax-autocomplete [lookupName]="timeZoneOptionsKey" placeholder="Time Zone" [displayFn]="displayWithLocalText"
+                            [autoCompleteFieldLabel]="createAssociationForm.controls['timeZoneValue']" requiredFlag="no"
+                            [autoCompleteFieldId] ="createAssociationForm.controls['timeZoneKey']"
+                        (selectedOptionEmitter)="onSelectedTimeZoneOption($event)" >
+                     </sorax-autocomplete>
+
+                    <sorax-form-select [lookupName]="languageOptionsKey" placeholder="Lanauge" [displayFn]="displayWithLocalText"
+                        [selectFormControl]="createAssociationForm.controls['languageKey']" >
+                    </sorax-form-select>
+
+                    <sorax-form-select [lookupName]="currencyOptionsKey" placeholder="Currency" 
+                                 [selectFormControl]="createAssociationForm.controls['currencyKey']" >
+                    </sorax-form-select>
+                    
+                     <sorax-form-select [lookupName]="dateFormatOptionsKey" placeholder="Date Format" 
+                            [selectFormControl]="createAssociationForm.controls['dateFormat']" >
+                     </sorax-form-select>
+                </div>
+                <div class="w-full md:w-1/3 blue-grey-100 p-2">
+                        <h5>Account Setup:</h5>
+                        <p class="mat-small">Association Registration will only be considered complete after the complete setup of Account Settings. All information provided during the registration process must be accurate and up-to-date. Misrepresentation of information may result in account suspension or termination.</p>
+                        <h5>Account Security:</h5>
+                        <p class="mat-small">It is your responsibility to maintain the security of your account credentials. Any unauthorized access or use of your account should be reported immediately. We reserve the right to terminate or suspend association accounts at our discretion, especially in cases of fraudulent activity or violation of our policies. </p>
+                        <h5>Document Verification:</h5>
+                        <p class="mat-small">We will collect and process personal data in accordance with our privacy policy. By registering, you consent to the collection and use of your data as outlined in the policy. As part of the registration process, we may request specific documents to verify your association's authenticity. Failure to provide requested documents may result in account suspension. Associations must comply with all applicable laws and regulations in their jurisdiction and in the jurisdictions where they operate. </p>
+                        <h5>Acceptance of Rules:</h5>
+                        <p class="mat-small"> Association members must adhere to the rules and guidelines outlined by Mythriapp. Violation of these rules may result in account actions or restrictions. These terms and conditions may be updated or modified from time to time. </p>
+                        <mat-checkbox formControlName="agreed" requiredTrue>I agree with all <a href="#TermsAndCondtions"  class="blue-underline" target="_blank">terms and condtions</a></mat-checkbox>
+                </div>
+            </div>
+      
+    </mat-card-content>
+    <mat-card-title class="padround18">
+        <div class="m-0 p-0 text-center flex">
+            <span class="flex-grow"></span>
+            <button mat-raised-button class="mat-primary text-right" type="submit"
+                aria-label="Create a New Association Account" >
+                Create a New Association Account
+            </button>
+        </div>
+    </mat-card-title>
+    </form>
+</mat-card>
