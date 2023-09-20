@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'app/auth/service/login.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { AppLoaderService } from 'app/common/services/app-loader.service';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { UserViewModel } from 'app/models/user-view-model';
@@ -13,6 +14,8 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'sorax-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
+  animations: SoraxAnimations,
+
 })
 export class SignupComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
@@ -45,7 +48,7 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
             surName: this.formBuilder.control("", Validators.required)
           }),
           emailId: this.formBuilder.control("", [Validators.required, Validators.email]),
-          phone: this.formBuilder.control("", Validators.required),
+          phoneNumber: this.formBuilder.control("", Validators.required),
           password: password,
           confirmPassword: confirmPassword,
 
@@ -77,7 +80,7 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
         Object.assign(this.messages, response);
 
         if (this.messages.isSuccess()) {
-          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedRefId], { queryParams: this.userViewModel });
+          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedId], { queryParams: this.userViewModel });
         }
       });
   }

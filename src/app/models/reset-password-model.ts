@@ -7,7 +7,7 @@ export class ResetPasswordModel extends MessageWrapModel {
     authToken: string;
     userName: string;
     emailId: string;
-    phone: string;
+    phoneNumber: string;
     password: string;
     confirmPassword: string;
     status: string;

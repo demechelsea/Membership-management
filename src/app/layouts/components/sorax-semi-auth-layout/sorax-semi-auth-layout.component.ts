@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
-import { Router, NavigationEnd, RouteConfigLoadStart, ResolveStart, RouteConfigLoadEnd, ResolveEnd } from '@angular/router';
+import { NavigationEnd, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginService } from 'app/auth/service/login.service';
-import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { LayoutService } from 'app/layouts/services/layout.service';
 import { ThemeService } from 'ng2-charts';
 import { Subscription, filter } from 'rxjs';
@@ -10,7 +9,6 @@ import { Subscription, filter } from 'rxjs';
 @Component({
   selector: 'sorax-semi-auth-layout',
   templateUrl: './sorax-semi-auth-layout.component.html',
-  animations: SoraxAnimations,
 })
 export class SoraxSemiAuthLayoutComponent implements OnInit, AfterViewInit {
   public isModuleLoading: Boolean = false;

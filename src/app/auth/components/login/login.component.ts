@@ -21,6 +21,8 @@ import { SoraxAnimations } from 'app/common/animations/sorax-animations';
   selector: 'sorax-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  animations: SoraxAnimations,
+
 })
 export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
@@ -107,6 +109,8 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
           this.userModel.authToken;
        
           if (this.userModel.authToken != null) {
+            this.loginService.setAuthenticationToken(this.userModel);
+
             if (this.contextAssociation?.soceityRaxUrl) {
               this.handleContextBasedLogin();
             } else {
@@ -116,7 +120,7 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
                 this.userModel.association = this.userModel.mappedAssociation[0];
                 this.navigateToDashboard();
               }else {
-                //Navigate to Manage Assoication or request membership
+                this.navigateToCreateAssociation();
               }
             }
           } else if (this.userModel.encryptedRefId != null) {
@@ -149,13 +153,19 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   private navigateToDashboard() {
-
     this.loginService.setAuthenticationToken(this.userModel);
     BaseService.baseMessages = this.loginService.createSuccessMessage("Your login is successfull");
-
     let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
     this.router.navigate([returnUrl || '/dashboard']);
   }
+
+  private navigateToCreateAssociation() {
+    let msg:string ="No registered associations found for your account. You can create a new one or join an existing one."
+    BaseService.baseMessages = this.loginService.createSuccessMessage(msg);
+    this.router.navigate(['/manageAssociations']);
+  }
+
+  
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();

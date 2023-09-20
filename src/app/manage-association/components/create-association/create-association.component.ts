@@ -12,35 +12,51 @@ import { AssociationModel } from 'app/models/association-model';
 import { AssociationService } from 'app/auth/service/association.service';
 import { NotificationService } from 'app/common/services/notification.service';
 import { AssociationSetting } from 'app/models/association-setting';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'app/auth/service/login.service';
+import { BaseService } from 'app/common/services/base.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 
 @Component({
   selector: 'app-create-association',
   templateUrl: './create-association.component.html',
-  styleUrls: ['./create-association.component.scss']
+  styleUrls: ['./create-association.component.scss'],
+  animations: SoraxAnimations,
 })
 export class CreateAssociationComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   private ngUnsubscribe$ = new Subject<void>();
   @ViewChild(MatButton) submitButton: MatButton;
-
-  languageOptionsKey: string = LookupService.LANGUAGES;
-  currencyOptionsKey: string = LookupService.CURRENCIES;
-  dateFormatOptionsKey: string = LookupService.DATE_FORMATS;
-  timeZoneOptionsKey: string = LookupService.TIMEZONES;
+  public mappedAssociations: AssociationModel[] =[];
+  public isAssociationMapped: boolean = false;
 
 
-  createAssociationForm: UntypedFormGroup;
-  isFormValid: boolean = false;
+  public languageOptionsKey: string = LookupService.LANGUAGES;
+  public currencyOptionsKey: string = LookupService.CURRENCIES;
+  public dateFormatOptionsKey: string = LookupService.DATE_FORMATS;
+  public timeZoneOptionsKey: string = LookupService.TIMEZONES;
+
+  public createAssociationForm: UntypedFormGroup;
+  public isFormValid: boolean = false;
 
   constructor(private associationService: AssociationService,
-    private loader: AppLoaderService,
-    private notificationService: NotificationService,
-    private validatorService: ValidatorService) {
+              private loginService: LoginService,
+              private loader: AppLoaderService,
+              private notificationService: NotificationService,
+              private validatorService: ValidatorService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
+    this.isAssociationMapped = this.loginService.isLoggedIn();
+
+    this.buildCreateAssociationForm();
+  }
+
+  private buildCreateAssociationForm() :void {
     this.createAssociationForm = new UntypedFormGroup({
       name: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
       place: new UntypedFormControl('', {
@@ -50,13 +66,13 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
       shortName: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
       website: new UntypedFormControl('', [SoraxValidators.isValidWebSite]),
       soceityRaxUrl: new UntypedFormControl('', {
-                      validators: [Validators.required, Validators.minLength(3)],
-                      asyncValidators: [this.validatorService.validateAssociationSubDomain()]
-                    }),
-      timeZoneKey: new UntypedFormControl('Asia/Calcutta',[]),
+        validators: [Validators.required, Validators.minLength(3)],
+        asyncValidators: [this.validatorService.validateAssociationSubDomain()]
+      }),
+      timeZoneKey: new UntypedFormControl('Asia/Calcutta', []),
       timeZoneValue: new UntypedFormControl('Asia/Calcutta', [Validators.required]),
       languageKey: new UntypedFormControl('', [Validators.required]),
-      currencyKey: new UntypedFormControl('',  [Validators.required]),
+      currencyKey: new UntypedFormControl('', [Validators.required]),
       dateFormat: new UntypedFormControl('dd/MM/yyyy', [Validators.required]),
       agreed: new UntypedFormControl(false, [Validators.requiredTrue]),
     });
@@ -80,18 +96,18 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
         .pipe(takeUntil(this.ngUnsubscribe$))
         .subscribe(
           (response) => {
-            if (response.isSuccess) {
-              console.log('Association registration complted');
+            if (response.success) {
               //navigate to Mapped assoications
               this.notificationService.showSuccess(response.messages[0].message);
+              this.navigateToDashboard()
+
             } else {
               this.notificationService.showError(response.messages[0].message);
             }
+
           });
     } else {
-      this.notificationService.showWarning(
-        "Please fill in all the required fields."
-      );
+      this.notificationService.showWarning("Please fill in all the required fields.");
     }
   }
 
@@ -104,7 +120,7 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
   mapFormDataToAssociation(formData: any): AssociationModel {
     let associationModel =  new AssociationModel();
     associationModel = { ...associationModel, ...formData };
-    associationModel = { ...associationModel.setting, ...formData };
+    associationModel.setting = { ...associationModel.setting, ...formData };
 
     //  const settings:AssociationSetting = new AssociationSetting();
     //  settings.timeZone = formData.timeZone;
@@ -126,5 +142,23 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
     this.createAssociationForm.controls["languageKey"].setValue('2');
     //this.createAssociationForm.controls["dateFormat"].setValue();
   }
+
+  navigateToDashboard() {
+    this.associationService.retrieveMappedAssociations().pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe((response) => {
+        Object.assign(this.mappedAssociations, response.result);
+        if(this.mappedAssociations?.length > 1){
+          this.router.navigate(['/manageAssociations/selectMappedAssociation']);
+        } else{
+          let association = this.mappedAssociations[0];
+          this.loginService.setLogInAssoication(association);
+          let logginMessage = `Your login to ${association.name} is successfull.`;
+          BaseService.baseMessages = this.loginService.createSuccessMessage(logginMessage);
+          let returnUrl = this.activatedRoute.snapshot.queryParamMap.get("returnUrl");
+          this.router.navigate([returnUrl || '/dashboard']);
+        }
+
+     });
+}
 
 }

@@ -5,7 +5,6 @@ import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 @Component({
   selector: 'sorax-auth-layout',
   templateUrl: './sorax-auth-layout.component.html',
-  animations: SoraxAnimations,
 })
 export class SoraxAuthLayoutComponent implements OnInit {
 

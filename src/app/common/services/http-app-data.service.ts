@@ -70,12 +70,12 @@ export class HttpAppDataService extends BaseService {
             headers: httpHeaders,
             responseType: "json",
             withCredentials: false
-        })
-            .pipe(
+        }).pipe(
                 catchError(this.handleError)
             );
     }
 
+    
     prepareCustomHeaders(keyValueMap?: LableValueModel[], isFormData: boolean = false): HttpHeaders {
         let keyValueModelMap = [];
 

@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild, forwardRef } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 import { Product } from 'app/shared/models/product.model';
-import { CartItem, ShopService } from 'app/views/shop/shop.service';
-import { Observable, map } from 'rxjs';
+import { CartItem } from 'app/views/shop/shop.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search-association',
   templateUrl: './search-association.component.html',
   styleUrls: ['./search-association.component.scss'],
+  animations: SoraxAnimations,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
