@@ -4,7 +4,13 @@ export class AssociationSetting extends MessageWrapModel {
     
     id: bigint;
     encryptedId: string;
-    dateFormat: string;
+    timeZoneKey:string;
+    timeZoneValue:string;
+    languageKey:string;
+    languageValue:string;
+    currencyKey:string;
+    currencyValue:string;
+    dateFormat:string;
     logoLink:string;
     favIconLink:string;
     facebookUrl: string;
@@ -12,7 +18,6 @@ export class AssociationSetting extends MessageWrapModel {
     instagramUrl: string;
     twitterPageUrl:string;
     localName:string;
-    currency:string;
     publicRegistrationFlg:string;
 
 }

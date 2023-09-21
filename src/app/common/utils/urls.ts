@@ -4,7 +4,6 @@ export class Urls {
     public static baseAPIUrl: string = environment.apiURL;
     public static contextPath: string = "";
     public static LOGIN_URL: string = Urls.baseAPIUrl + "/authenticate/login";
-    public static REGISTER_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/registerAssociation";
 
     public static REGISTER_USER: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/registerUser";
     public static VERIFY_EMAIL: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/verifyEmailPhone";
@@ -12,10 +11,17 @@ export class Urls {
     public static SEND_OTP_PASSWORD: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/sendOTPForPasswordChange";
     public static RESEND_OTP_PASSWORD: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/reSendOTPForPasswordChange";
     public static SECURITY_REFRESH_TOKEN: string = "/authenticate/refreshAuthToken";
-    public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/retrieveAssoication";
+
+  
     public static RETRIEVE_MEMBER_BY_ASSOC: string = Urls.baseAPIUrl + Urls.contextPath + "/authenticate/retrieveMembersByAssociation"
 
     public static COMMON_LOOKUP_SERVICE: string = Urls.baseAPIUrl + Urls.contextPath + "/common/lookupService";
+
+    public static CREATE_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createAssociation";
+    public static RETRIEVE_MAPPED_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveMappedAssoications";
+    public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAssoication";
+    public static FETCH_ASSOC_BY_NAME_AND_PLACE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAssoicationNameAndPlace";
+    
     public static MEMBERSHIP_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlans";
     public static MEMBERSHIP_NEW_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlansNew";
 

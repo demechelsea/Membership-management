@@ -1,28 +1,43 @@
-<input
-  *ngIf="autoCompleteFieldId"
-  type="hidden"
-  [formControl]="autoCompleteFieldId"
-/>
-<sorax-form-field
-  [label]="placeholder"
-  [soraxFormControl]="autoCompleteFieldLabel"
->
-  <input
-    #soraxInput
-    matInput
-    [formControl]="autoCompleteFieldLabel"
-    [matAutocomplete]="soraxAuto"
-    (blur)="validateOnFocusOut($event)"
-  />
-  <mat-autocomplete
-    #soraxAuto="matAutocomplete"
-    (optionSelected)="onOptionSelected($event)"
-  >
-    <mat-option
-      *ngFor="let option of filteredOptions | async"
-      [value]="option.id"
-    >
-      {{ displayFn ? displayFn(option) : option.name }}
-    </mat-option>
-  </mat-autocomplete>
-</sorax-form-field>
+
+
+<input *ngIf="autoCompleteFieldId" type="hidden"  [formControl]="autoCompleteFieldId" />
+<mat-form-field 
+        #materialFormField  autocomplete="off"
+        class="full-width sorax-form-field pb10" 
+        [class]="exClass" 
+        appearance="outline"
+        >
+      <mat-icon *ngIf="prefix" matPrefix>{{prefix}}</mat-icon>
+      <mat-label >{{placeholder}}</mat-label>
+       <input
+          matInput
+          [formControl]="autoCompleteFieldLabel"
+          [matAutocomplete]="soraxAuto"
+          (blur)="validateOnFocusOut($event)"
+        />
+       
+      <mat-icon *ngIf="suffix" matSuffix>{{suffix}}</mat-icon>
+
+      <mat-autocomplete
+        #soraxAuto="matAutocomplete" 
+        (optionSelected)="onOptionSelected($event)"
+        >
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option.id">
+            {{ displayFn ? displayFn(option) : option.name }}
+        </mat-option>
+      </mat-autocomplete>
+      
+      <mat-error>
+        <span sorax-validation-display-dir
+                [soraxValidationFormControl]="autoCompleteFieldLabel" 
+                [fieldName]="placeholder" >
+          <span 
+            *ngIf="autoCompleteFieldLabel!.errors && 
+                 autoCompleteFieldLabel!.hasError('required')"
+                 >{{placeholder}} {{ "IS_REQUIRED" |translate}}.</span>
+        </span>
+      </mat-error>
+ </mat-form-field>
+

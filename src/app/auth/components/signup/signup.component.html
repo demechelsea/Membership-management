@@ -1,5 +1,5 @@
-<div class="page-wrap h-full slate">
-  <div class="session-form-hold"  @animate>
+<div class="page-wrap h-full slate" >
+  <div class="session-form-hold" @animate >
     <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
     <mat-card class="!m-0">
       <mat-card-content>
@@ -23,16 +23,7 @@
               [soraxFormControl]="signUpForm.get('user.userDetail.surName')">
               <input #soraxInput  formControlName="surName" matInput type="text" name="surname" placeholder="Family name" />
             </sorax-form-field>
-
-            <sorax-form-field label="Association name"  formGroupName="association"
-              [soraxFormControl]="signUpForm.get('user.association.name')">
-              <input #soraxInput  formControlName="name" matInput type="text" name="AssociationName" placeholder="Association name" />
-            </sorax-form-field>
-
-            <sorax-form-field label="Association Place"  formGroupName="association"
-              [soraxFormControl]="signUpForm.get('user.association.place')">
-              <input #soraxInput  formControlName="place" matInput type="text" name="AssociationPlace" placeholder="Association Place" />
-            </sorax-form-field>
+            
           </div>
           <div class="">
             <sorax-form-field label="Email"  formGroupName="user" 
@@ -41,8 +32,8 @@
             </sorax-form-field>
 
             <sorax-form-field label="Phone" formGroupName="user"
-              [soraxFormControl]="signUpForm.get('user.phone')">
-              <input #soraxInput  formControlName="phone" matInput type="phone" name="phone" placeholder="Phone" />
+              [soraxFormControl]="signUpForm.get('user.phoneNumber')">
+              <input #soraxInput  formControlName="phoneNumber" matInput type="phone" name="phoneNumber" placeholder="Phone" />
             </sorax-form-field>
 
             <sorax-form-field label="Password"  formGroupName="user"
@@ -67,3 +58,4 @@
     </mat-card>
   </div>
 </div>
+ 

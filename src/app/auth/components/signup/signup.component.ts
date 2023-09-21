@@ -1,20 +1,21 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { BaseComponent } from 'app/core/components/base/base.component';
-import { UserViewModel } from 'app/models/user-view-model';
-import { LoginService } from 'app/auth/service/login.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'app/auth/service/login.service';
 import { SoraxAnimations } from 'app/common/animations/sorax-animations';
+import { AppLoaderService } from 'app/common/services/app-loader.service';
+import { BaseComponent } from 'app/core/components/base/base.component';
+import { UserViewModel } from 'app/models/user-view-model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'sorax-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   animations: SoraxAnimations,
+
 })
 export class SignupComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
@@ -46,12 +47,8 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
             firstName: this.formBuilder.control("", Validators.required),
             surName: this.formBuilder.control("", Validators.required)
           }),
-          association: this.formBuilder.group({
-            name: this.formBuilder.control("", Validators.required),
-            place: this.formBuilder.control("", Validators.required)
-          }),
           emailId: this.formBuilder.control("", [Validators.required, Validators.email]),
-          phone: this.formBuilder.control("", Validators.required),
+          phoneNumber: this.formBuilder.control("", Validators.required),
           password: password,
           confirmPassword: confirmPassword,
 
@@ -83,7 +80,7 @@ export class SignupComponent extends BaseComponent implements OnInit, OnDestroy 
         Object.assign(this.messages, response);
 
         if (this.messages.isSuccess()) {
-          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedRefId], { queryParams: this.userViewModel });
+          this.router.navigate(['/auth/verifyUser', this.userViewModel.encryptedId], { queryParams: this.userViewModel });
         }
       });
   }

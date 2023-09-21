@@ -93,6 +93,15 @@ export class HeaderComponent implements OnInit {
 
   logoutClicked(){
     this.loginService.logout();
-    this.router.navigate(["auth/login"]);  }
+    this.router.navigate(["auth/login"]); 
+  }
+  isLoggedIn(): boolean {
+    return this.loginService.isLoggedIn();
+  }
+
+  isPartialLoggedIn(): boolean {
+    return this.loginService.isPartialLoggedIn();
+  }
+
 
 }

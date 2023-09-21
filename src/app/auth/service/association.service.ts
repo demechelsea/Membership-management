@@ -6,6 +6,7 @@ import { notNull, nullObj } from 'app/common/utils/string-utils';
 import { Urls } from 'app/common/utils/urls';
 import { AssociationModel } from 'app/models/association-model';
 import { MessageWrapModel } from 'app/models/messageWrapModel';
+import { ResultViewModel } from 'app/models/result-view-model';
 import { plainToClass } from 'class-transformer';
 import { from, lastValueFrom, Observable } from 'rxjs';
 
@@ -17,6 +18,15 @@ export class AssociationService extends HttpAppDataService {
   constructor(httpClient: HttpClient, private localStorageService: LocalstorageService) {
     super(httpClient);
   }
+
+  public createNewAssociation(associatioModel: AssociationModel): Observable<any> {
+    return this.postData(Urls.CREATE_ASSOCIATION, associatioModel);
+  }
+
+  public retrieveMappedAssociations(): Observable<ResultViewModel> {
+    return this.postData(Urls.RETRIEVE_MAPPED_ASSOCIATION,{});
+  }
+  
 
   public retrieveAssociationByContextPath(assocContextPath: string): Observable<AssociationModel> {
     let associatioModel: AssociationModel = new AssociationModel();

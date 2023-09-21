@@ -19,6 +19,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
   animations: SoraxAnimations,
+
 })
 export class ResetPasswordComponent  extends BaseComponent implements OnInit {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;

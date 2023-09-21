@@ -61,6 +61,18 @@ const fadeOutAnimation = animation(
 
 export const SoraxAnimations = [
   trigger('animate', [transition('void => *', [useAnimation(reusable)])]),
+ trigger('animateFromRight', [transition('void => *', [useAnimation(reusable, {
+      params: {
+        duration: '500ms',
+        delay: '100ms',
+        opacity: '0',
+        scale: '1',
+        x: '200px',
+        y: '0',
+        z: '0',
+      },
+    }
+      )])]),
   
   trigger('fade', [
     state('void', style({ opacity: 0 })),

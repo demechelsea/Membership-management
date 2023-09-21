@@ -1,5 +1,5 @@
-<div class="page-wrap h-full slate">
-  <div class="session-form-hold"  @animate >
+<div class="page-wrap h-full slate" >
+  <div class="session-form-hold" @animate >
     <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
     <mat-card class="!m-0">
       <mat-card-content>
@@ -18,9 +18,14 @@
                 placeholder="Enter otp" />
             </sorax-form-field>
 
-            <div class="resendButton">
-              <button type="button" mat-raised-button color="accent" (click)="resendOTP()">Resend OTP</button>
+            <div class="resendButton" *ngIf="!disableResend">
+              <button type="button"   mat-raised-button color="accent" (click)="resendOTP()">Resend OTP</button>
             </div>
+
+            <div class="resendButton" *ngIf="disableResend">
+              <button type="button"   mat-raised-button disabled><span class="text-warn">Available in {{countdown}}s</span></button>
+            </div>
+            
           </div>
           <sorax-form-field label="New Password" class="pb18" [soraxFormControl]="resetFormGroup.get('password')">
             <input  #soraxInput formControlName="password" matInput type="password" name="password"

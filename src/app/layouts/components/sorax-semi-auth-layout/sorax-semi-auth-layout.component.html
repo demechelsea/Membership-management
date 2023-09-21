@@ -1,0 +1,18 @@
+<div class="app-admin-wrap" [dir]='layoutConf?.dir'>
+    <app-header-side *ngIf="layoutConf.navigationPos === 'side'" [notificPanel]="notificationPanel">
+    </app-header-side>
+    
+    <mat-sidenav-container [dir]='layoutConf.dir'
+                class="app-admin-container app-side-nav-container mat-drawer-transition sidebar-{{layoutConf?.sidebarColor}} topbar-{{layoutConf?.topbarColor}} footer-{{layoutConf?.footerColor}}"
+                [ngClass]="adminContainerClasses">
+        <mat-sidenav-content>
+            <div class="container-dynamic"> 
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+     </mat-sidenav-container>
+</div>
+ 
+  
+  
+  

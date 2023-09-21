@@ -33,6 +33,8 @@ import { EgretExampleViewerTemplateComponent } from './example-viewer-template/e
 import { EgretNotifications2Component } from './egret-notifications2/egret-notifications2.component';
 import { AppLoaderComponent } from 'app/common/components/app-loader/app-loader.component';
 import {AutocompletePlaceComponent} from "./autocomplete-place/autocomplete-place.component";
+import { SoraxPlainLayoutComponent } from 'app/layouts/components/sorax-plain-layout/sorax-plain-layout.component';
+import { SoraxSemiAuthLayoutComponent } from 'app/layouts/components/sorax-semi-auth-layout/sorax-semi-auth-layout.component';
 
 
 const components = [
@@ -41,6 +43,8 @@ const components = [
   SidebarComponent,
   HeaderComponent,
   SoraxAuthLayoutComponent,
+  SoraxSemiAuthLayoutComponent,
+  SoraxPlainLayoutComponent,
   SoraxAdminLayoutComponent,
   BreadcrumbComponent,
   AppComfirmComponent,

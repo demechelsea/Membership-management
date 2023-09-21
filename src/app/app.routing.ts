@@ -4,8 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './common/components/page-not-found/page-not-found.component';
 import { UnderdevComponent } from './common/components/underdev/underdev.component';
 import { SoraxAuthGuard } from './core/guards/sorax-auth-guard.service';
+import { SoraxSemiAuthGuard } from './core/guards/sorax-semi-auth-guard.service';
 import { SoraxAdminLayoutComponent } from './layouts/components/sorax-admin-layout/sorax-admin-layout.component';
 import { SoraxAuthLayoutComponent } from './layouts/components/sorax-auth-layout/sorax-auth-layout.component';
+import { SoraxSemiAuthLayoutComponent } from './layouts/components/sorax-semi-auth-layout/sorax-semi-auth-layout.component';
 
 export const rootRouterConfig: Routes = [
   {path: '', redirectTo: 'auth',pathMatch: 'full'},
@@ -29,6 +31,17 @@ export const rootRouterConfig: Routes = [
         loadChildren: () => import('app/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
     
+    ]
+  },
+  {
+    path: '',
+    canActivate: [SoraxSemiAuthGuard],
+    component: SoraxSemiAuthLayoutComponent,
+    children: [
+      {
+        path: 'manageAssociations',
+        loadChildren: () => import('app/manage-association/manage.association.module').then(m => m.ManageAssociationModule),
+      },
     ]
   },
   {
