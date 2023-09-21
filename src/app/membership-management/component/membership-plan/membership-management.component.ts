@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
-import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -18,7 +17,6 @@ import { AssociationMemberPopupComponent } from "./membership-popup/membership-m
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import { Router } from "@angular/router";
-import { log } from "console";
 
 @Component({
   selector: "app-membership-plan",
@@ -28,8 +26,7 @@ import { log } from "console";
 })
 export class MembershipManagementComponent
   extends BaseComponent
-  implements OnInit
-{
+  implements OnInit {
   public associationMemberData: any;
   public membershipColumns: SoraxColumnDefinition[];
 
@@ -79,7 +76,7 @@ export class MembershipManagementComponent
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         console.log("ioio", response);
-        
+
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
         this.associationMemberData = this.listPlans.map(
@@ -105,7 +102,7 @@ export class MembershipManagementComponent
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id},
+        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id },
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
@@ -116,10 +113,10 @@ export class MembershipManagementComponent
     });
   }
 
-  openProfileDetail(id: number){
-    this.router.navigate(['./membershipManagement/profileHighlight']);
-
+  openProfileDetail(rowData: any){
+    this.router.navigate(['./membershipManagement/profileHighlight', { memberData: JSON.stringify(rowData) }]);
   }
+  
   executeRowActions(rowData: MemershipPlanModel) {
     // if (rowData.performAction == "edit") {
     //   this.openPopUp(rowData, false);
@@ -150,7 +147,7 @@ export class MembershipManagementComponent
         isSortable: true,
         link: true,
         clickEvent: (data) => {
-          this.openProfileDetail(1);
+          this.openProfileDetail(data);
         },
       },
       {

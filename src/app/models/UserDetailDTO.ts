@@ -1,7 +1,5 @@
 
 import { MessageWrapModel } from "./messageWrapModel";
-
-
 export class UserDetailDTO extends MessageWrapModel {
     id: number;
     firstName: string;

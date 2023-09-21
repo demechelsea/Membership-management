@@ -1,5 +1,5 @@
 <div class="parent-component flex flex-row">
-  <div class="event-dialog-wrapper w-full md:w-4/5 m-4 border border-gray-300 rounded flex">
+  <div class="event-dialog-wrapper w-3/5 md:w-4/5 m-4 border border-gray-300 rounded flex">
     <div mat-dialog-content class="padround18 h-full" style="overflow: hidden;">
       <div class="w-full py-1 mb-4 relative flex-col">
         <div class="h-2 mb-4" style="width: 100%; background: linear-gradient(to right, green 26%, black 0%);"></div>
@@ -12,8 +12,9 @@
           <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full w-70 h-70 mx-auto">
         </div>
         <div class="w-full pl-0 text-center">
-          <h2 class="text-2xl font-bold mb-2">John F. Kenady</h2>
-          <p class="text-lg text-gray-600 mb-4">Big Data Expert</p>
+          <h2 class="text-2xl font-bold mb-2">{{memberData.userDetail.firstName +" "+ memberData.userDetail.parentName}}
+          </h2>
+          <p class="text-lg text-gray-600 mb-4">{{memberData.title}}</p>
           <div class="flex flex-col mb-4">
             <div class="flex items-center mb-8 pb-8 justify-center border-b border-gray-300">
               <mat-icon class="mr-6">home</mat-icon>
@@ -26,39 +27,56 @@
               </div>
               <div class="flex items-center py-2">
                 <mat-icon>mail</mat-icon>
-                <span class="ml-2">john@example.com</span>
+                <span class="ml-2">{{memberData.userDetail.primaryEmail}}</span>
               </div>
               <div class="flex items-center py-2">
                 <mat-icon>phone</mat-icon>
-                <span class="ml-2">123-456-7890</span>
+                <span class="ml-2">{{memberData.userDetail.primaryPhone}}</span>
               </div>
               <div class="flex items-center py-2">
                 <mat-icon>location_on</mat-icon>
                 <span class="ml-2">City, State</span>
               </div>
             </div>
-            <div class="flex-col">
-              <div class="flex items-center py-2">
-                <mat-icon>web</mat-icon>
-                <span class="ml-2">www.example.com</span>
-              </div>
-              <div class="flex items-center py-2">
-                <mat-icon>mail</mat-icon>
-                <span class="ml-2">john@example.com</span>
-              </div>
-              <div class="flex items-center py-2">
-                <mat-icon>phone</mat-icon>
-                <span class="ml-2">123-456-7890</span>
-              </div>
-              <div class="flex items-center py-2">
-                <mat-icon>location_on</mat-icon>
-                <span class="ml-2">City, State</span>
-              </div>
+            <div class="flex-col mb-3 justify-center border-b border-gray-300">
+              <form [formGroup]="profileForm" (ngSubmit)="submit(profileForm.value)">
+                <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+            
+                <div class="flex items-center py-2">
+                  <mat-slide-toggle
+                    [formControl]="profileForm.controls['emailNotificationFlg']">Recieve Email
+                    Notification</mat-slide-toggle>
+                </div>
+            
+                <div class="flex items-center py-2">
+                  <mat-slide-toggle
+                    [formControl]="profileForm.controls['mobileNotificationFlg']">Recieve SMS
+                    Notification</mat-slide-toggle>
+                </div>
+            
+                <div class="flex items-center py-2">
+                  <mat-slide-toggle
+                    [formControl]="profileForm.controls['contactVisibility']">Contacts visible to
+                    public</mat-slide-toggle>
+                </div>
+            
+                <div class="flex items-center py-2">
+                  <mat-slide-toggle
+                    [formControl]="profileForm.controls['photoVisibility']">Contacts visible to 
+                    members</mat-slide-toggle>
+                </div>
+              </form>
             </div>
+            
+            
+            <div class="items-start py-2">
+              <button (click)="openMembershipManagement()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Back to Members list</button>
+
+            </div>
+
           </div>
         </div>
       </div>
-      <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Back to Members list</button>
     </div>
   </div>
   <div class="w-full flex flex-col">

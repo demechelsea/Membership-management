@@ -41,7 +41,7 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
 
   ngOnInit() {
     this.initializeColumns();
-    this.getPageResults();
+    //this.getPageResults();
   }
   ngOnDestroy() {
     this.ngUnsubscribe$.next();

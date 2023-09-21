@@ -1,7 +1,13 @@
 <div [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
 class="grid grid-cols-3 gap-4 p-8 mr-4 mb-4 rounded border border-gray-200">
   <div class="col-span-3 text-left">
-    <h3 class="font-bold">Contacts</h3>
+    <h3 class="font-bold flex justify-between items-center">
+      <span><i class="material-icons" style="color:red; vertical-align:middle;">contacts</i> Contacts</span>
+      <span>
+        <i class="material-icons mr-2" style="color:red; vertical-align:middle;">contact_phone</i>
+        <i class="material-icons" style="color:red; vertical-align:middle;">contact_mail</i>
+      </span>      
+    </h3>
   </div>
   <div class="col-span-1 space-y-4 text-sm">
       <div class="h-12 flex items-center justify-center">Email: sample1@email.com</div>
