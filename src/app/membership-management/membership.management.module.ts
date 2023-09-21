@@ -11,12 +11,24 @@ import { MembershipManagementComponent } from './component/membership-plan/membe
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AssociationMemberPopupComponent } from './component/membership-plan/membership-popup/membership-management-popup.component';
 import { ProfileHighlightComponent } from './component/profile-highlight/profile-highlight.component';
+import { MembershipDetailsComponent } from './component/membership-details/membership-details.component';
+import { MyFamilyComponent } from './component/my-family/my-family.component';
+import { ContactsComponent } from './component/contacts/contacts.component';
+import { InvoicesComponent } from './component/invoices/invoices.component';
+import { AddressComponent } from './component/address/address.component';
+import { MycompaniesComponent } from './component/my-companies/my-companies.component';
 
 
 const declarationsList = [
   MembershipManagementComponent,
   AssociationMemberPopupComponent,
-  ProfileHighlightComponent
+  ProfileHighlightComponent,
+  MembershipDetailsComponent,
+  MyFamilyComponent,
+  ContactsComponent,
+  InvoicesComponent,
+  AddressComponent,
+  MycompaniesComponent
 ];
 
 const importsList = [
