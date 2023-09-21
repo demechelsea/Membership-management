@@ -18,6 +18,7 @@ import { AssociationMemberPopupComponent } from "./membership-popup/membership-m
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import { Router } from "@angular/router";
+import { log } from "console";
 
 @Component({
   selector: "app-membership-plan",
@@ -77,6 +78,8 @@ export class MembershipManagementComponent
       .getAssociationMembers(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
+        console.log("ioio", response);
+        
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
         this.associationMemberData = this.listPlans.map(
@@ -86,7 +89,7 @@ export class MembershipManagementComponent
               email: `${associationMember?.userDetail?.primaryEmail}`,
               title: `${associationMember.userDetail.title}`,
               membershipPlan: `${associationMember.membershipPlan.planName}`,
-              membershipPlanId: `${associationMember.membershipPlanId}`,
+              membershipPlanId: `${associationMember.id}`,
             };
           }
         );

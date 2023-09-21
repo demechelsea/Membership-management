@@ -139,11 +139,11 @@ export class AssociationMemberPopupComponent
       formData.append("photoLink", associationMember?.photoLink);
       
      
-      formData.append("introducerUser", "1");
+      formData.append("introducerUser", "8");
 
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0] + ", " + pair[1]);
+      // }
 
       if (this.data.isNew) {
         if (this.selectedFile) {

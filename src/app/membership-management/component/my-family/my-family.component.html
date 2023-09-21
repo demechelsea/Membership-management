@@ -1,21 +1,12 @@
-<div
-  class="m-8"
-  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-  style="text-align: right"
->
+<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right">
 </div>
-<mat-card
-  [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
->
-  <mat-card-content >
-    <sorax-table-view
-      [tableData]="membershipPlanData"
-      [tableColumns]="membershipColumns"
-      [isFilterable]="false"
-      [isPageable]="true"
-      [page]="page"
-      (rowAction)="executeRowActions($event)"
-    >
+<div class="col-span-3 text-left">
+  <h3 class="font-bold">My family</h3>
+</div>
+<mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+  <mat-card-content>
+    <sorax-table-view [tableData]="membershipPlanData" [tableColumns]="membershipColumns" [isFilterable]="false"
+      [isPageable]="true" [page]="page" (rowAction)="executeRowActions($event)">
     </sorax-table-view>
   </mat-card-content>
 </mat-card>

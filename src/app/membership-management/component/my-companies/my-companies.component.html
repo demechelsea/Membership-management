@@ -1,15 +1,19 @@
-<div class="grid grid-cols-3 gap-4 p-8 rounded shadow-lg">
-  <div class="col-span-1 space-y-4 text-sm">
-      <div class="h-12 flex items-center justify-center">Email: sample1@email.com</div>
-      <div class="h-12 flex items-center justify-center">Email: sample2@email.com</div>
-      <div class="h-12 flex items-center justify-center">Email: sample3@email.com</div>
-  </div>
-  <div class="col-span-1 flex items-center justify-center text-xl">
-      Primary
-  </div>
-  <div class="col-span-1 space-y-4 text-sm">
-      <div class="h-12 flex items-center justify-center">Phone: 123-456-7890</div>
-      <div class="h-12 flex items-center justify-center">Phone: 098-765-4321</div>
-      <div class="h-12 flex items-center justify-center">Phone: 111-222-3333</div>
-  </div>
+<div [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+    class="grid grid-cols-3 gap-4 p-8 mr-4 mb-4 rounded border border-gray-200">
+    <div class="col-span-3 text-left">
+        <h3 class="font-bold">My companies</h3>
+    </div>
+    <div class="col-span-1 space-y-4 text-sm">
+        <div class="h-12 flex items-center justify-center">Email: sample1@email.com</div>
+        <div class="h-12 flex items-center justify-center">Email: sample2@email.com</div>
+        <div class="h-12 flex items-center justify-center">Email: sample3@email.com</div>
+    </div>
+    <div class="col-span-1 flex items-center justify-center text-xl">
+        Primary
+    </div>
+    <div class="col-span-1 space-y-4 text-sm">
+        <div class="h-12 flex items-center justify-center">Phone: 123-456-7890</div>
+        <div class="h-12 flex items-center justify-center">Phone: 098-765-4321</div>
+        <div class="h-12 flex items-center justify-center">Phone: 111-222-3333</div>
+    </div>
 </div>
