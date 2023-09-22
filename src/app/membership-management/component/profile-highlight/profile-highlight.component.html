@@ -85,8 +85,8 @@
     <app-address class="w-full h-1/3 mb-4"></app-address>
   </div>
   <div class="w-full flex flex-col">
-    <app-my-family class="w-full h-1/3 mb-8"></app-my-family>
+    <app-my-family [memberDataId] = "associationMemberId" class="w-full h-1/3 mb-8"></app-my-family>
     <app-invoices class="w-full h-1/3 mb-4"></app-invoices>
-    <app-my-companies class="w-full h-1/3 mb-4"></app-my-companies>
+    <app-my-companies [memberDataId] = "associationMemberId" class="w-full h-1/3 mb-4"></app-my-companies>
   </div>
 </div>

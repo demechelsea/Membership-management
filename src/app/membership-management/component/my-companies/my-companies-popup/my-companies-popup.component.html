@@ -7,106 +7,64 @@
   </mat-toolbar>
 
   <div mat-dialog-content class="padround18">
-    <form [formGroup]="associationMemeberForm" class="associationMemeberForm padround18"
-      (ngSubmit)="submit(associationMemeberForm.value)">
+    <form [formGroup]="userCompaniesForm" class="userCompaniesForm padround18"
+      (ngSubmit)="submit(userCompaniesForm.value)">
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div class="flex justify-between">
         <div class="flex flex-wrap flex-col md:w-2/3 pr8">
           <div class="flex w-full md:w-1/1 pr8">
-            <div class="w-full md:w-1/3 pr8">
-              <sorax-autocomplete [lookupName]="titleOptionsKey" placeholder="Title"
-              [autoCompleteFieldLabel]="associationMemeberForm.controls['title']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
-            </sorax-autocomplete>
-            </div>
-
             <div class="w-full md:w-2/3">
-              <sorax-form-field label="First Name" [soraxFormControl]="associationMemeberForm.get('firstName')">
-                <input #soraxInput matInput formControlName="firstName" type="text" name="firstName" />
+              <sorax-form-field label="Company Name" [soraxFormControl]="userCompaniesForm.get('companyName')">
+                <input #soraxInput matInput formControlName="companyName" type="text" name="companyName" />
               </sorax-form-field>
             </div>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
-            <sorax-form-field label="Prefered name" [soraxFormControl]="associationMemeberForm.get('displayName')">
-              <input #soraxInput matInput formControlName="displayName" type="text" name="displayName" />
+            <sorax-form-field label="Short name" [soraxFormControl]="userCompaniesForm.get('shortName')">
+              <input #soraxInput matInput formControlName="shortName" type="text" name="shortName" />
             </sorax-form-field>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
-            <sorax-form-field label="Email" [soraxFormControl]="associationMemeberForm.get('primaryEmail')">
-              <input #soraxInput matInput formControlName="primaryEmail" type="text" name="primaryEmail" />
+            <sorax-form-field label="Website" [soraxFormControl]="userCompaniesForm.get('website')">
+              <input #soraxInput matInput formControlName="website" type="text" name="website" />
             </sorax-form-field>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
-            <sorax-form-field label="Phone" [soraxFormControl]="associationMemeberForm.get('primaryPhone')">
-              <input #soraxInput matInput formControlName="primaryPhone" type="text" name="primaryPhone" />
+            <sorax-form-field label="Facebook profile" [soraxFormControl]="userCompaniesForm.get('facebookPageUrl')">
+              <input #soraxInput matInput formControlName="facebookPageUrl" type="text" name="facebookPageUrl" />
             </sorax-form-field>
           </div>
           <div class="flex w-full md:w-1/1 pr8">
-            <div class="w-full md:w-1/3 pr8">
-              <sorax-autocomplete [lookupName]="genderOptionsKey" placeholder="Gender"
-                [autoCompleteFieldLabel]="associationMemeberForm.controls['gender']"
-                (selectedOptionEmitter)="onSelectedOption($event)">
-              </sorax-autocomplete>
-            </div>
-
-            <div class="w-full md:w-2/3">
-              <sorax-autocomplete [lookupName]="maritalStatusOptionsKey" placeholder="Marital status"
-                [autoCompleteFieldLabel]="associationMemeberForm.controls['maritalStatus']"
-                (selectedOptionEmitter)="onSelectedOption($event)">
-              </sorax-autocomplete>
+            <div class="w-full md:w-1/1 pr8">
+              <sorax-form-field label="Linkedin profile" [soraxFormControl]="userCompaniesForm.get('linkedinPageUrl')">
+                <input #soraxInput matInput formControlName="linkedinPageUrl" type="text" name="linkedinPageUrl" />
+              </sorax-form-field>
             </div>
           </div>
           <div class="w-full md:w-1/1 pr8">
-            <sorax-form-field label="Date of birth" [soraxFormControl]="associationMemeberForm.get('dob')">
-              <div class="flex flex-row">
-                <input #soraxInput matInput [matDatepicker]="dobDatePicker" formControlName="dob" name="dob" />
-                <mat-datepicker-toggle [for]="dobDatePicker" matSuffix class="h-10"></mat-datepicker-toggle>
-              </div>
-              <mat-datepicker #dobDatePicker></mat-datepicker>
+            <div class="w-full md:w-1/1 pr8">
+              <sorax-form-field label="Twitter profile" [soraxFormControl]="userCompaniesForm.get('twitterPageUrl')">
+                <input #soraxInput matInput formControlName="twitterPageUrl" type="text" name="twitterPageUrl" />
+              </sorax-form-field>
+            </div>
+          </div>
+
+          <div class="w-full md:w-1/1 pr8">
+            <sorax-form-field label="Address" [soraxFormControl]="userCompaniesForm.get('address')">
+              <input #soraxInput matInput formControlName="address" type="text" name="address" />
             </sorax-form-field>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
-            <sorax-autocomplete [lookupName]="membershipPlanOptionsKey" placeholder="Membership Plan"
-              [autoCompleteFieldLabel]="associationMemeberForm.controls['membershipPlan']"
-              (selectedOptionEmitter)="onSelectedMembershipPlanOption($event)" [displayFn]="membershipPlanDisplayFn">
-            </sorax-autocomplete>
-          </div>
-
-          <div class="w-full md:w-1/1 pr8">
-            <sorax-form-field label="Start date" [soraxFormControl]="associationMemeberForm.get('approvedDate')">
-              <div class="flex flex-row">
-                <input #soraxInput matInput [matDatepicker]="startDatePicker" formControlName="approvedDate"
-                  name="approvedDate" />
-                <mat-datepicker-toggle matSuffix [for]="startDatePicker" class="h-10"></mat-datepicker-toggle>
-              </div>
-              <mat-datepicker #startDatePicker></mat-datepicker>
+            <sorax-form-field label="About me" [soraxFormControl]="userCompaniesForm.get('category')">
+              <input #soraxInput matInput formControlName="category" type="text" name="category" />
             </sorax-form-field>
-          </div>
-
-          <div class="w-full md:w-1/1 pr8">
-            <sorax-autocomplete [lookupName]="higherEducationOptionsKey" placeholder="Higher education"
-              [autoCompleteFieldLabel]="associationMemeberForm.controls['highestEducation']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
-            </sorax-autocomplete>
-          </div>
-
-          <div *ngIf="!data.isNew" class="w-full md:w-1/1 pr8">
-            <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
-              [autoCompleteFieldLabel]="associationMemeberForm.controls['status']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
-            </sorax-autocomplete>
           </div>
         </div>
         <div class="md:w-1/3 flex flex-col justify-between">
-          <div class="w-full md:w-1/1">
-            <sorax-form-field label="Last Name" [soraxFormControl]="associationMemeberForm.get('parentName')">
-              <input #soraxInput matInput formControlName="parentName" type="text" name="parentName" />
-            </sorax-form-field>
-          </div>
           <div class="photo-container w-full md:w-1/1">
             <div class="photo-preview">
               <img *ngIf="imageURL; else noImage" [src]="imageURL" alt="Photo to display to public" />
@@ -121,11 +79,11 @@
             </div>
           </div>
 
-          <div class="w-full md:w-1/1 pr8">
+          <!-- <div class="w-full md:w-1/1 pr8">
             <mat-slide-toggle class="padround8" [formControl]="
-              associationMemeberForm.controls['onlineAccessFlg']
+              userCompaniesForm.controls['onlineAccessFlg']
               ">Online access</mat-slide-toggle>
-          </div>
+          </div> -->
         </div>
       </div>
     </form>
@@ -137,7 +95,7 @@
     </button>
     <span class="flex-grow"></span>
     <button mat-raised-button class="mat-primary text-right" aria-label="Create a member" [textContent]="buttonText"
-      (click)="submit(associationMemeberForm.value)">
+      (click)="submit(userCompaniesForm.value)">
       Create a member
     </button>
   </div>

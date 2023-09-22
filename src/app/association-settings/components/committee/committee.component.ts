@@ -69,7 +69,6 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     private notificationService: NotificationService,
     private committeeService: CommitteeService,
     private loader: AppLoaderService,
-    private confirmService: AppConfirmService,
     private positionService: PositionService,
     private opencommitteeMemberPopupService: opencommitteeMemberPopupService
   ) {
@@ -94,7 +93,8 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
     if (row.performAction == "View") {
       this.selectedRow = row;
       this.showDetails = true;
-    } else if(row.performAction == "Edit") {
+    } 
+    else if(row.performAction == "Edit") {
       this.openCommitteePopUp(row, false);
     }
   }

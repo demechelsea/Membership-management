@@ -25,6 +25,7 @@ export class ProfileHighlightComponent
   public membershipColumns: SoraxColumnDefinition[];
 
   public memberData: any;
+  associationMemberId: number;
   public profileForm: FormGroup;
 
   private ngUnsubscribe$ = new Subject<void>();
@@ -43,7 +44,8 @@ export class ProfileHighlightComponent
   ngOnInit() {
     this.buildProfileForm(new UserProfileSettingDTO());
     this.route.params.subscribe(params => {
-      this.memberData = JSON.parse(params['memberData']);      
+      this.memberData = JSON.parse(params['memberData']);  
+      this.associationMemberId = this.memberData.userDetail.id; 
     });
   }
 

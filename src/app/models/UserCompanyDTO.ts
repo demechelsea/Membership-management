@@ -1,6 +1,6 @@
 import { MessageWrapModel } from "./messageWrapModel";
 export class UserCompanyDTO  extends MessageWrapModel {
-    id:number;
+    userDetailId:number;
     companyName: string;
     shortName: string;
     website: string;

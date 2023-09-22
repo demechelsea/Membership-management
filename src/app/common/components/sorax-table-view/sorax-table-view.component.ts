@@ -51,9 +51,6 @@ export class SoraxTableViewComponent implements OnInit {
     
   }
 
-
-  
-
   getCellClass(position: String) {
     return position == 'right' ? "header-align-right" : "header-align-left";
   }
@@ -149,7 +146,4 @@ export class SoraxTableViewComponent implements OnInit {
   showTooltip() {
     this.showToolstip = true;
   }
-
-
-
 }

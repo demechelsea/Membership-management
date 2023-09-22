@@ -75,8 +75,6 @@ export class MembershipManagementComponent
       .getAssociationMembers(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        console.log("ioio", response);
-
         Object.assign(this.resultViewModel, response);
         this.listPlans = this.resultViewModel.result;
         this.associationMemberData = this.listPlans.map(
@@ -87,6 +85,7 @@ export class MembershipManagementComponent
               title: `${associationMember.userDetail.title}`,
               membershipPlan: `${associationMember.membershipPlan.planName}`,
               membershipPlanId: `${associationMember.id}`,
+              name: `${associationMember.userDetail.firstName} ${associationMember.userDetail.parentName}`,
             };
           }
         );
@@ -142,7 +141,7 @@ export class MembershipManagementComponent
     this.membershipColumns = [
       {
         name: "Name",
-        dataKey: "title",
+        dataKey: "name",
         position: "left",
         isSortable: true,
         link: true,

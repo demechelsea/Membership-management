@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -17,6 +17,9 @@ import { MycompaniesPopupComponent } from "./my-companies-popup/my-companies-pop
 export class MycompaniesComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
 
+  @Input() memberDataId: number;
+
+
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
@@ -33,7 +36,7 @@ export class MycompaniesComponent extends BaseComponent implements OnInit {
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id },
+        data: { title: title, payload: data, isNew: isNew, selectedUserDetailId: this.memberDataId },
       }
     );
     dialogRef.afterClosed().subscribe((res) => {

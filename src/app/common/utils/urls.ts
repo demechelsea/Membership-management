@@ -124,6 +124,19 @@ export class Urls {
     public static GET_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/getUserRolesAndPermissions";
     public static UPDATE_USER_ROLES_AND_PERMISSIONS: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserRolesAndPermissions";
 
+
+    public static RETRIEVE_FAMILY_MEMBER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveFamilyById";
+    public static RETRIEVE_FAMILY_MEMBERS_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveFamiliesByUserId";
+    public static REGISTER_FAMILY_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerFamilyMember";
+    public static UPDATE_FAMILY_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateFamilyMember";
+    public static DELETE_FAMILY_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteFamilyMember";
+
+    public static RETRIEVE_USER_COMPANY_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCompaniesByUserId";
+    public static REGISTER_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserCompany";
+    public static UPDATE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserCompany";
+    public static RETRIEVE_USER_COMPANY_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCompanyById";
+    public static DELETE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserCompany";
+
     public static WEBSITE_INFO_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/listWebSites";
     public static SAVE_UPDATE_WEBSITE_INFO: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/saveUPdateWebsiteInfo";
     public static UPDATE_WEBSITE_INFO_STATUS: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/updateWebsiteInfoStatus";

@@ -14,6 +14,9 @@ import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { NotificationService } from "app/common/services/notification.service";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import moment from "moment";
+import { UserCompanyDTO } from "app/models/UserCompanyDTO";
+import { MycompaniesComponent } from "../my-companies.component";
+import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 
 @Component({
   selector: "my-companies-popup",
@@ -24,25 +27,18 @@ export class MycompaniesPopupComponent
   extends BaseComponent
   implements OnInit
 {
-  statusoptionsKey: string = LookupService.STATUS_OPTIONS;
-  membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
-  genderOptionsKey: string = LookupService.GENDER_OPTIONS;
-  maritalStatusOptionsKey: string = LookupService.MARITAL_STATUS_OPTIONS;
-  higherEducationOptionsKey: string = LookupService.HIGHER_EDUCATION_OPTIONS;
-  titleOptionsKey: string = LookupService.TITLE_OPTIONS;
+
 
   private ngUnsubscribe$ = new Subject<void>();
   public committeeMemberForm: FormGroup;
   public isLoading: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
-  selectedAssociationMemberId: number;
-  membershipPlanId: number;
-  startDate: string;
+  selectedUserDetailId: number;
 
   selectedFile: any;
-  public associationMemeberForm: FormGroup;
+  public userCompaniesForm: FormGroup;
 
-  buttonText = "Create a association member";
+  buttonText = "Add a organization";
   minEndDate: string;
 
   constructor(
@@ -51,15 +47,15 @@ export class MycompaniesPopupComponent
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private associationMemberService: AssociationMembersService,
+    private userCompaniesService: MycompanyService,
     private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew
-      ? "Create a family member"
-      : "Update a family member";
-    this.selectedAssociationMemberId = data.selectedAssociationMember;
-  }
+      ? "Add organization"
+      : "Update organization";
+      this.selectedUserDetailId = data.selectedUserDetailId;
+    }
 
   ngOnInit() {
     this.buildAssociationMemberForm(this.data.payload);
@@ -67,44 +63,31 @@ export class MycompaniesPopupComponent
     this.handleViewAttachment();
   }
 
-  buildAssociationMemberForm(associationMemberdata: AssociationMemberDTO) {
+  buildAssociationMemberForm(organizationdata: UserCompanyDTO) {
     const isUpdate = !this.data.isNew;
-    this.associationMemeberForm = this.formBuilder.group({
-      id: [isUpdate ? this.selectedAssociationMemberId : null],
-      association: [associationMemberdata.association || ""],
-      title: [associationMemberdata?.title || ""],
-      firstName: [associationMemberdata?.firstName || ""],
-      parentName: [associationMemberdata?.parentName || ""],
-      displayName: [associationMemberdata?.displayName || ""],
-      primaryPhone: [associationMemberdata?.primaryPhone || ""],
-      primaryEmail: [associationMemberdata?.primaryEmail || ""],
-      gender: [associationMemberdata?.gender || ""],
-      maritalStatus: [associationMemberdata?.maritalStatus || ""],
-      dob: [
-        isUpdate ? moment(associationMemberdata?.dob).format("YYYY-MM-DD") : "",
-      ],
-      membershipPlan: [associationMemberdata?.membershipPlan?.planName || ""],
-      approvedDate: [
-        isUpdate
-          ? moment(associationMemberdata?.approvedDate).format("YYYY-MM-DD")
-          : "",
-      ],
-      introducerUser: [associationMemberdata?.introducerUser || ""],
-      status: [associationMemberdata?.status || "Active"],
-      highestEducation: [associationMemberdata?.highestEducation || ""],
-      onlineAccessFlg: [
-        this.convertToNumber(associationMemberdata.onlineAccessFlg) || 0,
-      ],
-      photoLink: [associationMemberdata.photoLink || ""],
+    this.userCompaniesForm = this.formBuilder.group({
+      userDetailId: [isUpdate ? this.selectedUserDetailId : null],
+      companyName: [organizationdata?.companyName || ""],
+      shortName: [organizationdata?.shortName || ""],
+      website: [organizationdata?.website || ""],
+      facebookPageUrl: [organizationdata?.facebookPageUrl || ""],
+      linkedinPageUrl: [organizationdata?.linkedinPageUrl || ""],
+      twitterPageUrl: [organizationdata?.twitterPageUrl || ""],
+      address: [organizationdata?.address || ""],
+      category: [organizationdata?.category || ""],
+      // onlineAccessFlg: [
+      //   this.convertToNumber(organizationdata.onlineAccessFlg) || 0,
+      // ],
+      logoLink: [organizationdata.logoLink || ""],
     });
   }
 
   handleViewAttachment() {
     if (this.imageURL != null) {
-      let associationMemberModel = new AssociationMemberDTO();
-      associationMemberModel.photoLink = this.imageURL;
-      this.associationMemberService
-        .downloadImage(associationMemberModel)
+      let userCompanyModel = new UserCompanyDTO();
+      userCompanyModel.logoLink = this.imageURL;
+      this.userCompaniesService
+        .downloadImage(userCompanyModel)
         .subscribe((response: any) => {
           const blob = new Blob([response], { type: "image/jpeg" });
           const url = window.URL.createObjectURL(blob);
@@ -117,28 +100,23 @@ export class MycompaniesPopupComponent
     return str == "Y" ? 1 : 0;
   }
 
-  submit(associationMember: AssociationMemberDTO) {
-    if (this.associationMemeberForm.valid) {
+  submit(userCompany: UserCompanyDTO) {
+    if (this.userCompaniesForm.valid) {
       const formData = new FormData();
-      formData.append("title", associationMember?.title);
-      formData.append("firstName", associationMember?.firstName);
-      formData.append("parentName", associationMember?.parentName);
-      formData.append("displayName", associationMember?.displayName);
-      formData.append("primaryEmail", associationMember?.primaryEmail);
-      formData.append("primaryPhone", associationMember?.primaryPhone);
-      formData.append("gender", associationMember?.gender);
-      formData.append("maritalStatus", associationMember?.maritalStatus);
-      formData.append("dob", associationMember?.dob);
-      formData.append("membershipPlanId", this.membershipPlanId.toString());
-      formData.append("approvedDate",new Date(associationMember?.approvedDate).toString());
-      formData.append("highestEducation",associationMember?.highestEducation.toString());
-      formData.append("onlineAccessFlg",associationMember?.onlineAccessFlg ? "Y" : "N");
-      formData.append("status", associationMember?.status);
+      formData.append("companyName", userCompany?.companyName);
+      formData.append("shortName", userCompany?.shortName);
+      formData.append("website", userCompany?.website);
+      formData.append("facebookPageUrl", userCompany?.facebookPageUrl);
+      formData.append("linkedinPageUrl", userCompany?.linkedinPageUrl);
+      formData.append("twitterPageUrl", userCompany?.twitterPageUrl);
+      formData.append("address", userCompany?.address);
+      formData.append("category", userCompany?.category);
+      //formData.append("onlineAccessFlg",userCompany?.onlineAccessFlg ? "Y" : "N");
 
-      formData.append("photoLink", associationMember?.photoLink);
+      formData.append("photoLink", userCompany?.logoLink);
       
      
-      formData.append("introducerUser", "8");
+      formData.append("userDetailId", this.selectedUserDetailId.toString());
 
       // for (var pair of formData.entries()) {
       //   console.log(pair[0] + ", " + pair[1]);
@@ -148,8 +126,8 @@ export class MycompaniesPopupComponent
         if (this.selectedFile) {
           formData.append("photo", this.selectedFile);
         }
-        this.associationMemberService
-          .createAssociationMember(formData)
+        this.userCompaniesService
+          .createCompanies(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -166,8 +144,8 @@ export class MycompaniesPopupComponent
           formData.append("photo", this.selectedFile);
         }
 
-        this.associationMemberService
-          .updateAssociationMember(formData)
+        this.userCompaniesService
+          .updateCompanies(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -185,21 +163,6 @@ export class MycompaniesPopupComponent
         "Please fill in all the required fields."
       );
     }
-  }
-
-  membershipPlanDisplayFn(option: any): string {
-    return `${option.planName}`;
-  }
-
-  onSelectedOption(option: LableValueModel) {
-    this.associationMemeberForm.controls["status"].setValue(option.name);
-  }
-
-  onSelectedMembershipPlanOption(option: any) {
-    this.associationMemeberForm.controls["membershipPlan"].setValue(
-      option.planName
-    );
-    this.membershipPlanId = option.id;
   }
 
   ngOnDestroy() {

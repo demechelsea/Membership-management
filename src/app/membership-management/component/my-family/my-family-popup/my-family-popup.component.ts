@@ -14,6 +14,8 @@ import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { NotificationService } from "app/common/services/notification.service";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import moment from "moment";
+import { UserRelationShipDTO } from "app/models/UserRelationShipDTO";
+import { MyfamilyService } from "app/membership-management/services/my-family-service/my-family.service";
 
 @Component({
   selector: "my-family-popup",
@@ -24,7 +26,6 @@ export class MyfamilyPopupComponent
   extends BaseComponent
   implements OnInit
 {
-  statusoptionsKey: string = LookupService.STATUS_OPTIONS;
   membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
   genderOptionsKey: string = LookupService.GENDER_OPTIONS;
   maritalStatusOptionsKey: string = LookupService.MARITAL_STATUS_OPTIONS;
@@ -35,14 +36,12 @@ export class MyfamilyPopupComponent
   public committeeMemberForm: FormGroup;
   public isLoading: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
-  selectedAssociationMemberId: number;
-  membershipPlanId: number;
-  startDate: string;
+  selectedUserDetailId: number;
 
   selectedFile: any;
-  public associationMemeberForm: FormGroup;
+  public familyMemberForm: FormGroup;
 
-  buttonText = "Create a association member";
+  buttonText = "Create a family member";
   minEndDate: string;
 
   constructor(
@@ -51,14 +50,15 @@ export class MyfamilyPopupComponent
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private associationMemberService: AssociationMembersService,
+    private familyMemberService: MyfamilyService,
     private notificationService: NotificationService
   ) {
     super();
     this.buttonText = data.isNew
       ? "Create a family member"
       : "Update a family member";
-    this.selectedAssociationMemberId = data.selectedAssociationMember;
+    this.selectedUserDetailId = data.selectedUserDetailId;
+    this.imageURL = data.photoLink;
   }
 
   ngOnInit() {
@@ -67,44 +67,38 @@ export class MyfamilyPopupComponent
     this.handleViewAttachment();
   }
 
-  buildAssociationMemberForm(associationMemberdata: AssociationMemberDTO) {
+  buildAssociationMemberForm(userRelationshpdata: UserRelationShipDTO) {
     const isUpdate = !this.data.isNew;
-    this.associationMemeberForm = this.formBuilder.group({
-      id: [isUpdate ? this.selectedAssociationMemberId : null],
-      association: [associationMemberdata.association || ""],
-      title: [associationMemberdata?.title || ""],
-      firstName: [associationMemberdata?.firstName || ""],
-      parentName: [associationMemberdata?.parentName || ""],
-      displayName: [associationMemberdata?.displayName || ""],
-      primaryPhone: [associationMemberdata?.primaryPhone || ""],
-      primaryEmail: [associationMemberdata?.primaryEmail || ""],
-      gender: [associationMemberdata?.gender || ""],
-      maritalStatus: [associationMemberdata?.maritalStatus || ""],
+    this.familyMemberForm = this.formBuilder.group({
+      id: [isUpdate ? this.selectedUserDetailId : null],
+      title: [userRelationshpdata?.fromUserDetail?.title || ""],
+      firstName: [userRelationshpdata?.fromUserDetail?.firstName || ""],
+      parentName: [userRelationshpdata?.fromUserDetail?.parentName || ""],
+      displayName: [userRelationshpdata?.fromUserDetail?.displayName || ""],
+      primaryPhone: [userRelationshpdata?.fromUserDetail?.primaryPhone || ""],
+      primaryEmail: [userRelationshpdata?.fromUserDetail?.primaryEmail || ""],
+      gender: [userRelationshpdata?.fromUserDetail?.gender || ""],
+      maritalStatus: [userRelationshpdata?.fromUserDetail?.maritalStatus || ""],
+      occupation: [userRelationshpdata?.fromUserDetail?.occupation || ""],
+      relationshipType: [userRelationshpdata?.relationshipType || ""],
+      toUserDetailId: [userRelationshpdata?.toUserDetailId || ""],
       dob: [
-        isUpdate ? moment(associationMemberdata?.dob).format("YYYY-MM-DD") : "",
+        isUpdate ? moment(userRelationshpdata?.dob).format("YYYY-MM-DD") : "",
       ],
-      membershipPlan: [associationMemberdata?.membershipPlan?.planName || ""],
-      approvedDate: [
-        isUpdate
-          ? moment(associationMemberdata?.approvedDate).format("YYYY-MM-DD")
-          : "",
+      highestEducation: [userRelationshpdata?.highestEducation || ""],
+      canLoginToAssoc: [
+        this.convertToNumber(userRelationshpdata?.canLoginToAssoc) || 0,
       ],
-      introducerUser: [associationMemberdata?.introducerUser || ""],
-      status: [associationMemberdata?.status || "Active"],
-      highestEducation: [associationMemberdata?.highestEducation || ""],
-      onlineAccessFlg: [
-        this.convertToNumber(associationMemberdata.onlineAccessFlg) || 0,
-      ],
-      photoLink: [associationMemberdata.photoLink || ""],
+      photoLink: [userRelationshpdata?.photoLink || ""],
     });
   }
 
   handleViewAttachment() {
     if (this.imageURL != null) {
-      let associationMemberModel = new AssociationMemberDTO();
-      associationMemberModel.photoLink = this.imageURL;
-      this.associationMemberService
-        .downloadImage(associationMemberModel)
+      let familyMemberModel = new UserRelationShipDTO();
+      familyMemberModel.photoLink = this.imageURL;
+      this.familyMemberService
+        .downloadImage(familyMemberModel)
         .subscribe((response: any) => {
           const blob = new Blob([response], { type: "image/jpeg" });
           const url = window.URL.createObjectURL(blob);
@@ -117,39 +111,37 @@ export class MyfamilyPopupComponent
     return str == "Y" ? 1 : 0;
   }
 
-  submit(associationMember: AssociationMemberDTO) {
-    if (this.associationMemeberForm.valid) {
+  submit(userRelationship: UserRelationShipDTO) {
+    if (this.familyMemberForm.valid) {
       const formData = new FormData();
-      formData.append("title", associationMember?.title);
-      formData.append("firstName", associationMember?.firstName);
-      formData.append("parentName", associationMember?.parentName);
-      formData.append("displayName", associationMember?.displayName);
-      formData.append("primaryEmail", associationMember?.primaryEmail);
-      formData.append("primaryPhone", associationMember?.primaryPhone);
-      formData.append("gender", associationMember?.gender);
-      formData.append("maritalStatus", associationMember?.maritalStatus);
-      formData.append("dob", associationMember?.dob);
-      formData.append("membershipPlanId", this.membershipPlanId.toString());
-      formData.append("approvedDate",new Date(associationMember?.approvedDate).toString());
-      formData.append("highestEducation",associationMember?.highestEducation.toString());
-      formData.append("onlineAccessFlg",associationMember?.onlineAccessFlg ? "Y" : "N");
-      formData.append("status", associationMember?.status);
+      formData.append("title", userRelationship?.title);
+      formData.append("firstName", userRelationship?.firstName);
+      formData.append("parentName", userRelationship?.parentName);
+      formData.append("displayName", userRelationship?.displayName);
+      formData.append("primaryEmail", userRelationship?.primaryEmail);
+      formData.append("primaryPhone", userRelationship?.primaryPhone);
+      formData.append("gender", userRelationship?.gender);
+      formData.append("maritalStatus", userRelationship?.maritalStatus);
+      formData.append("dob", userRelationship?.dob);
+      formData.append("highestEducation",userRelationship?.highestEducation);
+      formData.append("occupation",userRelationship?.occupation);
+      formData.append("relationshipType",userRelationship?.relationshipType);
+      formData.append("canLoginToAssoc",userRelationship?.canLoginToAssoc ? "Y" : "N");
+      formData.append("toUserDetailId", this.selectedUserDetailId.toString());
 
-      formData.append("photoLink", associationMember?.photoLink);
+      formData.append("photoLink", userRelationship?.photoLink);
       
-     
-      formData.append("introducerUser", "8");
-
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0] + ", " + pair[1]);
-      // }
+    
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
       if (this.data.isNew) {
         if (this.selectedFile) {
           formData.append("photo", this.selectedFile);
         }
-        this.associationMemberService
-          .createAssociationMember(formData)
+        this.familyMemberService
+          .createFamilyMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -166,8 +158,8 @@ export class MyfamilyPopupComponent
           formData.append("photo", this.selectedFile);
         }
 
-        this.associationMemberService
-          .updateAssociationMember(formData)
+        this.familyMemberService
+          .updateFamilyMember(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -187,19 +179,8 @@ export class MyfamilyPopupComponent
     }
   }
 
-  membershipPlanDisplayFn(option: any): string {
-    return `${option.planName}`;
-  }
-
   onSelectedOption(option: LableValueModel) {
-    this.associationMemeberForm.controls["status"].setValue(option.name);
-  }
-
-  onSelectedMembershipPlanOption(option: any) {
-    this.associationMemeberForm.controls["membershipPlan"].setValue(
-      option.planName
-    );
-    this.membershipPlanId = option.id;
+    this.familyMemberForm.controls["title"].setValue(option.name);
   }
 
   ngOnDestroy() {
