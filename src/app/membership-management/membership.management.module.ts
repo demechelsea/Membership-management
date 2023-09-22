@@ -17,6 +17,8 @@ import { ContactsComponent } from './component/contacts/contacts.component';
 import { InvoicesComponent } from './component/invoices/invoices.component';
 import { AddressComponent } from './component/address/address.component';
 import { MycompaniesComponent } from './component/my-companies/my-companies.component';
+import { MyfamilyPopupComponent } from './component/my-family/my-family-popup/my-family-popup.component';
+import { MycompaniesPopupComponent } from './component/my-companies/my-companies-popup/my-companies-popup.component';
 
 
 const declarationsList = [
@@ -28,7 +30,9 @@ const declarationsList = [
   ContactsComponent,
   InvoicesComponent,
   AddressComponent,
-  MycompaniesComponent
+  MycompaniesComponent,
+  MyfamilyPopupComponent,
+  MycompaniesPopupComponent
 ];
 
 const importsList = [

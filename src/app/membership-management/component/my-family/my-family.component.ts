@@ -9,9 +9,11 @@ import { AppConfirmService } from "app/common/services/app-confirm.service";
 import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
+import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import MemershipPlanModel from "app/models/membershipPlanModel";
 import { ResultViewModel } from "app/models/result-view-model";
 import { Subject, takeUntil } from "rxjs";
+import { MyfamilyPopupComponent } from "./my-family-popup/my-family-popup.component";
 
 
 @Component({
@@ -43,6 +45,26 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
     this.initializeColumns();
     //this.getPageResults();
   }
+
+  openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
+    let title = isNew ? "Add Assocition Member" : "Update Assocition Member";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      MyfamilyPopupComponent,
+      {
+        width: "800px",
+        disableClose: true,
+        data: { title: title, payload: data, isNew: isNew, selectedAssociationMember: data.id },
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      this.getPageResults();
+    });
+  }
+
+  
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
