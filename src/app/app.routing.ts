@@ -8,6 +8,7 @@ import { SoraxSemiAuthGuard } from './core/guards/sorax-semi-auth-guard.service'
 import { SoraxAdminLayoutComponent } from './layouts/components/sorax-admin-layout/sorax-admin-layout.component';
 import { SoraxAuthLayoutComponent } from './layouts/components/sorax-auth-layout/sorax-auth-layout.component';
 import { SoraxSemiAuthLayoutComponent } from './layouts/components/sorax-semi-auth-layout/sorax-semi-auth-layout.component';
+import { TermsAndConditionsComponent } from './common/components/terms-and-conditions/terms-and-conditions.component';
 
 export const rootRouterConfig: Routes = [
   {path: '', redirectTo: 'auth',pathMatch: 'full'},
@@ -110,6 +111,7 @@ export const rootRouterConfig: Routes = [
       }
     ]
   },
+  { path: 'termsAndCondtions', component: TermsAndConditionsComponent },
   { path: '**', component: PageNotFoundComponent }
   
 ];

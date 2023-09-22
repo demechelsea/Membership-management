@@ -21,6 +21,8 @@ export class Urls {
     public static RETRIEVE_MAPPED_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveMappedAssoications";
     public static FETCH_ASSOC_BY_CONTEXTPATH: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAssoication";
     public static FETCH_ASSOC_BY_NAME_AND_PLACE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAssoicationNameAndPlace";
+    public static FETCH_ASSOC_BY_SEARCH_TEXT: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveAllAssoications";
+    
     
     public static MEMBERSHIP_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlans";
     public static MEMBERSHIP_NEW_PLAN_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listMembershipPlansNew";

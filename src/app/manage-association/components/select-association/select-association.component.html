@@ -25,7 +25,7 @@
                   <div class="product-container" >
                     <div  class="product-wrap" *ngFor="let association of filteredAssociations" >
                       <div class="product-inner default-bg">
-                        <div class="product-badge mat-elevation-z5" [ngStyle]="{background: 'red'}">
+                        <div class="product-badge-rec mat-elevation-z5">
                             <span>Linked</span>
                         </div>
                         <div class="featured-img" >
@@ -48,7 +48,7 @@
                           </div>
                           <div class="actions">
                               <span class="flex-grow"></span>
-                              <button mat-raised-button color="accent" (click)="selectAssociation(association)">
+                              <button mat-raised-button color="primary"  (click)="selectAssociation(association)">
                                 Login
                             </button>
                             </div>

@@ -6,6 +6,7 @@ import { notNull, nullObj } from 'app/common/utils/string-utils';
 import { Urls } from 'app/common/utils/urls';
 import { AssociationModel } from 'app/models/association-model';
 import { MessageWrapModel } from 'app/models/messageWrapModel';
+import { RequestWrapperModel } from 'app/models/request-wrapper-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { plainToClass } from 'class-transformer';
 import { from, lastValueFrom, Observable } from 'rxjs';
@@ -27,7 +28,10 @@ export class AssociationService extends HttpAppDataService {
     return this.postData(Urls.RETRIEVE_MAPPED_ASSOCIATION,{});
   }
   
-
+  public retrieveAllAssociations(requestWrapper: RequestWrapperModel): Observable<ResultViewModel> {
+    return this.postData(Urls.FETCH_ASSOC_BY_SEARCH_TEXT, requestWrapper);
+  }
+  
   public retrieveAssociationByContextPath(assocContextPath: string): Observable<AssociationModel> {
     let associatioModel: AssociationModel = new AssociationModel();
     associatioModel.soceityRaxUrl = assocContextPath;

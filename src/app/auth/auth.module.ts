@@ -9,7 +9,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { VerifyUserComponent } from './components/verify-user/verify-user.component';
-import { SelectAssociationComponent } from '../manage-association/components/select-association/select-association.component';
 
 @NgModule({
   imports: [

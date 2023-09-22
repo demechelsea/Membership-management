@@ -2,43 +2,75 @@
     <div class="session-form-hold-bg" @animateFromRight >
         <div>
             <mat-sidenav-container>
-                <mat-sidenav EgretSideNavToggle class="shop-sidebar default-light-bg">
-                    <div class="shop-filters-wrap">
-                        <mat-accordion multi="true" displayMode="flat">
-                            <mat-expansion-panel expanded="true">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Filter by
-                                    </mat-panel-title>
-                                </mat-expansion-panel-header>
-                                <ul class="product-categories">
-                                    <li>Country</li>
-                                    <li>State</li>
-                                    <li>City</li>
-                                    <li>Location</li>
-                                    <li>Association name</li>
-                                </ul>
-                            </mat-expansion-panel>
-
-                        </mat-accordion>
-
-                    </div>
-                </mat-sidenav>
-                <div class="shop-wrap flex flex-wrap">
+              <div class="shop-wrap flex flex-wrap">
                     <div class="full-width">
                         <div class="shop-top-toolbar flex flex-col md:flex-row items-center">
-                            <button mat-icon-button class="mr-4 rtl:ml-4" (click)="toggleSideNav()"><mat-icon>short_text</mat-icon> </button>
-                            <div class="product-search-wrap mb-3 md:mb-0">
-                                <input type="text" name="searchProduct" placeholder="Search Associations" class="product-search default-bg full-width">
+                            <div class="hidden md:block mr-1">
+                                <h3>Search Association</h3>
+                             </div>
+                             <span class="flex-grow"></span>
+                            <div class="product-search-wrap mb-3 md:mb-0 pr-8">
+                                <form [formGroup]="searchAssociationForm">
+                                <input type="text" name="searchText" placeholder="Start typing..." class="product-search" 
+                                        formControlName="searchText"   maxlength="100" >
+                              </form>
                             </div>
-                            <!-- View change buttons and cart -->
-                            <span class="flex-grow"></span>
                             
                             <button mat-raised-button color="primary" routerLink="/manageAssociations/create">
                                 <mat-icon>group_add</mat-icon> Create a New Association
                             </button>
                         </div>
+                        <div class="mat-elevation-z0" >
+                          <mat-paginator  [length]="page.totalItems" [pageIndex]="page?.currentPage"
+                              [pageSize]="page?.pageSize" [pageSizeOptions]="page?.pageSizeOptions" (page)="searchAssoicationPageEvent($event)"
+                              aria-label="Select page" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
                     </div>
+                  
+                    <div class="product-container" >
+                        <div  class="product-wrap" *ngFor="let association of filteredAssociations" >
+                          <div class="product-inner default-bg">
+                            <div class="product-badge-rec mat-elevation-z5"  *ngIf="association.linked">
+                                <span>Linked</span>
+                            </div>
+                            <div class="featured-img" >
+                              <img src="assets/images/no-logo.png"  *ngIf="!association.setting?.logoLink">
+                              <img [src]="association.setting?.logoLink"  *ngIf="!association.setting?.logoLink">
+                            </div>
+                            <div class="info-wrap p-2">
+                              <div class="main-info">
+                                <h3 class="title text-primary" ><a href="https://{{association.soceityRaxUrl}}.mythriapp.com/" target="_blank">
+                                  {{association.name}}</a></h3>
+                                <p class="text-accent  p-line">{{association.shortName}}({{association.societyRaxId}})</p>
+                                <p class="text-accent"> <strong>Place:</strong>{{association.place}}</p>
+                                <p class="text-muted p-line" *ngIf="association.website" >
+                                    <a href="{{association.website}}" target="_blank">{{association.website}}</a>
+                                </p>
+                                <p class="text-muted p-line">
+                                  <strong>Address:</strong>
+                                  <span> TODO: Displayaddress</span>
+                                </p>
+                              </div>
+                              <div class="actions" >
+                                <button mat-raised-button  (click)="delinkAssocation(association)" *ngIf="association.linked">
+                                  Opt-Out
+                                 </button>
+                                
+                                <span class="flex-grow"></span>
+                                <button mat-raised-button color="primary" (click)="selectAssociation(association)" *ngIf="association.linked">
+                                    Login
+                                 </button>
+
+                                 <button mat-raised-button color="accent"  (click)="registerAssociation(association)" *ngIf="!association.linked">
+                                    Register
+                                 </button>
+
+                                </div>
+                            </div>
+                          </div>
+                          </div>
+                      </div>
                 </div>
             </mat-sidenav-container>
         </div>

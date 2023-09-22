@@ -34,6 +34,7 @@ import { ValidationDisplayDirective } from './directives/validation-display.dire
 import { SoraxAutocompleteComponent } from './components/sorax-autocomplete/sorax-autocomplete.component';
 import { AllowedInputDirective } from './directives/allowed-input-directive';
 import { SoraxFormSelectComponent } from './components/sorax-form-select/sorax-form-select.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { SoraxFormSelectComponent } from './components/sorax-form-select/sorax-f
     UnderdevComponent,
     SoraxTableViewComponent,
     SoraxAutocompleteComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +91,7 @@ import { SoraxFormSelectComponent } from './components/sorax-form-select/sorax-f
     AllowedInputDirective,
     SoraxTableViewComponent,
     SoraxAutocompleteComponent,
+    TermsAndConditionsComponent,
     
     TranslateModule,
     FormsModule,
