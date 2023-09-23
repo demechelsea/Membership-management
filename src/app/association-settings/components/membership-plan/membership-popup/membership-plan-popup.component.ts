@@ -21,8 +21,7 @@ import { NotificationService } from "app/common/services/notification.service";
 })
 export class MembershipPlanPopupComponent
   extends BaseComponent
-  implements OnInit
-{
+  implements OnInit {
   intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
 
@@ -69,7 +68,7 @@ export class MembershipPlanPopupComponent
         [Validators.required, Validators.minLength(3)],
       ],
       description: [planData.description || "", Validators.required],
-      fee: [planData.fee || '', [Validators.required, Validators.min(0)]],
+      fee: [planData.fee || '', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]*$')]],
       interval: [planData.interval || "", Validators.required],
       familyMemberIncluded: [
         this.convertToNumber(planData.familyMemberIncluded) || 0,

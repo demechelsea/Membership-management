@@ -58,8 +58,11 @@
           name="planName"
           placeholder="Membership fee"
           type="number"
-          />
+        />
       </sorax-form-field>
+      <mat-error *ngIf="membershipPlanForm.get('fee').hasError('pattern')">
+        Please enter only valid numbers.
+      </mat-error>
 
       <sorax-autocomplete
         [lookupName]="intervaloptionsKey"
@@ -107,7 +110,7 @@
 
       <div class="flex flex-wrap flex-col md:flex-row">
         <div class="w-full md:w-1/1 pr-16">
-            <quill-editor theme="snow" formControlName="benefits"></quill-editor>
+          <quill-editor theme="snow" formControlName="benefits"></quill-editor>
         </div>
       </div>
 

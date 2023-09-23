@@ -1,8 +1,16 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from "@angular/core";
 import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import {
+  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -16,6 +24,14 @@ import { CommitteeService } from "app/association-settings/services/committee-se
 import * as moment from "moment";
 import { NotificationService } from "app/common/services/notification.service";
 import { MatDatepicker } from "@angular/material/datepicker";
+import { VALIDATION_MESSAGES } from "app/common/utils/sorax-validators";
+
+export const dateRangeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const startDate = control.get('startDate');
+  const endDate = control.get('endDate');
+
+  return startDate && endDate && startDate.value > endDate.value ? { 'dateRange': true } : null;
+};
 
 @Component({
   selector: "committee-component-popup",
@@ -23,15 +39,17 @@ import { MatDatepicker } from "@angular/material/datepicker";
 })
 export class CommitteePopupComponent extends BaseComponent implements OnInit {
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
+  dateRangeErrorMessage = VALIDATION_MESSAGES.dateRange;
+  numberError = VALIDATION_MESSAGES.number;
 
   private ngUnsubscribe$ = new Subject<void>();
   public committeeForm: FormGroup;
   public intervals: LableValueModel[] = [];
   public isLoading: boolean;
   public noResults: boolean;
-  
-  @ViewChild('startDatePicker') startDatePicker: MatDatepicker<Date>;
-  @ViewChild('endDatePicker') endDatePicker: MatDatepicker<Date>;
+
+  @ViewChild("startDatePicker") startDatePicker: MatDatepicker<Date>;
+  @ViewChild("endDatePicker") endDatePicker: MatDatepicker<Date>;
 
   buttonText = "Create a committee";
   minEndDate: string;
@@ -43,7 +61,6 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private committeeService: CommitteeService,
-    private localStorageService: LocalstorageService,
     private notificationService: NotificationService
   ) {
     super();
@@ -70,13 +87,20 @@ export class CommitteePopupComponent extends BaseComponent implements OnInit {
         isUpdate ? moment(committeeData.endDate).format("YYYY-MM-DD") : "",
         Validators.required,
       ],
-      teamSize: [committeeData.teamSize || "", Validators.required],
+      teamSize: [
+        committeeData.teamSize || "",
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern("^[0-9]*$"),
+        ],
+      ],
       name: [committeeData.name || "", Validators.required],
       status: [
         committeeData.status || "active",
         isUpdate ? Validators.required : [],
       ],
-    });
+    }, { validators: dateRangeValidator });
 
     this.committeeForm.get("startDate").valueChanges.subscribe((startDate) => {
       this.minEndDate = startDate;

@@ -64,7 +64,9 @@
             <mat-datepicker #endDatePicker></mat-datepicker>
           </sorax-form-field>
         </div>
-
+        <div *ngIf="committeeForm.errors?.dateRange" class="text-red-500">
+          {{ dateRangeErrorMessage }}
+        </div>               
         <div class="w-full md:w-1/1 pr-16">
           <sorax-form-field
             label="Number of committee members"
@@ -74,11 +76,14 @@
               #soraxInput
               matInput
               formControlName="teamSize"
-              type="text"
+              type="number"
               name="teamSize"
               placeholder="Enter number of committee members"
             />
           </sorax-form-field>
+          <mat-error *ngIf="committeeForm.get('teamSize').hasError('pattern')">
+            {{ numberError }}
+          </mat-error>
         </div>
         <div class="w-full md:w-1/1 pr-16">
           <sorax-form-field

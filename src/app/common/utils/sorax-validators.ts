@@ -9,8 +9,11 @@ export const VALIDATION_MESSAGES = {
   minlength: "{{fieldName}} length must be minimum {{requiredLength}} ",
   maxlength: "{{fieldName}} length must not be more than {{requiredLength}}",
   otpValidator: "{{fieldName}} must be a  6 digit number",
-  number: "{{fieldName}} must be a number.",
-  invalidOption: "Please select validation option",
+  //number: "{{fieldName}} must be valid number.",
+  number: "Please enter a valid number.",
+  invalidOption: "Please select a validation option",
+  dateRange: 'End date can\'t be before start date.',
+
 };
 
 export const SORAX_VALIDATION_MESSAGES_KEY = 'VALIDATION_MESSAGES_INJECTION_KEY';
