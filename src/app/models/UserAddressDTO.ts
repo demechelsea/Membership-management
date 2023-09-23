@@ -1,6 +1,6 @@
 import { GeoComponentOption } from "echarts";
 import { MessageWrapModel } from "./messageWrapModel";
-export class FamilyMemberDTO  extends MessageWrapModel {
+export class UserAddressDTO  extends MessageWrapModel {
     id:number;
     addrType: string;
     landMark: string;

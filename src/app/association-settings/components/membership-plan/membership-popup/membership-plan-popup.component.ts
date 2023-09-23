@@ -69,7 +69,7 @@ export class MembershipPlanPopupComponent
         [Validators.required, Validators.minLength(3)],
       ],
       description: [planData.description || "", Validators.required],
-      fee: [planData.fee || "", [Validators.required, positiveNumberValidator]],
+      fee: [planData.fee || '', [Validators.required, Validators.min(0)]],
       interval: [planData.interval || "", Validators.required],
       familyMemberIncluded: [
         this.convertToNumber(planData.familyMemberIncluded) || 0,
@@ -173,13 +173,3 @@ export class MembershipPlanPopupComponent
   }
 }
 
-function positiveNumberValidator(control: FormControl) {
-  const value = control.value;
-  if (value === null || value === "") {
-    return null;
-  }
-  if (isNaN(value) || value <= 0) {
-    return { positiveNumber: true };
-  }
-  return null;
-}

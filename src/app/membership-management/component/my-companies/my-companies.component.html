@@ -1,10 +1,10 @@
 <div class="shadow-2xl p-3">
-  <div class="grid grid-cols-3 gap-4 p-8 mr-4 mb-4 rounded border border-gray-200">
+  <div [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+    class="grid grid-cols-3 gap-4 p-8 mr-4 mb-4 rounded border border-gray-200">
     <div class="col-span-3 text-left">
       <h3 class="font-bold mb-8">
         <i class="material-icons text-red-500 align-middle">business</i> My companies
-        <button class="material-icons text-red-500 align-middle float-right"
-          (click)="openPopUp({}, true)">
+        <button class="material-icons text-red-500 align-middle float-right" (click)="openPopUp({}, true)">
           add_circle
         </button>
       </h3>

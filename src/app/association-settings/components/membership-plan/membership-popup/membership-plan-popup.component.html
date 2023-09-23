@@ -55,10 +55,10 @@
           #soraxInput
           matInput
           formControlName="fee"
-          type="text"
           name="planName"
           placeholder="Membership fee"
-        />
+          type="number"
+          />
       </sorax-form-field>
 
       <sorax-autocomplete
@@ -105,20 +105,11 @@
         >Send Email notification to all Subscribers</mat-slide-toggle
       >
 
-      <sorax-form-field
-        label="Benefits and Conditions"
-        [soraxFormControl]="membershipPlanForm.get('benefits')"
-      >
-        <textarea
-          #soraxInput
-          matInput
-          formControlName="benefits"
-          type="text"
-          placeholder="Benefits and Conditions"
-          max-rows="4"
-        >
-        </textarea>
-      </sorax-form-field>
+      <div class="flex flex-wrap flex-col md:flex-row">
+        <div class="w-full md:w-1/1 pr-16">
+            <quill-editor theme="snow" formControlName="benefits"></quill-editor>
+        </div>
+      </div>
 
       <div *ngIf="!data.isNew" class="flex justify-between">
         <sorax-autocomplete

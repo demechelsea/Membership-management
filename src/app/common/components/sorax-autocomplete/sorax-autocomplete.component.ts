@@ -98,9 +98,12 @@ export class SoraxAutocompleteComponent implements OnInit {
     }
   }
   private prepolulateAutoComplete(): void {
-    this.setAutoControlIdLabel(this.findOptionByIdOrName());
-    this.addValidationRule();
+    setTimeout(() => {
+      this.setAutoControlIdLabel(this.findOptionByIdOrName());
+      this.addValidationRule();
+    });
   }
+  
 
   private findOptionByIdOrName() {
     if (this.autoCompleteFieldId) {

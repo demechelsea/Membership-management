@@ -26,6 +26,7 @@ import { SMSTemplatePopupComponent } from './components/sms-settings/smsTemplate
 import { PoliciesAndDocstorePopupComponent } from './components/policies-and-Docstore/policiesAndDocstore-popup/policiesAndDocstore.component';
 import { VisibilitySettingsComponent } from './components/visibility-settings/visibilitySettings.component';
 import { AppFormsModule } from 'app/views/forms/forms.module';
+import { QuillModule } from 'ngx-quill';
 
 
 const declarationsList = [
@@ -54,7 +55,8 @@ const importsList = [
   SoraxCommonModule,
   RouterModule.forChild(AssociationSettingsRoutes),
   DragDropModule,
-  AppFormsModule
+  AppFormsModule,
+  QuillModule
 ];
 
 const providerList = [
