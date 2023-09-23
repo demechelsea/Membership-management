@@ -9,7 +9,7 @@ import { MembershipManagementRoutes } from './membership.management.routing';
 import { DatePipe } from '@angular/common';
 import { MembershipManagementComponent } from './component/membership-plan/membership-management.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { AssociationMemberPopupComponent } from './component/membership-plan/membership-popup/membership-management-popup.component';
+import { AssociationMemberPopupComponent } from './component/membership-plan/membership-management-popup/membership-management-popup.component';
 import { ProfileHighlightComponent } from './component/profile-highlight/profile-highlight.component';
 import { MembershipDetailsComponent } from './component/membership-details/membership-details.component';
 import { MyFamilyComponent } from './component/my-family/my-family.component';
@@ -20,6 +20,7 @@ import { MycompaniesComponent } from './component/my-companies/my-companies.comp
 import { MyfamilyPopupComponent } from './component/my-family/my-family-popup/my-family-popup.component';
 import { MycompaniesPopupComponent } from './component/my-companies/my-companies-popup/my-companies-popup.component';
 import { MembershipDetailsPopupComponent } from './component/membership-details/membership-details-popup/membership-details-popup.component';
+import { ProfilehighlightPopupComponent } from './component/profile-highlight/profile-highlight-popup/profie-highlight-popup.component';
 
 
 const declarationsList = [
@@ -34,7 +35,8 @@ const declarationsList = [
   MycompaniesComponent,
   MyfamilyPopupComponent,
   MycompaniesPopupComponent,
-  MembershipDetailsPopupComponent
+  MembershipDetailsPopupComponent,
+  ProfilehighlightPopupComponent
 ];
 
 const importsList = [

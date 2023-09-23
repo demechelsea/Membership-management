@@ -14,6 +14,7 @@ import { Observable, Subject, takeUntil } from "rxjs";
 import { MembershipPlanService } from "../../../services/membership-plan-service/membership-plan.service";
 import { LocalstorageService } from "app/common/services/localstorage.service";
 import { NotificationService } from "app/common/services/notification.service";
+import { VALIDATION_MESSAGES } from "app/common/utils/sorax-validators";
 
 @Component({
   selector: "app-membership-plan-popup",
@@ -24,6 +25,8 @@ export class MembershipPlanPopupComponent
   implements OnInit {
   intervaloptionsKey: string = LookupService.MEMBERSHIP_INTERVALS;
   statusoptionsKey: string = LookupService.STATUS_OPTIONS;
+  numberError = VALIDATION_MESSAGES.number;
+
 
   private ngUnsubscribe$ = new Subject<void>();
   public membershipPlanForm: FormGroup;

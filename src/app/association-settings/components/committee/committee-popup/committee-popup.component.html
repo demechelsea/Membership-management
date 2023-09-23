@@ -41,7 +41,7 @@
           </sorax-form-field>
         </div>
 
-        <div class="w-full md:w-1/2 pr-16">
+        <div class="w-full md:w-1/2 pr-16" *ngIf="!data.isNew">
           <sorax-form-field
             label="Committee end date"
             [soraxFormControl]="committeeForm.get('endDate')"

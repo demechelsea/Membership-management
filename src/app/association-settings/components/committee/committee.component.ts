@@ -5,7 +5,6 @@ import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
-import { AppConfirmService } from "app/common/services/app-confirm.service";
 import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
@@ -118,20 +117,24 @@ export class CommitteeComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         if(response.result !== null){
-        Object.assign(this.resultViewModel, response);
-        this.listPlans = this.resultViewModel.result;
-        this.committeePlanData = this.listPlans.map((committee) => {
-          const start = new Date(committee.startDate);
-          const end = new Date(committee.endDate);
-          const durationInMonths = this.calculateDurationInMonths(start, end);
-          return { ...committee, duration: `${durationInMonths} months` };
-        });
-        Object.assign(this.messages, response);
-      }
+          Object.assign(this.resultViewModel, response);
+          this.listPlans = this.resultViewModel.result;
+          this.committeePlanData = this.listPlans.map((committee) => {
+            let duration = '-';
+            if (committee.status === 'Inactive') {
+              const start = new Date(committee.startDate);
+              const end = new Date(committee.endDate);
+              const durationInMonths = this.calculateDurationInMonths(start, end);
+              duration = `${durationInMonths} months`;
+            }
+            return { ...committee, duration: duration };
+          });
+          Object.assign(this.messages, response);
+        }
         this.loader.close();
-      
       });
   }
+  
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.positions, event.previousIndex, event.currentIndex);

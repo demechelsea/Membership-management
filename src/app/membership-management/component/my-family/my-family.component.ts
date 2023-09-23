@@ -47,8 +47,6 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
   }
 
   openPopUp(data: UserRelationShipDTO, isNew?: boolean) {
-    console.log("ddd", data.photoLink);
-    
     let title = isNew ? "Add Family Member" : "Update Family Member";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
       MyfamilyPopupComponent,
@@ -83,8 +81,6 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
       .getFamilyMembers(id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        console.log(response);
-        
         Object.assign(this.resultViewModel, response);
         this.listFamilyMembers = this.resultViewModel.result;
         this.membershipPlanData = this.listFamilyMembers.map(

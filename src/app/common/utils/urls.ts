@@ -95,6 +95,7 @@ export class Urls {
 
     public static RETRIEVE_USERS_BY_ASSOCIATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveUsersByAssociation";
     public static RETRIEVE_ASSOCIATION_USER_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveUsersById";
+    public static UPDATE_USER_PROFILE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/updateUserProfile";
     public static GET_USER_PHOTO_BY_LINK: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/getUserPhoto";
 
 
@@ -135,7 +136,12 @@ export class Urls {
     public static REGISTER_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserCompany";
     public static UPDATE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserCompany";
     public static RETRIEVE_USER_COMPANY_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCompanyById";
-    public static DELETE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserCompany";
+    public static DELETE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserCompany"
+
+    public static RETRIEVE_USER_PROFILE_SETTING_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveProfileSettingsByUserId";
+    public static UPDATE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/updateUserProfileSetting";
+    public static RETRIEVE_USER_PROFILE_SETTING_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveProfileSettingsById";
+    public static DELETE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/deleteUserProfileSetting";
 
     public static WEBSITE_INFO_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/listWebSites";
     public static SAVE_UPDATE_WEBSITE_INFO: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/saveUPdateWebsiteInfo";

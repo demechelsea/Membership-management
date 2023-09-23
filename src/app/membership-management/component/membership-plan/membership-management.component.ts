@@ -13,7 +13,7 @@ import { Subject, takeUntil } from "rxjs";
 
 import { EmailSettingDTO } from "app/models/emailSettingDTO";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AssociationMemberPopupComponent } from "./membership-popup/membership-management-popup.component";
+import { AssociationMemberPopupComponent } from "./membership-management-popup/membership-management-popup.component";
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import { Router } from "@angular/router";

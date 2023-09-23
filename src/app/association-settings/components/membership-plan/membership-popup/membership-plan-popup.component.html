@@ -61,7 +61,7 @@
         />
       </sorax-form-field>
       <mat-error *ngIf="membershipPlanForm.get('fee').hasError('pattern')">
-        Please enter only valid numbers.
+        {{ numberError }}
       </mat-error>
 
       <sorax-autocomplete

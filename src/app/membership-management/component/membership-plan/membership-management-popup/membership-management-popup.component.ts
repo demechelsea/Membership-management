@@ -14,8 +14,7 @@ import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { NotificationService } from "app/common/services/notification.service";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
 import moment from "moment";
-import { UserDetailDTO } from "app/models/UserDetailDTO";
-import { log } from "console";
+
 
 @Component({
   selector: "association-member-popup",

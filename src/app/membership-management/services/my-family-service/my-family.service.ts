@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpAppDataService } from 'app/common/services/http-app-data.service';
 import { Urls } from 'app/common/utils/urls';
-import MemershipPlanModel from 'app/models/membershipPlanModel';
-import MembershipPlanDTO from 'app/models/membershipPlanDTO';
 import { PageModel } from 'app/models/page-model';
 import { ResultViewModel } from 'app/models/result-view-model';
 import { Observable, Subject } from 'rxjs';
