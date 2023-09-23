@@ -11,7 +11,7 @@ export class AssociationMemberDTO  extends MessageWrapModel {
     firstName: string;
     parentName: string;
     displayName: string;
-    dob: string;
+    dob: Date;
     gender: string;
     membershipPlan: MembershipPlanDTO;
     maritalStatus: string;

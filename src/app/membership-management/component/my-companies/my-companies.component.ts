@@ -30,7 +30,7 @@ export class MycompaniesComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {}
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
-    let title = isNew ? "Add Assocition Member" : "Update Assocition Member";
+    let title = isNew ? "Add organization" : "Update organization";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
       MycompaniesPopupComponent,
       {

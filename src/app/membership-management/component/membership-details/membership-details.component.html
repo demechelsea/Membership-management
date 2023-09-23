@@ -1,12 +1,23 @@
-<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" style="text-align: right">
+<div class="shadow-2xl p-4">
+  <div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" class="text-right">
+  </div>
+  <div class="col-span-3 text-left">
+    <h3 class="font-bold">
+      <i class="material-icons" style="color:red; vertical-align:middle;">card_membership</i> Membership details
+    </h3>
+  </div>
+
+  <mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <mat-card-content>
+      <sorax-table-view [tableData]="membershipPlanData" [tableColumns]="membershipColumns" [isFilterable]="false"
+        [isPageable]="true" [page]="page" (rowAction)="executeRowActions($event)">
+      </sorax-table-view>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" class="text-right">
+    <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+      Subscribe to Membership
+    </button>
+  </div>
 </div>
-<div class="col-span-3 text-left">
-  <h3 class="font-bold"><i class="material-icons" style="color:red; vertical-align:middle;">card_membership</i> Membership details</h3>
-</div>
-<mat-card [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
-  <mat-card-content>
-    <sorax-table-view [tableData]="membershipPlanData" [tableColumns]="membershipColumns" [isFilterable]="false"
-      [isPageable]="true" [page]="page" (rowAction)="executeRowActions($event)">
-    </sorax-table-view>
-  </mat-card-content>
-</mat-card>

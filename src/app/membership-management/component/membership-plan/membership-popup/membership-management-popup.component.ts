@@ -122,6 +122,8 @@ export class AssociationMemberPopupComponent
   submit(associationMember: AssociationMemberDTO) {
     if (this.associationMemeberForm.valid) {
       const formData = new FormData();
+      associationMember.dob = new Date(associationMember.dob);
+      associationMember.approvedDate = new Date(associationMember.approvedDate);
       formData.append("title", associationMember?.title);
       formData.append("firstName", associationMember?.firstName);
       formData.append("parentName", associationMember?.parentName);
@@ -130,9 +132,9 @@ export class AssociationMemberPopupComponent
       formData.append("primaryPhone", associationMember?.primaryPhone);
       formData.append("gender", associationMember?.gender);
       formData.append("maritalStatus", associationMember?.maritalStatus);
-      formData.append("dob", associationMember?.dob);
+      formData.append("dob", associationMember?.dob.toString());
       formData.append("membershipPlanId", this.membershipPlanId.toString());
-      formData.append("approvedDate",new Date(associationMember?.approvedDate).toString());
+      formData.append("approvedDate",associationMember?.approvedDate.toString());
       formData.append("highestEducation",associationMember?.highestEducation.toString());
       formData.append("onlineAccessFlg",associationMember?.onlineAccessFlg ? "Y" : "N");
       formData.append("status", associationMember?.status);
@@ -142,9 +144,9 @@ export class AssociationMemberPopupComponent
      
       formData.append("introducerUser", "8");
 
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0] + ", " + pair[1]);
-      // }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
       if (this.data.isNew) {
         if (this.selectedFile) {
@@ -193,9 +195,24 @@ export class AssociationMemberPopupComponent
     return `${option.planName}`;
   }
 
-  onSelectedOption(option: LableValueModel) {
+  onSelectedTitleOption(option: LableValueModel) {
+    this.associationMemeberForm.controls["title"].setValue(option.name);
+  }
+
+  onSelectedStatusOption(option: LableValueModel) {
     this.associationMemeberForm.controls["status"].setValue(option.name);
-    
+  }
+
+  onSelectedGenderOption(option: LableValueModel) {
+    this.associationMemeberForm.controls["gender"].setValue(option.name);
+  }
+
+  onSelectedMaritalStatusOption(option: LableValueModel) {
+    this.associationMemeberForm.controls["maritalStatus"].setValue(option.name);
+  }
+
+  onSelectedHighestEducationOption(option: LableValueModel) {
+    this.associationMemeberForm.controls["highestEducation"].setValue(option.name);
   }
 
   onSelectedMembershipPlanOption(option: any) {

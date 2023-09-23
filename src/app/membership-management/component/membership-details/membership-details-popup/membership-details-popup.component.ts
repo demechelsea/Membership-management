@@ -13,14 +13,15 @@ import { UserCompanyDTO } from "app/models/UserCompanyDTO";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 
 @Component({
-  selector: "my-companies-popup",
-  templateUrl: "./my-companies-popup.component.html",
-  styleUrls: ["./my-companies-popup.component.scss"],
+  selector: "membership-details-popup",
+  templateUrl: "./membership-details-popup.component.html",
+  styleUrls: ["./membership-details-popup.component.scss"],
 })
-export class MycompaniesPopupComponent
+export class MembershipDetailsPopupComponent
   extends BaseComponent
   implements OnInit
 {
+  membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
 
 
   private ngUnsubscribe$ = new Subject<void>();
@@ -32,12 +33,14 @@ export class MycompaniesPopupComponent
   selectedFile: any;
   public userCompaniesForm: FormGroup;
 
-  buttonText = "Add a organization";
+  buttonText = "Subscribe";
   minEndDate: string;
+  membershipPlanId: number;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<MycompaniesPopupComponent>,
+    public dialogRef: MatDialogRef<MembershipDetailsPopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
@@ -45,9 +48,7 @@ export class MycompaniesPopupComponent
     private notificationService: NotificationService
   ) {
     super();
-    this.buttonText = data.isNew
-      ? "Add organization"
-      : "Update organization";
+    this.buttonText = "Subscribe";
       this.selectedUserDetailId = data.selectedUserDetailId;
     }
 
@@ -74,6 +75,17 @@ export class MycompaniesPopupComponent
       // ],
       logoLink: [organizationdata.logoLink || ""],
     });
+  }
+
+  membershipPlanDisplayFn(option: any): string {
+    return `${option.planName}`;
+  }
+
+  onSelectedMembershipPlanOption(option: any) {
+    this.userCompaniesForm.controls["membershipPlan"].setValue(
+      option.planName
+    );
+    this.membershipPlanId = option.id;
   }
 
   handleViewAttachment() {

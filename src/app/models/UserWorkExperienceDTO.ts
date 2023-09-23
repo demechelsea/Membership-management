@@ -1,4 +1,3 @@
-import { UserDetailDTO } from "./UserDetailDTO";
 import { MessageWrapModel } from "./messageWrapModel";
 export class UserWorkExperienceDTO extends MessageWrapModel {
     id:number;

@@ -259,19 +259,19 @@ export class CommitteeMemberPopupComponent
       `${option.firstName} ${option.givenName} ${option.parentName}`
     );
     this.committeeMemberForm.controls["firstName"].setValue(
-      option.firstName
+      option.userDetail.firstName
     );
     this.committeeMemberForm.controls["givenName"].setValue(
-      option.givenName
+      option.userDetail.givenName
     );
     this.committeeMemberForm.controls["primaryPhone"].setValue(
-      option.primaryPhone
+      option.userDetail.primaryPhone
     );
     this.committeeMemberForm.controls["primaryEmail"].setValue(
-      option.primaryEmail
+      option.userDetail.primaryEmail
     );
     this.committeeMemberForm.controls["preferredNameDisplay"].setValue(
-      option.firstName
+      option.userDetail.firstName
     );
 
     this.committeeMemberForm.controls["firstName"].disable();

@@ -1,5 +1,5 @@
-<div class="parent-component flex flex-row">
-  <div class="event-dialog-wrapper w-3/5 md:w-4/5 m-4 border border-gray-300 rounded flex">
+<div class="parent-component flex flex-row h-full">
+  <div class="event-dialog-wrapper md:w-1/5 m-4 border border-gray-300 rounded flex">
     <div mat-dialog-content class="padround18 h-full" style="overflow: hidden;">
       <div class="w-full py-1 mb-4 relative flex-col">
         <div class="h-2 mb-4" style="width: 100%; background: linear-gradient(to right, green 26%, black 0%);"></div>
@@ -79,14 +79,15 @@
       </div>
     </div>
   </div>
-  <div class="w-full flex flex-col">
-    <app-membership-details class="w-full h-1/3 mb-8"></app-membership-details>
-    <app-contacts class="w-full h-1/3 mb-4"></app-contacts>
-    <app-address class="w-full h-1/3 mb-4"></app-address>
-  </div>
-  <div class="w-full flex flex-col">
-    <app-my-family [memberDataId] = "associationMemberId" class="w-full h-1/3 mb-8"></app-my-family>
-    <app-invoices class="w-full h-1/3 mb-4"></app-invoices>
-    <app-my-companies [memberDataId] = "associationMemberId" class="w-full h-1/3 mb-4"></app-my-companies>
-  </div>
+  <div class="flex flex-col w-2/5 m-4">
+    <app-membership-details class="w-full mb-8"></app-membership-details>
+    <app-contacts [memberData] = "memberData" class="w-full mb-8"></app-contacts>
+    <app-address class="w-full mb-8"></app-address>
+</div>
+<div class="flex flex-col w-2/5 m-4">
+    <app-my-family [memberDataId] = "associationMemberId" class="w-full mb-8"></app-my-family>
+    <app-invoices class="w-full mb-8"></app-invoices>
+    <app-my-companies [memberDataId] = "associationMemberId" class="w-full mb-8"></app-my-companies>
+</div>
+
 </div>

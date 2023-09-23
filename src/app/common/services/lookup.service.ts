@@ -12,6 +12,9 @@ import { AssocationMemberService } from "app/association-settings/services/assoc
 import { AssociationDTO } from "app/models/AssociationDTO";
 import MembershipPlanDTO from "app/models/membershipPlanDTO";
 import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
+import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
+import { BaseComponent } from "app/core/components/base/base.component";
+import { PageModel } from "app/models/page-model";
 
 @Injectable({
   providedIn: "root",
@@ -37,7 +40,7 @@ export class LookupService extends HttpAppDataService {
   constructor(
     httpClient: HttpClient,
     private positionService: PositionService,
-    private assocationMemberService: AssocationMemberService,
+    private associationMemberService: AssociationMembersService,
     private memebershipPlanService: MembershipPlanService
   ) {
     super(httpClient);
@@ -59,10 +62,11 @@ export class LookupService extends HttpAppDataService {
       );
     }
     else if (lookupName.includes("memberOptions")) {
-      return this.assocationMemberService.getAssocationMembers().pipe(
+      let page = new PageModel()
+      return this.associationMemberService.getAssociationMembers(page).pipe(
         takeUntil(this.ngUnsubscribe$),
         map((response: ResultViewModel) => {
-          console.log(response);
+          console.log("jj",response);
           
           return response;
         })

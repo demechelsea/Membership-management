@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { AppLoaderService } from "app/common/services/app-loader.service";
@@ -14,6 +14,8 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class ContactsComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
+
+  @Input() memberData: any;
 
   constructor(
     private dialog: MatDialog,

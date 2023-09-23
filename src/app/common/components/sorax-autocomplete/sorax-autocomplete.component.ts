@@ -85,10 +85,8 @@ export class SoraxAutocompleteComponent implements OnInit {
       else if (option.planName) {
         return option.planName.toLowerCase().includes(filterValue);
       }
-      else if (option?.firstName) {
-        return (`${option?.firstName} ${option?.givenName} 
-        ${option?.parentName} ${option?.primaryEmail}
-        ${option?.primaryPhone} ${option?.parentName}`).toLowerCase().includes(filterValue);
+      else if (option?.userDetail) {
+        return (`${option?.userDetail?.firstName} ${option?.userDetail?.surName}`).toLowerCase().includes(filterValue);
       }
 
     });    
@@ -127,9 +125,8 @@ export class SoraxAutocompleteComponent implements OnInit {
     if (option.planName) {
       this.autoCompleteFieldLabel.setValue(option.planName);
     }
-    if (option?.firstName) {
-      this.autoCompleteFieldLabel.setValue(`${option?.firstName} ${option?.givenName} 
-      ${option.parentName}`);
+    if (option?.userDetail) {
+      this.autoCompleteFieldLabel.setValue(`${option?.userDetail?.firstName} ${option?.userDetail?.surName}`);
     }
   }
 

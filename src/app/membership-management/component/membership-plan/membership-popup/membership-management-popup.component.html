@@ -16,7 +16,7 @@
             <div class="w-full md:w-1/3 pr8">
               <sorax-autocomplete [lookupName]="titleOptionsKey" placeholder="Title"
               [autoCompleteFieldLabel]="associationMemeberForm.controls['title']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
+              (selectedOptionEmitter)="onSelectedTitleOption($event)">
             </sorax-autocomplete>
             </div>
 
@@ -48,14 +48,14 @@
             <div class="w-full md:w-1/3 pr8">
               <sorax-autocomplete [lookupName]="genderOptionsKey" placeholder="Gender"
                 [autoCompleteFieldLabel]="associationMemeberForm.controls['gender']"
-                (selectedOptionEmitter)="onSelectedOption($event)">
+                (selectedOptionEmitter)="onSelectedGenderOption($event)">
               </sorax-autocomplete>
             </div>
 
             <div class="w-full md:w-2/3">
               <sorax-autocomplete [lookupName]="maritalStatusOptionsKey" placeholder="Marital status"
                 [autoCompleteFieldLabel]="associationMemeberForm.controls['maritalStatus']"
-                (selectedOptionEmitter)="onSelectedOption($event)">
+                (selectedOptionEmitter)="onSelectedMaritalStatusOption($event)">
               </sorax-autocomplete>
             </div>
           </div>
@@ -90,14 +90,14 @@
           <div class="w-full md:w-1/1 pr8">
             <sorax-autocomplete [lookupName]="higherEducationOptionsKey" placeholder="Higher education"
               [autoCompleteFieldLabel]="associationMemeberForm.controls['highestEducation']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
+              (selectedOptionEmitter)="onSelectedHighestEducationOption($event)">
             </sorax-autocomplete>
           </div>
 
           <div *ngIf="!data.isNew" class="w-full md:w-1/1 pr8">
             <sorax-autocomplete [lookupName]="statusoptionsKey" placeholder="Status"
               [autoCompleteFieldLabel]="associationMemeberForm.controls['status']"
-              (selectedOptionEmitter)="onSelectedOption($event)">
+              (selectedOptionEmitter)="onSelectedStatusOption($event)">
             </sorax-autocomplete>
           </div>
         </div>

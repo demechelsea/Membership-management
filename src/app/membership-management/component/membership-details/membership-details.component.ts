@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
@@ -9,9 +9,11 @@ import { AppConfirmService } from "app/common/services/app-confirm.service";
 import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
+import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import MemershipPlanModel from "app/models/membershipPlanModel";
 import { ResultViewModel } from "app/models/result-view-model";
 import { Subject, takeUntil } from "rxjs";
+import { MembershipDetailsPopupComponent } from "./membership-details-popup/membership-details-popup.component";
 
 
 @Component({
@@ -28,6 +30,9 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: MemershipPlanModel[];
+
+  @Input() memberDataId: number;
+
 
   constructor(
     private dialog: MatDialog,
@@ -60,6 +65,24 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
         Object.assign(this.messages, response);
         this.loader.close();
       });
+  }
+
+  openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
+    let title = "Subscribe to New Membership";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      MembershipDetailsPopupComponent,
+      {
+        width: "800px",
+        disableClose: true,
+        data: { title: title, payload: data, isNew: isNew, selectedUserDetailId: this.memberDataId },
+      }
+    );
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      //this.getPageResults();
+    });
   }
 
 

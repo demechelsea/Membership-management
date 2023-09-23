@@ -19,6 +19,7 @@ import { AddressComponent } from './component/address/address.component';
 import { MycompaniesComponent } from './component/my-companies/my-companies.component';
 import { MyfamilyPopupComponent } from './component/my-family/my-family-popup/my-family-popup.component';
 import { MycompaniesPopupComponent } from './component/my-companies/my-companies-popup/my-companies-popup.component';
+import { MembershipDetailsPopupComponent } from './component/membership-details/membership-details-popup/membership-details-popup.component';
 
 
 const declarationsList = [
@@ -32,7 +33,8 @@ const declarationsList = [
   AddressComponent,
   MycompaniesComponent,
   MyfamilyPopupComponent,
-  MycompaniesPopupComponent
+  MycompaniesPopupComponent,
+  MembershipDetailsPopupComponent
 ];
 
 const importsList = [
