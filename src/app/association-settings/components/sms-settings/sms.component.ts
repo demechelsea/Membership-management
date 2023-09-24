@@ -4,8 +4,6 @@ import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
-import { AppConfirmService } from "app/common/services/app-confirm.service";
-import { AppLoaderService } from "app/common/services/app-loader.service";
 import { NotificationService } from "app/common/services/notification.service";
 import { BaseComponent } from "app/core/components/base/base.component";
 import { ResultViewModel } from "app/models/result-view-model";
@@ -105,7 +103,13 @@ export class SmsComponent extends BaseComponent implements OnInit {
 
   buildSmsUnsubscribeListForm(smsSubscriptionData: MessageSubscriptionDTO) {
     this.smsUnsubscribeListForm = this.formBuilder.group({
-      phoneNumber: [smsSubscriptionData.phoneNumber || ""],
+      phoneNumber: [
+        smsSubscriptionData.phoneNumber || "",
+        [
+          Validators.required,
+          Validators.pattern('^\\+(?:[0-9] ?){6,14}[0-9]$') 
+        ]
+      ],
     });
   }
 
@@ -283,7 +287,7 @@ export class SmsComponent extends BaseComponent implements OnInit {
         });
     } else {
       this.notificationService.showWarning(
-        "Please enter a valid email address."
+        "Please enter a valid phone number."
       );
     }
   }

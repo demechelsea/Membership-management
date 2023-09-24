@@ -7,25 +7,20 @@
   </mat-toolbar>
 
   <div mat-dialog-content class="padround18">
-    <form [formGroup]="membershipDetailsForm" class="membershipDetailsForm padround18"
-      (ngSubmit)="submit(membershipDetailsForm.value)">
+    <form [formGroup]="contactDetailsForm" class="contactDetailsForm padround18"
+      (ngSubmit)="submit(contactDetailsForm.value)">
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div class="flex flex-col justify-between">
         <div class="flex">
           <div class="w-full md:w-1/1 pr8">
-            <sorax-autocomplete [lookupName]="membershipPlanOptionsKey" placeholder="Membership Plan"
-              [autoCompleteFieldLabel]="membershipDetailsForm.controls['membershipPlanId']"
-              (selectedOptionEmitter)="onSelectedMembershipPlanOption($event)" [displayFn]="membershipPlanDisplayFn">
-            </sorax-autocomplete>
+            <sorax-form-field label="Email" [soraxFormControl]="associationMemeberForm.get('emailId')">
+              <input #soraxInput matInput formControlName="emailId" type="text" name="emailId" />
+            </sorax-form-field>
           </div>
 
-          <div class="w-full md:w-1/2 pr8">
-            <sorax-form-field label="Date of birth" [soraxFormControl]="membershipDetailsForm.get('approvedDate')">
-              <div class="flex flex-row">
-                <input #soraxInput matInput [matDatepicker]="approvedDate" formControlName="approvedDate" name="approvedDate" />
-                <mat-datepicker-toggle [for]="approvedDate" matSuffix class="h-10"></mat-datepicker-toggle>
-              </div>
-              <mat-datepicker #approvedDate></mat-datepicker>
+          <div class="w-full md:w-1/1 pr8">
+            <sorax-form-field label="Phone" [soraxFormControl]="associationMemeberForm.get('phoneNumber')">
+              <input #soraxInput matInput formControlName="phoneNumber" type="text" name="phoneNumber" />
             </sorax-form-field>
           </div>
         </div>
@@ -34,8 +29,8 @@
         <div class="flex flex-row">
           <div class="w-full md:w-1/2 pr8">
             <mat-slide-toggle class="padround8" [formControl]="
-              membershipDetailsForm.controls['onlineAccessFlg']
-              ">Online access</mat-slide-toggle>
+              contactDetailsForm.controls['contactType']
+              ">Proceed to payment</mat-slide-toggle>
           </div>
         </div>
 
@@ -49,7 +44,7 @@
     </button>
     <span class="flex-grow"></span>
     <button mat-raised-button class="mat-primary text-right" aria-label="Subscribe" [textContent]="buttonText"
-      (click)="submit(membershipDetailsForm.value)">
+      (click)="submit(contactDetailsForm.value)">
       Subscribe
     </button>
   </div>

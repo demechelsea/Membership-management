@@ -179,8 +179,30 @@ export class MyfamilyPopupComponent
     }
   }
 
-  onSelectedOption(option: LableValueModel) {
+  onSelectedTitleOption(option: LableValueModel) {
     this.familyMemberForm.controls["title"].setValue(option.name);
+  }
+
+  onSelectedStatusOption(option: LableValueModel) {
+    this.familyMemberForm.controls["status"].setValue(option.name);
+  }
+
+  onSelectedGenderOption(option: LableValueModel) {
+    this.familyMemberForm.controls["gender"].setValue(option.name);
+  }
+
+  onSelectedMaritalStatusOption(option: LableValueModel) {
+    this.familyMemberForm.controls["maritalStatus"].setValue(option.name);
+  }
+
+  onSelectedHighestEducationOption(option: LableValueModel) {
+    this.familyMemberForm.controls["highestEducation"].setValue(option.name);
+  }
+
+  onSelectedMembershipPlanOption(option: any) {
+    this.familyMemberForm.controls["membershipPlan"].setValue(
+      option.planName
+    );
   }
 
   ngOnDestroy() {

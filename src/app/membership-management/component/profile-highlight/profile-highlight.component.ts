@@ -5,7 +5,6 @@ import { BaseComponent } from "app/core/components/base/base.component";
 import { ResultViewModel } from "app/models/result-view-model";
 import { Subject, takeUntil } from "rxjs";
 
-
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserProfileSettingDTO } from "app/models/UserProfileSettingDTO";
@@ -15,6 +14,8 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ProfilehighlightPopupComponent } from "./profile-highlight-popup/profie-highlight-popup.component";
 import { NotificationService } from "app/common/services/notification.service";
 import { UserProfileSettingService } from "app/membership-management/services/user-profile-setting-service/user-profile-setting.service";
+import { UserDetailDTO } from "app/models/UserDetailDTO";
+import { log } from "console";
 
 @Component({
   selector: "app-membership-plan",
@@ -22,41 +23,69 @@ import { UserProfileSettingService } from "app/membership-management/services/us
   styleUrls: ["./profile-highlight.component.scss"],
   animations: SoraxAnimations,
 })
-export class ProfileHighlightComponent
-  extends BaseComponent
-  implements OnInit
-{
+export class ProfileHighlightComponent extends BaseComponent implements OnInit {
   public associationMemberData: any;
   public membershipColumns: SoraxColumnDefinition[];
 
   public memberData: any;
   associationMemberId: number;
   public profileSettingForm: FormGroup;
+  public profileSettingData: any;
 
   private ngUnsubscribe$ = new Subject<void>();
+  imageURL: string;
 
   resultViewModel: ResultViewModel = new ResultViewModel();
   listPlans: AssociationMemberDTO[];
 
-
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private userProfileSettingService: UserProfileSettingService
-
-    ) {
+  ) {
     super();
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.memberData = JSON.parse(params['memberData']);  
-      this.associationMemberId = this.memberData.userDetail.id; 
+    this.route.params.subscribe((params) => {
+      this.memberData = JSON.parse(params["memberData"]);
+      this.associationMemberId = this.memberData.userDetail.id;
     });
+    this.getProfileSettings();
     this.buildprofileSettingForm(new UserProfileSettingDTO());
   }
+
+  getProfileSettings() {
+    let userDetail = new UserDetailDTO();
+    userDetail.id = this.memberData.userDetail.id;
+    this.userProfileSettingService
+      .getUserProfileSetting(userDetail)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((response) => {
+        this.profileSettingData = response.result;
+        this.imageURL = this.profileSettingData.photoLink;
+        this.buildprofileSettingForm(new UserProfileSettingDTO());
+      });
+  }
+
+  // handleViewAttachment() {
+  //   if (this.imageURL != null) {
+  //     let userProfileSetting = new UserProfileSettingDTO();
+  //     userProfileSetting.photoLink = this.imageURL;
+  //     this.userProfileSettingService
+  //       .downloadImage(userProfileSetting)
+  //       .subscribe((response: any) => {
+  //         console.log(" handle", response);
+
+  //         const blob = new Blob([response], { type: "image/jpeg" });
+  //         const url = window.URL.createObjectURL(blob);
+  //         this.imageURL = url;
+  //       });
+  //   }
+  // }
 
   mapFormDataToPlanData(formData: any): UserProfileSettingDTO {
     return {
@@ -74,10 +103,18 @@ export class ProfileHighlightComponent
 
   buildprofileSettingForm(userProfile: UserProfileSettingDTO) {
     this.profileSettingForm = this.formBuilder.group({
-      id: [this.memberData.userDetail.id, Validators.required],
-      emailNotificationFlg: [ this.convertToNumber(userProfile.emailNotificationFlg) || 0],
-      mobileNotificationFlg: [this.convertToNumber(userProfile.mobileNotificationFlg) || 0],
-      contactVisibility: [this.convertToNumber(userProfile.contactVisibility) || 0],
+      id: [this.profileSettingData?.id, Validators.required],
+      emailNotificationFlg: [
+        this.convertToNumber(this.profileSettingData?.emailNotificationFlg) ||
+          0,
+      ],
+      mobileNotificationFlg: [
+        this.convertToNumber(this.profileSettingData?.mobileNotificationFlg) ||
+          0,
+      ],
+      contactVisibility: [
+        this.convertToNumber(userProfile.contactVisibility) || 0,
+      ],
       photoVisibility: [this.convertToNumber(userProfile.photoVisibility) || 0],
     });
   }
@@ -87,18 +124,16 @@ export class ProfileHighlightComponent
       const formData = this.profileSettingForm.value;
       const planData = this.mapFormDataToPlanData(formData);
       console.log(planData);
-        this.userProfileSettingService
-          .updateUserProfileSetting(planData)
-          .pipe(takeUntil(this.ngUnsubscribe$))
-          .subscribe((response) => {
-            if (response.success) {
-              this.notificationService.showSuccess(
-                response.messages[0].message
-              );
-            } else {
-              this.notificationService.showError(response.messages[0].message);
-            }
-          });
+      this.userProfileSettingService
+        .updateUserProfileSetting(planData)
+        .pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe((response) => {
+          if (response.success) {
+            this.notificationService.showSuccess(response.messages[0].message);
+          } else {
+            this.notificationService.showError(response.messages[0].message);
+          }
+        });
     } else {
       this.notificationService.showWarning(
         "Please fill in all the required fields."
@@ -106,8 +141,8 @@ export class ProfileHighlightComponent
     }
   }
 
-  openMembershipManagement(){
-    this.router.navigate(['./membershipManagement/membershipManagement']);
+  openMembershipManagement() {
+    this.router.navigate(["./membershipManagement/membershipManagement"]);
   }
 
   openPopUp(data: UserRelationShipDTO, isNew?: boolean) {
@@ -117,10 +152,11 @@ export class ProfileHighlightComponent
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, 
-          memberData: this.memberData, 
-          isNew: isNew, 
-          selectedUserDetailId: this.memberData.id ,
+        data: {
+          title: title,
+          memberData: this.memberData,
+          isNew: isNew,
+          selectedUserDetailId: this.memberData.id,
         },
       }
     );
@@ -131,12 +167,8 @@ export class ProfileHighlightComponent
     });
   }
 
-  
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
-
-
-  
 }

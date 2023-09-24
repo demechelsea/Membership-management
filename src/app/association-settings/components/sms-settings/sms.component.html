@@ -110,7 +110,7 @@
             <sorax-form-field label="Phone number" class="pr-4"
               [soraxFormControl]="smsUnsubscribeListForm.get('phoneNumber')">
               <input #soraxInput matInput formControlName="phoneNumber" name="phoneNumber"
-                placeholder="Add Phone Number" />
+               type="number" placeholder="Add Phone Number" />
             </sorax-form-field>
             <button mat-raised-button color="primary" type="submit">
               Add to Unsubscribed List

@@ -87,8 +87,8 @@ export class SoraxValidators {
         else if (option.planName) {
           return option.planName === value;
         }
-        else if (option) {
-          return `${option.firstName} ${option.givenName} ${option.parentName}` === value;
+        else if (option.userDetail) {
+          return `${option.userDetail.firstName} ${option.userDetail.surName}` === value;
         }
       });
       return selectedOption ? null : { 'invalidOption': true };

@@ -11,6 +11,9 @@
         <div class="w-full mb-8">
           <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full w-70 h-70 mx-auto">
         </div>
+        <div class="photo-preview">
+          <img *ngIf="imageURL" [src]="imageURL" alt="Photo to display to public" />
+        </div>
         <div class="w-full pl-0 text-center">
           <h2 class="text-2xl font-bold mb-2">{{memberData.userDetail.firstName +" "+ memberData.userDetail.parentName}}
           </h2>
@@ -64,7 +67,6 @@
               </form>
               <div class="items-start py-2">
                 <button (click)="submit(profileSettingForm.value)" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-  
               </div>
             </div>
             
@@ -80,7 +82,7 @@
     </div>
   </div>
   <div class="flex flex-col w-2/5 m-4">
-    <app-membership-details class="w-full mb-8"></app-membership-details>
+    <app-membership-details [memberData] = "memberData" class="w-full mb-8"></app-membership-details>
     <app-contacts [memberData] = "memberData" class="w-full mb-8"></app-contacts>
     <app-address class="w-full mb-8"></app-address>
 </div>

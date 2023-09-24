@@ -14,6 +14,8 @@ import MemershipPlanModel from "app/models/membershipPlanModel";
 import { ResultViewModel } from "app/models/result-view-model";
 import { Subject, takeUntil } from "rxjs";
 import { MembershipDetailsPopupComponent } from "./membership-details-popup/membership-details-popup.component";
+import { AssocationMemberService } from "app/association-settings/services/assocation-member-service/assocation-member.service";
+import { UserDetailDTO } from "app/models/UserDetailDTO";
 
 
 @Component({
@@ -23,21 +25,21 @@ import { MembershipDetailsPopupComponent } from "./membership-details-popup/memb
   animations: SoraxAnimations,
 })
 export class MembershipDetailsComponent extends BaseComponent implements OnInit {
-  public membershipPlanData: any;
-  public membershipColumns: SoraxColumnDefinition[];
+  public subscriptionData: any;
+  public membershipDetailsColumns: SoraxColumnDefinition[];
 
   private ngUnsubscribe$ = new Subject<void>();
 
   resultViewModel: ResultViewModel = new ResultViewModel();
-  listPlans: MemershipPlanModel[];
+  listSubscribtions: AssociationMemberDTO[];
 
-  @Input() memberDataId: number;
+  @Input() memberData: any;
 
 
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private membershipPlanService: MembershipPlanService,
+    private membershipDetailsService: AssocationMemberService,
     private loader: AppLoaderService,
     private confirmService: AppConfirmService
   ) {
@@ -46,7 +48,7 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
 
   ngOnInit() {
     this.initializeColumns();
-    //this.getPageResults();
+    this.getPageResults();
   }
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
@@ -55,16 +57,27 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
 
   getPageResults() {
     this.loader.open();
-    this.membershipPlanService
-      .getItems(this.page)
+    let userDetail = new UserDetailDTO();
+    userDetail.id = this.memberData.userDetail.id;
+    this.membershipDetailsService
+      .getSubscribers(userDetail)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         Object.assign(this.resultViewModel, response);
-        this.listPlans = this.resultViewModel.result;
-        this.membershipPlanData = this.listPlans;
+        this.listSubscribtions = this.resultViewModel.result;
+        this.subscriptionData = this.listSubscribtions.map(
+          (associationMember) => {
+            return {
+              ...associationMember,
+              membershipPlan: `${associationMember.membershipPlan.planName}`,
+              fee: `${associationMember.membershipPlan.fee}`,
+              status: `${associationMember.status}`,
+            };
+          }
+        );
         Object.assign(this.messages, response);
-        this.loader.close();
       });
+      this.loader.close();
   }
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
@@ -74,14 +87,14 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, payload: data, isNew: isNew, selectedUserDetailId: this.memberDataId },
+        data: { title: title, payload: data, isNew: isNew, selectedUserDetail: this.memberData},
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) {
         return;
       }
-      //this.getPageResults();
+      this.getPageResults();
     });
   }
 
@@ -107,17 +120,17 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
   }
 
   initializeColumns(): void {
-    this.membershipColumns = [
+    this.membershipDetailsColumns = [
       {
         name: "Membership Plan",
-        dataKey: "planName",
+        dataKey: "membershipPlan",
         position: "left",
         isSortable: true,
         link: true,
       },
       {
         name: "Status",
-        dataKey: "description",
+        dataKey: "status",
         position: "left",
         isSortable: true,
       },
@@ -135,13 +148,13 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
       },
       {
         name: "Member for",
-        dataKey: "status",
+        dataKey: "description",
         position: "left",
         isSortable: true,
       },
       {
         name: "Actions",
-        dataKey: "modifiedser",
+        dataKey: "actions",
         position: "left",
         isSortable: true,
       },

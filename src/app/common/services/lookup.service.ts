@@ -8,12 +8,10 @@ import { Urls } from "../utils/urls";
 import { HttpAppDataService } from "./http-app-data.service";
 import { CommitteePositionDTO } from "app/models/committeePositionDTO";
 import { PositionService } from "app/association-settings/services/position-service/position.service";
-import { AssocationMemberService } from "app/association-settings/services/assocation-member-service/assocation-member.service";
 import { AssociationDTO } from "app/models/AssociationDTO";
 import MembershipPlanDTO from "app/models/membershipPlanDTO";
 import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 import { AssociationMembersService } from "app/association-settings/services/association-members-service/association-members-service";
-import { BaseComponent } from "app/core/components/base/base.component";
 import { PageModel } from "app/models/page-model";
 
 @Injectable({
@@ -65,9 +63,7 @@ export class LookupService extends HttpAppDataService {
       let page = new PageModel()
       return this.associationMemberService.getAssociationMembers(page).pipe(
         takeUntil(this.ngUnsubscribe$),
-        map((response: ResultViewModel) => {
-          console.log("jj",response);
-          
+        map((response: ResultViewModel) => {          
           return response;
         })
       );

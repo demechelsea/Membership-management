@@ -34,6 +34,11 @@ export class Urls {
     public static COMMITTEE_DELETE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteCommittee";
 
 
+    public static MEMBER_SUBSCRIBE_TO_PLAN: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/subscribeToPlan";
+    public static ALL_SUBSCRIBED_PLAN_BY_USER_DETAIL: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/assocMember/allSubscribedPlan";
+    
+
+    
     public static COMMITTEE_MEMBER_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/listCommitteeMemberCommittee";
     public static REGISTER_COMMITTEE_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/createCommitteeMember";
     public static UPDATE_COMMITTEE_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateCommitteeMember";
@@ -138,10 +143,10 @@ export class Urls {
     public static RETRIEVE_USER_COMPANY_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCompanyById";
     public static DELETE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserCompany"
 
-    public static RETRIEVE_USER_PROFILE_SETTING_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveProfileSettingsByUserId";
-    public static UPDATE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/updateUserProfileSetting";
-    public static RETRIEVE_USER_PROFILE_SETTING_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/retrieveProfileSettingsById";
-    public static DELETE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/userProfile/deleteUserProfileSetting";
+    public static RETRIEVE_USER_PROFILE_SETTING_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveProfileSettingsByUserId";
+    public static UPDATE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserProfileSetting";
+    public static RETRIEVE_USER_PROFILE_SETTING_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveProfileSettingsById";
+    public static DELETE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserProfileSetting";
 
     public static WEBSITE_INFO_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/listWebSites";
     public static SAVE_UPDATE_WEBSITE_INFO: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/saveUPdateWebsiteInfo";

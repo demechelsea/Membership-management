@@ -76,7 +76,6 @@ export class CommitteeMemberPopupComponent
 
   ngOnInit() {
     this.buildCommitteeMemberForm(this.data.payload);
-    this.cdRef.detectChanges();
     this.committeeMemberForm
       .get("status")
       .valueChanges.pipe(takeUntil(this.ngUnsubscribe$))
@@ -86,6 +85,7 @@ export class CommitteeMemberPopupComponent
         }
       });
     this.handleViewAttachment();
+    this.cdRef.detectChanges();
   }
 
   onAddPosition() {
@@ -160,7 +160,7 @@ export class CommitteeMemberPopupComponent
   }
 
   memberDisplayFn(option: any): string {
-    return `${option?.firstName} ${option?.givenName} ${option?.parentName}`;
+    return `${option?.userDetail.firstName} ${option?.userDetail.surName}`;
   }
 
   positionDisplayFn(option: any): string {
@@ -192,8 +192,16 @@ export class CommitteeMemberPopupComponent
         "emailVisibilityFlg",
         committeeMember.emailVisibilityFlg ? "Y" : "N"
       );
-      formData.append("startDate", committeeMember.startDate.toString());
-      formData.append("endDate", committeeMember.endDate.toString());
+      formData.append("startDate", moment(new Date(committeeMember.startDate)).format('YYYY-MM-DD'));
+      if (!this.data.isNew) {
+        formData.append("endDate", moment(new Date(committeeMember.endDate)).format('YYYY-MM-DD'));
+      }
+
+      if (this.data.isNew) {
+        formData.append("endDate", this.endDate);
+      }
+      
+            
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
