@@ -147,7 +147,6 @@ export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   private navigateToAssociationSelection() {
-    const userModelJson = JSON.stringify(this.userModel);
     this.loginService.setAuthenticationToken(this.userModel);
     this.router.navigate(['/manageAssociations/selectMappedAssociation']);
   }

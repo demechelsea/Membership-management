@@ -20,6 +20,12 @@ export class AssociationService extends HttpAppDataService {
     super(httpClient);
   }
 
+  public isValidAssoicationUSer(associatioModel: AssociationModel): Observable<any> {
+    let requestWrapperModel: RequestWrapperModel = new RequestWrapperModel();
+    requestWrapperModel.inputData = associatioModel.encryptedId;
+    return this.postData(Urls.USER_BELONGS_TO_ASSOICATION, requestWrapperModel);
+  }
+
   public createNewAssociation(associatioModel: AssociationModel): Observable<any> {
     return this.postData(Urls.CREATE_ASSOCIATION, associatioModel);
   }
