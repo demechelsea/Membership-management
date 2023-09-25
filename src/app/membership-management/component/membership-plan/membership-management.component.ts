@@ -70,7 +70,7 @@ export class MembershipManagementComponent
   }
 
   getPageResults() {
-    this.loader.open();
+    //this.loader.open();
     this.associationMemberService
       .getAssociationMembers(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))

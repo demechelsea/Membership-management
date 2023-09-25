@@ -17,7 +17,7 @@
         <div class="w-full pl-0 text-center">
           <h2 class="text-2xl font-bold mb-2">{{memberData.userDetail.firstName +" "+ memberData.userDetail.parentName}}
           </h2>
-          <p class="text-lg text-gray-600 mb-4">{{memberData.title}}</p>
+          <p class="text-lg text-gray-600 mb-4">{{memberData.userDetail.occupation}}</p>
           <div class="flex flex-col mb-4">
             <div class="flex items-center mb-8 pb-8 justify-center border-b border-gray-300">
               <mat-icon class="mr-6">home</mat-icon>
@@ -81,15 +81,15 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col w-2/5 m-4">
+  <div class="flex flex-col md:w-2/5 m-4">
     <app-membership-details [memberData] = "memberData" class="w-full mb-8"></app-membership-details>
     <app-contacts [memberData] = "memberData" class="w-full mb-8"></app-contacts>
     <app-address class="w-full mb-8"></app-address>
 </div>
-<div class="flex flex-col w-2/5 m-4">
+<div class="flex flex-col md:w-2/5 m-4">
     <app-my-family [memberDataId] = "associationMemberId" class="w-full mb-8"></app-my-family>
     <app-invoices class="w-full mb-8"></app-invoices>
-    <app-my-companies [memberDataId] = "associationMemberId" class="w-full mb-8"></app-my-companies>
+    <app-my-companies [memberData] = "memberData" class="w-full mb-8"></app-my-companies>
 </div>
 
 </div>

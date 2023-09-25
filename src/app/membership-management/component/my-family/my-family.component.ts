@@ -13,7 +13,6 @@ import { MyfamilyPopupComponent } from "./my-family-popup/my-family-popup.compon
 import { MyfamilyService } from "app/membership-management/services/my-family-service/my-family.service";
 import { UserRelationShipDTO } from "app/models/UserRelationShipDTO";
 
-
 @Component({
   selector: "app-my-family",
   templateUrl: "./my-family.component.html",
@@ -36,7 +35,6 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
     private familyMemberService: MyfamilyService,
     private loader: AppLoaderService,
     private notificationService: NotificationService
-
   ) {
     super();
   }
@@ -53,10 +51,11 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, 
-          payload: data, 
-          isNew: isNew, 
-          selectedUserDetailId: this.memberDataId ,
+        data: {
+          title: title,
+          payload: data,
+          isNew: isNew,
+          selectedUserDetailId: this.memberDataId,
           photoLink: data.photoLink,
         },
       }
@@ -68,7 +67,6 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
       this.getPageResults(this.memberDataId);
     });
   }
-
 
   ngOnDestroy() {
     this.ngUnsubscribe$.next();
@@ -83,15 +81,13 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
       .subscribe((response) => {
         Object.assign(this.resultViewModel, response);
         this.listFamilyMembers = this.resultViewModel.result;
-        this.membershipPlanData = this.listFamilyMembers.map(
-          (familyMember) => {
-            return {
-              ...familyMember,
-              name: `${familyMember.fromUserDetail.firstName} ${familyMember.fromUserDetail.parentName}`,
-              primaryEmail: `${familyMember.fromUserDetail.primaryEmail}`,
-            };
-          }
-        );
+        this.membershipPlanData = this.listFamilyMembers.map((familyMember) => {
+          return {
+            ...familyMember,
+            name: `${familyMember.fromUserDetail.firstName} ${familyMember.fromUserDetail.parentName}`,
+            primaryEmail: `${familyMember.fromUserDetail.primaryEmail}`,
+          };
+        });
         Object.assign(this.messages, response);
         this.loader.close();
       });
@@ -114,8 +110,7 @@ export class MyFamilyComponent extends BaseComponent implements OnInit {
   executeRowActions(rowData: UserRelationShipDTO) {
     if (rowData.performAction == "Edit") {
       this.openPopUp(rowData, false);
-    }
-    else if (rowData.performAction == "Delete") {
+    } else if (rowData.performAction == "Delete") {
       this.deleteFamilyMember(rowData);
     }
   }

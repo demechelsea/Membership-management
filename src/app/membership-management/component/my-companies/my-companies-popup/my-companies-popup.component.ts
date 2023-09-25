@@ -1,8 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-} from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { LookupService } from "app/common/services/lookup.service";
 import { BaseComponent } from "app/core/components/base/base.component";
@@ -17,17 +14,12 @@ import { MycompanyService } from "app/membership-management/services/my-companie
   templateUrl: "./my-companies-popup.component.html",
   styleUrls: ["./my-companies-popup.component.scss"],
 })
-export class MycompaniesPopupComponent
-  extends BaseComponent
-  implements OnInit
-{
-
-
+export class MycompaniesPopupComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
   public committeeMemberForm: FormGroup;
   public isLoading: boolean;
   filteredIntervals$: Observable<LableValueModel[]>;
-  selectedUserDetailId: number;
+  selectedAssociationMemberId: number;
 
   selectedFile: any;
   public userCompaniesForm: FormGroup;
@@ -45,11 +37,9 @@ export class MycompaniesPopupComponent
     private notificationService: NotificationService
   ) {
     super();
-    this.buttonText = data.isNew
-      ? "Add organization"
-      : "Update organization";
-      this.selectedUserDetailId = data.selectedUserDetailId;
-    }
+    this.buttonText = data.isNew ? "Add organization" : "Update organization";
+    this.selectedAssociationMemberId = data.selectedAssociationMemberId;
+  }
 
   ngOnInit() {
     this.buildAssociationMemberForm(this.data.payload);
@@ -60,7 +50,7 @@ export class MycompaniesPopupComponent
   buildAssociationMemberForm(organizationdata: UserCompanyDTO) {
     const isUpdate = !this.data.isNew;
     this.userCompaniesForm = this.formBuilder.group({
-      userDetailId: [isUpdate ? this.selectedUserDetailId : null],
+      userDetailId: [isUpdate ? this.selectedAssociationMemberId : null],
       companyName: [organizationdata?.companyName || ""],
       shortName: [organizationdata?.shortName || ""],
       website: [organizationdata?.website || ""],
@@ -69,10 +59,10 @@ export class MycompaniesPopupComponent
       twitterPageUrl: [organizationdata?.twitterPageUrl || ""],
       address: [organizationdata?.address || ""],
       category: [organizationdata?.category || ""],
+      logoLink: [organizationdata.logoLink || ""],
       // onlineAccessFlg: [
       //   this.convertToNumber(organizationdata.onlineAccessFlg) || 0,
       // ],
-      logoLink: [organizationdata.logoLink || ""],
     });
   }
 
@@ -108,13 +98,12 @@ export class MycompaniesPopupComponent
       //formData.append("onlineAccessFlg",userCompany?.onlineAccessFlg ? "Y" : "N");
 
       formData.append("photoLink", userCompany?.logoLink);
-      
-     
-      formData.append("userDetailId", this.selectedUserDetailId.toString());
 
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0] + ", " + pair[1]);
-      // }
+      formData.append("userDetailId", this.selectedAssociationMemberId.toString());
+
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
       if (this.data.isNew) {
         if (this.selectedFile) {
@@ -124,6 +113,8 @@ export class MycompaniesPopupComponent
           .createCompanies(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
+            console.log("eeee" , response);
+            
             if (response.success) {
               this.notificationService.showSuccess(
                 response.messages[0].message

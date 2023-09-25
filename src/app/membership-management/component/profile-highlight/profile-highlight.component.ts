@@ -53,7 +53,7 @@ export class ProfileHighlightComponent extends BaseComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.memberData = JSON.parse(params["memberData"]);
       this.associationMemberId = this.memberData.userDetail.id;
-    });
+    });    
     this.getProfileSettings();
     this.buildprofileSettingForm(new UserProfileSettingDTO());
   }
@@ -123,7 +123,6 @@ export class ProfileHighlightComponent extends BaseComponent implements OnInit {
     if (this.profileSettingForm.valid) {
       const formData = this.profileSettingForm.value;
       const planData = this.mapFormDataToPlanData(formData);
-      console.log(planData);
       this.userProfileSettingService
         .updateUserProfileSetting(planData)
         .pipe(takeUntil(this.ngUnsubscribe$))

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
@@ -17,14 +22,16 @@ import { MembershipDetailsPopupComponent } from "./membership-details-popup/memb
 import { AssocationMemberService } from "app/association-settings/services/assocation-member-service/assocation-member.service";
 import { UserDetailDTO } from "app/models/UserDetailDTO";
 
-
 @Component({
   selector: "app-membership-details",
   templateUrl: "./membership-details.component.html",
   styleUrls: ["./membership-details.component.scss"],
   animations: SoraxAnimations,
 })
-export class MembershipDetailsComponent extends BaseComponent implements OnInit {
+export class MembershipDetailsComponent
+  extends BaseComponent
+  implements OnInit
+{
   public subscriptionData: any;
   public membershipDetailsColumns: SoraxColumnDefinition[];
 
@@ -34,7 +41,6 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
   listSubscribtions: AssociationMemberDTO[];
 
   @Input() memberData: any;
-
 
   constructor(
     private dialog: MatDialog,
@@ -56,7 +62,7 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
   }
 
   getPageResults() {
-    this.loader.open();
+    //this.loader.open();
     let userDetail = new UserDetailDTO();
     userDetail.id = this.memberData.userDetail.id;
     this.membershipDetailsService
@@ -76,9 +82,10 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
           }
         );
         Object.assign(this.messages, response);
+        this.loader.close();
       });
-      this.loader.close();
   }
+  
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
     let title = "Subscribe to New Membership";
@@ -87,7 +94,12 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
       {
         width: "800px",
         disableClose: true,
-        data: { title: title, payload: data, isNew: isNew, selectedUserDetail: this.memberData},
+        data: {
+          title: title,
+          payload: data,
+          isNew: isNew,
+          selectedUserDetail: this.memberData,
+        },
       }
     );
     dialogRef.afterClosed().subscribe((res) => {
@@ -97,7 +109,6 @@ export class MembershipDetailsComponent extends BaseComponent implements OnInit 
       this.getPageResults();
     });
   }
-
 
   executeRowActions(rowData: MemershipPlanModel) {
     if (rowData.performAction == "edit") {

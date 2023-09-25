@@ -8,7 +8,6 @@ import { NotificationService } from "app/common/services/notification.service";
 import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import moment from "moment";
 import { AssocationMemberService } from "app/association-settings/services/assocation-member-service/assocation-member.service";
-import { UserDetailDTO } from "app/models/UserDetailDTO";
 
 @Component({
   selector: "membership-details-popup",

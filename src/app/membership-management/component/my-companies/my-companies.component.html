@@ -8,16 +8,8 @@
           add_circle
         </button>
       </h3>
-      <div class="font-bold flex justify-between mb-4">
-        <span>Company 1</span>
-        <span class="material-icons text-red-500 align-middle">more_vert</span>
-      </div>
-      <div class="font-bold flex justify-between mb-4">
-        <span>Company 2</span>
-        <span class="material-icons text-red-500 align-middle">more_vert</span>
-      </div>
-      <div class="font-bold flex justify-between mb-4">
-        <span>Company 3</span>
+      <div *ngFor="let company of companies" class="font-bold flex justify-between mb-4">
+        <span>{{company.companyName}}</span>
         <span class="material-icons text-red-500 align-middle">more_vert</span>
       </div>
     </div>
