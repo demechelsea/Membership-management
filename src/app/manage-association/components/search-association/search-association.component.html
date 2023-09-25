@@ -1,7 +1,7 @@
 <div class="page-wrap h-full slate">
     <div class="session-form-hold-bg" @animateFromRight >
-        <div>
-            <mat-sidenav-container>
+          <mat-card class="!m-0">
+            <mat-card-content>
               <div class="shop-wrap flex flex-wrap">
                     <div class="full-width">
                         <div class="shop-top-toolbar flex flex-col md:flex-row items-center">
@@ -26,53 +26,51 @@
                               aria-label="Select page" showFirstLastButtons>
                             </mat-paginator>
                         </div>
-                    </div>
-                  
-                    <div class="product-container" >
-                        <div  class="product-wrap" *ngFor="let association of filteredAssociations" >
-                          <div class="product-inner default-bg">
-                            <div class="product-badge-rec mat-elevation-z5"  *ngIf="association.linked">
-                                <span>Linked</span>
-                            </div>
-                            <div class="featured-img" >
-                              <img src="assets/images/no-logo.png"  *ngIf="!association.setting?.logoLink">
-                              <img [src]="association.setting?.logoLink"  *ngIf="!association.setting?.logoLink">
-                            </div>
-                            <div class="info-wrap p-2">
-                              <div class="main-info">
-                                <h3 class="title text-primary" ><a href="https://{{association.soceityRaxUrl}}.mythriapp.com/" target="_blank">
-                                  {{association.name}}</a></h3>
-                                <p class="text-accent  p-line">{{association.shortName}}({{association.societyRaxId}})</p>
-                                <p class="text-accent"> <strong>Place:</strong>{{association.place}}</p>
-                                <p class="text-muted p-line" *ngIf="association.website" >
-                                    <a href="{{association.website}}" target="_blank">{{association.website}}</a>
-                                </p>
-                                <p class="text-muted p-line">
-                                  <strong>Address:</strong>
-                                  <span> TODO: Displayaddress</span>
-                                </p>
+                      <div class="product-container" >
+                          <div  class="product-wrap" *ngFor="let association of filteredAssociations" >
+                            <div class="product-inner default-bg">
+                              <div class="product-badge-rec mat-elevation-z5"  *ngIf="association.linked">
+                                  <span>Linked</span>
                               </div>
-                              <div class="actions" >
-                                <button mat-raised-button  (click)="delinkAssocation(association)" *ngIf="association.linked">
-                                  Opt-Out
-                                 </button>
-                                
-                                <span class="flex-grow"></span>
-                                <button mat-raised-button color="primary" (click)="selectAssociation(association)" *ngIf="association.linked">
-                                    Login
-                                 </button>
-
-                                 <button mat-raised-button color="accent"  (click)="registerAssociation(association)" *ngIf="!association.linked">
-                                    Register
-                                 </button>
-
+                              <div class="featured-img" >
+                                <img src="assets/images/no-logo.png"  *ngIf="!association.setting?.logoLink">
+                                <img [src]="association.setting?.logoLink"  *ngIf="!association.setting?.logoLink">
+                              </div>
+                              <div class="info-wrap p-2">
+                                <div class="main-info">
+                                  <h3 class="title text-primary" ><a href="https://{{association.soceityRaxUrl}}.mythriapp.com/" target="_blank">
+                                    {{association.name}}</a></h3>
+                                  <p class="text-accent  p-line">{{association.shortName}}({{association.societyRaxId}})</p>
+                                  <p class="text-accent"> <strong>Place:</strong>{{association.place}}</p>
+                                  <p class="text-muted p-line" *ngIf="association.website" >
+                                      <a href="{{association.website}}" target="_blank">{{association.website}}</a>
+                                  </p>
+                                  <p class="text-muted p-line">
+                                    <strong>Address:</strong>
+                                    <span> TODO: Displayaddress</span>
+                                  </p>
                                 </div>
+                                <div class="actions" >
+                                    <button mat-raised-button  (click)="delinkAssocation(association)" *ngIf="association.linked">
+                                      Opt-Out
+                                    </button>
+                                    
+                                    <span class="flex-grow"></span>
+                                    <button mat-raised-button color="primary" (click)="selectAssociation(association)" *ngIf="association.linked">
+                                        Login
+                                    </button>
+
+                                    <button mat-raised-button color="accent"  (click)="registerAssociation(association)" *ngIf="!association.linked">
+                                        Register
+                                    </button>
+                                  </div>
+                              </div>
                             </div>
-                          </div>
-                          </div>
+                            </div>
                       </div>
+                   </div>
                 </div>
-            </mat-sidenav-container>
-        </div>
+              </mat-card-content>
+            </mat-card>
     </div>
 </div>

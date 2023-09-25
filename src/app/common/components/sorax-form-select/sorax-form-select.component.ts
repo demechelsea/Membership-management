@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SORAX_VALIDATION_MESSAGES_KEY, SoraxValidators, VALIDATION_MESSAGES } from 'app/common/utils/sorax-validators';
@@ -38,15 +38,17 @@ export class SoraxFormSelectComponent implements OnInit {
 
   optionsList: any[];
 
-  constructor(public lookupService: LookupService) {
+  constructor(public lookupService: LookupService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.initilizeFilteredOptions('');
+
   }
 
 
   ngAfterViewInit() {
+    this.cdr.detectChanges(); 
   }
 
   private initilizeFilteredOptions(value: string) {
