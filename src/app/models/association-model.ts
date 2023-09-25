@@ -13,4 +13,6 @@ export class AssociationModel extends MessageWrapModel {
     shortName:string;
     setting:AssociationSetting;
 
+    linked:boolean = false;
+
 }

@@ -47,7 +47,7 @@
                 placeholder="Confirm password" />
             </sorax-form-field>
           </div>
-          <mat-checkbox  formControlName="agreed">I agree with terms and condtions</mat-checkbox>
+          <mat-checkbox  formControlName="agreed">I agree with the <a [routerLink]="'/termsAndCondtions'" class="blue-underline" target="_blank">terms and condtions</a></mat-checkbox>
           <button mat-raised-button class="mat-primary full-width mt-4 mb-8"  [disabled]="signUpForm.invalid">Signup</button>
           <div class="text-center ">
             <a [routerLink]="'/auth/login'" class="mat-color-primary text-center full-width">Sign in with an existing
