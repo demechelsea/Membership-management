@@ -1,0 +1,91 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+    <span class="mat-headline-4">{{ data.title }}</span>
+    <button
+      mat-icon
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="float-right"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-content class="p-16 m-0">
+    <form
+      [formGroup]="emailSubjectForm"
+      class="emailSubjectForm flex flex-col padround18"
+    >
+      <div soraxdir-alert-message [errorMessage]="messages | json"></div>
+
+      <sorax-form-field
+        label="SMTP Email host"
+        [soraxFormControl]="emailSubjectForm.get('smtpHost')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="smtpHost"
+          type="text"
+          name="smtpHost"
+          placeholder="Enter SMTP Email host"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
+        label="PORT"
+        [soraxFormControl]="emailSubjectForm.get('port')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="port"
+          type="text"
+          name="port"
+          placeholder="Enter a port"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
+        label="Reply to Email address"
+        [soraxFormControl]="emailSubjectForm.get('replyToEmail')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="replyToEmail"
+          type="text"
+          name="replyToEmail"
+          placeholder="Enter a port"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
+        label="Email Id"
+        [soraxFormControl]="emailSubjectForm.get('emailId')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="emailId"
+          type="text"
+          name="emailId"
+          placeholder="Enter a emailId"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
+        label="Password"
+        [soraxFormControl]="emailSubjectForm.get('password')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="password"
+          type="password"
+          name="password"
+          placeholder="Enter a password"
+        />
+      </sorax-form-field>
+    </form>
+  </div>
+</div>

@@ -28,6 +28,7 @@ import { EmailHistoryDTO } from "app/models/emailHistoryDTO";
 import * as moment from "moment";
 import { EmailTemplatePopupComponent } from "./emailTemplate-Popup/emailTemplate-Popup.component";
 import { MatTabChangeEvent } from "@angular/material/tabs";
+import { EmailSubjectPopupComponent } from "./email-subject/email-subject.component";
 
 @Component({
   selector: "email-settings",
@@ -56,8 +57,6 @@ export class EmailComponent extends BaseComponent implements OnInit {
 
   buttonText = "Add to unsubscribe list";
 
-  emailContent: boolean = false;
-
   private ngUnsubscribe$ = new Subject<void>();
 
   unsubscribeListResultViewModel: ResultViewModel = new ResultViewModel();
@@ -77,7 +76,6 @@ export class EmailComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.initializeColumns();
     this.buildEmailUnsubscribeListForm(new EmailSubscriptionDTO());
-    this.buildEmailHistoryForm(new EmailHistoryDTO());
     this.buildSMTPForm(new EmailSettingDTO());
 
     this.emailSettingService.getEmailSetting().subscribe(data => {
@@ -137,22 +135,6 @@ export class EmailComponent extends BaseComponent implements OnInit {
     });
   }
 
-  buildEmailHistoryForm(emailHistoryData: EmailHistoryDTO) {
-    this.emailHistoryForm = this.formBuilder.group({
-      emailSubject: [{ value: emailHistoryData.emailSubject, disabled: true }],
-      emailContent: [{ value: emailHistoryData.emailContent, disabled: true }],
-      recipients: [{ value: emailHistoryData.recipients, disabled: true }],
-      modifiedTimestamp: [
-        {
-          value: moment(emailHistoryData.modifiedTimestamp).format(
-            "YYYY-MM-DD"
-          ),
-          disabled: true,
-        },
-      ],
-    });
-  }
-
   filterControl = new FormControl();
   filterText: string;
 
@@ -179,12 +161,18 @@ export class EmailComponent extends BaseComponent implements OnInit {
   }
 
   showEmailContent(data: EmailHistoryDTO) {
-    this.emailContent = true;
-    this.buildEmailHistoryForm(data);
-  }
-
-  close() {
-    this.emailContent = false;
+    let title = "Email History";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      EmailSubjectPopupComponent,
+      {
+        width: "720px",
+        disableClose: true,
+        data: {
+          title: title,
+          payload: data,
+        },
+      }
+    );
   }
 
   getEmailTemplateData() {

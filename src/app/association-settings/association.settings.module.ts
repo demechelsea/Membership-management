@@ -27,6 +27,7 @@ import { PoliciesAndDocstorePopupComponent } from './components/policies-and-Doc
 import { VisibilitySettingsComponent } from './components/visibility-settings/visibilitySettings.component';
 import { AppFormsModule } from 'app/views/forms/forms.module';
 import { QuillModule } from 'ngx-quill';
+import { EmailSubjectPopupComponent } from './components/email-settings/email-subject/email-subject.component';
 
 
 const declarationsList = [
@@ -43,6 +44,7 @@ const declarationsList = [
   SMTPPopupComponent,
   EmailSendersProfilePopupComponent,
   EmailTemplatePopupComponent,
+  EmailSubjectPopupComponent,
   SMSSenderProfilePopupComponent,
   PoliciesAndDocstoreComponent,
   SMSTemplatePopupComponent,

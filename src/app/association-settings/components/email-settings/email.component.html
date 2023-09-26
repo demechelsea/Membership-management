@@ -132,40 +132,5 @@
       </sorax-table-view>
     </mat-card-content>
   </mat-card>
-    
-    <mat-card class="mx-auto custom-sm" *ngIf="emailContent">
-      <mat-card-content class="flex flex-col">
-        <form [formGroup]="emailHistoryForm">
-          <div class="flex justify-between">
-            <mat-form-field class="w-1/3 p-2">
-              <mat-label>From</mat-label>
-              <input matInput disabled />
-            </mat-form-field>
-            <sorax-form-field class="w-1/3 p-2" label="Sent to" [soraxFormControl]="emailHistoryForm.get('recipients')">
-              <input #soraxInput matInput formControlName="recipients" name="recipients" />
-            </sorax-form-field>
-            <sorax-form-field class="w-1/3 p-2" label="Sent Date"
-              [soraxFormControl]="emailHistoryForm.get('modifiedTimestamp')">
-              <input #soraxInput matInput formControlName="modifiedTimestamp" name="modifiedTimestamp" />
-            </sorax-form-field>
-          </div>
-          <div class="w-2/3 p-2">
-            <sorax-form-field label="Email subject" [soraxFormControl]="emailHistoryForm.get('emailSubject')">
-              <input #soraxInput matInput formControlName="emailSubject" name="emailSubject" />
-            </sorax-form-field>
-          </div>
-          <div class="w-2/3 p-2 h-24">
-            <sorax-form-field label="Email body" [soraxFormControl]="emailHistoryForm.get('emailContent')">
-              <input #soraxInput matInput formControlName="emailContent" name="emailContent" />
-            </sorax-form-field>
-          </div>
-        </form>
-        <div class="flex justify-end">
-          <button mat-raised-button color="primary" (click)="close()">
-            Close
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
   </mat-tab>
 </mat-tab-group>
