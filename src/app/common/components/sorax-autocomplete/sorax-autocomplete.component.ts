@@ -41,7 +41,7 @@ export class SoraxAutocompleteComponent implements OnInit {
   filteredOptions: Observable<LableValueModel[]>;
   options: any[];
 
-  constructor(public lookupService: LookupService) {
+  constructor(public lookupService: LookupService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -52,10 +52,13 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   ngAfterViewInit() {
     this.addValidationRule();
+    this.cdr.detectChanges(); 
+
   }
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    const selectedOption = this.options.find(option => option.id === event.option.value);
+    const selectedOption = this.options.find(option => (option.id == event.option.value
+                                                          || option.code == event.option.value));
     this.selectedOptionEmitter.emit(selectedOption);
     this.setAutoControlIdLabel(selectedOption);
   }
@@ -74,7 +77,7 @@ export class SoraxAutocompleteComponent implements OnInit {
           .pipe(startWith(''),
             map(value => {
               this.resetInputControlValue();
-              return this.filterOptionsByValue(''+value);
+              return this.filterOptionsByValue('' + value);
             })
           );
         this.prepolulateAutoComplete();
@@ -84,14 +87,15 @@ export class SoraxAutocompleteComponent implements OnInit {
 
 
   private filterOptionsByValue(value: string): LableValueModel[] {
-    const filterValue:string = value.toLowerCase();
+    const filterValue: string = value.toLowerCase();
     if (this.options == null) {
       return null;
     }
     const filteredOptions = this.options.filter(option => {
       if (option.name) {
 
-        return option.name.toLowerCase().includes(filterValue);
+        return option.name.toLowerCase().includes(filterValue) 
+                || option.localName.toLowerCase().includes(filterValue);
 
       } else if (option.positionName) {
 
@@ -122,7 +126,8 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private findOptionByIdOrName() {
     if (this.autoCompleteFieldId) {
-      return this.options.find(option => (option.id == this.autoCompleteFieldId.value));
+      return this.options.find(option => (option.id == this.autoCompleteFieldId.value ||
+        option.code == this.autoCompleteFieldId.value));
     }
     return this.options.find(option => (option.name == this.autoCompleteFieldLabel.value));
   }
@@ -133,10 +138,10 @@ export class SoraxAutocompleteComponent implements OnInit {
     }
     if (option) {
       if (this.autoCompleteFieldId) {
-        this.autoCompleteFieldId.setValue(option.id);
+        this.autoCompleteFieldId.setValue(option.code ? option.code : option.id);
       }
       this.autoCompleteFieldLabel.setValue(option.name);
-      }
+    }
     if (option.positionName) {
       this.autoCompleteFieldLabel.setValue(option.positionName);
     }
@@ -151,9 +156,9 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private addValidationRule() {
     if (this.options) {
-      if(this.requiredFlag =='yes'){
+      if (this.requiredFlag == 'yes') {
         this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
-      }else{
+      } else {
         this.autoCompleteFieldLabel.setValidators([SoraxValidators.isValidOption(this.options)]);
       }
       this.autoCompleteFieldLabel.updateValueAndValidity();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { LookupService } from 'app/common/services/lookup.service';
 import { SORAX_VALIDATION_MESSAGES_KEY, SoraxValidators, VALIDATION_MESSAGES } from 'app/common/utils/sorax-validators';
@@ -19,7 +19,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
   ]
 })
-export class SoraxFormSelectComponent implements OnInit {
+export class SoraxFormSelectComponent implements OnInit , AfterViewInit {
 
   @Input() id: number;
 
@@ -37,13 +37,13 @@ export class SoraxFormSelectComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
 
   optionsList: any[];
+  selectedOption:any;
 
   constructor(public lookupService: LookupService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.initilizeFilteredOptions('');
-
   }
 
 
@@ -55,13 +55,15 @@ export class SoraxFormSelectComponent implements OnInit {
     this.lookupService.retrieveOptions(this.lookupName, value)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(data => {
-        this.optionsList = data.result;
-      }
+          this.optionsList = data.result;
+          this.cdr.detectChanges(); 
+        }
       );
   }
   
   public onOptionSelected(event: any): void {
-    const selectedOption = this.optionsList.find(option => option.id === event.option.value);
+    const selectedOption = this.optionsList.find(option => (option.id == event.option.value
+                                                                || option.code == event.option.value));
     this.selectedOptionEmitter.emit(selectedOption);
   }
 

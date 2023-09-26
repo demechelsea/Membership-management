@@ -52,7 +52,7 @@
                             <sorax-autocomplete [lookupName]="timeZoneOptionsKey" placeholder="Time Zone" [displayFn]="displayWithLocalText"
                                     [autoCompleteFieldLabel]="createAssociationForm.controls['timeZoneValue']" requiredFlag="no"
                                     [autoCompleteFieldId] ="createAssociationForm.controls['timeZoneKey']"
-                                (selectedOptionEmitter)="onSelectedTimeZoneOption($event)" >
+                                        (selectedOptionEmitter)="onSelectedTimeZoneOption($event)" >
                             </sorax-autocomplete>
 
                             <sorax-form-select [lookupName]="languageOptionsKey" placeholder="Lanauge" [displayFn]="displayWithLocalText"
