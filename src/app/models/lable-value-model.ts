@@ -1,6 +1,7 @@
 
 export default class LableValueModel {
   id: string;
+  code:string;
   name: string;
   postCode: string;
   symbol: string;

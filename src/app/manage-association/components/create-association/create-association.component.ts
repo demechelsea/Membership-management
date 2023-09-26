@@ -71,8 +71,8 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
       }),
       timeZoneKey: new UntypedFormControl('Asia/Calcutta', []),
       timeZoneValue: new UntypedFormControl('Asia/Calcutta', [Validators.required]),
-      languageKey: new UntypedFormControl('', [Validators.required]),
-      currencyKey: new UntypedFormControl('', [Validators.required]),
+      languageKey: new UntypedFormControl(2, [Validators.required]),
+      currencyKey: new UntypedFormControl(2, [Validators.required]),
       dateFormat: new UntypedFormControl('dd/MM/yyyy', [Validators.required]),
       agreed: new UntypedFormControl(false, [Validators.requiredTrue]),
     });
@@ -82,10 +82,9 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
     return `${option.name} (${option.localName})`;
   }
 
-
   onSelectedTimeZoneOption(option: LableValueModel) {
     this.createAssociationForm.controls["timeZoneValue"].setValue(option.name);
-    this.createAssociationForm.controls["timeZoneKey"].setValue(option.id);
+    this.createAssociationForm.controls["timeZoneKey"].setValue(option.code);
   }
 
   submitForm() {
@@ -133,13 +132,14 @@ export class CreateAssociationComponent extends BaseComponent implements OnInit,
   }
 
   ngAfterViewInit() {
-   // this.initilizeDefaults();
+    this.initilizeDefaults();
 
   }
 
   initilizeDefaults(): void {
-    this.createAssociationForm.controls["currencyKey"].setValue('2');
-    this.createAssociationForm.controls["languageKey"].setValue('2');
+    this.createAssociationForm.controls["currencyKey"].setValue(2);
+    this.createAssociationForm.controls["languageKey"].setValue(2);
+    console.log("Value set to Select box");
     //this.createAssociationForm.controls["dateFormat"].setValue();
   }
 

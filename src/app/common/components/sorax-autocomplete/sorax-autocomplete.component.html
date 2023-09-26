@@ -24,7 +24,7 @@
         >
         <mat-option
           *ngFor="let option of filteredOptions | async"
-          [value]="option.id">
+          [value]="option.code ? option.code: option.id">
             {{ displayFn ? displayFn(option) : option.name }}
         </mat-option>
       </mat-autocomplete>
