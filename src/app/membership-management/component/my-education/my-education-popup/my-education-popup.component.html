@@ -18,39 +18,39 @@
       (ngSubmit)="submit(userEducationForm.value)"
     >
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
-      <div class="flex justify-between">
-        <div class="flex flex-wrap flex-col pr8">
-          <div class="flex w-full pr8">
-            <div class="w-full md:w-1/2 flex justify-between">
-              <sorax-form-field
-                label="Institution"
-                [soraxFormControl]="userEducationForm.get('institutions')"
-              >
-                <input
-                  #soraxInput
-                  matInput
-                  formControlName="institutions"
-                  type="text"
-                  name="institutions"
-                />
-              </sorax-form-field>
-            </div>
-            <div class="w-full md:w-1/2 pr8">
-              <sorax-form-field
-                label="Field of study"
-                [soraxFormControl]="userEducationForm.get('fieldOfStudy')"
-              >
-                <input
-                  #soraxInput
-                  matInput
-                  formControlName="fieldOfStudy"
-                  type="text"
-                  name="fieldOfStudy"
-                />
-              </sorax-form-field>
-            </div>
+      <div class="flex flex-col justify-between">
+        <div class="flex">
+          <div class="w-full md:w-1/2 pr8">
+            <sorax-form-field
+              label="Institution"
+              [soraxFormControl]="userEducationForm.get('institutions')"
+            >
+              <input
+                #soraxInput
+                matInput
+                formControlName="institutions"
+                type="text"
+                name="institutions"
+              />
+            </sorax-form-field>
           </div>
+          <div class="w-full md:w-1/2 pr8">
+            <sorax-form-field
+              label="Field of study"
+              [soraxFormControl]="userEducationForm.get('fieldOfStudy')"
+            >
+              <input
+                #soraxInput
+                matInput
+                formControlName="fieldOfStudy"
+                type="text"
+                name="fieldOfStudy"
+              />
+            </sorax-form-field>
+          </div>
+        </div>
 
+        <div class="flex">
           <div class="w-full pr8">
             <sorax-form-field
               label="Degree"
@@ -82,7 +82,6 @@
                 <mat-datepicker-toggle
                   [for]="graduationDate"
                   matSuffix
-                  class="h-10"
                 ></mat-datepicker-toggle>
               </div>
               <mat-datepicker #graduationDate></mat-datepicker>
