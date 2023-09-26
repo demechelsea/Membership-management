@@ -34,10 +34,11 @@
               />
             </sorax-form-field>
           </div>
-
+        </div>
+        <div class="flex">
           <div class="w-full md:w-1/1 pr8">
             <sorax-form-field
-              label="Address 1"
+              label="Address line 1"
               [soraxFormControl]="addressDetailsForm.get('lineOne')"
             >
               <input
@@ -49,21 +50,20 @@
               />
             </sorax-form-field>
           </div>
-        </div>
-
-        <div class="w-full md:w-1/1 pr8">
-          <sorax-form-field
-            label="Address 2"
-            [soraxFormControl]="addressDetailsForm.get('lineTwo')"
-          >
-            <input
-              #soraxInput
-              matInput
-              formControlName="lineTwo"
-              type="text"
-              name="lineTwo"
-            />
-          </sorax-form-field>
+          <div class="w-full md:w-1/1 pr8">
+            <sorax-form-field
+              label="Address line 2"
+              [soraxFormControl]="addressDetailsForm.get('lineTwo')"
+            >
+              <input
+                #soraxInput
+                matInput
+                formControlName="lineTwo"
+                type="text"
+                name="lineTwo"
+              />
+            </sorax-form-field>
+          </div>
         </div>
       </div>
     </form>

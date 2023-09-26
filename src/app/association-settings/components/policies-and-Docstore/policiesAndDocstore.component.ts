@@ -118,6 +118,8 @@ export class PoliciesAndDocstoreComponent
       .getAssocationAttachments(this.page)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
+        console.log("uuu", response);
+        
         Object.assign(this.resultViewModel, response);
         Object.assign(this.page, this.resultViewModel.page);
         this.listpoliciesAndDocstore = this.resultViewModel.result;

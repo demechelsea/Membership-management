@@ -8,6 +8,7 @@ import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { Subject, takeUntil } from "rxjs";
 import { MyEducationPopupComponent } from "./my-education-popup/my-education-popup.component";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
+import { MyEducationService } from "app/membership-management/services/my-education/my-education.service";
 
 @Component({
   selector: "app-my-education",
@@ -19,12 +20,12 @@ export class MyEducationComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
 
   @Input() memberData: any;
-  public companies: any;
+  public educations: any;
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private loader: AppLoaderService,
-    private userCompaniesService: MycompanyService
+    private educationService: MyEducationService,
   ) {
     super();
   }
@@ -34,11 +35,12 @@ export class MyEducationComponent extends BaseComponent implements OnInit {
 
   getPageResults(id: number) {
     //this.loader.open();
-    this.userCompaniesService
-      .getCompanies(id)
+    this.educationService
+      .getEducationHistory(id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        this.companies = response.result;
+        this.educations = response.result;
+        console.log("education" ,this.educations);
         this.loader.close();
       });
   }

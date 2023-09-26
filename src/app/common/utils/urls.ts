@@ -137,6 +137,19 @@ export class Urls {
     public static UPDATE_FAMILY_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateFamilyMember";
     public static DELETE_FAMILY_MEMBER: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteFamilyMember";
 
+    public static RETRIEVE_USER_EDUCATIONS_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveEducationsByUserId";
+    public static REGISTER_USER_EDUCATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserEducation";
+    public static UPDATE_USER_EDUCATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserEducation";
+    public static RETRIEVE_USER_EDUCATION_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveEducationsById";
+    public static DELETE_USER_EDUCATION: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserEducation";
+
+
+    public static RETRIEVE_WORK_EXPERIENCE_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveExperiencesByUserId";
+    public static REGISTER_WORK_EXPERIENCE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserExperience";
+    public static UPDATE_WORK_EXPERIENCE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserExperience";
+    public static RETRIEVE_WORK_EXPERIENCE_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveExperiencesById";
+    public static DELETE_WORK_EXPERIENCE: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserExperience";
+
     public static RETRIEVE_USER_COMPANY_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveCompaniesByUserId";
     public static REGISTER_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserCompany";
     public static UPDATE_USER_COMPANY: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserCompany";

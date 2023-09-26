@@ -53,7 +53,7 @@ export class ProfileHighlightComponent extends BaseComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.memberData = JSON.parse(params["memberData"]);
       this.associationMemberId = this.memberData.userDetail.id;
-    });    
+    });
     this.getProfileSettings();
     this.buildprofileSettingForm(new UserProfileSettingDTO());
   }
@@ -71,21 +71,19 @@ export class ProfileHighlightComponent extends BaseComponent implements OnInit {
       });
   }
 
-  // handleViewAttachment() {
-  //   if (this.imageURL != null) {
-  //     let userProfileSetting = new UserProfileSettingDTO();
-  //     userProfileSetting.photoLink = this.imageURL;
-  //     this.userProfileSettingService
-  //       .downloadImage(userProfileSetting)
-  //       .subscribe((response: any) => {
-  //         console.log(" handle", response);
-
-  //         const blob = new Blob([response], { type: "image/jpeg" });
-  //         const url = window.URL.createObjectURL(blob);
-  //         this.imageURL = url;
-  //       });
-  //   }
-  // }
+  handleViewAttachment() {
+    if (this.imageURL != null) {
+      let userProfileSetting = new UserProfileSettingDTO();
+      userProfileSetting.photoLink = this.imageURL;
+      this.userProfileSettingService
+        .downloadImage(userProfileSetting)
+        .subscribe((response: any) => {
+          const blob = new Blob([response], { type: "image/jpeg" });
+          const url = window.URL.createObjectURL(blob);
+          this.imageURL = url;
+        });
+    }
+  }
 
   mapFormDataToPlanData(formData: any): UserProfileSettingDTO {
     return {

@@ -28,7 +28,7 @@
           formControlName="smsName"
           type="text"
           name="smsName"
-          placeholder="Enter SMTS name"
+          placeholder="Enter SMS name"
         />
       </sorax-form-field>
 
@@ -42,7 +42,21 @@
           formControlName="smsIdentify"
           type="text"
           name="smsIdentify"
-          placeholder="Enter a SMS identity"
+          placeholder="Enter SMS identity"
+        />
+      </sorax-form-field>
+
+      <sorax-form-field
+        label="Whatsapp number"
+        [soraxFormControl]="SMSsendersProfileForm.get('whatsappNumber')"
+      >
+        <input
+          #soraxInput
+          matInput
+          formControlName="whatsappNumber"
+          type="text"
+          name="whatsappNumber"
+          placeholder="Enter whatsapp number"
         />
       </sorax-form-field>
     </form>

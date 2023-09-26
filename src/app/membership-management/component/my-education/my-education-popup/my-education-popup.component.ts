@@ -8,6 +8,7 @@ import { Observable, Subject, takeUntil } from "rxjs";
 import { NotificationService } from "app/common/services/notification.service";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 import { UserEducationDTO } from "app/models/UserEducationDTO";
+import { MyEducationService } from "app/membership-management/services/my-education/my-education.service";
 
 @Component({
   selector: "my-education-popup",
@@ -30,7 +31,7 @@ export class MyEducationPopupComponent extends BaseComponent implements OnInit {
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private userCompaniesService: MycompanyService,
+    private educationService: MyEducationService,
     private notificationService: NotificationService
   ) {
     super();
@@ -46,7 +47,7 @@ export class MyEducationPopupComponent extends BaseComponent implements OnInit {
   buildAssociationMemberForm(educationData: UserEducationDTO) {
     const isUpdate = !this.data.isNew;
     this.userEducationForm = this.formBuilder.group({
-      userDetailId: [isUpdate ? this.selectedAssociationMemberId : null],
+      userDetailId: [this.selectedAssociationMemberId],
       graduationDate: [educationData?.graduationDate || ""],
       institutions: [educationData?.institutions || ""],
       degree: [educationData?.degree || ""],
@@ -58,12 +59,12 @@ export class MyEducationPopupComponent extends BaseComponent implements OnInit {
     return str == "Y" ? 1 : 0;
   }
 
-  submit(addressDetails: UserEducationDTO) {
+  submit(educationDetails: UserEducationDTO) {
     if (this.userEducationForm.valid) {
       const formData = this.userEducationForm.value;
       if (this.data.isNew) {
-        this.userCompaniesService
-          .createCompanies(formData)
+        this.educationService
+          .createEducationHistory(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -76,8 +77,8 @@ export class MyEducationPopupComponent extends BaseComponent implements OnInit {
             }
           });
       } else {
-        this.userCompaniesService
-          .updateCompanies(formData)
+        this.educationService
+          .updateEducationHistory(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {

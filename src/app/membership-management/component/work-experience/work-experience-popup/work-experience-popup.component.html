@@ -20,51 +20,6 @@
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div class="flex flex-col justify-between">
         <div class="flex">
-          <div class="w-full pr8">
-            <sorax-form-field
-              label="Start date"
-              [soraxFormControl]="workExperienceForm.get('startDate')"
-            >
-              <div class="flex flex-row">
-                <input
-                  #soraxInput
-                  matInput
-                  [matDatepicker]="startDate"
-                  formControlName="startDate"
-                  name="startDate"
-                />
-                <mat-datepicker-toggle
-                  [for]="startDate"
-                  matSuffix
-                ></mat-datepicker-toggle>
-              </div>
-              <mat-datepicker #startDate></mat-datepicker>
-            </sorax-form-field>
-          </div>
-
-          <div class="w-full pr8">
-            <sorax-form-field
-              label="End date"
-              [soraxFormControl]="workExperienceForm.get('endDate')"
-            >
-              <div class="flex flex-row">
-                <input
-                  #soraxInput
-                  matInput
-                  [matDatepicker]="endDate"
-                  formControlName="endDate"
-                  name="endDate"
-                />
-                <mat-datepicker-toggle
-                  [for]="endDate"
-                  matSuffix
-                ></mat-datepicker-toggle>
-              </div>
-              <mat-datepicker #endDate></mat-datepicker>
-            </sorax-form-field>
-          </div>
-        </div>
-        <div class="flex">
           <div class="w-full md:w-1/2 pr8">
             <sorax-form-field
               label="Job title"
@@ -95,6 +50,53 @@
           </div>
         </div>
 
+        <div class="flex">
+          <div class="w-full pr8">
+            <sorax-form-field
+              label="Start date"
+              [soraxFormControl]="workExperienceForm.get('startDate')"
+            >
+              <div class="flex flex-row">
+                <input
+                  #soraxInput
+                  matInput
+                  [matDatepicker]="startDate"
+                  formControlName="startDate"
+                  name="startDate"
+                />
+                <mat-datepicker-toggle
+                  [for]="startDate"
+                  class="h-8"
+                  matSuffix
+                ></mat-datepicker-toggle>
+              </div>
+              <mat-datepicker #startDate></mat-datepicker>
+            </sorax-form-field>
+          </div>
+
+          <div class="w-full pr8">
+            <sorax-form-field
+              label="End date"
+              [soraxFormControl]="workExperienceForm.get('endDate')"
+            >
+              <div class="flex flex-row">
+                <input
+                  #soraxInput
+                  matInput
+                  [matDatepicker]="endDate"
+                  formControlName="endDate"
+                  name="endDate"
+                />
+                <mat-datepicker-toggle
+                  [for]="endDate"
+                  class="h-8"
+                  matSuffix
+                ></mat-datepicker-toggle>
+              </div>
+              <mat-datepicker #endDate></mat-datepicker>
+            </sorax-form-field>
+          </div>
+        </div>
         <div class="flex">
           <div class="w-full md:w-1/2 pr8">
             <sorax-form-field

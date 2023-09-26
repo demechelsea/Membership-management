@@ -75,7 +75,6 @@ export class SmsComponent extends BaseComponent implements OnInit {
     this.buildSmsUnsubscribeListForm(new MessageSubscriptionDTO());
     this.buildSMTPForm(new MessageSettingDTO());
     this.smsSettingService.getSmsSetting().subscribe((response) => {
-      console.log(response);
       if (response.result != null) {
         const smsSetting = response.result;
         this.SMSsendersProfileForm.patchValue({
@@ -106,9 +105,8 @@ export class SmsComponent extends BaseComponent implements OnInit {
       phoneNumber: [
         smsSubscriptionData.phoneNumber || "",
         [
-          Validators.required,
-          Validators.pattern('^\\+(?:[0-9] ?){6,14}[0-9]$') 
-        ]
+          Validators.pattern("^\\+?[1-9][0-9]{7,14}$"), 
+        ],
       ],
     });
   }
@@ -134,9 +132,11 @@ export class SmsComponent extends BaseComponent implements OnInit {
       id: [SMSSettingDTO.id, Validators.required],
       smsName: [SMSSettingDTO.smsName, Validators.required],
       smsIdentify: [SMSSettingDTO.smsIdentify, Validators.required],
+      whatsappNumber: [SMSSettingDTO.whatsappNumber, Validators.required],
     });
     this.SMSsendersProfileForm.get("smsName").disable();
     this.SMSsendersProfileForm.get("smsIdentify").disable();
+    this.SMSsendersProfileForm.get("whatsappNumber").disable();
   }
 
   filterControl = new FormControl();
@@ -268,6 +268,7 @@ export class SmsComponent extends BaseComponent implements OnInit {
         } else {
           this.notificationService.showError(response.messages[0].message);
         }
+        this.getSmsUnsubscribeData();
       });
   }
 

@@ -8,6 +8,7 @@ import { AssociationMemberDTO } from "app/models/AssociationMemberDTO ";
 import { Subject, takeUntil } from "rxjs";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 import { WorkExperiencePopupComponent } from "./work-experience-popup/work-experience-popup.component";
+import { WorkExperienceService } from "app/membership-management/services/work-experience-service/work-experience.service";
 
 @Component({
   selector: "app-work-experience",
@@ -19,12 +20,13 @@ export class WorkExperienceComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
 
   @Input() memberData: any;
-  public companies: any;
+  public workExperiences: any;
+
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private loader: AppLoaderService,
-    private userCompaniesService: MycompanyService
+    private workExperienceService: WorkExperienceService,
   ) {
     super();
   }
@@ -34,17 +36,17 @@ export class WorkExperienceComponent extends BaseComponent implements OnInit {
 
   getPageResults(id: number) {
     //this.loader.open();
-    this.userCompaniesService
-      .getCompanies(id)
+    this.workExperienceService
+      .getWorkExperience(id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
-        this.companies = response.result;
+        this.workExperiences = response.result;
         this.loader.close();
       });
   }
 
   openPopUp(data: AssociationMemberDTO, isNew?: boolean) {
-    let title = isNew ? "Add education" : "Update education";
+    let title = isNew ? "Add work experience" : "Update work experience";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
       WorkExperiencePopupComponent,
       {

@@ -9,6 +9,7 @@ import { NotificationService } from "app/common/services/notification.service";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 import { UserEducationDTO } from "app/models/UserEducationDTO";
 import { UserWorkExperienceDTO } from "app/models/UserWorkExperienceDTO";
+import { WorkExperienceService } from "app/membership-management/services/work-experience-service/work-experience.service";
 
 @Component({
   selector: "work-experience-popup",
@@ -31,7 +32,7 @@ export class WorkExperiencePopupComponent extends BaseComponent implements OnIni
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private userCompaniesService: MycompanyService,
+    private workExperienceService: WorkExperienceService,
     private notificationService: NotificationService
   ) {
     super();
@@ -47,7 +48,7 @@ export class WorkExperiencePopupComponent extends BaseComponent implements OnIni
   buildWorkExperienceForm(educationData: UserWorkExperienceDTO) {
     const isUpdate = !this.data.isNew;
     this.workExperienceForm = this.formBuilder.group({
-      userDetailId: [isUpdate ? this.selectedAssociationMemberId : null],
+      userDetailId: [this.selectedAssociationMemberId],
       startDate: [educationData?.startDate || ""],
       endDate: [educationData?.endDate || ""],
       jobTitle: [educationData?.jobTitle || ""],
@@ -56,12 +57,12 @@ export class WorkExperiencePopupComponent extends BaseComponent implements OnIni
     });
   }
 
-  submit(addressDetails: UserEducationDTO) {
+  submit(addressDetails: UserWorkExperienceDTO) {
     if (this.workExperienceForm.valid) {
       const formData = this.workExperienceForm.value;
       if (this.data.isNew) {
-        this.userCompaniesService
-          .createCompanies(formData)
+        this.workExperienceService
+          .createWorkExperience(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -74,8 +75,8 @@ export class WorkExperiencePopupComponent extends BaseComponent implements OnIni
             }
           });
       } else {
-        this.userCompaniesService
-          .updateCompanies(formData)
+        this.workExperienceService
+          .updateWorkExperience(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {

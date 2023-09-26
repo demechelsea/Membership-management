@@ -7,7 +7,6 @@ import {
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
-import { MembershipPlanService } from "app/association-settings/services/membership-plan-service/membership-plan.service";
 import { SoraxAnimations } from "app/common/animations/sorax-animations";
 import { SoraxColumnDefinition } from "app/common/components/sorax-table-view/sorax-column-definition";
 import { AppConfirmService } from "app/common/services/app-confirm.service";
@@ -62,7 +61,6 @@ export class MembershipDetailsComponent
   }
 
   getPageResults() {
-    //this.loader.open();
     let userDetail = new UserDetailDTO();
     userDetail.id = this.memberData.userDetail.id;
     this.membershipDetailsService
@@ -70,6 +68,7 @@ export class MembershipDetailsComponent
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         Object.assign(this.resultViewModel, response);
+        Object.assign(this.page, this.resultViewModel.page);
         this.listSubscribtions = this.resultViewModel.result;
         this.subscriptionData = this.listSubscribtions.map(
           (associationMember) => {
@@ -81,8 +80,6 @@ export class MembershipDetailsComponent
             };
           }
         );
-        Object.assign(this.messages, response);
-        this.loader.close();
       });
   }
   

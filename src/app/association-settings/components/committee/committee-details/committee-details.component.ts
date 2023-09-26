@@ -50,7 +50,6 @@ export class DetailsComponent extends BaseComponent implements OnInit {
   public committeeMembersPage: any;
   public attachmentsPage: any;
 
-
   rowAction: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(

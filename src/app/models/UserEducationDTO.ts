@@ -7,4 +7,3 @@ export class UserEducationDTO extends MessageWrapModel {
     degree: string;
     fieldOfStudy: string;
 }
-

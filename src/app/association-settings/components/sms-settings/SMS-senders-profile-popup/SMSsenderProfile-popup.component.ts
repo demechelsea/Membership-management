@@ -11,7 +11,6 @@ import { BaseComponent } from "app/core/components/base/base.component";
 import LableValueModel from "app/models/lable-value-model";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { AppConfirmService } from "app/common/services/app-confirm.service";
-import { EmailSettingDTO } from "app/models/emailSettingDTO";
 import { MessageSettingDTO } from "app/models/messageSettingDTO";
 import { SmsSettingService } from "app/association-settings/services/smsSettingService/smsSetting.service";
 import { NotificationService } from "app/common/services/notification.service";
@@ -47,7 +46,7 @@ export class SMSSenderProfilePopupComponent
   }
 
   ngOnInit() {
-    this.buildSMTPForm(this.data.payload.result);
+    this.buildSMTPForm(new MessageSettingDTO());
     this.cdRef.detectChanges();
   }
 
@@ -57,6 +56,7 @@ export class SMSSenderProfilePopupComponent
       id: [SMSSettingDTO.id, Validators.required],
       smsName: [SMSSettingDTO.smsName, Validators.required],
       smsIdentify: [SMSSettingDTO.smsIdentify, Validators.required],
+      whatsappNumber: [SMSSettingDTO.whatsappNumber, Validators.required],
     });
   }
 
