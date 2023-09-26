@@ -22,6 +22,8 @@ import { MembershipDetailsPopupComponent } from "./component/membership-details/
 import { ProfilehighlightPopupComponent } from "./component/profile-highlight/profile-highlight-popup/profie-highlight-popup.component";
 import { ContactDetailsPopupComponent } from "./component/contacts/contact-details-popup/contact-details-popup.component";
 import { AddressPopupComponent } from "./component/address/address-popup/address-popup.component";
+import { MyEducationComponent } from "./component/my-companies copy/my-education.component";
+import { MyEducationPopupComponent } from "./component/my-companies copy/my-education-popup/my-education-popup.component";
 
 const declarationsList = [
   MembershipManagementComponent,
@@ -39,6 +41,8 @@ const declarationsList = [
   MycompaniesPopupComponent,
   MembershipDetailsPopupComponent,
   ProfilehighlightPopupComponent,
+  MyEducationComponent,
+  MyEducationPopupComponent
 ];
 
 const importsList = [
