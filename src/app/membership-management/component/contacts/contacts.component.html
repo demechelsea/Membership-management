@@ -20,4 +20,9 @@ class="grid grid-cols-3 gap-4 p-8 mr-4 mb-4 rounded border border-gray-200">
       <div class="h-12 flex items-center justify-center">{{memberData.userDetail.primaryPhone}}</div>
   </div>
 </div>
+<div class="m-8" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }" class="text-right">
+  <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+    Add
+  </button>
+</div>
 </div>

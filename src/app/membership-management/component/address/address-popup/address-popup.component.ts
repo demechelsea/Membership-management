@@ -7,29 +7,27 @@ import { Subject, takeUntil } from "rxjs";
 import { NotificationService } from "app/common/services/notification.service";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 import { UserContactDTO } from "app/models/UserContactDTO";
+import { UserAddressDTO } from "app/models/UserAddressDTO";
 
 @Component({
-  selector: "contact-details-popup",
-  templateUrl: "./contact-details-popup.component.html",
-  styleUrls: ["./contact-details-popup.component.scss"],
+  selector: "address-popup",
+  templateUrl: "./address-popup.component.html",
+  styleUrls: ["./address-popup.component.scss"],
 })
-export class ContactDetailsPopupComponent
-  extends BaseComponent
-  implements OnInit
-{
+export class AddressPopupComponent extends BaseComponent implements OnInit {
   membershipPlanOptionsKey: string = LookupService.MEMBERSHIP_PLAN_OPTIONS;
 
   private ngUnsubscribe$ = new Subject<void>();
   public isLoading: boolean;
   selectedUserDetailId: number;
 
-  public contactDetailsForm: FormGroup;
+  public addressDetailsForm: FormGroup;
 
   buttonText = "Add";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<ContactDetailsPopupComponent>,
+    public dialogRef: MatDialogRef<AddressPopupComponent>,
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
@@ -42,20 +40,21 @@ export class ContactDetailsPopupComponent
   }
 
   ngOnInit() {
-    this.buildContactDetailsForm(this.data.payload);
+    this.buildAddressDetailsForm(this.data.payload);
     this.cdRef.detectChanges();
   }
 
-  buildContactDetailsForm(contactDetailsdata: UserContactDTO) {
+  buildAddressDetailsForm(userAddressData: UserAddressDTO) {
     const isUpdate = !this.data.isNew;
-    this.contactDetailsForm = this.formBuilder.group({
+    this.addressDetailsForm = this.formBuilder.group({
       id: [isUpdate ? this.selectedUserDetailId : null],
       userDetailId: [isUpdate ? this.selectedUserDetailId : null],
-      emailId: [contactDetailsdata?.emailId || ""],
-      phoneNumber: [contactDetailsdata?.phoneNumber || ""],
-      emailVerified: [contactDetailsdata?.emailVerified || ""],
-      phoneVerified: [contactDetailsdata?.phoneVerified || ""],
-      contactType: [contactDetailsdata.contactType || 0],
+      addrType: [userAddressData?.addrType || ""],
+      landMark: [userAddressData?.landMark || ""],
+      lineOne: [userAddressData?.lineOne || ""],
+      lineTwo: [userAddressData?.lineTwo || ""],
+      geoCoordinates: [userAddressData.geoCoordinates || ""],
+      location: [userAddressData.location || ""],
     });
   }
 
@@ -63,9 +62,9 @@ export class ContactDetailsPopupComponent
     return str == "Y" ? 1 : 0;
   }
 
-  submit(contactDetails: UserContactDTO) {
-    if (this.contactDetailsForm.valid) {
-      const formData = this.contactDetailsForm.value;
+  submit(addressDetails: UserContactDTO) {
+    if (this.addressDetailsForm.valid) {
+      const formData = this.addressDetailsForm.value;
       if (this.data.isNew) {
         this.userCompaniesService
           .createCompanies(formData)

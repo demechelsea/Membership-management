@@ -13,52 +13,57 @@
 
   <div mat-dialog-content class="padround18">
     <form
-      [formGroup]="contactDetailsForm"
-      class="contactDetailsForm padround18"
-      (ngSubmit)="submit(contactDetailsForm.value)"
+      [formGroup]="addressDetailsForm"
+      class="addressDetailsForm padround18"
+      (ngSubmit)="submit(addressDetailsForm.value)"
     >
       <div soraxdir-alert-message [errorMessage]="messages | json"></div>
       <div class="flex flex-col justify-between">
         <div class="flex">
           <div class="w-full md:w-1/1 pr8">
             <sorax-form-field
-              label="Email"
-              [soraxFormControl]="contactDetailsForm.get('emailId')"
+              label="Address type"
+              [soraxFormControl]="addressDetailsForm.get('addrType')"
             >
               <input
                 #soraxInput
                 matInput
-                formControlName="emailId"
+                formControlName="addrType"
                 type="text"
-                name="emailId"
+                name="addrType"
               />
             </sorax-form-field>
           </div>
 
           <div class="w-full md:w-1/1 pr8">
             <sorax-form-field
-              label="Phone"
-              [soraxFormControl]="contactDetailsForm.get('phoneNumber')"
+              label="Address 1"
+              [soraxFormControl]="addressDetailsForm.get('lineOne')"
             >
               <input
                 #soraxInput
                 matInput
-                formControlName="phoneNumber"
+                formControlName="lineOne"
                 type="text"
-                name="phoneNumber"
+                name="lineOne"
               />
             </sorax-form-field>
           </div>
         </div>
 
-        <div class="flex flex-row">
-          <div class="w-full md:w-1/2 pr8">
-            <mat-slide-toggle
-              class="padround8"
-              [formControl]="contactDetailsForm.controls['contactType']"
-              >Primary</mat-slide-toggle
-            >
-          </div>
+        <div class="w-full md:w-1/1 pr8">
+          <sorax-form-field
+            label="Address 2"
+            [soraxFormControl]="addressDetailsForm.get('lineTwo')"
+          >
+            <input
+              #soraxInput
+              matInput
+              formControlName="lineTwo"
+              type="text"
+              name="lineTwo"
+            />
+          </sorax-form-field>
         </div>
       </div>
     </form>
@@ -79,7 +84,7 @@
       class="mat-primary text-right"
       aria-label="Subscribe"
       [textContent]="buttonText"
-      (click)="submit(contactDetailsForm.value)"
+      (click)="submit(addressDetailsForm.value)"
     >
       Subscribe
     </button>
