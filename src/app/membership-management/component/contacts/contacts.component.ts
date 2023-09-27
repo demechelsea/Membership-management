@@ -7,6 +7,7 @@ import { BaseComponent } from "app/core/components/base/base.component";
 import { UserRelationShipDTO } from "app/models/UserRelationShipDTO";
 import { Subject, takeUntil } from "rxjs";
 import { ContactDetailsPopupComponent } from "./contact-details-popup/contact-details-popup.component";
+import { ContactService } from "app/membership-management/services/contact-service/contact.service";
 
 @Component({
   selector: "app-contacts",
@@ -18,15 +19,31 @@ export class ContactsComponent extends BaseComponent implements OnInit {
   private ngUnsubscribe$ = new Subject<void>();
 
   @Input() memberData: any;
+  public contacts: any;
 
   constructor(
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private loader: AppLoaderService
+    private loader: AppLoaderService,
+    private contactService: ContactService,
+
   ) {
     super();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getPageResults(this.memberData.userDetail.id);
+  }
+
+  getPageResults(id: number) {
+    //this.loader.open();
+    this.contactService
+      .getContacts(id)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((response) => {
+        this.contacts = response.result;
+        this.loader.close();
+      });
+  }
 
   openPopUp(data: UserRelationShipDTO, isNew?: boolean) {
     let title = "Add contact";
@@ -47,7 +64,7 @@ export class ContactsComponent extends BaseComponent implements OnInit {
       if (!res) {
         return;
       }
-      //this.getPageResults();
+      this.getPageResults(this.memberData.userDetail.id);
     });
   }
 

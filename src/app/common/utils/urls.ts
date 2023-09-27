@@ -161,6 +161,14 @@ export class Urls {
     public static RETRIEVE_USER_PROFILE_SETTING_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveProfileSettingsById";
     public static DELETE_USER_PROFILE_SETTING: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserProfileSetting";
 
+
+    public static RETRIEVE_USER_CONTACT_BY_USER_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveContactsByUserId";
+    public static REGISTER_USER_CONTACT: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/registerUserContact";
+    public static UPDATE_USER_CONTACT: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/updateUserContact";
+    public static RETRIEVE_USER_CONTACT_BY_ID: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/retrieveContactsById";
+    public static DELETE_USER_CONTACT: string = Urls.baseAPIUrl + Urls.contextPath + "/associationSettings/deleteUserContact";
+
+
     public static WEBSITE_INFO_LIST: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/listWebSites";
     public static SAVE_UPDATE_WEBSITE_INFO: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/saveUPdateWebsiteInfo";
     public static UPDATE_WEBSITE_INFO_STATUS: string = Urls.baseAPIUrl + Urls.contextPath + "/webbuilder/updateWebsiteInfoStatus";

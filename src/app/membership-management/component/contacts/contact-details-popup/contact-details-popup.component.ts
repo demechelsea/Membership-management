@@ -7,6 +7,7 @@ import { Subject, takeUntil } from "rxjs";
 import { NotificationService } from "app/common/services/notification.service";
 import { MycompanyService } from "app/membership-management/services/my-companies-service/my-companies.service";
 import { UserContactDTO } from "app/models/UserContactDTO";
+import { ContactService } from "app/membership-management/services/contact-service/contact.service";
 
 @Component({
   selector: "contact-details-popup",
@@ -33,7 +34,7 @@ export class ContactDetailsPopupComponent
     public lookupService: LookupService,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private userCompaniesService: MycompanyService,
+    private contactService: ContactService,
     private notificationService: NotificationService
   ) {
     super();
@@ -49,8 +50,7 @@ export class ContactDetailsPopupComponent
   buildContactDetailsForm(contactDetailsdata: UserContactDTO) {
     const isUpdate = !this.data.isNew;
     this.contactDetailsForm = this.formBuilder.group({
-      id: [isUpdate ? this.selectedUserDetailId : null],
-      userDetailId: [isUpdate ? this.selectedUserDetailId : null],
+      userDetailId: [this.selectedUserDetailId],
       emailId: [contactDetailsdata?.emailId || ""],
       phoneNumber: [contactDetailsdata?.phoneNumber || ""],
       emailVerified: [contactDetailsdata?.emailVerified || ""],
@@ -67,8 +67,8 @@ export class ContactDetailsPopupComponent
     if (this.contactDetailsForm.valid) {
       const formData = this.contactDetailsForm.value;
       if (this.data.isNew) {
-        this.userCompaniesService
-          .createCompanies(formData)
+        this.contactService
+          .createContact(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {
@@ -81,8 +81,8 @@ export class ContactDetailsPopupComponent
             }
           });
       } else {
-        this.userCompaniesService
-          .updateCompanies(formData)
+        this.contactService
+          .updateContacte(formData)
           .pipe(takeUntil(this.ngUnsubscribe$))
           .subscribe((response) => {
             if (response.success) {

@@ -17,22 +17,22 @@ export class ContactService extends HttpAppDataService {
     this.http = httpClient;
   }
 
-  getWorkExperience(id: number): Observable<ResultViewModel> {
+  getContacts(id: number): Observable<ResultViewModel> {
     let userDetail = new UserDetailDTO();
     userDetail.id = id;        
-    return this.postData(Urls.RETRIEVE_USER_EDUCATIONS_BY_USER_ID, userDetail);
+    return this.postData(Urls.RETRIEVE_USER_CONTACT_BY_USER_ID, userDetail);
   }
 
-  createWorkExperience(workExperience: UserDetailDTO): Observable<any> {
-    return this.postData(Urls.REGISTER_USER_EDUCATION, workExperience);
+  createContact(workExperience: UserDetailDTO): Observable<any> {
+    return this.postData(Urls.REGISTER_USER_CONTACT, workExperience);
   }
   
-  updateWorkExperience(workExperience: UserDetailDTO): Observable<any> {
-    return this.postData(Urls.UPDATE_USER_EDUCATION, workExperience);
+  updateContacte(workExperience: UserDetailDTO): Observable<any> {
+    return this.postData(Urls.UPDATE_USER_CONTACT, workExperience);
   }
 
-  deleteWorkExperience(workExperience: UserDetailDTO): Observable<any> {
-    return this.postData(Urls.DELETE_USER_EDUCATION, workExperience);
+  deleteContact(workExperience: UserDetailDTO): Observable<any> {
+    return this.postData(Urls.DELETE_USER_CONTACT, workExperience);
   }
 
 }

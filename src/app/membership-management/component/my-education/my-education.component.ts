@@ -40,7 +40,6 @@ export class MyEducationComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((response) => {
         this.educations = response.result;
-        console.log("education" ,this.educations);
         this.loader.close();
       });
   }
