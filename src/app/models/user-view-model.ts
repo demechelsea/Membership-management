@@ -17,7 +17,7 @@ export class UserViewModel extends MessageWrapModel {
     encryptedAssociationId:string;
     authToken: string;
     emailId: string;
-    phone: string;
+    phoneNumber: string;
     password: string;
     statusStr: string;
     appUserFlag: string;

@@ -14,3 +14,24 @@ export function notNull(object: any): boolean {
 export function nullObj(object: any): boolean {
   return object == null || object == 'undefined';
 }
+
+export function isEmpty(object: any): boolean {
+  if (object === null || object === undefined) {
+    return true;
+  }
+  
+  if (typeof object === 'string' && object.trim() === '') {
+    return true;
+  }
+
+  if (typeof object === 'object' && Object.keys(object).length === 0) {
+    return true;
+  }
+  
+  return false ;
+}
+
+
+export function isNotEmpty(object: any): boolean {
+  return !isEmpty(object);
+}

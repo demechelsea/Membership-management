@@ -5,9 +5,11 @@
         appearance="outline"
         >
       <mat-icon *ngIf="prefix" matPrefix>{{prefix}}</mat-icon>
+      <span *ngIf="prefixText" matTextPrefix><strong>{{prefixText}}</strong></span>
       <mat-label >{{label}}</mat-label>
       <ng-content></ng-content>
       <mat-icon *ngIf="suffix" matSuffix>{{suffix}}</mat-icon>
+      <span *ngIf="suffixText" matTextSuffix><strong>{{suffixText}}</strong></span>
    
       <mat-error>
         <span sorax-validation-display-dir

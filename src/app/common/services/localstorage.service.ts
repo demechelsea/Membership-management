@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AssociationModel } from 'app/models/association-model';
 import { UserViewModel } from 'app/models/user-view-model';
-import { Observable, Observer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,20 +26,27 @@ export class LocalstorageService {
     return this.loggedInUser;
   }
 
-  isLoggedIn(): boolean {
+  isPartialLoggedIn(): boolean {
+    this.updateLoggedInUser();
+    return this.loggedInUser?.authToken != null;
+  }
+
+  private updateLoggedInUser() {
     let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
     if (authenticatedUserJsonString != null) {
       this.loggedInUser = JSON.parse(authenticatedUserJsonString);
     }
+  }
 
-    return (this.loggedInUser != null && this.loggedInUser.authToken != null);
+  isLoggedIn(): boolean {
+    this.updateLoggedInUser();
+
+    return (this.loggedInUser?.authToken != null
+              && this.loggedInUser?.association?.encryptedId != null);
   }
 
   getAssociation(): AssociationModel {
-    let authenticatedUserJsonString = sessionStorage.getItem("societyRaxAuthenticatedUser");
-    if (authenticatedUserJsonString != null) {
-      this.loggedInUser = JSON.parse(authenticatedUserJsonString);
-    }
+    this.updateLoggedInUser();
     return this.loggedInUser!.association;
   }
 

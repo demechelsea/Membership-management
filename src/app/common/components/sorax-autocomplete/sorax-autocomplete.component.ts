@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LookupService } from 'app/common/services/lookup.service';
-import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import LableValueModel from 'app/models/lable-value-model';
 import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
@@ -12,15 +11,27 @@ import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
   templateUrl: './sorax-autocomplete.component.html',
   styleUrls: ['./sorax-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: SORAX_VALIDATION_MESSAGES_KEY,
+      useValue: { VALIDATION_MESSAGES }
+    },
+
+  ]
 })
 export class SoraxAutocompleteComponent implements OnInit {
 
   @Input() id: number;
 
+  @Input("prefix") public prefix: string;
+  @Input("suffix") public suffix: string;
+  @Input("exClass") public exClass: string;
+  @Input("requiredFlag") public requiredFlag: string = 'yes';
   @Input() lookupName: string;
   @Input() placeholder: string;
-  @Input() autoCompleteFieldId: FormControl;
-  @Input() autoCompleteFieldLabel: FormControl;
+  @Input() formGroupName: string;
+  @Input() autoCompleteFieldId: UntypedFormControl;
+  @Input() autoCompleteFieldLabel: UntypedFormControl;
   @Output() selectedOptionEmitter: EventEmitter<LableValueModel> = new EventEmitter<LableValueModel>();
   @Input() displayFn: (option: any) => string;
 
@@ -29,7 +40,7 @@ export class SoraxAutocompleteComponent implements OnInit {
   filteredOptions: Observable<LableValueModel[]>;
   options: any[];
 
-  constructor(public lookupService: LookupService) {
+  constructor(public lookupService: LookupService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -40,10 +51,13 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   ngAfterViewInit() {
     this.addValidationRule();
+    this.cdr.detectChanges(); 
+
   }
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    const selectedOption = this.options.find(option => option.id === event.option.value);
+    const selectedOption = this.options.find(option => (option.id == event.option.value
+                                                          || option.code == event.option.value));
     this.selectedOptionEmitter.emit(selectedOption);
     this.setAutoControlIdLabel(selectedOption);
   }
@@ -62,7 +76,7 @@ export class SoraxAutocompleteComponent implements OnInit {
           .pipe(startWith(''),
             map(value => {
               this.resetInputControlValue();
-              return this.filterOptionsByValue(value);
+              return this.filterOptionsByValue('' + value);
             })
           );
         this.prepolulateAutoComplete();
@@ -72,22 +86,28 @@ export class SoraxAutocompleteComponent implements OnInit {
 
 
   private filterOptionsByValue(value: string): LableValueModel[] {
-    const filterValue = value;
+    const filterValue: string = value.toLowerCase();
     if (this.options == null) {
       return null;
     }
     const filteredOptions = this.options.filter(option => {
       if (option.name) {
-        return option.name.toLowerCase().includes(filterValue);
-      }
-      else if (option.positionName) {
+
+        return option.name.toLowerCase().includes(filterValue) 
+                || option.localName.toLowerCase().includes(filterValue);
+
+      } else if (option.positionName) {
+
         return option.positionName.toLowerCase().includes(filterValue);
-      }
-      else if (option.planName) {
+
+      } else if (option.planName) {
+
         return option.planName.toLowerCase().includes(filterValue);
       }
-      else if (option?.userDetail) {
-        return (`${option?.userDetail?.firstName} ${option?.userDetail?.surName}`).toLowerCase().includes(filterValue);
+      else if (option.userDetail) {
+        return (`${option.userDetail.firstName} ${option.userDetail.givenName} 
+        ${option.userDetail.parentName} ${option.userDetail.primaryEmail}
+        ${option.userDetail.primaryPhone} ${option.userDetail.parentName}`).toLowerCase().includes(filterValue);
       }
 
     });    
@@ -108,7 +128,8 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private findOptionByIdOrName() {
     if (this.autoCompleteFieldId) {
-      return this.options.find(option => (option.id == this.autoCompleteFieldId.value));
+      return this.options.find(option => (option.id == this.autoCompleteFieldId.value ||
+        option.code == this.autoCompleteFieldId.value));
     }
     return this.options.find(option => (option.name == this.autoCompleteFieldLabel.value));
   }
@@ -119,7 +140,7 @@ export class SoraxAutocompleteComponent implements OnInit {
     }
     if (option) {
       if (this.autoCompleteFieldId) {
-        this.autoCompleteFieldId.setValue(option.id);
+        this.autoCompleteFieldId.setValue(option.code ? option.code : option.id);
       }
       this.autoCompleteFieldLabel.setValue(option.name);
     }
@@ -136,8 +157,8 @@ export class SoraxAutocompleteComponent implements OnInit {
 
   private addValidationRule() {
     if (this.options) {
-      this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
-      this.autoCompleteFieldLabel.updateValueAndValidity();
+      // this.autoCompleteFieldLabel.setValidators([Validators.required, SoraxValidators.isValidOption(this.options)]);
+      // this.autoCompleteFieldLabel.updateValueAndValidity();
     }
   }
 

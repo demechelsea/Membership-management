@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import LableValueModel from 'app/models/lable-value-model';
+import { isNotEmpty } from './string-utils';
 
 export const VALIDATION_MESSAGES = {
   required: '{{fieldName}} is required.',
@@ -9,11 +9,8 @@ export const VALIDATION_MESSAGES = {
   minlength: "{{fieldName}} length must be minimum {{requiredLength}} ",
   maxlength: "{{fieldName}} length must not be more than {{requiredLength}}",
   otpValidator: "{{fieldName}} must be a  6 digit number",
-  //number: "{{fieldName}} must be valid number.",
-  number: "Please enter a valid number.",
-  invalidOption: "Please select a validation option",
-  dateRange: 'End date can\'t be before start date.',
-
+  number: "{{fieldName}} must be a number.",
+  invalidOption: "Please select validation option",
 };
 
 export const SORAX_VALIDATION_MESSAGES_KEY = 'VALIDATION_MESSAGES_INJECTION_KEY';
@@ -88,7 +85,7 @@ export class SoraxValidators {
           return option.planName === value;
         }
         else if (option.userDetail) {
-          return `${option.userDetail.firstName} ${option.userDetail.surName}` === value;
+          return `${option.userDetail.firstName} ${option.userDetail.givenName} ${option.userDetail.parentName}` === value;
         }
       });
       return selectedOption ? null : { 'invalidOption': true };
@@ -114,3 +111,4 @@ export const requiredIf = (predicate: (ctrl: AbstractControl) => boolean, indepe
     return null;
   }
 }
+

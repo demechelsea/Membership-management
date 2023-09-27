@@ -15,7 +15,7 @@ export class SoraxAuthGuard implements CanActivate{
     if(this.loginService.isLoggedIn()){
       return true;
     }
-
+    this.loginService.logout();
       //if user is not logged in, user will get navigated to login page 
       //and once login it will navigate to other return url
       this.router.navigate(['/auth/login'],{queryParams:{ returnUrl:state.url}});

@@ -3,12 +3,11 @@
   [selectedIndex]="activeLink"
   (selectedTabChange)="onTabChange($event)"
   mat-stretch-tabs="false"
-  mat-align-tabs="start"   color="primary"
-  >
+  mat-align-tabs="start"   color="primary"  @animate >
   <mat-tab>
     <ng-template mat-tab-label>Committee summary</ng-template>
     <div
-      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
+     
       style="text-align: right"
       *ngIf="!showDetails"
           >
@@ -21,10 +20,7 @@
         Create a New Committee
       </button>
     </div>
-    <mat-card
-      class="p-0"
-      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-    >
+    <mat-card class="p-0" >
       <mat-card-content class="p-0">
         <sorax-table-view
           *ngIf="!showDetails"
@@ -49,9 +45,7 @@
 
   <mat-tab>
     <ng-template mat-tab-label>Committee positions</ng-template>
-    <div
-      [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }"
-      style="text-align: right" >
+    <div @animate style="text-align: right" >
       <button
         mat-raised-button
         class="m-8"

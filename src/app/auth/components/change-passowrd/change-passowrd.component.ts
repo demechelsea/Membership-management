@@ -6,11 +6,11 @@ import { NotificationService } from 'app/common/services/notification.service';
 import { SoraxValidators } from 'app/common/utils/sorax-validators';
 import { BaseComponent } from 'app/core/components/base/base.component';
 import { ResetPasswordModel } from 'app/models/reset-password-model';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
-import { LoginService } from '../../service/login.service';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { LoginService } from '../../service/login.service';
 import { SoraxAnimations } from 'app/common/animations/sorax-animations';
 
 @Component({
@@ -25,7 +25,8 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   @ViewChild(MatButton) submitButton: MatButton;
 
   private ngUnsubscribe$ = new Subject<void>();
-
+  disableResend = false;
+  countdown: number = 30;
 
   resetFormGroup: FormGroup;
   resetPasswordModel: ResetPasswordModel = new ResetPasswordModel();
@@ -59,6 +60,8 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
       password: password,
       confirmPassword: confirmPassword
     });
+
+    this.startTimer();
   }
 
   ngAfterViewInit() {
@@ -96,11 +99,12 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
   }
 
   resendOTP() {
+    this.startTimer();
     this.progressBar.mode = 'indeterminate';
     this.submitButton.disabled =true;
 
     let resetPasswordReqModel = this.resetFormGroup.value as ResetPasswordModel;
-    resetPasswordReqModel.encryptedId = this.resetPasswordModel.encryptedId;
+    resetPasswordReqModel.encryptedRefId = this.resetPasswordModel.encryptedRefId;
 
     this.loginService.resendOTP(resetPasswordReqModel)
     .pipe(takeUntil(this.ngUnsubscribe$))
@@ -120,6 +124,20 @@ export class ChangePassowrdComponent extends BaseComponent implements OnInit {
     this.ngUnsubscribe$.complete();
 
     this.loader.close();
+  }
+
+  startTimer(): void {
+    this.disableResend = true;
+
+    const timer = setInterval(() => {
+      this.countdown--;
+
+      if (this.countdown === 0) {
+        clearInterval(timer);
+        this.disableResend = false;
+        this.countdown = 30; // Reset the countdown to the initial value
+      }
+    }, 1000); // Update the countdown every 1 second
   }
 
 }

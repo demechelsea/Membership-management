@@ -19,9 +19,11 @@
 
               <input  #soraxInput  matInput formControlName="password" type="password" name="password" placeholder="Password" >
             </sorax-form-field>
-           
-            <mat-checkbox formControlName="agreed">
-              I agree with terms and condtions</mat-checkbox>
+            
+            <mat-checkbox formControlName="agreed"> 
+              I agree with the  
+                <a [routerLink]="'/termsAndCondtions'" class="blue-underline" target="_blank">terms and condtions</a>
+              </mat-checkbox>
           </div>
           <button mat-raised-button class="mat-primary full-width mt-4 mb-8"
             [disabled]="pageLoaded && loginForm.invalid">Sign in</button>
