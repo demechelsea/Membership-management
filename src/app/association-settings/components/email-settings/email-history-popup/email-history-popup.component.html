@@ -1,0 +1,71 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+    <span class="mat-headline-4">{{ data.title }}</span>
+    <button
+      mat-icon
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="float-right"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="emailHistoryForm">
+      <div class="flex justify-between">
+        <sorax-form-field
+          class="w-1/3 p-2"
+          label="From"
+          [soraxFormControl]="emailHistoryForm.get('from')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="from"
+            name="from"
+          />
+        </sorax-form-field>
+        <sorax-form-field
+          class="w-1/3 p-2"
+          label="Sent to"
+          [soraxFormControl]="emailHistoryForm.get('recipients')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="recipients"
+            name="recipients"
+          />
+        </sorax-form-field>
+        <sorax-form-field
+          class="w-1/3 p-2"
+          label="Sent Date"
+          [soraxFormControl]="emailHistoryForm.get('modifiedTimestamp')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="modifiedTimestamp"
+            name="modifiedTimestamp"
+          />
+        </sorax-form-field>
+      </div>
+      <div class="w-2/3 p-2">
+        <sorax-form-field
+          label="Email subject"
+          [soraxFormControl]="emailHistoryForm.get('emailSubject')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="emailSubject"
+            name="emailSubject"
+          />
+        </sorax-form-field>
+      </div>
+      <div class="w-2/3 p-2">
+        <quill-editor formControlName="emailContent"></quill-editor>
+      </div>
+    </form>
+  </div>
+</div>

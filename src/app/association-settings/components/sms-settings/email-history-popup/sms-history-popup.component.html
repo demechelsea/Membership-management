@@ -1,0 +1,59 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary pr0 flex flex-wrap">
+    <span class="mat-headline-4">{{ data.title }}</span>
+    <button
+      mat-icon
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="float-right"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-content class="p-16 m-0">
+    <form [formGroup]="smsHistoryForm">
+      <div class="flex justify-between">
+        <sorax-form-field
+          class="w-3/4 p-2"
+          label="Sent to"
+          [soraxFormControl]="smsHistoryForm.get('recipients')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="recipients"
+            name="recipients"
+          />
+        </sorax-form-field>
+        <sorax-form-field
+          class="w-1/4 p-2"
+          label="Sent Date"
+          [soraxFormControl]="smsHistoryForm.get('modifiedTimestamp')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="modifiedTimestamp"
+            name="modifiedTimestamp"
+          />
+        </sorax-form-field>
+      </div>
+      <div class="w-3/4 p-2">
+        <sorax-form-field
+          label="SMS subject"
+          [soraxFormControl]="smsHistoryForm.get('msgSubject')"
+        >
+          <input
+            #soraxInput
+            matInput
+            formControlName="msgSubject"
+            name="msgSubject"
+          />
+        </sorax-form-field>
+      </div>
+      <div class="w-2/3 p-2">
+        <quill-editor formControlName="msgContent"></quill-editor>
+      </div>
+    </form>
+  </div>
+</div>

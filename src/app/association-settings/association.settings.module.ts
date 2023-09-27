@@ -27,7 +27,8 @@ import { PoliciesAndDocstorePopupComponent } from './components/policies-and-Doc
 import { VisibilitySettingsComponent } from './components/visibility-settings/visibilitySettings.component';
 import { AppFormsModule } from 'app/views/forms/forms.module';
 import { QuillModule } from 'ngx-quill';
-import { EmailSubjectPopupComponent } from './components/email-settings/email-subject/email-subject.component';
+import { EmailHistoryPopupComponent } from './components/email-settings/email-history-popup/email-history-popup.component';
+import { SMSHistoryPopupComponent } from './components/sms-settings/email-history-popup/sms-history-popup.component';
 
 
 const declarationsList = [
@@ -44,10 +45,11 @@ const declarationsList = [
   SMTPPopupComponent,
   EmailSendersProfilePopupComponent,
   EmailTemplatePopupComponent,
-  EmailSubjectPopupComponent,
+  EmailHistoryPopupComponent,
   SMSSenderProfilePopupComponent,
   PoliciesAndDocstoreComponent,
   SMSTemplatePopupComponent,
+  SMSHistoryPopupComponent,
   PoliciesAndDocstorePopupComponent,
   VisibilitySettingsComponent,
   DigitalIdCardComponent

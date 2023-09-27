@@ -27,6 +27,7 @@ import * as moment from "moment";
 import { SMSTemplatePopupComponent } from "./smsTemplate-Popup/smsTemplate-Popup.component";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { SMSSenderProfilePopupComponent } from "./SMS-senders-profile-popup/SMSsenderProfile-popup.component";
+import { SMSHistoryPopupComponent } from "./email-history-popup/sms-history-popup.component";
 
 @Component({
   selector: "sms-settings",
@@ -183,8 +184,18 @@ export class SmsComponent extends BaseComponent implements OnInit {
   }
 
   showSMSContent(data: MessageHistoryDTO) {
-    this.smsContent = true;
-    this.buildSmsHistoryForm(data);
+    let title = "SMS History";
+    let dialogRef: MatDialogRef<any> = this.dialog.open(
+      SMSHistoryPopupComponent,
+      {
+        width: "720px",
+        disableClose: true,
+        data: {
+          title: title,
+          payload: data,
+        },
+      }
+    );
   }
 
   close() {

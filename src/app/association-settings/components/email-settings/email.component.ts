@@ -28,7 +28,7 @@ import { EmailHistoryDTO } from "app/models/emailHistoryDTO";
 import * as moment from "moment";
 import { EmailTemplatePopupComponent } from "./emailTemplate-Popup/emailTemplate-Popup.component";
 import { MatTabChangeEvent } from "@angular/material/tabs";
-import { EmailSubjectPopupComponent } from "./email-subject/email-subject.component";
+import { EmailHistoryPopupComponent } from "./email-history-popup/email-history-popup.component";
 
 @Component({
   selector: "email-settings",
@@ -163,7 +163,7 @@ export class EmailComponent extends BaseComponent implements OnInit {
   showEmailContent(data: EmailHistoryDTO) {
     let title = "Email History";
     let dialogRef: MatDialogRef<any> = this.dialog.open(
-      EmailSubjectPopupComponent,
+      EmailHistoryPopupComponent,
       {
         width: "720px",
         disableClose: true,
